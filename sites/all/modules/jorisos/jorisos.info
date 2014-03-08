@@ -1,0 +1,3 @@
+name = jorisos
+description = parses and presents legacy joriso.nl content files
+core = 7.x

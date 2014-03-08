@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<snippets>
+	<event><![CDATA[
+		<div class="event clearfix" itemscope itemtype="http://schema.org/Event">
+			<i class="icon-stop"></i>
+			<a itemprop="url" href="##internallink##">
+				<strong itemprop="startDate" class="date">##date##</strong>
+			</a> : 
+			<a itemprop="url" href="##internallink##" class="eventlink">
+				<span itemprop="name">##title##</span>
+			</a>
+		</div>]]>
+	</event>
+	<location><![CDATA[
+		<ul class="breadcrumb">
+		  <li><a href="/uitgaan/">Locaties</a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
+		  <li class="active"><span>##location_title##</span></li>
+		</ul>
+
+		<div class="location clearfix" itemprop="location" itemscope itemtype="http://schema.org/Place" data-twitterwidgetid="##twitterwidgetid##" data-twitter="##twitter##">
+			
+				<span> ##street## </span>  
+				<span>##streetnumber##</span> 
+				<span>##streetnumberAddition##</span> <br>
+				<span itemprop="postalCode">##zip##</span> 
+				<span class="city city##cityno##" data-cityno="##cityno##">##city##</span> 
+			
+			<p class="description">##location_desc##</p>		
+
+			<p><strong>Website: </strong> <a href="##location_link##"><span itemprop="name">##location_link##</span></a><br>
+			
+			
+			
+		</div>
+		<h3>##location_title## agenda:</h3>
+		]]>
+	</location>	
+	<notfound><![CDATA[
+	<div class="410">
+		<h1> Sorry hoor!</h1>
+		<h2>Maar deze pagina bestaat helaas niet meer...</h2>
+			<p>Mogelijk is het evenement dat je zoek al geweest, of  er is een technisch probleempje op deze site.</p>
+		<p><a href="/muziek/">Mogelijk vindt je vergelijkbare evenementen via de Muziekladder Agenda</a></p>
+	</div>]]>
+	</notfound>	
+</snippets>

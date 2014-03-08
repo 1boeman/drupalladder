@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<snippets>
+	<nosearchterm><![CDATA[
+		<p>
+			Vul een of meerdere zoektermen in:
+		</p>
+	]]>		
+	</nosearchterm>	
+	<searchbox><![CDATA[
+	<div class="form-search-container2">
+		<form class="form-search" action="/search">
+			<div class="input-append">
+				<input name="query" type="text" class="input-xxlarge search-query" placeholder="zoek muziek" value="##searchTerms##">
+				<button type="submit" class="btn"><i class="icon icon-search"></i></button>
+			</div>
+		</form>
+	</div>
+	]]>		
+	</searchbox>
+	<resultheader><![CDATA[
+			
+	<div class="row-fluid">
+		<div class="span12">
+			<div>##numFound##</div>
+
+			<div class="pagination">
+				<ul>
+					##pagination##
+				</ul>	
+			</div>
+		</div>	
+	</div>
+		
+		]]>
+	</resultheader>
+	<result>
+		<![CDATA[
+	
+	<div class="row-fluid search-result-row2">
+		<div class="span2">
+			<a class="" href="/gig/?##id##">##date##</a><br>
+			<span>##location##</span>
+		</div>
+		<div class="span10">
+			<a href="/gig/?##id##">
+				##title##
+			</a><br>
+			##desc##
+		</div>
+	</div>
+		]]>
+	</result>
+	<noresults>
+		
+		<![CDATA[
+		<h1>Helaas</h1>
+		<p>Helaas... geen resultaten gevonden voor <em>"##searchTerms##"</em>.</p>
+		<p>Probeer het opnieuw met een andere zoekopdracht.</p>
+		
+		]]>
+	</noresults>
+	<resultfooter><![CDATA[
+			
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="pagination">
+				<ul>
+					##pagination##
+				</ul>	
+			</div>
+		</div>
+	</div>
+		
+		]]>
+	</resultfooter>
+
+	
+	
+</snippets>

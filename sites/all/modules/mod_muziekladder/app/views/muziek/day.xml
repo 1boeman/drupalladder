@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<snippets>
+	<controls><![CDATA[
+		<div class="row controls">		
+			<div class="span5">
+				<nav class="prevnextlinks">
+					<div class="prevnextlinks btn-group">
+						<button class="btn prevday"><a href="##prevlink##"><i class="icon-backward"></i> Vorige dag</a></button>
+						<button class="btn today"><a href="/muziek/"><i class="icon-home"></i> Vandaag</a></button>						
+						<button class="btn nextday"><a href="##nextlink##">Volgende dag <i class="icon-forward"></i></a></button>
+					</div>	
+				</nav>
+			</div>		
+		
+			<div class="span4 dateselectContainer dayselectContainer">
+				<div class="form-inline">
+					<label>dag:</label>
+					<select class="dayselect"></select>
+				</div>
+			</div>
+			<div class="span3 dateselectContainer monthselectContainer">
+				<div class="form-inline">
+					<label>maand:</label>
+					<select class="monthselect"></select>
+				</div>
+			</div>	
+	
+		</div>
+		]]>
+	</controls>
+	<notfound><![CDATA[
+	<div class="404">
+		<h1> Sorry hoor!</h1>
+		<h2>Maar deze pagina bestaat helaas niet...</h2>
+		
+	</div>	]]>
+	</notfound>	
+</snippets>

@@ -1,0 +1,88 @@
+<?php 
+
+class Muziek extends Controller {
+  function __construct(){ }
+
+  function __call($name, $arguments) {
+    if (stristr($name,'agenda-')){
+      $daynum = str_replace(array('agenda-','.html'),'',$name); 
+      return $this->day($daynum);
+    }
+  }
+
+  function index() {
+    return $this->day(0);
+  }
+
+  function setcity(){
+    if (isset ($_REQUEST['city'])){
+        if ($_REQUEST['city'] && $_REQUEST['city'] != '0'){
+      $_SESSION['city'] = $_REQUEST['city'];
+      drupal_json_output( $_SESSION['city'] );
+        }else{
+      unset($_SESSION['city']);
+      drupal_json_output( 0 );
+        }
+    }
+    exit;       
+  }
+
+  function day($p){
+    $this->get_city_menu(); 
+
+    $city = isset ($_SESSION['city']) ? $_SESSION['city'] : 0; 
+    if ($city){
+      $lcs = '';
+      $cities = explode(',',$city); 
+      foreach ($cities as $value){
+        $lcs .=' .locationUnit'.$value.'{display:block}';
+      }
+
+      drupal_add_js(array('muziekladder'=>array('sessionLocations'=>$cities)), 'setting');
+ 
+//      $css = '<style type="text/css" id="hideLocations"> .locationUnit{display:none}'.$lcs.'</style>';
+    }
+   
+    $date = new DateTime();
+    $date->modify('+'.$p.' day');
+
+    if (!$p){
+        $date->modify('-1 hour'); //don't change first agenda page to tomorrow till 1 am
+    }
+    $file = MUZIEK_DATA.'/'.$date->format('Y').'/'.$date->format('d-m').'.xml';
+  
+    $this->init_view(); 
+  
+    if (!file_exists($file)){
+      header("HTTP/1.0 404 Not Found");
+      $content = trim($view->notfound);
+    }else{
+      $xml = simplexml_load_file($file, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+      $nextp = $p+1 < 89 ? $p+1 : 89;
+      $nextlink = '/muziek/agenda-'.$nextp.'.html';
+      $prevp = $p-1 > 0 ? $p-1 : 0;
+      $prevlink = '/muziek/agenda-'.$prevp.'.html';
+      $controls = str_replace('##nextlink##',$nextlink,$this->view->controls);
+      $controls = str_replace('##prevlink##',$prevlink,$controls);
+      //        $controls = file_get_contents('../components/citymenu.html').$controls; 
+      $titletag = 'Agenda ' .trim($xml->title);
+      $this->set_head_title($titletag);
+      $titlearr = explode ('-' ,$titletag); 
+      $this->set_title($titlearr[0]);
+      $content = trim($xml->content);
+
+      $content = str_replace('##controls##',$controls,$content);
+
+      drupal_add_js(array('muziekladder'=>array(
+        'muziekDataJson'=>MUZIEK_DATA_JSON,
+        'date'=>array(
+          'day' => trim($xml->day),
+          'month' =>  trim($xml->month),
+          'year' => trim($xml->year)
+      ))), 'setting');
+
+      return array('html'=>$content); 
+    }
+  }
+}

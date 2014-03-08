@@ -1,0 +1,130 @@
+<?php
+
+/**
+  * implements hook_menu 
+ */
+function mod_muziekladder_menu(){
+  $methods = array( 'muziek','gig','uitgaan','locaties','getgeo','search');
+  $items = array();  
+  foreach($methods as $method){
+    $items[$method] = array (
+      'page callback'     => 'mod_muziekladder_index',
+      'access callback'   => TRUE,
+    ); 
+  }
+  return $items;
+}
+
+function mod_muziekladder_init(){
+  require_once (dirname(__FILE__).'/app/bootstrap.php'); 
+  require_once('controller.php'); 
+}
+
+function mod_muziekladder_index($arg = false){
+  mod_muziekladder_init();  
+  //set javascript settings:
+  $js_settings = array('muziekladderBasePath' => MUZIEKLADDER_BASE_PATH); 
+  drupal_add_js(array('muziekladder'=>$js_settings), 'setting');
+  $bp = drupal_get_path('module','mod_muziekladder'); 
+
+  drupal_add_js($bp . '/js/laad.js',array('type'=>'file','scope'=>'footer'));
+  drupal_add_js($bp . '/js/main.js',array('type'=>'file','scope'=>'footer')); 
+  //route the path to a controller:
+  
+  if ($arg !== '<front>') {
+    $r = MUZIEKLADDER_REQUEST_PATH; 
+    $aRequest = explode('/',$r);
+    
+  } else {
+    //home page
+    $aRequest = array('front'); 
+  }
+  
+  require_once ($aRequest[0].'.php');
+  if (!isset($aRequest[1])) $aRequest[1] = 'index';
+
+  $classname =  ucfirst($aRequest[0]);
+  $methodname =  $aRequest[1];
+  $obj = new $classname;
+  if (!stristr($methodname,'agenda-') 
+      && !method_exists($obj, $methodname)){
+    return MENU_NOT_FOUND; 
+  }
+
+  $result = $obj->$methodname($arg);
+  if (isset($result['html'])){
+    $render_array = array(
+      'agenda_content'=>array(
+        '#type'=>'markup',
+        '#markup'=>$result['html'],
+      ),
+      'nav_content'=>array(
+      )
+    );
+    return $render_array;  
+  }elseif (isset($result['json'])) {
+    drupal_json_output($result['json']); 
+  } elseif (isset($result['html_fragment'])) {
+    print $result['html_fragment'];
+
+    // Perform end-of-request tasks.
+    drupal_page_footer();
+  }
+}
+
+//drupal_is_front() doesnt work properly so ...
+if ( $_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['REQUEST_URI'] == '/' ){
+  mod_muziekladder_index('<front>');
+}
+
+
+/**
+ * block definitions
+ **/
+function mod_muziekladder_block_info() {
+  $blocks = array();
+  $blocks['muziekladder_nieuws_block'] = array(
+          'info' => 'muziekladder nieuws blocks 0',
+  );
+  $blocks['muziekladder_nieuws_block_1'] = array(
+          'info' => 'muziekladder nieuws blocks 1',
+  );
+  return $blocks; 
+}
+
+function mod_muziekladder_block_view($delta) {
+  //The $delta parameter tells us which block is being requested.
+  mod_muziekladder_init();  
+  require_once ('muziek_block.php');
+  $obj = new Muziek_block;
+  return  $obj->$delta();  
+}
+
+function mod_muziekladder_preprocess_html(&$vars) {
+  require_once (dirname(__FILE__).'/app/bootstrap.php'); 
+  $aliases = explode('/',MUZIEKLADDER_REQUEST_PATH);
+  $predefined = array(
+    'muziek'=>'dagoverzicht',
+    'gig'=>'detail',
+    'uitgaan'=>'locaties',
+    'locaties'=>'locationPage'
+  ); 
+  if (isset($predefined[$aliases[0]])){
+    $vars['classes_array'][] = $predefined[$aliases[0]]; 
+  }
+  set_vars_from_singleton($vars,array('head_title','desc_metatag'));
+}
+
+function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {
+  $singleton = Singleton::get_instance(); 
+  foreach($singleton_vars_to_look_at as $value){
+    if ($setvalue = $singleton->$value){
+      $vars[$value] = $setvalue; 
+    }
+  }
+}
+
+function mod_muziekladder_preprocess_page(&$vars) {
+  set_vars_from_singleton($vars,array('title','city_menu'));
+}
+

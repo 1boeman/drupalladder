@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<snippets>
+	<event><![CDATA[
+	<ul class="breadcrumb">
+	  <li><a href="/muziek/">Agenda</a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
+	  <li class="active"><span>##title##</span></li>
+	</ul>
+	<div class="eventfull clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="##img##">
+		<a itemprop="url" href="##link##" class="eventlink nodisplay">
+			<span itemprop="name">##title##</span>
+		</a>
+	
+
+		<h2>
+			<a itemprop="url" href="##link##">
+				<strong itemprop="startDate" class="date">##date##</strong>
+			</a><br>
+			<a href="##location_link##"><span>##location_title##</span></a> &bull;
+			<span class="city city##cityno##" data-cityno="##cityno##">##city##</span> 
+			
+		</h2>
+		<p><strong>Link</strong>: <a itemprop="url" href="##link##">##link##</a></p>
+		<p><strong>Info</strong>: ##desc##</p>
+		<div class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
+			<h3><a href="##location_link##"><span itemprop="name">##location_title##</span></a></h3>
+			<p class="description">##location_desc##</p>
+			<h4>Locatie	:</h4>
+			<p>
+				<span> ##street## </span>  
+				<span>##streetnumber##</span><br> 
+				<span>##streetnumberAddition##</span> <br>
+				<span itemprop="postalCode">##zip##</span>  <br>
+				<span class="city city##cityno##" data-cityno="##cityno##">##city##</span> 
+			</p>
+			<p><a itemprop="url" href="##location_link##"><i class="icon-info-sign"></i> Meer info over ##location_title##</a></p>
+		</div>
+	</div>
+		]]>
+	</event>
+	<notfound><![CDATA[
+	<div class="410">
+		<h1> Sorry hoor!</h1>
+		<h2>Maar deze pagina bestaat helaas niet meer...</h2>
+			<p>Mogelijk is het evenement dat je zoek al geweest, of  er is een technisch probleempje op deze site.</p>
+		<p><a href="/muziek/">Mogelijk vindt je vergelijkbare evenementen via de Muziekladder Agenda</a></p>
+	</div>	]]>
+	</notfound>	
+</snippets>

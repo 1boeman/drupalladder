@@ -1,0 +1,98 @@
+<?php
+
+define ('JORISO_CONTENT_DIR', dirname(__FILE__).'/content_files'); 
+define ('JORISO_MENU_CATS',serialize(array('geschiedenis','handig','humor','nieuws','recepten','leesmij')));
+
+function jorisos_menu(){
+    $items['parse_files'] = Array (
+      'page callback'=>'jorisos_parse_all',
+      'page arguments' => array(0),
+      'access callback'=> true,
+    ); 
+  
+  return $items; 
+}
+
+function jorisos_parse_all(){
+  $rv = array();
+  jorisos_parse_files('nieuws');
+ 
+  
+  return $rv;
+}
+
+function jorisos_file_to_array($directory,$file){
+ 
+  $parseString = file_get_contents(JORISO_CONTENT_DIR.'/'.$directory.'/'.$file); 
+  $parseArray = explode("\n",$parseString);
+
+  $contentArray = array(); 
+  $curkey = '';
+  $content = array(); 
+
+  foreach($parseArray as $value){
+    if (strstr($value,'====')){
+      $curkey = substr($value,4);
+      $contentArray[$curkey] = '';
+    }elseif (strlen($curkey)){
+      $contentArray[$curkey] .= $value;
+    }
+  }
+  return $contentArray; 
+}
+
+function jorisos_create_node($contentArray,$url,$directory){
+  $rv = 0; 
+  $body_text = str_replace('/images/','/sites/all/modules/jorisos/images/',$contentArray['content']);
+  
+  $node = new stdClass();
+  $node->type = 'article';
+  node_object_prepare($node);
+  
+  $node->title    = strip_tags ( htmlspecialchars_decode( $contentArray['h1']));
+  $node->language = LANGUAGE_NONE;
+  $node->uid = 1;
+  $node->body[$node->language][0]['value']   = $body_text;
+  $node->body[$node->language][0]['summary'] = text_summary($body_text);
+  $node->body[$node->language][0]['format']  = 'full_html';
+  
+  //  $path = 'content/programmatically_created_node_' . date('YmdHis');
+  $node->path['pathauto'] = FALSE;
+  $node->path = array('alias' => $url);
+
+# $tags = taxonomy_get_term_by_name(strtolower($directory)); 
+# $tag = array_pop($tags); 
+# $node->field_tags[$node->language][0]['tid'] = $tag->tid; 
+
+  if ($node = node_submit($node)){
+    $node->created = $contentArray['pubdate']; 
+    $node->path['pathauto'] = FALSE;
+
+    node_save($node); 
+    
+    $rv = $node;
+  }
+  return $rv; 
+}
+
+function jorisos_parse_files($directory = ''){
+
+  $parseString = scandir(JORISO_CONTENT_DIR.'/'.$directory); 
+  $parseArrays = Array();   
+
+  //var_dump($parseString);exit;
+  array_shift($parseString); 
+  array_shift($parseString);
+
+  foreach ($parseString as $file) {
+    $parseArrays[$directory.'/'.$file]= jorisos_file_to_array($directory,$file);
+  }
+
+  foreach ($parseArrays as $key=>$contentArray){
+    $node = jorisos_create_node($contentArray,$key,$directory); 
+  }
+
+  return $rv; 
+}
+
+
