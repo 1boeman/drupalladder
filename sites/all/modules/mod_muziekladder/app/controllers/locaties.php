@@ -76,16 +76,16 @@ class Locaties extends Controller {
 
       $data = Muziek_util::loadGigdata();
       $locationData = Muziek_util::loadLocationIndex();
-    
+          
       $locationlink = $locationData->xpath('//link[text()="'.$l.'"]');  
       if (count($locationlink)){
         $location = $locationlink[0]->xpath("parent::*"); 
         $location= $location[0];
-
+//	var_dump($location[0]); exit;
         $str = Muziek_util::template(Array(
-          'location_title'=>$location->title,
-          'city'=>$location->city,
-          'cityno'=>$location->cityno,
+          'location_title'=>(string)$location->title,
+          'city'=>(string)$location->city,
+          'cityno'=>(string)$location->cityno,
           'location_desc'=>$location->desc,
           'zip'=>$location->zip,
           'street'=> $location->street,

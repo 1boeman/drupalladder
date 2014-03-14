@@ -1,7 +1,7 @@
 <?php
 
 /**
-  * implements hook_menu 
+ * implements hook_menu 
  */
 function mod_muziekladder_menu(){
   $methods = array( 'muziek','gig','uitgaan','locaties','getgeo','search');
@@ -21,7 +21,8 @@ function mod_muziekladder_init(){
 }
 
 function mod_muziekladder_index($arg = false){
-  mod_muziekladder_init();  
+
+  mod_muziekladder_init();
   //set javascript settings:
   $js_settings = array('muziekladderBasePath' => MUZIEKLADDER_BASE_PATH); 
   drupal_add_js(array('muziekladder'=>$js_settings), 'setting');
@@ -34,7 +35,7 @@ function mod_muziekladder_index($arg = false){
   if ($arg !== '<front>') {
     $r = MUZIEKLADDER_REQUEST_PATH; 
     $aRequest = explode('/',$r);
-    
+    	
   } else {
     //home page
     $aRequest = array('front'); 
@@ -42,9 +43,10 @@ function mod_muziekladder_index($arg = false){
   
   require_once ($aRequest[0].'.php');
   if (!isset($aRequest[1])) $aRequest[1] = 'index';
-
+ 
   $classname =  ucfirst($aRequest[0]);
   $methodname =  $aRequest[1];
+
   $obj = new $classname;
   if (!stristr($methodname,'agenda-') 
       && !method_exists($obj, $methodname)){
@@ -65,10 +67,11 @@ function mod_muziekladder_index($arg = false){
   }elseif (isset($result['json'])) {
     drupal_json_output($result['json']); 
   } elseif (isset($result['html_fragment'])) {
-    print $result['html_fragment'];
+    echo $result['html_fragment'];
 
     // Perform end-of-request tasks.
     drupal_page_footer();
+    exit; 
   }
 }
 
@@ -76,7 +79,6 @@ function mod_muziekladder_index($arg = false){
 if ( $_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['REQUEST_URI'] == '/' ){
   mod_muziekladder_index('<front>');
 }
-
 
 /**
  * block definitions

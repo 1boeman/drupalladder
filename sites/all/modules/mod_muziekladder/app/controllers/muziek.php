@@ -17,20 +17,19 @@ class Muziek extends Controller {
   function setcity(){
     if (isset ($_REQUEST['city'])){
         if ($_REQUEST['city'] && $_REQUEST['city'] != '0'){
-      $_SESSION['city'] = $_REQUEST['city'];
-      drupal_json_output( $_SESSION['city'] );
+	   $this->setSession('city',$_REQUEST['city']); 
         }else{
-      unset($_SESSION['city']);
-      drupal_json_output( 0 );
+           $this->setSession('city',0); 
         }
-    }
+        drupal_json_output( $this->getSession('city') );
+      }
     exit;       
   }
 
   function day($p){
     $this->get_city_menu(); 
-
-    $city = isset ($_SESSION['city']) ? $_SESSION['city'] : 0; 
+    $session_city = $this->getSession('city');  
+    $city = isset ($session_city) ? $session_city : 0; 
     if ($city){
       $lcs = '';
       $cities = explode(',',$city); 

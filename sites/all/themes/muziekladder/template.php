@@ -136,12 +136,17 @@ function muziekladder_preprocess_block(&$variables, $hook) {
 * theme_menu_link()
 */
 function muziekladder_menu_link(array $variables) {
-//add class for li
+   //add class for li element
    $variables['element']['#attributes']['class'][] = 'menu-' . $variables['element']['#original_link']['mlid'];
-//add class for a
+   //add class for a element
    $variables['element']['#localized_options']['attributes']['class'][] = 'menu-' . $variables['element']['#original_link']['mlid'];
-//dvm($variables['element']);
+
   return theme_menu_link($variables);
+}
+
+function muziekladder_html_head_alter(&$head_elements) {
+//  var_dump($head_elements); exit;
+  unset($head_elements['metatag_generator']);
 }
 
 

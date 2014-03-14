@@ -30,4 +30,12 @@ abstract class Controller {
 		$s = Singleton::get_instance();
 		$s->city_menu = file_get_contents(MUZIEK_COMPONENTS.'/citymenu.html');
 	}
+
+	protected function setSession($bin,$data){
+		  session_cache_set($bin, $data);
+	}
+
+	protected function getSession($bin){
+		return  session_cache_get($bin); 
+	}
 }

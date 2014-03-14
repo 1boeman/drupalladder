@@ -387,6 +387,9 @@ ul.steden li{
 .detail h2{
   font-size:30px;
 }
+.section-gig .addthisicon{
+  float:right; 
+}
 .detail .location{
   background:#dfdfdf;
   border-radius:4px;
