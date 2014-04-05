@@ -155,7 +155,7 @@ function muziekladder_preprocess_node(&$variables, $hook) {
   $variables['unpublished'] = (!$variables['status']) ? TRUE : FALSE;
 
   // Add pubdate to submitted variable.
-  $variables['pubdate'] = '<time pubdate datetime="' . format_date($variables['node']->created, 'custom', 'c') . '">' . $variables['date'] . '</time>';
+  $variables['pubdate'] = '<span>Gepubliceerd:</span> <time pubdate datetime="' . format_date($variables['node']->created, 'custom', 'c') . '">' . $variables['date'] . '</time>';
   if ($variables['display_submitted']) {
     $variables['submitted'] = $variables['pubdate'];
   }

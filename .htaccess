@@ -1,10 +1,10 @@
 #
 # Apache/PHP/Drupal settings:
 #
-php_flag display_startup_errors on
-php_flag display_errors on
-php_flag html_errors on
-php_value error_reporting 32767
+#php_flag display_startup_errors on
+#php_flag display_errors on
+#php_flag html_errors on
+#php_value error_reporting 32767
 
 # Protect files and directories from prying eyes.
 <FilesMatch "\.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(\.php)?|xtmpl)(~|\.sw[op]|\.bak|\.orig|\.save)?$|^(\..*|Entries.*|Repository|Root|Tag|Template)$|^#.*#$|\.php(~|\.sw[op]|\.bak|\.orig\.save)$">
@@ -112,6 +112,12 @@ DirectoryIndex index.php index.html index.htm
   # If your site is running in a VirtualDocumentRoot at http://example.com/,
   # uncomment the following line:
   # RewriteBase /
+
+  RewriteRule ^muzieknieuws/(.*)$	http://muziekladder.nl/nieuws/$1 [R=301,L] 
+   
+  RewriteCond %{REQUEST_URI}  ^/search/
+  RewriteCond %{QUERY_STRING} ^q=(.*)$
+  RewriteRule ^(.*)$	http://muziekladder.nl/search/?query=%1 [R=301,L] 
 
   # Pass all requests not referring directly to files in the filesystem to
   # index.php. Clean URLs are handled in drupal_environment_initialize().

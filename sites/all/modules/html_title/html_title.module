@@ -23,6 +23,28 @@ function html_title_menu() {
 }
 
 /**
+ * Implementation of hook_theme_registry_alter()
+ *
+ * Move our hook_preprocess_search_result so that it runs last
+ */
+function html_title_theme_registry_alter(&$theme_registry) {
+  $preprocess_functions = array();
+  foreach($theme_registry['search_result']['preprocess functions'] as $key => $value) {
+    if ($value == 'html_title_preprocess_search_result') {
+      $callback = $theme_registry['search_result']['preprocess functions'][$key];
+    }
+    else {
+      $preprocess_functions[] = $theme_registry['search_result']['preprocess functions'][$key];
+    }
+  }
+
+  if ($callback) {
+    $preprocess_functions[] = $callback;
+  }
+  $theme_registry['search_result']['preprocess functions'] = $preprocess_functions;
+}
+
+/**
  * Implementation of hook_preprocess_page()
  */
 function html_title_preprocess_page(&$vars) {
@@ -39,15 +61,25 @@ function html_title_preprocess_page(&$vars) {
 /**
  * Implementation of hook_preprocess_node()
  */
-function html_title_preprocess_node(&$variables) {
-  if ($variables['view_mode'] == 'full' || $variables['view_mode'] == 'teaser') {
+function html_title_preprocess_node(&$vars) {
+  if ($vars['view_mode'] == 'full' || $vars['view_mode'] == 'teaser') {
     $elements = variable_get('html_title_allowed_elements', array('em', 'sub', 'sup'));
-    $variables['title'] = filter_xss($variables['elements']['#node']->title, $elements);
+    $vars['title'] = filter_xss($vars['elements']['#node']->title, $elements);
   }
 }
 
 /**
-* Implements hook_node_view().
+ * Implementation of hook_preprocess_search_result()
+ */
+function html_title_preprocess_search_result(&$vars) {
+  if (isset($vars['result']['title'])) {
+    $elements = variable_get('html_title_allowed_elements', array('em', 'sub', 'sup'));
+    $vars['title'] = filter_xss($vars['result']['title'], $elements);
+  }
+}
+
+/**
+* Implementation of hook_node_view()
 */
 function html_title_node_view($node, $view_mode) {
   switch ($view_mode) {
@@ -58,7 +90,7 @@ function html_title_node_view($node, $view_mode) {
 }
 
 /**
-* Implements hook_views_api().
+* Implementation hook_views_api()
 */
 function html_title_views_api() {
   return array(

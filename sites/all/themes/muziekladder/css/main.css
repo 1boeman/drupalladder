@@ -533,6 +533,12 @@ article p{
   border-radius:4px;
   box-shadow:0px 0px 4px #aaa;
 } 
+.node-teaser .submitted,
+.section-nieuws .submitted{
+  float:right;
+  font-size:x-small; 
+  padding:4px 6px;
+}
 
 /* media queries*/
 /* Large desktop */

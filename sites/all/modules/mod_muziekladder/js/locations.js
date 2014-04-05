@@ -62,7 +62,9 @@
 			mapTypeControl: false,
 			scaleControl: false,
 			streetViewControl: false,
-			overviewMapControl: false	
+			overviewMapControl: false,
+			draggable: true, zoomControl: false, 
+			scrollwheel: false, disableDoubleClickZoom: true	
 		}
 		var cityObj = {}; 
 		var missingCityArray = [];	

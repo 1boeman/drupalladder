@@ -5,4 +5,11 @@ sites/*/settings*.php
 sites/*/files
 sites/*/private
 
+# ignore vim swap files
 *~
+*.swp
+*.swo
+
+
+#ignore data symlink 
+sites/all/modules/mod_muziekladder/data
