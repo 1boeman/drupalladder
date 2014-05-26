@@ -3,8 +3,8 @@
 class Muziek_util {
 
 	static function shorten ( $string,$number = 25 ){
-		$wordarray =  str_word_count($string,2);
-		return implode ( " ", array_slice( $wordarray, 0 , $number ) ); 
+		$wordarray =  preg_split('/\s+/',$string);
+        return implode ( " ", array_slice( $wordarray, 0 , $number ) ); 
 	}
 
 	static function getWeekDay($day,$month,$year){

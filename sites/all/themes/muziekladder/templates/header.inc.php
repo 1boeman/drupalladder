@@ -6,6 +6,7 @@
           <form class="form-search" action="/search">
             <div class="input-append">
                 <input name="query" type="text" class="input-medium search-query" placeholder="zoeken">
+                <input type="hidden" name="orderBy" value="relevance" />
                 <button type="submit" class="btn"><i class="icon icon-search"></i></button>
             </div>
           </form>

@@ -4,11 +4,12 @@
  * implements hook_menu 
  */
 function mod_muziekladder_menu(){
-  $methods = array( 'muziek','gig','uitgaan','locaties','getgeo','search');
+  $methods = array( 'muziek','gig','uitgaan','locaties','getgeo','search', 'muziekdata/2014','muziekdata/2015');
   $items = array();  
   foreach($methods as $method){
     $items[$method] = array (
       'page callback'     => 'mod_muziekladder_index',
+ 
       'access callback'   => TRUE,
     ); 
   }
@@ -21,7 +22,6 @@ function mod_muziekladder_init(){
 }
 
 function mod_muziekladder_index($arg = false){
-
   mod_muziekladder_init();
   //set javascript settings:
   $js_settings = array('muziekladderBasePath' => MUZIEKLADDER_BASE_PATH); 
@@ -48,7 +48,7 @@ function mod_muziekladder_index($arg = false){
   $methodname =  $aRequest[1];
 
   $obj = new $classname;
-  if (!stristr($methodname,'agenda-') 
+  if (!preg_match('/agenda|20[0-9]+/',$methodname) 
       && !method_exists($obj, $methodname)){
     return MENU_NOT_FOUND; 
   }
@@ -64,11 +64,16 @@ function mod_muziekladder_index($arg = false){
       )
     );
     return $render_array;  
-  }elseif (isset($result['json'])) {
+  } elseif (isset($result['json'])) {
     drupal_json_output($result['json']); 
-  } elseif (isset($result['html_fragment'])) {
-    echo $result['html_fragment'];
-
+  } elseif (isset($result['html_fragment']) || isset($result['json_string'])) {
+    if (isset( $result['html_fragment'])){
+        echo $result['html_fragment'];
+    }else{
+        drupal_add_http_header('Content-Type', 'application/json; charset=utf-8'); 
+        echo $result['json_string']; 
+    }
+   
     // Perform end-of-request tasks.
     drupal_page_footer();
     exit; 
@@ -109,7 +114,8 @@ function mod_muziekladder_preprocess_html(&$vars) {
     'muziek'=>'dagoverzicht',
     'gig'=>'detail',
     'uitgaan'=>'locaties',
-    'locaties'=>'locationPage'
+    'locaties'=>'locationPage',
+    'search'=>'zoekpagina',
   ); 
   if (isset($predefined[$aliases[0]])){
     $vars['classes_array'][] = $predefined[$aliases[0]]; 

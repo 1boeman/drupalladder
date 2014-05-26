@@ -74,7 +74,6 @@ class Muziek extends Controller {
       $content = str_replace('##controls##',$controls,$content);
 
       drupal_add_js(array('muziekladder'=>array(
-        'muziekDataJson'=>MUZIEK_DATA_JSON,
         'date'=>array(
           'day' => trim($xml->day),
           'month' =>  trim($xml->month),

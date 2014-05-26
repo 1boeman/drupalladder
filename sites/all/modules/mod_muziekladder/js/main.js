@@ -21,7 +21,6 @@ var hC = Drupal.settings.muziekladder;
                      handlers[$this.data('handler')].apply(this,[e]);
                 }
             });
-            selectmenu();
             var i,bodyClass =  document.body.className.split(/\s+/),
                 lngth = bodyClass.length; 
             
@@ -31,18 +30,18 @@ var hC = Drupal.settings.muziekladder;
             }
         });
     });
-    
-    var selectmenu = function(){
-        $('.navi').eq({
-            'index':0,
-            'articlefull':0,
-            'locationPage':2,
-            'detail' : 1,
-            'dagoverzicht' : 1,
-            'locaties' : 2}[document.body.className])
-        .addClass('selected');
-    };
 
+   pageHandlers.zoekpagina = function(){
+        var orderBy = Drupal.settings.muziekladder_search_orderby, 
+            $orderBy = $('#orderBy'); 
+        if (orderBy && orderBy != 'relevance'){
+            $orderBy.val(orderBy); 
+        }
+        $orderBy.change(function(){
+           $('#advanced_search').submit();
+        })
+        return {};     
+    };
     pageHandlers.articlefull = function(){
         externalLinks();
         return {};
@@ -198,7 +197,7 @@ var hC = Drupal.settings.muziekladder;
 
     var cache = false;
     var getCurrentDateUrl = function(){
-        return hC.muziekDataJson+'/'+hC.date.year+'/'+hC.date.day+'-'+hC.date.month+'.json';               
+        return '/muziekdata/'+hC.date.year+'/'+hC.date.day+'-'+hC.date.month+'.json';               
     }       
 
     function getData(){

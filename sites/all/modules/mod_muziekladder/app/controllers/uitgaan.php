@@ -4,7 +4,7 @@ class Uitgaan extends Controller {
 	public function index () {
 		$dircontent = scandir(MUZIEK_DATA_UITGAAN);
 		$content = '';
-		if ( isset($_GET['c'])) {	
+		if ( isset($_GET['c'])) {	var_dump('her'); 
 			$steden = explode(',',$_GET['c']);
 			foreach($steden as $stad){
 				$stadnaam = $stad.'.html';
@@ -36,9 +36,10 @@ class Uitgaan extends Controller {
 		if (isset($_REQUEST['l'])){
 			$request_location = trim($_REQUEST['l']);
 		}
-		/* cache file exists --> return the requested location or add it if not yet present */
+		/* if cache file exists -->  */
 		if($file = @file_get_contents(MUZIEK_GEODATA_JSON)){
 			$filedata = json_decode($file);
+            // location requested: return the requested location or add it if is not yet present
 			if ($request_location){
 				$found = false;
 				foreach($filedata as $value){
@@ -66,15 +67,17 @@ class Uitgaan extends Controller {
 				}
 				return array('json'=>$found); 
 			}else{
+                // no specific location requested : return all the data
 				return array('json'=>$filedata); 
 			}
 			
 		}else{
+            // no cachefile yet - create it :
 			if (isset($request_location)){
 				$data = $this->getCityData($request_location); 
 				$save =  array (json_decode($data));
 				file_put_contents(MUZIEK_GEODATA_JSON,json_encode($save));
-				return array(json=> $data);
+				return array('json_string'=> $data);
 			}
 		}
 	}
@@ -89,10 +92,9 @@ class Uitgaan extends Controller {
 		// Send request
 		$resp = curl_exec($curl);
 		curl_close($curl);
-
+        
 		return $resp;
 	}
-
 
 }
 
