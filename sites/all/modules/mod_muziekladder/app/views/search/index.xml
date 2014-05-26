@@ -17,9 +17,7 @@
                 <select name="orderBy" id="orderBy">
                     <option value="relevance">Sorteer op relevantie</option>
                     <option value="date">Sorteer op datum</option>
-                    <option value="city">Sorteer op stad </option>
-                    <option value="venue">Sorteer op locatie </option>
-                </select>
+               </select>
             </div>
 		</form>
 	</div>
