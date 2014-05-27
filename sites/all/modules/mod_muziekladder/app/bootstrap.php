@@ -11,7 +11,9 @@ if (!stristr( $_SERVER['SERVER_NAME'], 'muziekladder.nl' )){
 } else {
     // Production
 	$old_siteroot = '/../../../../../public';
-    define ('MUZIEK_SOLRHOST', 'http://doubleplusgood.nl/srch/muziekladderd/');
+    define ('MUZIEK_SOLRHOST', 'http://localhost:8983/solr/core0/');
+
+#    define ('MUZIEK_SOLRHOST', 'http://doubleplusgood.nl/srch/muziekladderd/');
  
 }
 
