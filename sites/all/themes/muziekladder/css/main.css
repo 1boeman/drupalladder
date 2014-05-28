@@ -25,7 +25,7 @@
 }
 
 body { 
-  font-size: 16px; padding-bottom:480px; padding-top:20px; 
+  font-size: 16px;  padding-top:20px; 
   line-height:1.4;
   background-image:url(../img/bg.png);
 }
@@ -263,6 +263,16 @@ top:2px;
 .locationmenu ul li{
   overflow:hidden;  
 }
+
+/*footer*/
+footer{
+    background:#f5f5f5;
+    text-align:center;
+    padding-top:20px;
+    padding-bottom:80px;
+   margin-top:200px; 
+}
+
 
 /* day display */
 body.dagoverzicht .container {
