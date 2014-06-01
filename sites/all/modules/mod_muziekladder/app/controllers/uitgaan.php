@@ -4,8 +4,8 @@ class Uitgaan extends Controller {
 	public function index () {
 		$dircontent = scandir(MUZIEK_DATA_UITGAAN);
 		$content = '';
-		if ( isset($_GET['c'])) {	var_dump('her'); 
-			$steden = explode(',',$_GET['c']);
+		if ( isset($_GET['c'])) {	
+            $steden = explode(',',$_GET['c']);
 			foreach($steden as $stad){
 				$stadnaam = $stad.'.html';
 				if (in_array($stadnaam,$dircontent))
