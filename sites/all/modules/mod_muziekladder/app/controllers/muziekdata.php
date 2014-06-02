@@ -1,4 +1,4 @@
-<php
+<?php
 class Muziekdata extends Controller {
   function __construct(){ }
 
