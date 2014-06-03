@@ -314,18 +314,18 @@ color:Maroon
   padding:0px; 
   margin:0px
 }
-.locationUnit .title{
+.eventContainerInner .title{
   float:left; 
   width:42%; 
   padding-right:1%
 }
-.locationUnit .description{
+.eventContainerInner .description{
   float:left;
   width:36%;
   padding-right:1%;
  
 }
-.locationUnit .time-space{
+.eventContainerInner .time-space{
     float:left;
     width:20%;
     text-align:right;
@@ -590,15 +590,15 @@ article p{
     padding-right:0px;
     padding-left:0px; 
   }
-  .locationUnit .title{
+  .eventContainerInner .title{
     float:none;  width:auto; padding-right:0;
     margin-bottom:1em
   }
 
-  .locationUnit .description{
+  .eventContainerInner .description{
     float:none;  width:auto;  padding-right:0;
   }
-  .locationUnit .time-space{
+  .eventContainerInner .time-space{
     float:none;   width:auto;   text-align:left;
   }
   #block-system-main-menu .menu li{
