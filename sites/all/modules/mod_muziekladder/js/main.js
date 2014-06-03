@@ -116,10 +116,7 @@ var hC = Drupal.settings.muziekladder;
         
         $('#messengerContainer')[0].href='m'+'a'+'ilto'+':'+'info'+'@'+'hardcode'+'.'+'nl';
         
-        if (screen.width > 767){
-            shareButtons();
-        }
-        
+       
         showImages();
         externalLinks();
         $('body').addClass('doneloading');

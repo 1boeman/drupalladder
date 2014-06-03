@@ -2,7 +2,7 @@
 <snippets>
 	<controls><![CDATA[
 		<div class="row controls">		
-			<div class="span5">
+			<div class="span6">
 				<nav class="prevnextlinks">
 					<div class="prevnextlinks btn-group">
 						<button class="btn prevday"><a href="##prevlink##"><i class="icon-backward"></i> Vorige dag</a></button>
@@ -12,7 +12,7 @@
 				</nav>
 			</div>		
 		
-			<div class="span4 dateselectContainer dayselectContainer">
+			<div class="span3 dateselectContainer dayselectContainer">
 				<div class="form-inline">
 					<label>dag:</label>
 					<select class="dayselect"></select>

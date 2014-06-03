@@ -69,11 +69,11 @@ blockquote:before {
 }
 
 .front .node-teaser{
-background:white; 
-border-radius:4px;
-padding:0.5em 1em;
-box-shadow:0px 0px 8px #aaa; 
-margin-bottom:1em;
+  background:white; 
+  border-radius:4px;
+  padding:0.5em 1em;
+  box-shadow:0px 0px 8px #aaa; 
+  margin-bottom:1em;
 }
 .front .frontheader{
   padding:0px 10px;
@@ -109,8 +109,7 @@ border-radius: 4px;
 
 .controls{
   margin-bottom:40px;
-  visibility:hidden;
-  
+  visibility:hidden; 
 }
 .controls .monthselect{width:110px; }
 .controls .dayselect{width:180px;}
@@ -312,7 +311,26 @@ color:Maroon
 }
 .locationUnit h4{
   font-size:16px;
+  padding:0px; 
+  margin:0px
 }
+.locationUnit .title{
+  float:left; 
+  width:32%; 
+  padding-right:1%
+}
+.locationUnit .description{
+  float:left;
+  width:42%;
+  padding-right:1%;
+ 
+}
+.locationUnit .time-space{
+    float:left;
+    width:24%;
+    text-align:right;
+}
+
 .locationUnit h2{
   background-color:#222;
   background-image:url(../img/debut_dark.png);
@@ -343,8 +361,8 @@ color:Maroon
 
 .dagoverzicht .event{
   background:#efefef;
-  padding:10px 20px;
   margin-bottom:10px;
+  padding:12px;
   border-radius:4px;
   box-shadow:0px 0px 2px #afafaf;
 }
@@ -360,12 +378,12 @@ color:Maroon
   max-width:90px;
   max-height:110px;
   float:left;
-  margin:10px 12px 8px 0px;
+  margin:0px 12px 8px 0px;
 }
 /*event pages*/
 .eventfull{
-padding:8px 15px 15px 15px;
-background:#f5f5f5;
+    padding:8px 15px 15px 15px;
+    background:#f5f5f5;
 }
 
 
@@ -554,40 +572,35 @@ article p{
 
 /* zoekpagina   */
 .zoekpagina .advanced-search-options{
-  margin-top:12px;         
-    
-    
+  margin-top:12px;          
 }
-
-
-
 
 /* media queries*/
 /* Large desktop */
 @media (min-width: 1200px) { }
  
 /* Portrait tablet to landscape and desktop */
-@media (min-width: 768px) and (max-width: 979px) {}
+@media (min-width: 768px) and (max-width: 979px) {    
+ .dateselectContainer label { display:none}
+}
  
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px) { 
-  #block-system-main-menu .menu li{
-   height:40px; 
-   margin-right:10px;
-   margin-left:5px;
-   margin-top:12px;
-   padding-top:18px;
-   padding-bottom:0px;
-   padding-left:12px;
-   padding-right:12px;
+  body {
+    padding-right:0px;
+    padding-left:0px; 
   }
-  #block-system-main-menu .menu li a {
-    font-size:20px;
+  .locationUnit .title{
+    float:none;  width:auto; padding-right:0;
+    margin-bottom:1em
   }
- }
 
-/* Landscape phones and down */
-@media (max-width: 480px) {  
+  .locationUnit .description{
+    float:none;  width:auto;  padding-right:0;
+  }
+  .locationUnit .time-space{
+    float:none;   width:auto;   text-align:left;
+  }
   #block-system-main-menu .menu li{
    margin-right:4px;
    margin-left:4px;
@@ -602,6 +615,11 @@ article p{
     font-size:16px;
   }
   .controls div[class*="span"]{margin-bottom:8px; text-align:right}
+
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {  
   .container h1{  font-size:1em;}
   .brand a{font-size:1em;}
 }
