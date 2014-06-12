@@ -15,7 +15,7 @@ class Search extends Controller {
         $sort = false;
 
 		if (isset($_REQUEST['query']) && strlen(trim($_REQUEST['query']))){
-			$q = $_REQUEST['query'];	
+			$q = rawurlencode($_REQUEST['query']);	
 		}
        
        	if (isset($_REQUEST['orderBy']) && strlen(trim($_REQUEST['orderBy']))){
