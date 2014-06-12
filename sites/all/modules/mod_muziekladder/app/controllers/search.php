@@ -62,7 +62,7 @@ class Search extends Controller {
 			$numFound = (int)$resp['response']['numFound']; 
 			$pagination = array();
 
-			$content =  Muziek_util::template(Array('searchTerms'=>$q),$this->view->searchbox);
+			$content =  Muziek_util::template(Array('searchTerms'=>rawurldecode($q)),$this->view->searchbox);
 			if ($numFound === 0 ) {
 								
 			}elseif ($numFound === 1){
@@ -106,7 +106,7 @@ class Search extends Controller {
 
 				$content .= Muziek_util::template(Array(
 					'numFound'=>$resp['response']['numFound'] .$resultaat,
-					'searchTerms'=>$q,
+					'searchTerms'=>rawurldecode($q),
 					'pagination'=>$pagination),$this->view->resultheader);
 				
 					foreach ($resp['response']['docs'] as $doc ) {
@@ -125,7 +125,7 @@ class Search extends Controller {
 
 				$content .= Muziek_util::template(Array('pagination'=>$pagination),$this->view->resultfooter);
 			}else{
-				$content .= Muziek_util::template(Array('searchTerms'=>$q),$this->view->noresults);	
+				$content .= Muziek_util::template(Array('searchTerms'=>rawurldecode($q)),$this->view->noresults);	
 			}	
 			$titletag=$q.' - zoekresultaten';
 			$this->set_head_title($titletag);
