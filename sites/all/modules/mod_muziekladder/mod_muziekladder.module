@@ -9,7 +9,6 @@ function mod_muziekladder_menu(){
   foreach($methods as $method){
     $items[$method] = array (
       'page callback'     => 'mod_muziekladder_index',
- 
       'access callback'   => TRUE,
     ); 
   }
@@ -105,6 +104,23 @@ function mod_muziekladder_block_view($delta) {
   require_once ('muziek_block.php');
   $obj = new Muziek_block;
   return  $obj->$delta();  
+}
+
+
+/**
+* Implements hook_theme
+**/
+function mod_muziekladder_theme($existing, $type, $theme, $path){
+    return array(
+        'agenda_header' => array(
+            'template' => 'agenda_header',
+            'path' => $path.'/theme',
+            'variables' => array(
+                $prevlink=>NULL,
+                $nextlink=>NULL
+            )
+        ),  
+    ); 
 }
 
 function mod_muziekladder_preprocess_html(&$vars) {

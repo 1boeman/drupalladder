@@ -61,14 +61,15 @@ class Muziek extends Controller {
       $nextp = $p+1 < 89 ? $p+1 : 89;
       $nextlink = '/muziek/agenda-'.$nextp.'.html';
       $prevp = $p-1 > 0 ? $p-1 : 0;
-      $prevlink = '/muziek/agenda-'.$prevp.'.html';
-      $controls = str_replace('##nextlink##',$nextlink,$this->view->controls);
-      $controls = str_replace('##prevlink##',$prevlink,$controls);
-      //        $controls = file_get_contents('../components/citymenu.html').$controls; 
-      $titletag = 'Agenda ' .trim($xml->title);
+      $prevlink = '/muziek/agenda-'.$prevp.'.html';    
+      $controls = theme ('agenda_header', array( 'prevlink'=>$prevlink,'nextlink'=>$nextlink )); 
+      
+      $titlearr = explode ('-' ,trim($xml->title)); 
+      $dateday = $titlearr[0];
+      $titletag = 'Agenda ' . $dateday . ' -  concerten, optredens en evenementen ' ; 
+
       $this->set_head_title($titletag);
-      $titlearr = explode ('-' ,$titletag); 
-      $this->set_title($titlearr[0]);
+      $this->set_title('Agenda '.$dateday. ' - concerten, optredens en evenementen'  );
       $content = trim($xml->content);
 
       $content = str_replace('##controls##',$controls,$content);

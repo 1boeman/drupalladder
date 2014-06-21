@@ -34,11 +34,10 @@ label{font-size:16px}
 
 h1.page__title,
 h1{
-  font: 40px/48px 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
+  font: 32px/40px 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
   margin-bottom:1em; 
   color:steelBlue;
 }
-
 blockquote {
   font-size: 16px;
   font-style: italic;
@@ -66,6 +65,7 @@ blockquote:before {
 .front .node-teaser h2{
   font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
   font-weight:normal;
+  font-size:26px
 }
 
 .front .node-teaser{
