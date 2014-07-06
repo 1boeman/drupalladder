@@ -63,7 +63,7 @@ var hC = Drupal.settings.muziekladder;
         externalLinks();
         showDetailImages();
         shareButton();
-
+        crumbTrail.backButton($('.breadcrumb li a').eq(0));
         return {};
     }
     
@@ -114,16 +114,37 @@ var hC = Drupal.settings.muziekladder;
         hC.cityselect = cityselect();
         backtotopButtons();
         dateSelecter();
-        
+         
         $('#messengerContainer')[0].href='m'+'a'+'ilto'+':'+'info'+'@'+'hardcode'+'.'+'nl';
         
         showImages();
-        externalLinks();
         $('body').addClass('doneloading');
         $('.locationUnit').css({'opacity':1});
         
+        crumbTrail.set(location.href);
+        externalLinks();
+     
         return handlers;
     }
+   
+    var crumbTrail = (function(){ 
+        var cname = 'werwasib4'; 
+        return {
+            set:function(url){
+                $.cookie(cname,url,{ expires: 7, path: '/' });
+            },
+            backButton:function($element){
+                var backuri = $.cookie(cname);    
+                if (backuri){
+                    $element.click(function(e){
+                        e.preventDefault(); 
+                        location.href = backuri;
+                    })
+                }
+            }
+        }; 
+    }());
+   
     
     /**
      * City Menu functions.

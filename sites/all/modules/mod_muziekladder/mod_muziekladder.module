@@ -17,7 +17,8 @@ function mod_muziekladder_menu(){
 
 function mod_muziekladder_init(){
   require_once (dirname(__FILE__).'/app/bootstrap.php'); 
-  require_once('controller.php'); 
+  require_once('controller.php');
+  drupal_add_library('system', 'jquery.cookie');       
 }
 
 function mod_muziekladder_index($arg = false){
