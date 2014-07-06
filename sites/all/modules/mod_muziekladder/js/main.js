@@ -37,9 +37,11 @@ var hC = Drupal.settings.muziekladder;
         if (orderBy && orderBy != 'relevance'){
             $orderBy.val(orderBy); 
         }
+        crumbTrail.set(location.href);
         $orderBy.change(function(){
            $('#advanced_search').submit();
         })
+
         return {};     
     };
     pageHandlers.articlefull = function(){
@@ -56,6 +58,7 @@ var hC = Drupal.settings.muziekladder;
     pageHandlers.locationPage = function(){
         laad.js('locationpage');
         externalLinks();
+        crumbTrail.set(location.href);
         return {};
     }
     
