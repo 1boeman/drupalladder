@@ -19,7 +19,7 @@
         <h4><a target="_blank" href="<?php echo $link ?>"><?php echo $location_title ?></a> 
             &bull; <span class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></span> 
         </h4>
-		<p><strong>Info</strong>: <?php echo $desc ?></p>
+		<p><?php echo $desc ?></p>
 		<p><strong>Link</strong>: <a itemprop="url" href="<?php echo $link ?>"><?php echo $link ?></a>  </p>
 		<p><i class="icon-info-sign"></i> <a itemprop="url" href="<?php echo $link ?>">Meer informatie</a></p>
 
