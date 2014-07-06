@@ -39,7 +39,8 @@ class Gig extends Controller{
 				$img = strlen(trim($event->img)) ? rawurlencode(trim($event->img)) : ''; 
 
 				$titletag = htmlspecialchars($event->title).' - ';
-				$str = Muziek_util::template(Array(
+                
+                $str = theme('gig',array(
 				    'desc'=>$event->desc,
 				    'location_title'=>$location->title,
 				    'city'=>$location->city,
@@ -65,7 +66,7 @@ class Gig extends Controller{
 			}
 
 			$this->set_head_title($titletag);
-			$this->set_title($event->title); 
+			# $this->set_title($event->title); 
 			return array( 'html' => $str ); 
 
 		

@@ -63,6 +63,7 @@ var hC = Drupal.settings.muziekladder;
         externalLinks();
         showDetailImages();
         shareButton();
+
         return {};
     }
     
@@ -116,7 +117,6 @@ var hC = Drupal.settings.muziekladder;
         
         $('#messengerContainer')[0].href='m'+'a'+'ilto'+':'+'info'+'@'+'hardcode'+'.'+'nl';
         
-       
         showImages();
         externalLinks();
         $('body').addClass('doneloading');

@@ -2,9 +2,9 @@
 
 /**
  * implements hook_menu 
- */
+**/
 function mod_muziekladder_menu(){
-  $methods = array( 'muziek','gig','uitgaan','locaties','getgeo','search', 'muziekdata/2014','muziekdata/2015');
+  $methods = array( 'muziek','gig','uitgaan','locaties','getgeo','search', 'muziekformulier', 'muziekdata/2014','muziekdata/2015');
   $items = array();  
   foreach($methods as $method){
     $items[$method] = array (
@@ -32,9 +32,7 @@ function mod_muziekladder_index($arg = false){
   //route the path to a controller:
   
   if ($arg !== '<front>') {
-    $r = MUZIEKLADDER_REQUEST_PATH; 
-    $aRequest = explode('/',$r);
-    	
+    $aRequest = explode('/',MUZIEKLADDER_REQUEST_PATH); 
   } else {
     //home page
     $aRequest = array('front'); 
@@ -53,19 +51,22 @@ function mod_muziekladder_index($arg = false){
   }
 
   $result = $obj->$methodname($arg);
-  if (isset($result['html'])){
+  
+
+  if (isset($result['render_array'])) {
+      return $result['render_array']; 
+  } elseif (isset($result['html'])){
     $render_array = array(
       'agenda_content'=>array(
         '#type'=>'markup',
         '#markup'=>$result['html'],
       ),
-      'nav_content'=>array(
-      )
     );
     return $render_array;  
   } elseif (isset($result['json'])) {
     drupal_json_output($result['json']); 
   } elseif (isset($result['html_fragment']) || isset($result['json_string'])) {
+    // responding to an ajax request
     if (isset( $result['html_fragment'])){
         echo $result['html_fragment'];
     }else{
@@ -119,7 +120,12 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
                 $prevlink=>NULL,
                 $nextlink=>NULL
             )
-        ),  
+        ), 
+        'gig' => array(
+            'template' => 'gig',
+            'path' => $path.'/theme',
+            'variables' => array()
+        ),   
     ); 
 }
 
