@@ -45,9 +45,6 @@ class Muziek extends Controller {
     $date = new DateTime();
     $date->modify('+'.$p.' day');
 
-    if (!$p){
-//        $date->modify('-1 hour'); //don't change first agenda page to tomorrow till 1 am
-    }
     $file = MUZIEK_DATA.'/'.$date->format('Y').'/'.$date->format('d-m').'.xml';
   
     $this->init_view(); 

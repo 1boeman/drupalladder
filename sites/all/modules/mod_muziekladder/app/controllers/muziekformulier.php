@@ -3,21 +3,11 @@ class Muziekformulier extends Controller {
   function __construct(){ }
 
   function index() {
-    $form = array();
-   
-    $form['example_textfield'] = array(
-        '#type' => 'textfield',
-        '#title' => 'Titel',
-          '#default_value' => 'sdvvw',
-   );
 
-   $form['submit_button']=array(
-        '#value'=>'Verzendenen', 
-        '#type'=>'submit'
-   ); 
-
-
-
+    $this->set_head_title('Tip muziekladder');
+    $this->set_title('Tip de Muziekladder agenda'  );
+  
+    $form = drupal_get_form('mod_muziekladder_mailtipform'); 
     return array('render_array'=>$form); 
   }
 }

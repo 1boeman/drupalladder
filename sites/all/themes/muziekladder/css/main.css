@@ -575,6 +575,71 @@ article p{
   margin-top:12px;          
 }
 
+/* muziekformulier  */
+body.page-muziekformulier #edit-soort {
+    width:80%;
+} 
+body.page-muziekformulier .form-item-location,
+body.page-muziekformulier .form-item-link,
+body.page-muziekformulier .form-item-city
+{
+    
+}
+
+body.page-muziekformulier .form-item-location input,
+body.page-muziekformulier .form-item-link input,
+body.page-muziekformulier .form-item-city input{
+    width:80%;     
+}
+
+body.page-muziekformulier .form-item-date select{
+    width:80px
+}
+form .description{
+   font-style:italic; 
+}
+body.page-muziekformulier fieldset{
+    display:none
+}
+
+body.page-muziekformulier .active fieldset.locatie{
+    display:block
+}
+
+body.page-muziekformulier .active fieldset.details{
+    display:block
+}
+
+body.page-muziekformulier #edit-submit{
+    display:none
+}
+body.page-muziekformulier .active #edit-submit{
+    display:block
+}
+
+body.page-muziekformulier .iets_anders .form-item-artists,
+body.page-muziekformulier .iets_anders .form-item-location,
+body.page-muziekformulier .iets_anders .container-inline-date{
+    display:none;        
+}
+
+body.page-muziekformulier .active #edit-item{
+    display:none    
+}
+body.page-muziekformulier .active .form-item-soort .description{
+    display:none    
+}
+
+body.page-muziekformulier form.iets_anders #edit-item{
+    display:block    
+}
+
+
+body.page-muziekformulier .podium .form-item-artists,
+body.page-muziekformulier .podium .container-inline-date{
+   display:none 
+}
+
 /* media queries*/
 /* Large desktop */
 @media (min-width: 1200px) { }
@@ -622,3 +687,5 @@ article p{
   .container h1{  font-size:1em;}
   .brand a{font-size:1em;}
 }
+
+

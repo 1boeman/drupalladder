@@ -31,6 +31,23 @@ var hC = Drupal.settings.muziekladder;
         });
     });
 
+   pageHandlers.muziekformulier = function(){
+        function setFormClass(){
+            var $form = $('#mod-muziekladder-mailtipform'); 
+            var $this = $(this); 
+
+            if($this.val().length){
+                $form[0].className = $(this).val() + ' active';
+            } else {             
+                $form[0].className = '';
+            }
+        }
+        
+        setFormClass.apply( $('#edit-soort')[0]); 
+        $('#edit-soort').change(setFormClass); 
+       
+   }; 
+
    pageHandlers.zoekpagina = function(){
         var orderBy = Drupal.settings.muziekladder_search_orderby, 
             $orderBy = $('#orderBy'); 
@@ -44,6 +61,7 @@ var hC = Drupal.settings.muziekladder;
 
         return {};     
     };
+
     pageHandlers.articlefull = function(){
         externalLinks();
         return {};

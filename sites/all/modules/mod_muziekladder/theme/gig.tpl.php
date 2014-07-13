@@ -28,8 +28,7 @@
 			<p class="description"><?php echo $location_desc ?></p>
 			<h4>Locatie	:</h4>
 			<p>
-				<div> <?php echo $street ?> </div>  
-				<div><?php echo $streetnumber .' ' .  $streetnumberAddition ?></div> 
+				<div> <?php echo $street .' '. $streetnumber .' '. $streetnumberAddition ?></div> 
 				<div itemprop="postalCode"><?php echo $zip ?></div>  
 				<div class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></div> 
 			</p>

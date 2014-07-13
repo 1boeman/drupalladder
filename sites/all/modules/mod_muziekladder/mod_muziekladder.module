@@ -118,8 +118,8 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
             'template' => 'agenda_header',
             'path' => $path.'/theme',
             'variables' => array(
-                $prevlink=>NULL,
-                $nextlink=>NULL
+                'prevlink'=>NULL,
+                'nextlink'=>NULL
             )
         ), 
         'gig' => array(
@@ -130,10 +130,149 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
     ); 
 }
 
+
+function mod_muziekladder_mailtipform($form_state) {
+   $form['#prefix'] = '<div class="eventfull">' ;
+   $form['#suffix'] = '</div>' ;
+
+   $form['soort'] = array(
+     '#type' => 'select',
+     '#title' => t('Onderwerp tip'),
+     '#options' => array(
+        'concert' => t('Concert of optreden'),
+        'festival'=> t('Festival of feest'),
+        'podium' => t('Podium, theater, club en/of horeca aangelegenheid'),
+        'iets_anders'=>t('Iets anders')
+     ),
+     '#description' => t('Waarover wilt u Muziekladder tippen...'),
+     '#required'=> true,
+    );
+    $form['item'] = array(
+        '#type' => 'item',
+        '#attributes' => array('class'=>array('item-iets-anders')),
+        '#markup' =>  '<p>Voor algemene opmerkingen kunt u ook terecht op ons Twitter account: <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>'
+    ); 
+ 
+    $form['locatie'] = array(
+        '#type' => 'fieldset',
+        '#attributes' => array('class'=>array('locatie')),
+        '#title' => 'Praktische informatie'
+    ); 
+    
+    
+    $form['details'] = array(
+        '#type' => 'fieldset',
+        '#attributes' => array('class'=>array('details')),
+        '#title' => 'Details'
+    ); 
+      
+    $form['locatie']['link'] = array(
+       '#type' => 'textfield',
+       '#title' => 'Link',
+       '#required' => true, 
+       '#attributes' =>array('placeholder' => 'Link naar website evenement of locatie'),
+       '#description' => t('Zonder werkende link kunnen we dit verzoek helaas niet in behandeling nemen'),
+
+    );
+
+      
+    $form['locatie']['city'] = array(
+       '#type' => 'textfield',
+       '#title' => t('Plaats'),
+       '#attributes' =>array('placeholder' => 'Naam stad, dorp, gemeente of postcodegebied. '),
+       '#required' => true,    
+    );
+
+    $form['locatie']['location'] = array(
+       '#type' => 'textfield',
+       '#title' => t('Naam podium / locatie'),
+       '#attributes' =>array('placeholder' => 'naam locatie, club, cafe of terrein.'),
+    
+    );
+
+
+      $date = format_date(REQUEST_TIME, 'custom', 'd-m-Y');
+      $format = 'd-m-Y';
+
+      $form['locatie']['date'] = array(
+       '#type' => 'date_select', // types 'date_text' and 'datei_timezone' are also supported. See .inc file.
+       '#title' => 'Datum concert of evenement',
+       '#default_value' => $date,
+       '#date_format' => $format,
+      );
+
+
+      $form['details']['artists'] = array(
+       '#type' => 'textarea',
+       '#title' => 'Artiest(en)',
+       '#attributes' =>array('placeholder' => 'Namen bands, artiesten, dj\'s, support acts etc.')
+      );
+
+    
+      $form['details']['description'] = array(
+       '#type' => 'textarea',
+       '#title' => 'Opmerkingen en/of extra informatie',
+      );
+      
+      $form['details']['email'] = array(
+       '#type' => 'textfield',
+       '#title' => 'Uw e-mail voor eventuele vragen (optioneel)',
+       '#attributes' =>array('placeholder' => t('E-mail address'))
+      );
+
+      $form['submit'] = array(
+          '#type' => 'submit',
+          '#value' => t('Verzenden'),
+      );
+      return $form;
+}
+
+function mod_muziekladder_mailtipform_validate($form, &$form_state) {
+      // Validation logic.
+}
+function mod_muziekladder_mailtipform_submit($form, &$form_state) {
+    // Submission logic.
+
+    $msg = array(); 
+    foreach($form_state['values'] as $key => $value){
+       $msg[]= $key.' :  ' .$value; 
+    }
+
+    $body = array();
+    $from = 'muziekladder@hardcode.nl';
+    $body[] = implode($msg); 
+    $to = 'info@hardcode.nl';
+    $params = array(
+        'body' => $body,
+        'subject' => 'Website Information Request',
+    );
+    if (drupal_mail('mailtipform', 'some_mail_key', $to, language_default(), $params, $from, TRUE))
+    {
+         drupal_set_message(t('Dank u wel. Uw tip is succesvol verzonden.<br> Wij zullen er zo spoedig mogelijk aandacht aan besteden.'));
+    } else {
+        drupal_set_message('Er ging helaas iets mis bij het verzenden. Probeer het aub later nog eens.');
+    }
+}
+
+function mailtipform_mail($key, &$message, $params) {
+    $headers = array(
+        'MIME-Version' => '1.0',
+        'Content-Type' => 'text/html; charset=UTF-8;',
+        'Content-Transfer-Encoding' => '8Bit',
+        'X-Mailer' => 'Drupal'
+    );
+    foreach ($headers as $key => $value) {
+            $message['headers'][$key] = $value;
+    }
+    $message['subject'] = $params['subject'];
+    $message['body'] = $params['body'];
+}
+
 function mod_muziekladder_preprocess_html(&$vars) {
   require_once (dirname(__FILE__).'/app/bootstrap.php'); 
   $aliases = explode('/',MUZIEKLADDER_REQUEST_PATH);
   $predefined = array(
+    'muziekformulier'=>'muziekformulier',
     'muziek'=>'dagoverzicht',
     'gig'=>'detail',
     'uitgaan'=>'locaties',
