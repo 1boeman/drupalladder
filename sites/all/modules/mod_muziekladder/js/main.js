@@ -144,7 +144,8 @@ var hC = Drupal.settings.muziekladder;
         
         crumbTrail.set(location.href);
         externalLinks();
-     
+
+	$('#page-title').before('<a class="tip-button" href="/muziekformulier">Tips?</a>')
         return handlers;
     }
    

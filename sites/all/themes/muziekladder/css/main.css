@@ -576,6 +576,13 @@ article p{
 }
 
 /* muziekformulier  */
+
+.dagoverzicht .tip-button{
+	float:right;
+	background:white; 
+	border-radius:6px; 
+	padding:6px;
+}
 body.page-muziekformulier #edit-soort {
     width:80%;
 } 

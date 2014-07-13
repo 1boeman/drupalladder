@@ -240,11 +240,11 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
 
     $body = array();
     $from = 'muziekladder@hardcode.nl';
-    $body[] = implode($msg); 
+    $body[] = implode("\n",$msg); 
     $to = 'info@hardcode.nl';
     $params = array(
         'body' => $body,
-        'subject' => 'Website Information Request',
+        'subject' => 'Muziekladder muziekformulier',
     );
     if (drupal_mail('mailtipform', 'some_mail_key', $to, language_default(), $params, $from, TRUE))
     {
