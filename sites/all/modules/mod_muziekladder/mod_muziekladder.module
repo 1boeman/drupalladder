@@ -141,7 +141,7 @@ function mod_muziekladder_mailtipform($form_state) {
      '#options' => array(
         'concert' => t('Concert of optreden'),
         'festival'=> t('Festival of feest'),
-        'podium' => t('Podium, theater, club en/of horeca aangelegenheid'),
+        'podium' => t('Podium, theater, club en/of horecagelegenheid'),
         'iets_anders'=>t('Iets anders')
      ),
      '#description' => t('Waarover wilt u Muziekladder tippen...'),

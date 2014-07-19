@@ -323,23 +323,29 @@ color:Maroon
   float:left;
   width:36%;
   padding-right:1%;
+  font-size:0.9em
  
 }
 .eventContainerInner .time-space{
     float:left;
     width:20%;
     text-align:right;
+    font-size:0.9em;
+}
+.eventContainerInner .time-space p{
+   margin-bottom:0px    
 }
 
 .locationUnit h2{
-  background-color:#222;
-  background-image:url(../img/debut_dark.png);
   font-size:16px;
   padding-left:20px;
-  border-radius:4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   margin-top:0px;
   color:white;
   cursor:pointer;
+  margin-bottom:0px;
+  background:#444;
 }
 .locationUnit h2 small{
   color:LightSteelBlue; 
@@ -356,15 +362,24 @@ color:Maroon
   color:white;
   padding:10px 20px;
   margin-bottom:10px;
-  border-radius:4px;    
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background-image:url(../img/debut_dark.png); 
+
+}
+.locationInfo .description {
+    float:right;
+    width:50%;
+    font-style:italic;
 }
 
+.dagoverzicht .locationEvents{
+    
+}
 .dagoverzicht .event{
   background:#efefef;
-  margin-bottom:10px;
   padding:12px;
-  border-radius:4px;
-  box-shadow:0px 0px 2px #afafaf;
+  border-bottom:1px solid #dfdfdf;
 }
 .event p{}
 
@@ -375,8 +390,8 @@ color:Maroon
   
 }
 .dagoverzicht .eventImg img{ 
-  max-width:90px;
-  max-height:110px;
+  max-width:60px;
+  max-height:60px;
   float:left;
   margin:0px 12px 8px 0px;
 }
@@ -693,6 +708,12 @@ body.page-muziekformulier .podium .container-inline-date{
 @media (max-width: 480px) {  
   .container h1{  font-size:1em;}
   .brand a{font-size:1em;}
+  .locationInfo .description {
+
+    float:none;
+    width:auto;
+  }
+
 }
 
 
