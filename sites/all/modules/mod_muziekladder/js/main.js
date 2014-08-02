@@ -71,6 +71,7 @@ var hC = Drupal.settings.muziekladder;
         var handlers = {openLink:cityMenuLinkHandler}; 
         externalLinks();
         drawFrontTabs();
+        showTipsButton();
 
         return handlers;
     };
@@ -78,6 +79,7 @@ var hC = Drupal.settings.muziekladder;
     pageHandlers.locationPage = function(){
         laad.js('locationpage');
         externalLinks();
+
         crumbTrail.set(location.href);
         return {};
     }
@@ -94,6 +96,7 @@ var hC = Drupal.settings.muziekladder;
         laad.js('util');
         laad.wait('locations');
         laad.wait('maps');
+        showTipsButton();
         
         externalLinks();
         return {};
@@ -146,11 +149,15 @@ var hC = Drupal.settings.muziekladder;
         
         crumbTrail.set(location.href);
         externalLinks();
+        showTipsButton()
 
-        $('#page-title').before('<a class="tip-button" href="/muziekformulier">Tips?</a>')
-            return handlers;
+        return handlers;
     }
-        
+
+    function showTipsButton(){
+       $('#page-title, h1').before('<a class="tip-button" href="/muziekformulier">Tips?</a>');
+    }    
+
     var crumbTrail = (function(){ 
         var cname = 'werwasib4'; 
         return {
