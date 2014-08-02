@@ -39,7 +39,7 @@ class Locaties extends Controller {
         
         $events = $data->xpath('//day/event/src[text()="'.$key.'"]/parent::*');
         $eventArr = Array();
-        if (count($events)>1){
+        if (!empty($events)){
           foreach($events as $event){
             //var_dump($event->title);
             $date = $event->date;

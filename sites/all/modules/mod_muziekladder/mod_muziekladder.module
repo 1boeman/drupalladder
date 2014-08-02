@@ -53,7 +53,6 @@ function mod_muziekladder_index($arg = false){
 
   $result = $obj->$methodname($arg);
   
-
   if (isset($result['render_array'])) {
       return $result['render_array']; 
   } elseif (isset($result['html'])){
@@ -97,6 +96,10 @@ function mod_muziekladder_block_info() {
   $blocks['muziekladder_nieuws_block_1'] = array(
           'info' => 'muziekladder nieuws blocks 1',
   );
+  $blocks['muziekladder_nieuws_block_2'] = array(
+          'info' => 'muziekladder nieuws blocks 222',
+  );
+
   return $blocks; 
 }
 
@@ -285,7 +288,7 @@ function mod_muziekladder_preprocess_html(&$vars) {
   set_vars_from_singleton($vars,array('head_title','desc_metatag'));
 }
 
-function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {
+function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {  
   $singleton = Singleton::get_instance(); 
   foreach($singleton_vars_to_look_at as $value){
     if ($setvalue = $singleton->$value){
@@ -295,6 +298,6 @@ function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {
 }
 
 function mod_muziekladder_preprocess_page(&$vars) {
-  set_vars_from_singleton($vars,array('title','city_menu'));
+  set_vars_from_singleton($vars,array('title','city_menu','after_content'));
 }
 

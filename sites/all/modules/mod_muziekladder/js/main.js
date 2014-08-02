@@ -44,8 +44,8 @@ var hC = Drupal.settings.muziekladder;
         }
         
         setFormClass.apply( $('#edit-soort')[0]); 
-        $('#edit-soort').change(setFormClass); 
-       
+        $('#edit-soort').change(setFormClass);       
+        return {}; 
    }; 
 
    pageHandlers.zoekpagina = function(){
@@ -70,6 +70,8 @@ var hC = Drupal.settings.muziekladder;
     pageHandlers.front = function(){
         var handlers = {openLink:cityMenuLinkHandler}; 
         externalLinks();
+        drawFrontTabs();
+
         return handlers;
     };
     
@@ -145,10 +147,10 @@ var hC = Drupal.settings.muziekladder;
         crumbTrail.set(location.href);
         externalLinks();
 
-	$('#page-title').before('<a class="tip-button" href="/muziekformulier">Tips?</a>')
-        return handlers;
+        $('#page-title').before('<a class="tip-button" href="/muziekformulier">Tips?</a>')
+            return handlers;
     }
-   
+        
     var crumbTrail = (function(){ 
         var cname = 'werwasib4'; 
         return {
@@ -166,8 +168,52 @@ var hC = Drupal.settings.muziekladder;
             }
         }; 
     }());
-   
-    
+       
+    function drawFrontTabs(){
+        var cookiename = 'muziekladder_news_tab'; 
+    	var current_state = $.cookie(cookiename) || 0;
+        var tabs= $('#frontTabs li');
+        var page0 = '#content, .sidebars';
+        var page1 = '.after_content'; 
+        var hideshow = function (state){
+            var state = parseInt(state); 
+            switch (state){
+                case 0:
+                    $(page1).hide();
+                    $(page0).show();
+                break;
+                case 1:
+                    $(page0).hide();
+                    $(page1).show();
+                break;
+           }
+           $.cookie(cookiename,state);
+           tabs.removeClass('active'); 
+           tabs[state].className = 'active'; 
+        }
+        tabs.click(function(){ 
+           hideshow( $(this).index() );
+        });
+        hideshow(current_state);
+        newsLinks();
+    }
+
+    function newsLinks(){
+        $('.joriso-news-item h3 a').click(function(e){
+            e.preventDefault();
+            var $that = $(this);
+            var $p = $that.parents('.joriso-news-item').find('p'); 
+            if ($that.hasClass('visible')){
+                $p.hide();
+                $that.removeClass('visible');
+            }else{
+                $p.slideDown('fast',function(){
+                    $that.addClass('visible');
+                });
+            }     
+        }); 
+    } 
+        
     /**
      * City Menu functions.
      * The citybuttons on top of the index & dagoverzicht pages
@@ -177,7 +223,9 @@ var hC = Drupal.settings.muziekladder;
         '8':[8,5,1388962814,1389535452],    //Rotterdam
         '5':[8,5,100], // Den Haag
         '4':[12,4,110,1389309298], //Utrecht
+
         '6':[6,14], //Groningen
+        '7':[7,1404591646,15], //Eindhoven
         '100':[5,100] // Leiden
     }; 
 

@@ -1,20 +1,20 @@
 <?php
 define ('MUZIEKLADDER_BASE_PATH','/'.drupal_get_path('module','mod_muziekladder')); 
-define ('MUZIEKLADDER_SYSTEM_PATH', str_replace('/app','', dirname(__FILE__))); 
+define ('MUZIEKLADDER_SYSTEM_PATH', str_replace('/app','', dirname(__FILE__)));
 define ('MUZIEKLADDER_REQUEST_PATH',request_path()); 
 
 if (!stristr( $_SERVER['SERVER_NAME'], 'muziekladder.nl' )){
     // Test
 	$old_siteroot = '/../../../../../output';
+    define ('MUZIEK_NEWSPORTAL', '/home/joriso/devlop/newscrawl/newscrawl_output/pages/3.html');
     define ('MUZIEK_SOLRHOST', 'http://localhost:8983/solr/core0/');
  
 } else {
     // Production
 	$old_siteroot = '/../../../../../public';
+    define ('MUZIEK_NEWSPORTAL', '/home/joriso/web/muziekladder.nl/PERLNEWS/newscrawl_output/pages/3.html'); 
     define ('MUZIEK_SOLRHOST', 'http://localhost:8983/solr/core0/');
 
-#    define ('MUZIEK_SOLRHOST', 'http://doubleplusgood.nl/srch/muziekladderd/');
- 
 }
 
 define ('MUZIEK_GEODATA_JSON',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot.  '/data/geodata.json');

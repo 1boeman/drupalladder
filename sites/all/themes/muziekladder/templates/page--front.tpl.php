@@ -23,6 +23,13 @@
         <?php print $city_menu ?>
       <?php endif; ?>
     </div>
+    <nav id="frontTabs">
+        <ul>
+            <li><span>Muziekladder nieuws</span></li>
+            <li><span>Nieuws portaal </span></li>
+        </ul>
+    </nav>
+   
     <div id="content" class="column" role="main">
 
       <?php print render($page['highlighted']); ?>
@@ -36,9 +43,9 @@
       <?php endif; ?>
       <?php print render($page['content']); ?>
       <?php print $feed_icons; ?>
+      
     </div>
-
-    <?php
+      <?php
       // Render the sidebars to see if there's anything in them.
       $sidebar_first  = render($page['sidebar_first']);
       $sidebar_second = render($page['sidebar_second']);
@@ -49,7 +56,11 @@
         <?php print $sidebar_second; ?>
       </aside>
     <?php endif; ?>
-
+    <?php if (isset($after_content)): ?>
+    <div class="after_content">
+        <?php print $after_content; ?>
+    </div>
+    <?php endif; ?>
   </div>
 
   <?php print render($page['footer']); ?>

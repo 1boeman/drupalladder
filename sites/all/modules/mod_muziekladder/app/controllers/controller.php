@@ -26,11 +26,15 @@ abstract class Controller {
 		$s->desc_metatag = check_plain($content);
 	}
 
+	protected function set_after_content($content){
+		$s = Singleton::get_instance();
+		$s->after_content = $content; 
+	}
+
 	protected function get_city_menu(){
 		$s = Singleton::get_instance();
 		$s->city_menu = file_get_contents(MUZIEK_COMPONENTS.'/citymenu.html');
 	}
-
 	protected function setSession($bin,$data){
 		  session_cache_set($bin, $data);
 	}

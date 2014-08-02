@@ -1,4 +1,4 @@
-/**
+/*
  * @file
  * A JavaScript file for the theme.
  *
@@ -22,14 +22,13 @@ Drupal.behaviors.muziekladder_menu = {
     });
 
     $('#block-system-main-menu .menu li', context).once('muziekladder_menu',function(){
-	//console.log(this)
-      $(this)
+        $(this)
         .hover(
           function(){$(this).addClass('hover')},
           function(){$(this).removeClass('hover')}) 
-	.click(function(){
-		location.href = $(this).find('a')[0].href;
-	}); 
+        .click(function(){
+            location.href = $(this).find('a')[0].href;
+        }); 
     }); 
   }
 };

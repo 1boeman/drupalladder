@@ -77,7 +77,6 @@ class Muziek extends Controller {
           'month' =>  trim($xml->month),
           'year' => trim($xml->year)
       ))), 'setting');
-
       return array('html'=>$content); 
     }
   }
