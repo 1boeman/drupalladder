@@ -32,10 +32,8 @@ class Search extends Controller {
 			$content =   Muziek_util::template(Array(),$this->view->nosearchterm);
 			$content .=  Muziek_util::template(Array('searchTerms'=>''),$this->view->searchbox);
 		}else{
-			//$url =  MUZIEK_SOLRHOST.'select?q='.urlencode("{!q.op=AND}text:$q").'&wt=phps';
-        	# $url =  MUZIEK_SOLRHOST.'select?q='.urlencode("{!q.op=AND}text:$q").'&wt=phps';
             $url = MUZIEK_SOLRHOST.'select?q='. $q .'&wt=phps&indent=true&defType=edismax'; 
-            $url .= '&qf=title+content+venue+zip+sourcelink&stopwords=true&lowercaseOperators=true'; 
+            $url .= '&qf=title+content+city+date+venue+zip+sourcelink&stopwords=true&lowercaseOperators=true'; 
 
             if ($sort && $sort !='relevance') {
                 if ($sort == 'date') $url .= '&sort=date+asc';

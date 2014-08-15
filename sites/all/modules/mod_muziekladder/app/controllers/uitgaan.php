@@ -82,8 +82,13 @@ class Uitgaan extends Controller {
 		}
 	}
 
-	private function getCityData($cityName){
-		$url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($cityName).',The%20Netherlands&sensor=false';
+	private function getCityData($cityName,$countryId = 0){
+        if (!$countryId){
+            $country = 'The%20Netherlands'; 
+        }elseif ($countryId === 1) {
+             $country = 'Belgium'; 
+        }
+		$url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($cityName).','.$country.'&sensor=false';
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 			CURLOPT_RETURNTRANSFER => 1,
