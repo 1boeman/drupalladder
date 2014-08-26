@@ -17,7 +17,9 @@
 			
 		</h3>
         <h4><a target="_blank" href="<?php echo $link ?>"><?php echo $location_title ?></a> 
-            &bull; <span class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></span> 
+            &bull; <span class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></span>
+            &bull; <span class="country country<?php echo $countryno ?>" data-countryno="<?php echo $countryno ?>"><?php echo $country ?></span> 
+ 
         </h4>
 		<p><?php echo $desc ?></p>
 		<p><strong>Link</strong>: <a itemprop="url" href="<?php echo $link ?>"><?php echo $link ?></a>  </p>
@@ -30,7 +32,9 @@
 			<p>
 				<div> <?php echo $street .' '. $streetnumber .' '. $streetnumberAddition ?></div> 
 				<div itemprop="postalCode"><?php echo $zip ?></div>  
-				<div class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></div> 
+				<div class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></div>
+                <div class="country country<?php echo $countryno ?>" data-countryno="<?php echo $countryno ?>"><?php echo $country ?></div> 
+                
 			</p>
 			<p><a itemprop="url" href="<?php echo $location_link ?>"><i class="icon-info-sign"></i> Meer info over <?php echo $location_title ?></a></p>
 		</div>

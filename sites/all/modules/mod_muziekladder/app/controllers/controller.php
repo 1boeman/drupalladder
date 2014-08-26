@@ -1,6 +1,8 @@
 <?php
 abstract class Controller {
 	protected $view; 
+    protected $countrynames = array('Nederland','Belgi&euml;' );
+    protected $countrynames_EN = array('Netherlands','Belgium;' );
 
 	protected function init_view() {
 		$callers = debug_backtrace(); 

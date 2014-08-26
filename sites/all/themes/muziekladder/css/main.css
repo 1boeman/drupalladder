@@ -264,11 +264,11 @@ border-radius: 4px;
 
 /*footer*/
 footer{
-    background:#f5f5f5;
-    text-align:center;
-    padding-top:20px;
-    padding-bottom:80px;
-   margin-top:200px; 
+ background:#f5f5f5;
+ text-align:center;
+ padding-top:20px;
+ padding-bottom:80px;
+ margin-top:200px; 
 }
 
 
@@ -415,7 +415,14 @@ color:Maroon
   border-radius:4px;
   box-shadow:0px 0px 2px #afafaf;
 }
-.stedencontainer{margin-bottom:8px}
+.map-placeholder{
+    float:right;
+    width:56%;    
+}
+.stedencontainer{margin-bottom:8px;
+    width:44%;
+    float:left
+}
 ul.steden {margin:0px}
 
 ul.steden li:nth-child(2n){background:#dfdfdf; border-radius:4px; }
@@ -425,7 +432,8 @@ ul.steden li{
   padding:10px; 
   float:left;
   line-height:2;
-  min-width:140px;
+  min-width:146px;
+  font-size:0.8em;
 
 }
 

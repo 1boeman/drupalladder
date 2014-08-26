@@ -36,15 +36,19 @@ class Gig extends Controller{
 				    $location = $locationData->xpath('//key[@value="'.$event->src.'"]');
 				    $location = $location[0]->locationData;
 				}
-				$img = strlen(trim($event->img)) ? rawurlencode(trim($event->img)) : ''; 
+				$img = strlen(trim($event->img)) ? rawurlencode(trim($event->img)) : '';
+               
+                $countryno = $location->countryno ? $location->countryno : 0;
+                $countryname = $this->countrynames[(int)$countryno];
 
-				$titletag = htmlspecialchars($event->title).' - ';
-                
+                $titletag = htmlspecialchars($event->title).' - ';
                 $str = theme('gig',array(
 				    'desc'=>$event->desc,
 				    'location_title'=>$location->title,
 				    'city'=>$location->city,
 				    'cityno'=>$location->cityno,
+                    'country'=>$countryname,
+                    'countryno'=>$countryno,
 				    'location_desc'=>$location->desc,
 				    'zip'=>$location->zip,
 				    'street'=> $location->street,

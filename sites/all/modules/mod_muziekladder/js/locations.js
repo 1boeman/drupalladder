@@ -2,7 +2,7 @@
 	$('<div id="map-canvas" />')
 		.css({'width':'100%',height:'900px'})
 		.appendTo('.map-placeholder');
-	hC.missingCities = function(missingCityArray,map){
+	hC.missingCities = function(missingCityArray,cityCountries,map){
 		if (!missingCityArray.length) return; 	
 
 		var aQueue = [];
@@ -28,7 +28,7 @@
 		}
 		
 		for (var i = 0; i < missingCityArray.length; i++){
-			ajaxQueue('/uitgaan/getgeo/?l='+missingCityArray[i]);
+			ajaxQueue('/uitgaan/getgeo/?l='+missingCityArray[i]+'&c='+cityCountries[missingCityArray[i]]);
 		}
 	}
 	hC.markerListener = function(e){
@@ -67,29 +67,32 @@
 			scrollwheel: false, disableDoubleClickZoom: true	
 		}
 		var cityObj = {}; 
+        var cityCountries = [];
 		var missingCityArray = [];	
 		var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 		var cityAlias = {'The Hague':'Den Haag',"'s-Hertogenbosch":'Den Bosch'}
 		
 		$steden.each(function(){
 			cityObj[this.title] = 0;
+            cityCountries[this.title] = $(this).data('countryno');
 		});
 		if (typeof hC.location_data === 'undefined') {
+            // no locations cached yet
 			missingCityArray = hC.objectKeys(cityObj);
 		}else{
+            // draw markers for all cached locations
 			for (var i = 0; i < hC.location_data.length; i++){
 				hC.cityMarker(hC.location_data[i],map);
-				if (hC.location_data[i]){
-					cityObj[hC.location_data[i].results[0].address_components[0].long_name] = 1;
-				}	
+//				if (hC.location_data[i]){
+        		cityObj[hC.location_data[i].results[0].address_components[0].long_name] = 1;
+//				}
 			}
-
+            // register all cities missing in map
 			for (var name in cityObj){
-				if (!cityObj[name])
-				missingCityArray.push(name)
+				if (!cityObj[name]) missingCityArray.push(name)
 			}
 		}
-		hC.missingCities(missingCityArray,map);
+		hC.missingCities(missingCityArray,cityCountries,map);
 	}
 }(jQuery)); 
 
