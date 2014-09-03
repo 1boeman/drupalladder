@@ -428,15 +428,19 @@ ul.steden {margin:0px}
 ul.steden li:nth-child(2n){background:#dfdfdf; border-radius:4px; }
 
 ul.steden li{
-  list-style-position:inside;
+  list-style:none;
+  /* list-style-position:inside;*/
   padding:10px; 
   float:left;
   line-height:2;
   min-width:146px;
   font-size:0.8em;
-
+  transition: 0.5s ease-in-out all;
+  
 }
-
+ul.steden li:hover {
+  background:white;  
+}
 /*gig / event pagina's */
 .detail h1{margin-bottom:0.5em; }
 .detail h2{
@@ -758,6 +762,15 @@ body.page-muziekformulier .podium .container-inline-date{
 /* Portrait tablet to landscape and desktop */
 @media (min-width: 768px) and (max-width: 979px) {    
  .dateselectContainer label { display:none}
+
+ .page-uitgaan .map-placeholder{
+      float:none;
+      width:auto;    
+  }
+ .page-uitgaan .stedencontainer{margin-bottom:8px;
+      width:auto;
+      float:none;
+  }
 }
  
 /* Landscape phone to portrait tablet */
@@ -794,6 +807,7 @@ body.page-muziekformulier .podium .container-inline-date{
   .after_content .page_section{
     width:100%;        
   }
+
 }
 
 /* Landscape phones and down */

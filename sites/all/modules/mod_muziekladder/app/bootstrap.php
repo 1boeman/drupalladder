@@ -5,7 +5,7 @@ define ('MUZIEKLADDER_REQUEST_PATH',request_path());
 
 if (!stristr( $_SERVER['SERVER_NAME'], 'muziekladder.nl' )){
     // Test
-	$old_siteroot = '/../../../../../output';
+ $old_siteroot = '/../../../../../output';
     define ('MUZIEK_NEWSPORTAL', '/home/joriso/devlop/newscrawl/newscrawl_output/pages/3.html');
     define ('MUZIEK_SOLRHOST', 'http://localhost:8983/solr/core0/');
  

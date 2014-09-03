@@ -73,6 +73,7 @@ class Uitgaan extends Controller {
             }
             
         }else{
+#            echo MUZIEK_GEODATA_JSON; exit;
             // no cachefile yet - create it :
             if (isset($request_location)){
                 $data = $this->getCityData($request_location); 

@@ -1,5 +1,7 @@
 var hC = Drupal.settings.muziekladder;
+ 
 (function($){
+   console.log(Drupal.settings)
     hC.jsDir = '/js/'; 
     hC.pathToTheme = Drupal.settings.basePath + "sites/all/themes/" + Drupal.settings.ajaxPageState.theme;
     var pageHandlers = {};
@@ -178,7 +180,7 @@ var hC = Drupal.settings.muziekladder;
        
     function drawFrontTabs(){
         var cookiename = 'muziekladder_news_tab'; 
-    	var current_state = $.cookie(cookiename) || 0;
+      var current_state = $.cookie(cookiename) || 0;
         var tabs= $('#frontTabs li');
         var page0 = '#content, .sidebars';
         var page1 = '.after_content'; 

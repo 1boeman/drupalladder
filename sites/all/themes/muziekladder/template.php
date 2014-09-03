@@ -131,6 +131,26 @@ function muziekladder_preprocess_block(&$variables, $hook) {
 }
 // */
 
+/**
+* Implements hook_js_alter()
+*/
+/*
+function muziekladder_js_alter(&$javascript) {
+  // Collect the scripts we want in to remain in the header scope.
+  $header_scripts = array(
+    'settings',
+  );
+  var_dump ($javascript); exit; 
+  // Change the default scope of all other scripts to footer.
+  // We assume if the script is scoped to header it was done so by default.
+  foreach ($javascript as $key => &$script) {
+    if ($script['scope'] == 'header' && !in_array($key, $header_scripts)) {
+      $script['scope'] = 'footer';
+    }
+  }
+}
+*/
+
 
 /**
 * theme_menu_link()

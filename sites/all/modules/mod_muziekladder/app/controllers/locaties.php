@@ -81,7 +81,6 @@ class Locaties extends Controller {
       if (count($locationlink)){
         $location = $locationlink[0]->xpath("parent::*"); 
         $location= $location[0];
-//	var_dump($location[0]); exit;
         $str = Muziek_util::template(Array(
           'location_title'=>(string)$location->title,
           'city'=>(string)$location->city,
