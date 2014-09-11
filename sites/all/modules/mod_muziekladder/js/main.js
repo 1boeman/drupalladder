@@ -74,14 +74,12 @@ var hC = Drupal.settings.muziekladder;
         externalLinks();
         drawFrontTabs();
         showTipsButton();
-
         return handlers;
     };
     
     pageHandlers.locationPage = function(){
         laad.js('locationpage');
         externalLinks();
-
         crumbTrail.set(location.href);
         return {};
     }
@@ -99,7 +97,6 @@ var hC = Drupal.settings.muziekladder;
         laad.wait('locations');
         laad.wait('maps');
         showTipsButton();
-        
         externalLinks();
         return {};
     }
@@ -407,8 +404,10 @@ var hC = Drupal.settings.muziekladder;
         var i,$ms = $cnt.find('.monthselect'),
             $ds = $cnt.find('.dayselect'),
             years ={},
-            d = new Date(),
-            today = d.getDate(),
+            d = new Date();
+            d.setHours(d.getHours()-4);
+            
+        var today = d.getDate(),
             pagedate = new Date(hC.date.year,(hC.date.month-1),parseFloat(hC.date.day)),
             curmonth = d.getMonth(),
             thisyear = d.getFullYear(),  //this year

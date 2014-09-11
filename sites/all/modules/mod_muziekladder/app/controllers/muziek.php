@@ -45,8 +45,9 @@ class Muziek extends Controller {
     $date = new DateTime();
     $date->modify('+'.$p.' day');
 
+    $date->modify('-4 hour'); //don't change first agenda page to tomorrow till 4 am
+
     $file = MUZIEK_DATA.'/'.$date->format('Y').'/'.$date->format('d-m').'.xml';
-  
     $this->init_view(); 
   
     if (!file_exists($file)){
@@ -70,13 +71,13 @@ class Muziek extends Controller {
       $content = trim($xml->content);
 
       $content = str_replace('##controls##',$controls,$content);
-
-      drupal_add_js(array('muziekladder'=>array(
-        'date'=>array(
-          'day' => trim($xml->day),
-          'month' =>  trim($xml->month),
-          'year' => trim($xml->year)
-      ))), 'setting');
+            
+      $frontend_date = array (
+        'day' => $date->format('d'),
+        'month' =>  $date->format ('m'),
+        'year' => $date->format('Y')
+      );
+      drupal_add_js(array('muziekladder' => array('date'=> $frontend_date)), 'setting');
       return array('html'=>$content); 
     }
   }
