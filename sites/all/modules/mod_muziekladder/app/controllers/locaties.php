@@ -19,13 +19,13 @@ class Locaties extends Controller {
           'location_title'=>$location->title,
           'city'=>$location->city,
           'cityno'=>$location->cityno,
+
           'location_desc'=>$location->desc,
           'zip'=>$location->zip,
           'street'=> $location->street,
           'location_link'=> $location->link,
           'location_location'=> $location->location,
           'streetnumber'=> $location->streetnumber,
-          'twitterwidgetid'=> $location->twitterwidgetid,
           'twitter'=> $location->twitter,
           'streetnumberAddition'=> $location->streetnumberAddition),$this->view->location);       
         $content = $str; 
@@ -61,12 +61,14 @@ class Locaties extends Controller {
         sort($eventArr);
         foreach($eventArr as $val) {
           $content .=$val;
-    
-    }
+        }
         $content  .= '<p><a target="_blank" href="'.$location->link.'">'.$location->link. '</a></p>'; 
       }
-
-      return array('html'=>$content); 
+      if (isset($_REQUEST['ajax'])){
+        return array('html_fragment'=>$content); 
+      } else {
+        return array('html'=>$content);  
+      }  
     }
   }
 

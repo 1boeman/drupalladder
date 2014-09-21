@@ -1,8 +1,8 @@
 var hC = Drupal.settings.muziekladder;
  
 (function($){
-   console.log(Drupal.settings)
-    hC.jsDir = '/js/'; 
+    hC.jsDir = '/js/';
+    hC.mapsKey = 'AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo';
     hC.pathToTheme = Drupal.settings.basePath + "sites/all/themes/" + Drupal.settings.ajaxPageState.theme;
     var pageHandlers = {};
     laad.pathConfig = {
@@ -10,7 +10,7 @@ var hC = Drupal.settings.muziekladder;
         "util"          :hC.muziekladderBasePath + hC.jsDir+"util.js",
         "locationpage"  :hC.muziekladderBasePath + hC.jsDir+"locationpage.js",
         "locations"     :hC.muziekladderBasePath + hC.jsDir+"locations.js",
-        "maps"          :'//maps.googleapis.com/maps/api/js?key=AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo&sensor=false&callback=hC.mapInitialize',
+        "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
         "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50d57cf9178d8bc1'
     }
     

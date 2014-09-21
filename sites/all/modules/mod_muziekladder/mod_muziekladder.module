@@ -178,7 +178,6 @@ function mod_muziekladder_mailtipform($form_state) {
 
     );
 
-      
     $form['locatie']['city'] = array(
        '#type' => 'textfield',
        '#title' => t('Plaats'),

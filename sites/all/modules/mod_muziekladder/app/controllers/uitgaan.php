@@ -1,9 +1,11 @@
 <?php 
-
 class Uitgaan extends Controller {
     public function index () {
+        drupal_add_js(array('city_names' => array('en'=>$this->countrynames_EN,'nl'=>$this->countrynames) ), 'setting');
+
         $dircontent = scandir(MUZIEK_DATA_UITGAAN);
         $content = '';
+
         if ( isset($_GET['c'])) {
             $steden = explode(',',$_GET['c']);
             foreach($steden as $stad){
@@ -15,7 +17,7 @@ class Uitgaan extends Controller {
                 }
             }
         } else {
-        /* index */     
+            /* index */     
             $bodyClass = 'locaties';
             if ($file = file_get_contents(MUZIEK_GEODATA_JSON)){
                 drupal_add_js(array('muziekladder'=>array('location_data'=>json_decode($file))), 'setting');
@@ -24,7 +26,10 @@ class Uitgaan extends Controller {
             $titletag = 'Locaties voor live muziek, optredens en feesten';          
         }
         $this->set_head_title(ucfirst($titletag));
- 
+        
+        if ($_GET['ajax']){
+          return array('html_fragment' => $content);
+        }
         return array('html'=>$content); 
     }
 
@@ -57,7 +62,6 @@ class Uitgaan extends Controller {
                 
                 if (!$found && $data = $this->getCityData($request_location,$country)){
                     $storefound = json_decode($data);
-
                     //normalize to prevent duplication
                     if ($storefound->results[0]->address_components[0]->long_name){
                         $storefound->results[0]->address_components[0]->long_name = $request_location;
@@ -71,9 +75,7 @@ class Uitgaan extends Controller {
                 // no specific location requested : return all the data
                 return array('json'=>$filedata); 
             }
-            
         }else{
-#            echo MUZIEK_GEODATA_JSON; exit;
             // no cachefile yet - create it :
             if (isset($request_location)){
                 $data = $this->getCityData($request_location); 
@@ -95,7 +97,6 @@ class Uitgaan extends Controller {
         // Send request
         $resp = curl_exec($curl);
         curl_close($curl);
-        
         return $resp;
     }
 }

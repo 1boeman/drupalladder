@@ -17,11 +17,11 @@
 		  <li class="active"><span>##location_title##</span></li>
 		</ul>
 
-		<div class="location clearfix" itemprop="location" itemscope itemtype="http://schema.org/Place" data-twitterwidgetid="##twitterwidgetid##" data-twitter="##twitter##">
-			
-				<span> ##street## </span>  
-				<span>##streetnumber##</span> 
-				<span>##streetnumberAddition##</span> <br>
+			  <h2 class="location-title"><span>##location_title##</span></h2>
+
+				<span class="straatnaam"> ##street## </span>  
+				<span class="straatnummer">##streetnumber##</span> 
+				<span class="straatnummer-toevoeging" >##streetnumberAddition##</span> <br>
 				<span itemprop="postalCode">##zip##</span> 
 				<span class="city city##cityno##" data-cityno="##cityno##">##city##</span> 
 			

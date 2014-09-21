@@ -408,20 +408,33 @@ color:Maroon
 .locaties .hero-unit{
   box-shadow: 0px 0px 8px #999;
 }
-.locatiebeschrijving{
+.locatiebeschrijving {
   background:#efefef;
   padding:10px 20px;
   margin-bottom:10px;
   border-radius:4px;
   box-shadow:0px 0px 2px #afafaf;
 }
+.citycontainer .locatiebeschrijving {
+padding:10px 0px; 
+background:transparent;
+border:0px;
+border-radius:0;
+border-top:1px solid #fff;
+box-shadow:none;
+margin-bottom:0px;
+}
+.citycontainer h1 {
+font-size:1.4em;
+}
+
 .map-placeholder{
     float:right;
     width:56%;    
 }
 .stedencontainer{margin-bottom:8px;
     width:44%;
-    float:left
+    float:left;
 }
 ul.steden {margin:0px}
 
@@ -760,7 +773,7 @@ body.page-muziekformulier .podium .container-inline-date{
 @media (min-width: 1200px) { }
  
 /* Portrait tablet to landscape and desktop */
-@media (min-width: 768px) and (max-width: 979px) {    
+@media (max-width: 979px) {    
  .dateselectContainer label { display:none}
 
  .page-uitgaan .map-placeholder{
@@ -807,7 +820,6 @@ body.page-muziekformulier .podium .container-inline-date{
   .after_content .page_section{
     width:100%;        
   }
-
 }
 
 /* Landscape phones and down */
@@ -825,7 +837,6 @@ body.page-muziekformulier .podium .container-inline-date{
     padding:12px 6px;
     font-size:0.9em;
   }
-
 }
 
 
