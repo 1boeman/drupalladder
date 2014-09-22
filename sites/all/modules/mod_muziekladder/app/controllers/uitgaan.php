@@ -85,7 +85,8 @@ class Uitgaan extends Controller {
             }
         }
     }
-
+    
+    
     private function getCityData($cityName,$country){
         $url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($cityName).','.$country.'&sensor=false';
         error_log($url); 

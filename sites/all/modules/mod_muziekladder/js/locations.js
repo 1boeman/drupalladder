@@ -1,27 +1,62 @@
 (function($){
-  // these are set when a city is selected:
+  laad.wait('maps');
+  /* ajax breadcrumbs */
+  var trail = function(modus){
+    var html = '';
+    var crumb =['<li><a href="/uitgaan/">Locaties</a>']; 
+    switch(modus){
+      case 'uitgaan':
+        crumb.push ('<li><span>'+current_city_title+'</span>');
+      break;
+      case 'locaties':
+        if (!current_city_title.length) selectCity('locaties'); 
+        crumb.push ('<li><a href="'+current_city_link+'">'+current_city_title+'</a>');
+        crumb.push ('<li><span>'+$('.location-title').text()+'</span></li>');
+      break;
+      default:
+    }
+    var $container = $('#content > p').eq(0);
+    $container.html('<ul class="breadcrumb">'+crumb.join(' <span class="divider"><i class="icon-chevron-right"></i> </span> </li>')+'</ul>');
+    $container.find('a').click(function(e){
+      // only reload the page if we are going back to /uitgaan/
+      if (!this.href.match(/\/uitgaan\/$/)){
+        e.preventDefault();
+        window.location.hash = this.href;
+      }
+    });
+  }
+  // these 2 are set when a city is selected:
   var current_country = 0;
-  var current_city_title = '';  
-  var selectCity = function(title,countryno){
-    if (typeof countryno == 'undefined' ){
+  var current_city_title = ''; 
+  var current_city_link =''; 
+  var selectCity = function(modus,element){
+    if (modus == 'locaties'){
+      var cityno= $('.club-container span.city').data('cityno')
+      var city = $("ul.steden a[data-cityno ='"+cityno+"']"); 
+      current_city_title = city[0].title;
+      current_country = city.data('cityno');
+      current_city_link = city[0].href;
+    } else if (modus =='uitgaan' ){
       var c = location.hash.split('?').pop();
-      console.log(c)   
       $('ul.steden > li > a').each(function(){
         if (this.href.indexOf(c) != -1){
            current_country = $(this).data('countryno');
-           current_city_title = this.title; 
-           return false;     
+           current_city_title = this.title;
+           current_city_link = this.href;
+           return false; 
         }
       });
-     
-    } else { 
-      current_city_title = title;
-      current_country = countryno;  
+    } else if( modus == 'overview'){ 
+      current_city_title = element.title;
+      current_country = $(element).data('countryno');
+      current_city_link = element.href;
     }
+    if (window.console && console.log) console.log(modus + ' ' +current_city_title+' '+current_country)
   };
 
   var removeCruft = function( ){
-      $('.city-container, .club-container').remove();
+    $('.city-container, .club-container').remove();
+    $('.map-placeholder').html('');
   }
 
   var getCountry = function(cityno){
@@ -30,7 +65,7 @@
       if($(this).data('cityno') == cityno){
           var $this= $(this); 
           country = Drupal.settings.city_names['nl'][$this.data('countryno')]; 
-           return false;     
+          return false;     
       }
     });
     return country;
@@ -44,7 +79,7 @@
     }
   }
 
-  // listeners for steden links, venue links
+  // listener for hash changes
   var loadHashLocation = function() {
      var href = window.location.hash.replace(/^#/,'')
      // hash contains either uitgaan or locaties or doesn't exist
@@ -61,14 +96,27 @@
                   e.preventDefault();
                   window.location.hash = this.href;
               });
-              
+             
+              $('.locatiebeschrijving').each(function(){
+                console.log(this)
+                var locatie = $(this),
+                    straatnaam = locatie.find('.straat').text(),
+                    nummer = locatie.find('.straatnummer').text(),
+                    stad = locatie.find('.stad').text();
+                    // @todo queue this !!!
+                    $.get('http://maps.googleapis.com/maps/api/geocode/json?address='+straatnaam+'+'+nummer+'+'+stad,function(resp){
+                        console.log(resp)
+                    })     
+              })   
+
+
          });
-         if (!current_city_title.length) selectCity(); 
+         if (!current_city_title.length) selectCity('uitgaan'); 
          drawCanvas(); 
          $.get(Drupal.settings.basePath+'uitgaan/getgeo/?l='+current_city_title+'&c='+current_country,function(resp){
             hC.city_mapInitialize(resp);     
          },'json');
-       
+         trail('uitgaan');
        } else if(href.match(/\/locaties\//)){
           // club overzicht optredens
           $.get(href+'&ajax=1',function(resp) {
@@ -89,15 +137,17 @@
             mapContainer.html('<iframe frameborder="0" style="border:0"'+
                                 'width="'+iframe_width+'" height="'+iframe_height+'"' +
                                   'src="'+iframe_src+'"></iframe>');
+            trail('locaties');
+          
           }); 
        }
      }else{
         // landelijk overzicht
         country_overview();   
+        $('ul.steden').fadeIn('slow');
      }
   }
 
- 
   /**
    * Draw the country map overview with all cities
    */
@@ -111,8 +161,7 @@
       }else{
         $a = $(this).find('a'); 
       }
-
-      selectCity($a[0].title,$a.data('countryno'));
+      selectCity('overview',$a[0]);
       window.location.hash = $a[0].href;
     });
     

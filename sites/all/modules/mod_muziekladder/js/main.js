@@ -95,7 +95,6 @@ var hC = Drupal.settings.muziekladder;
     pageHandlers.locaties = function(){
         laad.js('util');
         laad.wait('locations');
-        laad.wait('maps');
         showTipsButton();
         externalLinks();
         return {};

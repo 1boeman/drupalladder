@@ -13,8 +13,13 @@ class Muziek_util {
 			'Thursday'=>'Donderdag','Friday'=>'Vrijdag','Saturday'=>'Zaterdag','Sunday'=>'Zondag');
 		return $weekdagen[date("l",strtotime($year.'-'.$month.'-'.$day))];
 	}
+  
+  static function getCity($cityno){
+    $data = self::loadLocationIndex();
+         
+  }
 
-	static function loadGigdata(){
+ 	static function loadGigdata(){
 		return simplexml_load_file(MUZIEK_DATA_GIGS, 'SimpleXMLElement', LIBXML_NOCDATA);
 	}
 

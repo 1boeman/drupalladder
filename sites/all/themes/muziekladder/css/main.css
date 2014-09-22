@@ -768,6 +768,13 @@ body.page-muziekformulier .podium .container-inline-date{
    display:none 
 }
 
+
+/* uitgaan */
+.page-uitgaan .club-container .breadcrumb{
+  display:none
+    
+}
+
 /* media queries*/
 /* Large desktop */
 @media (min-width: 1200px) { }
