@@ -176,7 +176,7 @@ var hC = Drupal.settings.muziekladder;
        
     function drawFrontTabs(){
         var cookiename = 'muziekladder_news_tab'; 
-      var current_state = $.cookie(cookiename) || 0;
+        var current_state = $.cookie(cookiename) || 0;
         var tabs= $('#frontTabs li');
         var page0 = '#content, .sidebars';
         var page1 = '.after_content'; 
@@ -190,6 +190,11 @@ var hC = Drupal.settings.muziekladder;
                 case 1:
                     $(page0).hide();
                     $(page1).show();
+                    if ($(page1).find('.waiting').length){
+                     $.get('/nieuws/ajax',function(resp){
+                      $(page1).html(resp);  
+                     })   
+                    }
                 break;
            }
            $.cookie(cookiename,state);
