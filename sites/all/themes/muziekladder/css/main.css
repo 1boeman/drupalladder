@@ -72,6 +72,7 @@ height:20px;
   font-size:26px
 }
 
+ .front .pager{display:none} 
 .front .node-teaser{
   background:white; 
   border-radius:4px;

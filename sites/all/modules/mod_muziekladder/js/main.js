@@ -192,8 +192,11 @@ var hC = Drupal.settings.muziekladder;
                     $(page1).show();
                     if ($(page1).find('.waiting').length){
                      $.get('/nieuws/ajax',function(resp){
-                      $(page1).html(resp);  
-                     })   
+                        $(page1).html(resp);
+                        newsLinks();
+  
+                        externalLinks();
+                     });  
                     }
                 break;
            }
@@ -205,8 +208,7 @@ var hC = Drupal.settings.muziekladder;
            hideshow( $(this).index() );
         });
         hideshow(current_state);
-        newsLinks();
-    }
+   }
 
     function newsLinks(){
         $('.joriso-news-item h3 a').click(function(e){
