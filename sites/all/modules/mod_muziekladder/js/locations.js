@@ -13,8 +13,10 @@
         crumb.push ('<li><a href="'+current_city_link+'">'+current_city_title+'</a>');
         crumb.push ('<li><span>'+$('.location-title').text()+'</span></li>');
       break;
+
       default:
-    }
+    }; 
+
     var $container = $('#content > p').eq(0);
     $container.html('<ul class="breadcrumb">'+crumb.join(' <span class="divider"><i class="icon-chevron-right"></i> </span> </li>')+'</ul>');
     $container.find('a').click(function(e){
@@ -24,11 +26,109 @@
         window.location.hash = this.href;
       }
     });
+  };
+  
+  var getVenueInfo = function(locatiebeschrijving){
+    var rv = {}
+    var locatie = $(locatiebeschrijving);
+        rv.straatnaam = $.trim(locatie.find('.straat').text());
+        rv.nummer = $.trim(locatie.find('.straatnummer').text());
+        rv.stad = locatie.find('.stad').text();
+        rv.venue = locatie.find('.locatie-link').text();
+    return rv;  
   }
-  // these 2 are set when a city is selected:
+  // marker for venue on citymap
+  hC.venueMarker = function(data,map,element){ 
+      if (!data || !data.results || !data.results.length) return;
+      var location_title = $(element).find('.locatie-link').text(); 
+      var locdat = data.results[0].geometry.location;
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locdat.lat,locdat.lng),
+        title:location_title +', '+ data.results[0].formatted_address,
+        animation: google.maps.Animation.DROP
+
+      });
+      google.maps.event.addListener(marker, 'click', function(e){
+        
+        hC.venue_markerListener.apply(this,[e,element]) 
+      });
+      marker.setMap(map);   
+  };
+  hC.city_markerListener = function(e){
+      $('.steden li > a[title="'+this.title+'"]').trigger('click');
+  }
+  var infoWindow;
+  hC.venue_markerListener = function(e,list_element){
+    var info = getVenueInfo(list_element);
+    if (infoWindow) infoWindow.close();
+    var content = $('<div class="maps_infowindowcontent">'+list_element.innerHTML+'</div>');
+    infoWindow = new google.maps.InfoWindow({
+       "content" : content[0],
+    }); 
+    
+    infoWindow.open(this.map,this)
+    content.find('a').click(function(e){
+        e.preventDefault();
+        window.location.hash = this.href;
+  
+    })
+  
+  }
+
+
+  // citymap  (containing venue markers)
+  hC.city_mapInitialize = function(data) {
+    var lat = data.results[0].geometry.location.lat;
+    var lng = data.results[0].geometry.location.lng;
+    var mapOptions = {
+      zoom: 13,
+      center: new google.maps.LatLng(lat,lng),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      panControl: true,
+      draggable: true, 
+      scrollwheel: false, 
+    }
+    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    return map;
+  };
+
+  // simple ajaxQueue for retrieving geolocation data / drawing map markers
+  var aQueue = [];
+  var processing = false;
+    var ajaxQueue = function(urlString,map,cityOrVenue,element) {
+    var element = element || false;
+    var cityOrVenue;
+    cityOrVenue = cityOrVenue || 'city';
+    aQueue.push({ "u" : urlString, "map": map, "element":element,"cityOrVenue":cityOrVenue });
+    
+    if (processing) return; 
+    ajaxQueueProcess();
+  }
+   
+  var ajaxQueueProcess = function(){
+    if (aQueue.length){
+      processing = true; 
+      (function(){
+        var currentRequest = aQueue.shift();
+        $.get(currentRequest['u'],function(resp){
+            if (currentRequest["cityOrVenue"] == 'city'){
+              hC.cityMarker(resp,currentRequest["map"]);
+            }else{
+              hC.venueMarker(resp,currentRequest["map"],currentRequest["element"]);  
+            }
+            ajaxQueueProcess();
+         },'json');
+      }())
+    }else{
+      processing = false;
+    } 
+  }
+    
+  // these 3 must be set when a city is selected:
   var current_country = 0;
   var current_city_title = ''; 
   var current_city_link =''; 
+
   var selectCity = function(modus,element){
     if (modus == 'locaties'){
       var cityno= $('.club-container span.city').data('cityno')
@@ -51,9 +151,8 @@
       current_country = $(element).data('countryno');
       current_city_link = element.href;
     }
-    if (window.console && console.log) console.log(modus + ' ' +current_city_title+' '+current_country)
   };
-
+  // delete drawings from previous states
   var removeCruft = function( ){
     $('.city-container, .club-container').remove();
     $('.map-placeholder').html('');
@@ -70,23 +169,27 @@
     });
     return country;
   };
-  var drawCanvas = function(){
+
+  var drawCanvas = function(height){
+    var height = height || '1200px';
     // draw the initial canvas
-    if (!$('#map-canvas').length){
-       $('<div id="map-canvas" />')
-        .css({'width':'100%',height:'1200px'})
+    $('#map-canvas').remove();
+    $('<div id="map-canvas" />')
+        .css({'width':'100%',height:height})
         .appendTo('.map-placeholder');
-    }
+   
   }
 
   // listener for hash changes
   var loadHashLocation = function() {
      var href = window.location.hash.replace(/^#/,'')
-     // hash contains either uitgaan or locaties or doesn't exist
-     removeCruft();  
+     // hash contains either uitgaan or locaties or doesn't exist 
      if (href.length){
-       if (href.match(/\/uitgaan\//)) {
-         // stad overzicht clubs
+       removeCruft();  
+       // stad overzicht clubs
+       if (href.match(/\/uitgaan\/\?c/)) {
+         var citymap;
+         selectCity('uitgaan'); 
          var city = href.split(/\?c=/)[1]
          $.get(href+'&ajax=1',function(resp){
             $('ul.steden').hide(); 
@@ -96,26 +199,22 @@
                   e.preventDefault();
                   window.location.hash = this.href;
               });
-             
-              $('.locatiebeschrijving').each(function(){
-                console.log(this)
-                var locatie = $(this),
-                    straatnaam = locatie.find('.straat').text(),
-                    nummer = locatie.find('.straatnummer').text(),
-                    stad = locatie.find('.stad').text();
-                    // @todo queue this !!!
-                    $.get('http://maps.googleapis.com/maps/api/geocode/json?address='+straatnaam+'+'+nummer+'+'+stad,function(resp){
-                        console.log(resp)
-                    })     
-              })   
-
-
+              drawCanvas('800px');
+              // retrieve te main map 
+              $.get('http://maps.googleapis.com/maps/api/geocode/json?address='+current_city_title+
+                '+'+Drupal.settings.city_names['nl'][current_country],function(resp){
+                citymap = hC.city_mapInitialize(resp);  
+                // draw venuemarkers   
+                $('.locatiebeschrijving').each(function(){
+                    var l = getVenueInfo(this);
+                    if (!!l.stad && l.stad.length && !!l.straatnaam && l.straatnaam.length && !!l.nummer && l.nummer.length){
+                      var api_call ='http://maps.googleapis.com/maps/api/geocode/json?address='+l.straatnaam+'+'+l.nummer+'+'+l.stad
+                      ajaxQueue(api_call,citymap,'venue',this);
+                    }
+                });   
+              },'json');
          });
-         if (!current_city_title.length) selectCity('uitgaan'); 
-         drawCanvas(); 
-         $.get(Drupal.settings.basePath+'uitgaan/getgeo/?l='+current_city_title+'&c='+current_country,function(resp){
-            hC.city_mapInitialize(resp);     
-         },'json');
+         
          trail('uitgaan');
        } else if(href.match(/\/locaties\//)){
           // club overzicht optredens
@@ -143,10 +242,15 @@
        }
      }else{
         // landelijk overzicht
+        removeCruft(); 
         country_overview();   
         $('ul.steden').fadeIn('slow');
+        trail();
      }
   }
+
+
+
 
   /**
    * Draw the country map overview with all cities
@@ -156,7 +260,7 @@
     $steden.click(function(e){
       e.preventDefault(); 
       e.stopPropagation(); 
-      if (this.tagName == 'a'|| this.tagName == 'A'){
+      if(this.tagName == 'a' || this.tagName == 'A'){
         $a = $(this); 
       }else{
         $a = $(this).find('a'); 
@@ -166,61 +270,29 @@
     });
     
     drawCanvas();  
-      hC.missingCities = function(missingCityArray,cityCountries,map){
-      if (!missingCityArray.length) return;   
-      var aQueue = [];
-      var processing = false;    
-      var ajaxQueue = function(urlString,varsObject){
-        aQueue.push({"u":urlString});
-      
-        if (processing) return; 
-        ajaxQueueProcess();
-      }
-       
-      var ajaxQueueProcess = function(){
-        if (aQueue.length){
-          processing = true; 
-          var currentRequest = aQueue.shift();
-          $.get(currentRequest['u'],function(resp){
-            hC.cityMarker(resp,map);
-            ajaxQueueProcess();
-          },'json');
-        }else{
-          processing = false;
-        } 
-      }
-      
+    hC.missingCities = function(missingCityArray,cityCountries,map){
+      if (!missingCityArray.length) return;      
       for (var i = 0; i < missingCityArray.length; i++){
-        ajaxQueue('/uitgaan/getgeo/?l='+missingCityArray[i]+'&c='+cityCountries[missingCityArray[i]]);
+        ajaxQueue('/uitgaan/getgeo/?l='+missingCityArray[i]+'&c='+cityCountries[missingCityArray[i]],map);
       }
-    }
-    hC.markerListener = function(e){
-      location.href = $('.steden li > a[title="'+this.title+'"]')[0].href;
     }
 
-    hC.cityMarker = function(citydata,map){
-      if (!citydata || !citydata.results) return;
+        hC.cityMarker = function(citydata,map){
+      if (!citydata || !citydata.results || !citydata.results.length) return;
       var locdat = citydata.results[0].geometry.location;
       var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locdat.lat,locdat.lng),
-        title:citydata.results[0].address_components[0].long_name
+          position: new google.maps.LatLng(locdat.lat,locdat.lng),
+          title:citydata.results[0].address_components[0].long_name
       });
-      google.maps.event.addListener(marker, 'click', hC.markerListener);
-      marker.setMap(map);   
+      google.maps.event.addListener(marker, 'click', hC.city_markerListener);
+      marker.setMap(map);
     }
-   
+    
     var mapOptions = {
       zoom: 8,
       center: new google.maps.LatLng(51.6704,5.2589),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      panControl: true,
-      zoomControl: false,
-      mapTypeControl: false,
-      scaleControl: true,
-      streetViewControl: false,
-      overviewMapControl: false,
-      draggable: true, 
-      scrollwheel: false, disableDoubleClickZoom: false 
+      scrollwheel: false, 
     }
     var cityObj = {}; 
     var cityCountries = [];
@@ -238,8 +310,10 @@
     }else{
       // draw markers for all cached locations
       for (var i = 0; i < hC.location_data.length; i++){
-        hC.cityMarker(hC.location_data[i],map);
+          hC.cityMarker(hC.location_data[i],map);
+          if (!!hC.location_data[i].results[0]){
             cityObj[hC.location_data[i].results[0].address_components[0].long_name] = 1;
+          }
       }
       // register all cities missing in map
       for (var name in cityObj){
@@ -255,24 +329,5 @@
     $(window).on('hashchange',loadHashLocation) ;
     loadHashLocation(); 
   }
-  // citymap  
-  hC.city_mapInitialize = function(data) {
-    var lat = data.results[0].geometry.location.lat;
-    var lng = data.results[0].geometry.location.lng;
-    var mapOptions = {
-      zoom: 13,
-      center: new google.maps.LatLng(lat,lng),
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      panControl: true,
-      zoomControl: false,
-      mapTypeControl: false,
-      scaleControl: true,
-      streetViewControl: false,
-      overviewMapControl: false,
-      draggable: true, 
-      scrollwheel: false, 
-      disableDoubleClickZoom: false 
-    }
-    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-  }
+
  }(jQuery)); 

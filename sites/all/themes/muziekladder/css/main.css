@@ -375,6 +375,9 @@ color:Maroon
     font-size:14px;
 }
 
+
+
+
 .dagoverzicht .locationEvents{
     
 }
@@ -403,8 +406,13 @@ color:Maroon
     background:#f5f5f5;
 }
 
-
 /* locatie pagina's */
+.maps_infowindowcontent{
+  width:250px;  
+}
+.map-placeholder img{
+  max-width:none;
+}
 .locaties .hero-unit{
   box-shadow: 0px 0px 8px #999;
 }
@@ -415,7 +423,7 @@ color:Maroon
   border-radius:4px;
   box-shadow:0px 0px 2px #afafaf;
 }
-.citycontainer .locatiebeschrijving {
+.city-container .locatiebeschrijving {
 padding:10px 0px; 
 background:transparent;
 border:0px;
@@ -424,18 +432,21 @@ border-top:1px solid #fff;
 box-shadow:none;
 margin-bottom:0px;
 }
-.citycontainer h1 {
+.city-container h1 {
 font-size:1.4em;
 }
 
 .map-placeholder{
     float:right;
     width:56%;    
+    min-height:600px;
+    box-shadow:0px 0px 10px white;
 }
 .stedencontainer{margin-bottom:8px;
     width:44%;
     float:left;
 }
+
 ul.steden {margin:0px}
 
 ul.steden li:nth-child(2n){background:#dfdfdf; border-radius:4px; }
@@ -774,7 +785,19 @@ body.page-muziekformulier .podium .container-inline-date{
   display:none
     
 }
-
+.page-uitgaan .club-container .description{
+  padding:10px 0px;
+  border-top:2px solid white;
+  border-bottom:2px solid white;
+  margin:10px 0px;  
+}
+.page-uitgaan .club-container .event{
+  border-top:2px solid white; 
+  padding:10px 10px 10px 0px; 
+} 
+.page-uitgaan .club-container .event .icon-stop{
+ display:none
+}
 /* media queries*/
 /* Large desktop */
 @media (min-width: 1200px) { }
@@ -785,7 +808,8 @@ body.page-muziekformulier .podium .container-inline-date{
 
  .page-uitgaan .map-placeholder{
       float:none;
-      width:auto;    
+      width:auto;
+        
   }
  .page-uitgaan .stedencontainer{margin-bottom:8px;
       width:auto;
