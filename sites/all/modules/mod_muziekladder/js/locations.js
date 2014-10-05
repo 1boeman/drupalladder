@@ -221,13 +221,19 @@
           $.get(href+'&ajax=1',function(resp) {
             $('ul.steden').hide(); 
             $('.citycontainer').hide();
+             
             var $container = $('<div class="club-container" />')
             $('.stedencontainer').append($container);
-            $container.html(resp); 
+            $container.html(resp);
+            
+            
             var mapContainer = $('.map-placeholder');
             var straatnaam = $.trim($container.find('.straatnaam').text()); 
             var straatnummer = $.trim($container.find('.straatnummer').text());
-            var locatie_naam = $.trim($container.find('.location-title').text()); 
+            var locatie_naam = $.trim($container.find('.location-title').text());
+            if (locatie_naam.indexOf('diverse locaties') > -1){
+              $('.club-container p').hide();
+            }
             var stad = $.trim($container.find('.city').text());
             var country = getCountry($container.find('.city').data('cityno')); 
             var iframe_src ='https://www.google.com/maps/embed/v1/place?key='+hC.mapsKey+'&q='+encodeURIComponent(straatnaam+ ' '+straatnummer +' ' + stad + ' ' + country  );
@@ -236,8 +242,7 @@
             mapContainer.html('<iframe frameborder="0" style="border:0"'+
                                 'width="'+iframe_width+'" height="'+iframe_height+'"' +
                                   'src="'+iframe_src+'"></iframe>');
-            trail('locaties');
-          
+            trail('locaties'); 
           }); 
        }
      }else{

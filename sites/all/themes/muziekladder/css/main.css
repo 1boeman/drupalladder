@@ -57,7 +57,7 @@ blockquote:before {
   color: #7a7a7a;
 }
 .waiting{
-height:20px;
+	height:20px;
     background-image:url('../img/ajax-loader.gif'); 
     background-position:center center; 
     background-repeat:no-repeat; 
@@ -73,6 +73,11 @@ height:20px;
   font-size:26px
 }
 
+.front .startDate{display:none}
+.front .event{
+	padding:10px 0px; 
+	
+}
 .front .locationmenu{
   display:none  
 }
@@ -81,9 +86,9 @@ height:20px;
 }
 .front .locationUnit {
  box-shadow:none;
- border-top:1px solid #ccc; 
+ border-top:1px solid lightsteelblue; 
  margin-bottom:0px;
- padding:8px 0px;
+ padding:4px 0px;
 }
 .front .locationUnit .locationName{
   display:none; 
