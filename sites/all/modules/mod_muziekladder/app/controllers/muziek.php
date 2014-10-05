@@ -42,14 +42,11 @@ class Muziek extends Controller {
 //      $css = '<style type="text/css" id="hideLocations"> .locationUnit{display:none}'.$lcs.'</style>';
     }
    
-    $date = new DateTime();
-    $date->modify('+'.$p.' day');
-
-    $date->modify('-4 hour'); //don't change first agenda page to tomorrow till 4 am
-
-    $file = MUZIEK_DATA.'/'.$date->format('Y').'/'.$date->format('d-m').'.xml';
+    $datefile = $this->getDateFile($p);
+    $file = $datefile['file'];
+    $frontend_date = $datefile['date'];
     $this->init_view(); 
-  
+
     if (!file_exists($file)){
       header("HTTP/1.0 404 Not Found");
       $content = trim($view->notfound);
@@ -72,13 +69,24 @@ class Muziek extends Controller {
 
       $content = str_replace('##controls##',$controls,$content);
             
-      $frontend_date = array (
-        'day' => $date->format('d'),
-        'month' =>  $date->format ('m'),
-        'year' => $date->format('Y')
-      );
       drupal_add_js(array('muziekladder' => array('date'=> $frontend_date)), 'setting');
       return array('html'=>$content); 
     }
+  }
+
+  function getDateFile($day){
+    $date = new DateTime();
+    if ($day) $date->modify('+'.$day.' day');
+
+    $date->modify('-4 hour'); //don't change first agenda page to tomorrow till 4 am
+
+    $file = MUZIEK_DATA.'/'.$date->format('Y').'/'.$date->format('d-m').'.xml';
+    $frontend_date = array (
+        'day' => $date->format('d'),
+        'month' =>  $date->format ('m'),
+        'year' => $date->format('Y')
+    );
+ 
+    return array('date'=>$frontend_date,'file'=> $file);     
   }
 }

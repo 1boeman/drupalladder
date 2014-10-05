@@ -65,14 +65,46 @@ height:20px;
 .node-teaser  ul {
   margin-left:0px;
 }
-
+/* front */
+.front #agenda h2,
 .front .node-teaser h2{
   font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
   font-weight:normal;
   font-size:26px
 }
 
- .front .pager{display:none} 
+.front .locationmenu{
+  display:none  
+}
+.front .locationmenu{
+  display:none  
+}
+.front .locationUnit {
+ box-shadow:none;
+ border-top:1px solid #ccc; 
+ margin-bottom:0px;
+ padding:8px 0px;
+}
+.front .locationUnit .locationName{
+  display:none; 
+}
+.front .eventContainerInner .title{
+ width:78%   
+}
+.front .naar-agenda-link{
+  float:right;  
+}
+.front #agenda{
+  background:white; 
+  border-radius:4px;
+  padding:0.5em 1em;
+  box-shadow:0px 0px 8px #aaa; 
+  margin-bottom:1em;
+}
+.front .eventContainerInner .description{
+display:none;
+ }
+.front .pager{display:none} 
 .front .node-teaser{
   background:white; 
   border-radius:4px;
@@ -91,6 +123,8 @@ height:20px;
 .node .field-items{
 clear:both;  
 } 
+
+
 .block-mod-muziekladder .event{
   background-color:white;
   border-radius:4px; 
@@ -329,8 +363,7 @@ color:Maroon
   float:left;
   width:36%;
   padding-right:1%;
-  font-size:0.9em
- 
+  font-size:0.9em;
 }
 .eventContainerInner .time-space{
     float:left;

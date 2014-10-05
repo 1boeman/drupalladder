@@ -74,6 +74,9 @@ var hC = Drupal.settings.muziekladder;
         externalLinks();
         drawFrontTabs();
         showTipsButton();
+
+        $('article').eq(0).after($('#agenda'));
+        $('article').eq(1).before('<h2>Overig Nieuws</h2>')
         return handlers;
     };
     
@@ -148,7 +151,7 @@ var hC = Drupal.settings.muziekladder;
         crumbTrail.set(location.href);
         externalLinks();
         showTipsButton()
-
+        
         return handlers;
     }
 
