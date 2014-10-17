@@ -1,5 +1,4 @@
 <?php
-
 /**
  * implements hook_menu 
 **/
@@ -91,13 +90,13 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['REQUEST_URI'] == '/' ){
 function mod_muziekladder_block_info() {
   $blocks = array();
   $blocks['muziekladder_nieuws_block'] = array(
-          'info' => 'muziekladder nieuws blocks 0',
+    'info' => 'muziekladder nieuws blocks 0',
   );
   $blocks['muziekladder_nieuws_block_1'] = array(
-          'info' => 'muziekladder nieuws blocks 1',
+    'info' => 'muziekladder nieuws blocks 1',
   );
   $blocks['muziekladder_nieuws_block_2'] = array(
-          'info' => 'muziekladder nieuws blocks 222',
+    'info' => 'muziekladder nieuws blocks 222',
   );
 
   return $blocks; 

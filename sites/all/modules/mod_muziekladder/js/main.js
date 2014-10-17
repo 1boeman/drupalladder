@@ -92,6 +92,9 @@ var hC = Drupal.settings.muziekladder;
         showDetailImages();
         shareButton();
         crumbTrail.backButton($('.breadcrumb li a').eq(0));
+        $('div.location').before('<div id="disqus"/>')
+        appendDisqus('#disqus');
+
         return {};
     }
     
@@ -176,6 +179,13 @@ var hC = Drupal.settings.muziekladder;
             }
         }; 
     }());
+    
+    function appendDisqus(selector){
+      $(selector).append(
+      '<div id="disqus_thread"></div>'+
+      '<script type="text/javascript">'+
+        "var disqus_shortname = 'muziekladder' ;(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true; dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script>"); 
+    }
        
     function drawFrontTabs(){
         var cookiename = 'muziekladder_news_tab'; 
@@ -364,7 +374,7 @@ var hC = Drupal.settings.muziekladder;
     
     var shareButton = function(){
         laad.js('addthis',function(){
-            $('.eventfull .location').before('<a class="addthisicon"></a>')
+            $('.eventfull h4').after('<a class="addthisicon"></a>')
             $('.addthisicon').each(function(){
                 try {
                     var $this = $(this),
