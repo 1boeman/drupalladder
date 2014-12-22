@@ -370,30 +370,7 @@ var hC = Drupal.settings.muziekladder;
  
         laad.js('addthis',function(){});
     };
-   /* 
-    var shareButtons = function(){
-        laad.js('addthis',function(){
-            $('<a class="addthisicon"></a>')
-                .prependTo('.event');
-                
-            $('.addthisicon')
-                .each(function(){
-                    try{
-                        var $this = $(this),
-                            $parent = $this.parents('.locationUnit'),
-                            $vhead = $parent.find('h2'),    
-                            venue = $vhead.text(),
-                            ur = $this.parents('.event').find('h4 a')[0].href
-                            event = $this.parents('.event').find('h4').text().replace(/[\s\t\n]+/g,' '),
-                            ttl = event+ ' - ' + venue;  
-                        
-                        addthis.button(this, {}, {url: ur,title:ttl,description:ttl });
-                    }catch(err){}
-                })
-        })
-        
-    };
-   */ 
+  
     var dateSelecter = function(){
         var monthNames = [ "", "januari", "februari", "maart", "april", "mei", "juni",
             "juli", "augustus", "september", "october", "november", "december"],
@@ -437,7 +414,7 @@ var hC = Drupal.settings.muziekladder;
         
         $ms.append(mnthhtml.join(''))
             .on('change',function(){
-                var s = $(this).val(); 
+                var s = $(this).val();
                 if (this1basedMonth === s){
                     location.href = '/muziek/';
                     return;
@@ -447,10 +424,10 @@ var hC = Drupal.settings.muziekladder;
         
         var getDayOffset = function(year,onebasedmonth,day){
             var offset = 0; 
-            var monthdiff = onebasedmonth - this1basedMonth; 
+            var monthdiff = onebasedmonth - this1basedMonth;
             if (!monthdiff){
                 return day - today; 
-            }else if (monthdiff == 1){ 
+            }else if ( monthdiff == -11 || monthdiff == 1){ 
                 return daysInMonth(parseFloat(this1basedMonth),year) - today + parseFloat(day);
             }else{
                 return daysInMonth(parseFloat(this1basedMonth)+1,years[next1basedMonth]) + 
