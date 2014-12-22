@@ -8,9 +8,10 @@
  */
 ?>
 
-<div id="page">
+
 <?php require ('header.inc.php') ?>
 
+<div id="page">
   <div id="main">
 
     <div id="content" class="column" role="main">

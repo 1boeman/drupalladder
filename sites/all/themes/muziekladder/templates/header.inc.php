@@ -1,7 +1,7 @@
   <header class="header" id="header" role="banner">
     <div id="navigation">
     <nav class="brand clearfix">
-      <div class="muziekladder_logo"></div>
+      <div class="muziekladder_logo"><img src="/<?php echo path_to_theme(); ?>/img/logo.png" /></div>
       <div class="form-search-container">
           <form class="form-search" action="/search">
             <div class="input-append">

@@ -14,6 +14,7 @@ class Muziek extends Controller {
     return $this->day(0);
   }
 
+
   function setcity(){
     if (isset ($_REQUEST['city'])){
         if ($_REQUEST['city'] && $_REQUEST['city'] != '0'){
@@ -46,7 +47,7 @@ class Muziek extends Controller {
     $file = $datefile['file'];
     $frontend_date = $datefile['date'];
     $this->init_view(); 
-
+   // var_dump($datefile);
     if (!file_exists($file)){
       header("HTTP/1.0 404 Not Found");
       $content = trim($view->notfound);

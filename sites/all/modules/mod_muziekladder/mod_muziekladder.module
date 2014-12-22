@@ -49,7 +49,6 @@ function mod_muziekladder_index($arg = false){
       && !method_exists($obj, $methodname)){
     return MENU_NOT_FOUND; 
   }
-
   $result = $obj->$methodname($arg);
   
   if (isset($result['render_array'])) {

@@ -42,11 +42,8 @@
   <?php endif; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>
-  <?php if ($skip_link_text && $skip_link_anchor): ?>
-    <p id="skip-link">
-      <a href="#<?php print $skip_link_anchor; ?>" class="element-invisible element-focusable"><?php print $skip_link_text; ?></a>
-    </p>
-  <?php endif; ?>
+<header class="bg-image-container" ><div class="bg-image"></div></header>
+ 
   <?php print $page_top; ?>
   <?php print $page; ?>
 
@@ -62,7 +59,8 @@
   <?php print $page_bottom; ?>
 
 
-  <script type="text/javascript">
+
+ <script type="text/javascript">
 	if (location.href.match(/muziekladder\.nl/i)){
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-7925296-2']);

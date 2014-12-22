@@ -30,6 +30,32 @@ Drupal.behaviors.muziekladder_menu = {
             location.href = $(this).find('a')[0].href;
         }); 
     }); 
+    var $window = $(window) 
+    var $topmenu = $('#navigation');
+    var scroll_trigger_height = 20;
+    var menu_locked = false; 
+    var scrollTimer = 0; 
+    // attach handler to scroll event  - comment this out to disable fixed menu
+    $window.scroll (function(){
+      // prevent resource hogging:
+      if (scrollTimer) {
+         clearTimeout(scrollTimer);   // clear any previous pending timer
+      }
+      scrollTimer = setTimeout(respond_to_scroll, 10);
+    }); 
+    respond_to_scroll(); 
+
+    // Fixes top-menu to top of page on when page scroll reaches scroll_trigger_height 
+    function respond_to_scroll(){
+      var scrollHeight = $window.scrollTop();
+      if ( scrollHeight > scroll_trigger_height && !menu_locked  ) {
+           menu_locked = true;
+           $topmenu.addClass('scrolling'); 
+      } else if ( scrollHeight < scroll_trigger_height && menu_locked ) {
+           menu_locked = false;
+           $topmenu.removeClass('scrolling');
+      } 
+    }
   }
 };
 

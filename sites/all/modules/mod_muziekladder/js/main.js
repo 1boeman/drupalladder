@@ -11,7 +11,7 @@ var hC = Drupal.settings.muziekladder;
         "locationpage"  :hC.muziekladderBasePath + hC.jsDir+"locationpage.js",
         "locations"     :hC.muziekladderBasePath + hC.jsDir+"locations.js",
         "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
-        "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50d57cf9178d8bc1'
+        "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
     }
     
     laad.wait(['util'],function(){
@@ -31,7 +31,7 @@ var hC = Drupal.settings.muziekladder;
                     handlers = pageHandlers[bodyClass[i]]();
             }
         });
-    });
+   });
 
    pageHandlers.muziekformulier = function(){
         function setFormClass(){
@@ -72,11 +72,13 @@ var hC = Drupal.settings.muziekladder;
     pageHandlers.front = function(){
         var handlers = {openLink:cityMenuLinkHandler}; 
         externalLinks();
-        drawFrontTabs();
-        showTipsButton();
-
-        $('article').eq(0).after($('#agenda'));
-        $('article').eq(1).before('<h2>Overig Nieuws</h2>')
+//        drawFrontNews();
+        frontSlide(); 
+        $('#block-mod-muziekladder-muziekladder-nieuws-block-1')
+          .prepend('<div class="event clearfix"><h4 class="title"><a href="/muziekformulier">Tips?</a></h4>'+
+          '<p><a href="/muziekformulier"><em>Interessant muzikaal optreden, feest of evenement dat nog ontbreekt op de Muziekladder agenda?</em>'+
+          '<br><strong>Laat het ons weten aub!</strong></a></p></div>');
+       
         return handlers;
     };
     
@@ -92,8 +94,6 @@ var hC = Drupal.settings.muziekladder;
         showDetailImages();
         shareButton();
         crumbTrail.backButton($('.breadcrumb li a').eq(0));
-        $('div.location').before('<div id="disqus"/>')
-        appendDisqus('#disqus');
 
         return {};
     }
@@ -179,49 +179,42 @@ var hC = Drupal.settings.muziekladder;
             }
         }; 
     }());
-    
-    function appendDisqus(selector){
-      $(selector).append(
-      '<div id="disqus_thread"></div>'+
-      '<script type="text/javascript">'+
-        "var disqus_shortname = 'muziekladder' ;(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true; dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script>"); 
+      
+    function frontSlide(){
+      var $article = $('#content > article')
+      var i = $article.length-1;
+      $article.each(function(index){
+          var $this = $(this); 
+          if (!$this.hasClass('processed')){
+             var $header = $this.find('header').eq(0); 
+             $header.find('h2').append('<button class="btn btn-inverse"><i class="icon-white icon-chevron-right"></i></button>')
+             $this.addClass('processed')
+                .append($this.find('img').eq(0))
+                .append($header)
+                .click(function(e){
+                  e.preventDefault()
+                  location.href = $('#content article.current').find('.links a')[0]['href'] ; 
+                });
+          }
+          if($this.hasClass('current')){
+             i=index;
+          }  
+      });
+      i+=1;
+      if (i>=$article.length) i=0;
+      $article.removeClass('current')
+        .eq(i).addClass('current');
+      setTimeout(frontSlide,6000); 
     }
-       
-    function drawFrontTabs(){
-        var cookiename = 'muziekladder_news_tab'; 
-        var current_state = $.cookie(cookiename) || 0;
-        var tabs= $('#frontTabs li');
-        var page0 = '#content, .sidebars';
-        var page1 = '.after_content'; 
-        var hideshow = function (state){
-            var state = parseInt(state); 
-            switch (state){
-                case 0:
-                    $(page1).hide();
-                    $(page0).show();
-                break;
-                case 1:
-                    $(page0).hide();
-                    $(page1).show();
-                    if ($(page1).find('.waiting').length){
-                     $.get('/nieuws/ajax',function(resp){
-                        $(page1).html(resp);
-                        newsLinks();
-  
-                        externalLinks();
-                     });  
-                    }
-                break;
-           }
-           $.cookie(cookiename,state);
-           tabs.removeClass('active'); 
-           tabs[state].className = 'active'; 
-        }
-        tabs.click(function(){ 
-           hideshow( $(this).index() );
-        });
-        hideshow(current_state);
-   }
+
+    function drawFrontNews(){
+       $.get('/nieuws/ajax',function(resp){
+          $('.after_content').html('<h3>Overig nieuws</h3>'+resp).fadeIn('slow')
+          newsLinks();
+          externalLinks();
+
+       });  
+    }
 
     function newsLinks(){
         $('.joriso-news-item h3 a').click(function(e){
@@ -373,21 +366,11 @@ var hC = Drupal.settings.muziekladder;
     };
     
     var shareButton = function(){
-        laad.js('addthis',function(){
-            $('.eventfull h4').after('<a class="addthisicon"></a>')
-            $('.addthisicon').each(function(){
-                try {
-                    var $this = $(this),
-                        venue = $('location h3').eq(0).text(),
-                        ur = location.href,
-                        ttl = $.trim($('h1').text()) + ' - ' + $.trim(venue);  
-                    addthis.button(this, {}, {url: ur,title:ttl,description:ttl });
-                }catch(err){}
-            })
-
-        });
+        $('.location').before('<div style="margin:20px 0px" class="addthis_native_toolbox"></div>')
+ 
+        laad.js('addthis',function(){});
     };
-    
+   /* 
     var shareButtons = function(){
         laad.js('addthis',function(){
             $('<a class="addthisicon"></a>')
@@ -410,7 +393,7 @@ var hC = Drupal.settings.muziekladder;
         })
         
     };
-    
+   */ 
     var dateSelecter = function(){
         var monthNames = [ "", "januari", "februari", "maart", "april", "mei", "juni",
             "juli", "augustus", "september", "october", "november", "december"],
