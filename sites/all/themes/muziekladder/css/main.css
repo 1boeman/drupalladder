@@ -12,7 +12,7 @@
 
 .muziekladder_logo{
   margin-left:2px;
- float:left; 
+  float:left; 
   cursor:pointer;
 }
 .muziekladder_logo img{
@@ -46,7 +46,8 @@ label{font-size:16px}
 
 .front-search h1.page__title, h1{
   color:#dfdfdf;
-  text-align:left; 
+  text-align:left;
+  margin-bottom:0.4em 
 }
 .front-search h1.page__title{
 padding-left:12px;
@@ -239,10 +240,10 @@ blockquote:before {
   text-align:center;
   background:black;
   padding:10px 0px;
-  margin: 20px auto 60px auto;
+  margin: 40px auto 60px auto;
   box-shadow:0px 0px 40px #666; 
   border-radius:6px;
-  width:96%
+  width:80%
 }
 .front-search form {
   margin-bottom:0px; 
@@ -1117,7 +1118,7 @@ body.page-muziekformulier .podium .container-inline-date{
 /* Landscape phones and down */
 @media (max-width: 500px) {
   .muziekladder_logo img{
-    width:120px;
+    width:110px;
   }
 
   #front-search-input{
