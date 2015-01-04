@@ -55,7 +55,7 @@ padding-left:12px;
 }
 h1.page__title,
 h1{
-  font: 38px/40px 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
+  font: 32px/36px 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
   margin-bottom:0.7em;
   margin-top:10px;
   color:#333;
@@ -373,10 +373,12 @@ border-radius: 4px;
 #navigation{
   background:#111;
   position:fixed;
+  height:auto;
   top:0px;
   left:0px;
   z-index:4;
-  border-bottom:1px solid #666; 
+  border-bottom:1px solid #666;
+  
 }
 #navigation.scrolling{
   height:50px;
@@ -491,9 +493,14 @@ footer{
 
 
 /* day display */
-body.dagoverzicht .container {
-
+.dagoverzicht .filter-row {
+  margin-bottom:12px;
+  margin-top:-8px;
 }
+.dagoverzicht .filter-row .label{
+    margin-right:8px;
+}
+
 html body.doneloading .container{
   background-image:none
 }

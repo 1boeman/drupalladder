@@ -154,7 +154,8 @@ var hC = Drupal.settings.muziekladder;
         crumbTrail.set(location.href);
         externalLinks();
         showTipsButton()
-        
+        $('.locationEvents .title').hover(function(){
+        }) 
         return handlers;
     }
 
@@ -520,7 +521,7 @@ var hC = Drupal.settings.muziekladder;
                 this.checked = true;
                 setCity([]);
                 showImages();
-            }else{
+             }else{
                 $selectallbox.attr('checked',false);                
                 setCity(getchecked());
                 showImages();
@@ -548,32 +549,61 @@ var hC = Drupal.settings.muziekladder;
             });
             return checked;
         }
-        
-        function setCity(selectedval,setCheckboxes){
+
+        function showFilterLabels(selectedval){
+            var $filterrow = $('.filter-row'); 
+ 
+            if (selectedval) {
+             if (!$filterrow.length){
+                $filterrow= $('<div class="filter-row" />');
+                $('.controls').eq(0).after($filterrow);
+              }
+              var htmlcntnt = ['<a data-cityno="0" class="label label-important cityfilterlabel">&times; Actieve filters:</a>'];
+              
+              $.each(selectedval,function(index, value){
+                  if (typeof muziek_cities[value] !== 'undefined'){
+                    htmlcntnt.push( '<a data-cityno="'+value+'" class="label label-inverse cityfilterlabel"> &times; '+muziek_cities[value].name+'</a>' ); 
+                  }
+              });
+
+              $filterrow.html(htmlcntnt.join('')).find('.cityfilterlabel').click(function(){
+                 var cityno = $(this).attr('data-cityno');
+                 var box = $checkboxes.filter("[value='"+cityno+"']");
+                 box.trigger('click');
+                 $(this).hide();
+              });
+            } else { 
+              $filterrow.remove(); 
+            }
+        }
+       
+        function setCity(selectedval,setCheckboxes) {
             if (!hC.isArray(selectedval)){
                 throw('setCity first argument must be an array');
             }
 
             if (selectedval.length){
                 if (setCheckboxes){
-                    //this should only be necessary on pageload - to reveal the stored options :
+                    // this should only be necessary on pageload - to reveal the stored options :
                     $.each(selectedval,function(index, value){
                         var box = $checkboxes.filter("[value='"+value+"']");
                         box.attr('checked',true);
                         setParentClass(box);
                     });
+
                     hideandshow(selectedval);
                     $('#hideLocations').remove();
-                }else{
+               }else{
                     hideandshow(selectedval);
-                }
+               }
+               showFilterLabels(selectedval)
                 
-                setSessionCity(selectedval.join(','));
-                //localStorage.setItem('cities',selectedval.join(','));
+               setSessionCity(selectedval.join(','));
                 
             } else {
                 hideandshow(0);
                 setSessionCity(0);
+                showFilterLabels(0);
                 $checkboxes[0].checked = true; 
             }   
         }

@@ -23,6 +23,7 @@ define ('MUZIEK_GEODATA_DIR',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot.  '/data')
 define ('MUZIEK_DATA',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot . '/muziek'); 
 define ('MUZIEK_DATA_GIGS',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot . '/gig/gigdata.xml'); 
 define ('MUZIEK_DATA_LOCATION_INDEX',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot . '/gig/locationFileIndex.xml'); 
+define ('MUZIEK_DATA_LOCATIONS',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot . '/gig/locations.xml'); 
 define ('MUZIEK_DATA_UITGAAN',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot . '/uitgaan');
 
 define ('MUZIEK_DATA_JSON','/muziekdata'); 

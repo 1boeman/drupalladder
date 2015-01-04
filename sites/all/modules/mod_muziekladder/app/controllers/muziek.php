@@ -28,6 +28,11 @@ class Muziek extends Controller {
   }
 
   function day($p){
+    $cities = Muziek_util::getCities();
+    drupal_add_js('var muziek_cities = '.json_encode($cities), 
+         array('type' => 'inline', 'scope' => 'footer', 'weight' => -10)
+    );
+       
     $this->get_city_menu(); 
     $session_city = $this->getSession('city');  
     $city = isset ($session_city) ? $session_city : 0; 
@@ -39,19 +44,23 @@ class Muziek extends Controller {
       }
 
       drupal_add_js(array('muziekladder'=>array('sessionLocations'=>$cities)), 'setting');
- 
-//      $css = '<style type="text/css" id="hideLocations"> .locationUnit{display:none}'.$lcs.'</style>';
+      $inline_css = "\n".'<style type="text/css" id="hideLocations" class="session_based_css"> .locationUnit{display:none}'.$lcs.'</style>'."\n";
+      $element = array(
+          '#type' => 'markup',
+          '#markup' => $inline_css,
+      );
+      drupal_add_html_head($element, 'inline_css');
+
     }
    
     $datefile = $this->getDateFile($p);
     $file = $datefile['file'];
     $frontend_date = $datefile['date'];
     $this->init_view(); 
-   // var_dump($datefile);
     if (!file_exists($file)){
       header("HTTP/1.0 404 Not Found");
       $content = trim($view->notfound);
-    }else{
+    } else {
       $xml = simplexml_load_file($file, 'SimpleXMLElement', LIBXML_NOCDATA);
 
       $nextp = $p+1 < 89 ? $p+1 : 89;
