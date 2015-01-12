@@ -19,7 +19,6 @@ class Locaties extends Controller {
           'location_title'=>$location->title,
           'city'=>$location->city,
           'cityno'=>$location->cityno,
-
           'location_desc'=>$location->desc,
           'zip'=>$location->zip,
           'street'=> $location->street,
@@ -70,6 +69,11 @@ class Locaties extends Controller {
         return array('html'=>$content);  
       }  
     }
+  }
+  
+  function pagina(){
+    echo 'hier';
+    exit; 
   }
 
   function info(){

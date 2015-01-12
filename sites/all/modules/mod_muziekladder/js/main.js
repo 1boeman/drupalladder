@@ -138,7 +138,11 @@ var hC = Drupal.settings.muziekladder;
         };
         $('.prevnextlinks button').on('click',function(e){
             e.preventDefault();
-            window.location = $(this).find('a')[0].href;
+            try {
+              window.location = $(this).find('a')[0].href;
+            } catch(err) {
+              window.location = $(this).attr('data-href')     
+            }
         });
     
         hC.cityselect = cityselect();
