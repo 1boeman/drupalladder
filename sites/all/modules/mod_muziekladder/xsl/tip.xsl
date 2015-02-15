@@ -85,10 +85,12 @@
            <xsl:value-of select="./venue_freetext"/>
         </pre>
       </xsl:if>
-        <pre>
+       
+    </div>
+    <div class="muziek_cell3">
+       <pre>
             <xsl:value-of select="./description"/>
         </pre>
     </div>
-
   </xsl:template>
 </xsl:stylesheet>

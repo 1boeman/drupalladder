@@ -1025,12 +1025,16 @@ body.page-muziekformulier form {
 }
 
 .user-input-inner .muziek_cell1{
-  width:30%;
+  width:35%;
   float:left;
+  padding-right:1%;
 }
 .user-input-inner .muziek_cell2{
-  width:70%;
+  width:64%;
   float:left;
+}
+.user-input-inner .muziek_cell3{
+clear: both; 
 }
 
 /* media queries*/
