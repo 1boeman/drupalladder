@@ -206,7 +206,7 @@ function ajax_mailtipform_cityselect_callback($form,$form_state) {
 
 function mod_muziekladder_mailtipform_validate($form, &$form_state) {
     // Validation logic.
-    if (!preg_match('/^http(s)?:\/\/(.)+/i',$form_state['values']['link'])) {
+    if (!preg_match('/http(s)?:\/\/(.)+/i',$form_state['values']['link'])) {
       form_set_error('link', 'Vul aub een volledige url in, inclusief "http://" of "https://"');
     }
                 
@@ -222,7 +222,7 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
 
     foreach($form_state['values'] as $key => $value) {
        $e = $dom_doc->createElement($key);
-       $data_section = $dom_doc->createCDATASection($value);
+       $data_section = $dom_doc->createCDATASection(trim($value));
        $e->appendChild($data_section);
        $root_el->appendChild($e);
        $msg[]= $key.' : ' .$value; 

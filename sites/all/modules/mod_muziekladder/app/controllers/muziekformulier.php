@@ -58,11 +58,11 @@ class Muziekformulier extends Controller {
 
       $event_dates = $xml->getElementsByTagName('date');
       $event_date = $event_dates->item(0)->nodeValue; 
-
+      
       //make sure the event is in future 
-      $date1 = new DateTime("now");
+      $date1 = new DateTime();
       $date2 = new DateTime($event_date);
-      if ($date2 > $date1) continue; 
+      if ($date2 < $date1) continue; 
 
       $event_date = explode('-', $event_date);
       $event_date = array_reverse($event_date);
