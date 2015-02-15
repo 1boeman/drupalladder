@@ -949,6 +949,15 @@ article p{
 }
 
 /* muziekformulier  */
+.eventfull{
+  margin-top:30px;
+  box-shadow:0px 0px 20px #999;
+}
+span.submitted{
+  float:right;  
+  font-size:12px;
+  font-style:italic;
+}
 .tip-button{
 	float:right;
 	background:white; 
@@ -956,7 +965,8 @@ article p{
 	padding:6px;
   margin-right:16px;
 }
-body.page-muziekformulier #edit-soort {
+.form-item-venue-freetext input,
+body.page-muziekformulier select {
     width:80%;
 } 
 body.page-muziekformulier .form-item-location,
@@ -965,7 +975,7 @@ body.page-muziekformulier .form-item-city
 {
     
 }
-
+body.page-muziekformulier .form-item-title input,
 body.page-muziekformulier .form-item-location input,
 body.page-muziekformulier .form-item-link input,
 body.page-muziekformulier .form-item-city input{
@@ -978,46 +988,7 @@ body.page-muziekformulier .form-item-date select{
 form .description{
    font-style:italic; 
 }
-body.page-muziekformulier fieldset{
-    display:none
-}
-
-body.page-muziekformulier .active fieldset.locatie{
-    display:block
-}
-
-body.page-muziekformulier .active fieldset.details{
-    display:block
-}
-
-body.page-muziekformulier #edit-submit{
-    display:none
-}
-body.page-muziekformulier .active #edit-submit{
-    display:block
-}
-
-body.page-muziekformulier .iets_anders .form-item-artists,
-body.page-muziekformulier .iets_anders .form-item-location,
-body.page-muziekformulier .iets_anders .container-inline-date{
-    display:none;        
-}
-
-body.page-muziekformulier .active #edit-item{
-    display:none    
-}
-body.page-muziekformulier .active .form-item-soort .description{
-    display:none    
-}
-
-body.page-muziekformulier form.iets_anders #edit-item{
-    display:block    
-}
-
-
-body.page-muziekformulier .podium .form-item-artists,
-body.page-muziekformulier .podium .container-inline-date{
-   display:none 
+body.page-muziekformulier form {
 }
 
 /* uitgaan */
@@ -1027,7 +998,6 @@ body.page-muziekformulier .podium .container-inline-date{
 } 
 .page-uitgaan .club-container .breadcrumb{
   display:none
-    
 }
 .page-uitgaan .club-container .description{
   padding:10px 0px;
@@ -1040,8 +1010,29 @@ body.page-muziekformulier .podium .container-inline-date{
   padding:10px 10px 10px 0px; 
 } 
 .page-uitgaan .club-container .event .icon-stop{
- display:none
+ display:none;
 }
+
+.user-input{
+  border-bottom:2px dotted #333; 
+}
+.user-input h3{
+
+
+}
+.user-input-inner{
+  padding:20px;
+}
+
+.user-input-inner .muziek_cell1{
+  width:30%;
+  float:left;
+}
+.user-input-inner .muziek_cell2{
+  width:70%;
+  float:left;
+}
+
 /* media queries*/
 /* Large desktop */
 @media (min-width: 1200px) { }

@@ -34,19 +34,23 @@ var hC = Drupal.settings.muziekladder;
    });
 
    pageHandlers.muziekformulier = function(){
-        function setFormClass(){
-            var $form = $('#mod-muziekladder-mailtipform'); 
-            var $this = $(this); 
-
-            if($this.val().length){
-                $form[0].className = $(this).val() + ' active';
-            } else {             
-                $form[0].className = '';
+        var $form = $('#mod-muziekladder-mailtipform'); 
+ 
+        // workaround for Drupal #states required-functionality only active client-side 
+        $form.submit(function(){
+            var omg = [];
+            $('.form-required').each(function(){
+               var $form_item =  $(this).parents('.form-item');
+               var $field = $form_item.find('input, textarea, select').eq(0);
+               if($.trim($field.val()).length < 1){
+                  omg.push('Het veld "' + $form_item.find('label').text() +'" moet nog worden ingevuld.')
+               } 
+            })
+            if (omg.length){
+              alert(omg.join("\n\n"))
+              return false  
             }
-        }
-        
-        setFormClass.apply( $('#edit-soort')[0]); 
-        $('#edit-soort').change(setFormClass);       
+        }); 
         return {}; 
    }; 
 

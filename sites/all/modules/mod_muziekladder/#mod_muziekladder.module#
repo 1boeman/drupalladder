@@ -1,0 +1,445 @@
+<?php
+/**
+ * implements hook_menu 
+**/
+function mod_muziekladder_menu(){
+  $methods = array( 'nieuws','muziek','gig','uitgaan','locaties','getgeo','search', 'muziekformulier', 'muziekdata/2014','muziekdata/2015');
+  $items = array();  
+  foreach($methods as $method){
+    $items[$method] = array (
+      'page callback'     => 'mod_muziekladder_index',
+      'access callback'   => TRUE,
+    ); 
+  }
+  return $items;
+}
+
+function mod_muziekladder_init(){
+  require_once (dirname(__FILE__).'/app/bootstrap.php'); 
+  require_once('controller.php');
+  drupal_add_library('system', 'jquery.cookie');       
+}
+
+function mod_muziekladder_index($arg = false){
+  mod_muziekladder_init();
+  //set javascript settings:
+  $js_settings = array('muziekladderBasePath' => MUZIEKLADDER_BASE_PATH); 
+  drupal_add_js(array('muziekladder'=>$js_settings), 'setting');
+  $bp = drupal_get_path('module','mod_muziekladder'); 
+
+  drupal_add_js($bp . '/js/laad.js',array('type'=>'file','scope'=>'footer'));
+  drupal_add_js($bp . '/js/main.js',array('type'=>'file','scope'=>'footer')); 
+  //route the path to a controller:
+  
+  if ($arg !== '<front>') {
+    $aRequest = explode('/',MUZIEKLADDER_REQUEST_PATH); 
+  } else {
+    //home page
+    $aRequest = array('front'); 
+  }
+  
+  require_once ($aRequest[0].'.php');
+  if (!isset($aRequest[1])) $aRequest[1] = 'index';
+ 
+  $classname =  ucfirst($aRequest[0]);
+  $methodname =  $aRequest[1];
+
+  $obj = new $classname;
+  if (!preg_match('/agenda|20[0-9]+/',$methodname) 
+      && !method_exists($obj, $methodname)){
+    return MENU_NOT_FOUND; 
+  }
+  $result = $obj->$methodname($arg);
+  
+  if (isset($result['render_array'])) {
+      return $result['render_array']; 
+  } elseif (isset($result['html'])){
+    $render_array = array(
+      'agenda_content'=>array(
+        '#type'=>'markup',
+        '#markup'=>$result['html'],
+      ),
+    );
+    return $render_array;  
+  } elseif (isset($result['json'])) {
+    drupal_json_output($result['json']); 
+  } elseif (isset($result['html_fragment']) || isset($result['json_string'])) {
+    // responding to an ajax request
+    if (isset( $result['html_fragment'])){
+        echo $result['html_fragment'];
+    }else{
+        drupal_add_http_header('Content-Type', 'application/json; charset=utf-8'); 
+        echo $result['json_string']; 
+    }
+   
+    // Perform end-of-request tasks.
+    drupal_page_footer();
+    exit; 
+  }
+}
+
+//drupal_is_front() doesnt work properly so ...
+if ( $_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['REQUEST_URI'] == '/' ){
+  mod_muziekladder_index('<front>');
+}
+
+/**
+ * block definitions
+ **/
+function mod_muziekladder_block_info() {
+  $blocks = array();
+  $blocks['muziekladder_nieuws_block'] = array(
+    'info' => 'muziekladder nieuws blocks 0',
+  );
+  $blocks['muziekladder_nieuws_block_1'] = array(
+    'info' => 'muziekladder nieuws blocks 1',
+  );
+  $blocks['muziekladder_nieuws_block_2'] = array(
+    'info' => 'muziekladder nieuws blocks 222',
+  );
+
+  return $blocks; 
+}
+
+function mod_muziekladder_block_view($delta) {
+  //The $delta parameter tells us which block is being requested.
+  mod_muziekladder_init();  
+  require_once ('muziek_block.php');
+  $obj = new Muziek_block;
+  return  $obj->$delta();  
+}
+
+
+/**
+* Implements hook_theme
+**/
+function mod_muziekladder_theme($existing, $type, $theme, $path){
+    return array(
+        'agenda_header' => array(
+            'template' => 'agenda_header',
+            'path' => $path.'/theme',
+            'variables' => array(
+                'prevlink'=>NULL,
+                'nextlink'=>NULL
+            )
+        ), 
+        'gig' => array(
+            'template' => 'gig',
+            'path' => $path.'/theme',
+            'variables' => array()
+        ),   
+    ); 
+}
+
+
+function mod_muziekladder_mailtipform($form_state) {
+
+   $locaties_db = Muziek_db::open_locaties_db();
+   $cities = Muziek_db::get_cities();
+   $city_options = array('* Plaats niet in deze lijst aanwezig? *');    
+   while ($row = $cities->fetchArray()) {
+      $city_options[$row['Id']] = $row['Name'];
+   }
+  
+   $c_f_p = array(
+          'visible'=> array(
+            ':input[name="soort"]' => array(
+                  array('value' =>'concert'),
+                  array('value' =>'festival'),
+                  array('value' =>'podium'), 
+            )        
+          ),
+          'required' => array(
+            ':input[name="soort"]' => array(
+                  array('value' =>'concert'),
+                  array('value' =>'festival'),
+                  array('value' =>'podium'), 
+            )        
+        ) 
+   );
+
+   $c_f = array(
+          'visible'=> array(
+            ':input[name="soort"]' => array(
+                  array('value' =>'concert'),
+                  array('value' =>'festival'),
+            )        
+          ),
+          'required' => array(
+            ':input[name="soort"]' => array(
+                  array('value' =>'concert'),
+                  array('value' =>'festival'),
+            )        
+        ) 
+   );
+   
+   $form['#prefix'] = '<div class="eventfull">' ;
+   $form['#suffix'] = '</div>' ;
+
+   $form['soort'] = array(
+     '#type' => 'select',
+     '#title' => t('Onderwerp tip'),
+     '#options' => array(
+        'concert' => t('Concert of optreden'),
+        'festival'=> t('Festival of feest'),
+        'podium' => t('Podium, theater, club en/of horecagelegenheid'),
+        'iets_anders'=>t('Iets anders')
+     ),
+     '#description' => t('Waarover wilt u Muziekladder tippen...'),
+     '#required'=> true,
+    );
+
+    $form['item'] = array(
+        '#type' => 'item',
+        '#attributes' => array('class'=>array('item-iets-anders')),
+        '#markup' =>  '<p>Voor algemene opmerkingen kunt u ook terecht op ons Twitter account: <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>'
+    ); 
+ 
+    $form['locatie'] = array(
+        '#type' => 'fieldset',
+        '#attributes' => array('class'=>array('locatie')),
+        '#title' => 'Praktische informatie',
+     ); 
+    
+    $form['details'] = array(
+        '#type' => 'fieldset',
+        '#attributes' => array('class'=>array('details')),
+        '#title' => 'Details'
+    ); 
+      
+    $form['details']['link'] = array(
+       '#type' => 'textfield',
+       '#title' => 'Link',
+       '#required' => true, 
+       '#attributes' =>array('placeholder' => 'http://......'),
+       '#description' => t('Zonder werkende link kunnen we dit verzoek helaas niet in behandeling nemen'),
+    );
+    
+    $form['details']['title'] = array(
+       '#type' => 'textfield',
+       '#title' => 'Titel',
+       '#states' =>array(
+           'visible'=> array(
+            ':input[name="soort"]' => array(
+                  array('value' =>'concert'),
+                  array('value' =>'festival'),
+                  array('value' =>'iets_anders'),
+            )        
+          ),
+          'required' => array(
+            ':input[name="soort"]' => array(
+                array('value' =>'concert'),
+                array('value' =>'festival'),
+            )        
+          )
+       ), 
+
+       '#attributes' =>array('placeholder' => 'Naam'),
+       '#description' => t('Naam van de artiest(en), het evenement of optreden'),
+    );
+
+    $form['locatie']['city_select'] = array(
+       '#type' => 'select',
+       '#title' => t('Plaatsnaam'),
+       '#options' => $city_options, 
+       '#attributes' =>array(),
+       '#required' => true, 
+       '#ajax' => array(
+          'callback' => 'ajax_mailtipform_cityselect_callback',
+          'wrapper' => 'venue_select',
+          'method' => 'replace',
+          'effect' => 'fade',
+        ),
+    );
+
+    $form['locatie']['city'] = array(
+       '#type' => 'textfield',
+       '#title' => t('Specificeer a.u.b. de naam van de stad, gemeente of het dorp waarin het evenement plaats heeft.'),
+       '#states' => array(
+          'visible'=> array(
+            ':input[name="city_select"]' => array('value' =>'0')
+          ),
+          'required' => array(
+            ':input[name="city_select"]' => array('value' =>'0')
+          )
+       ),
+       '#attributes' =>array('placeholder' => 'Naam stad, dorp, gemeente of postcodegebied. '),
+       '#required' => false,    
+    );
+
+    $form['locatie']['location_select'] = array(
+      '#markup' => '<div id="venue_select"></div>',
+    );   
+
+    $date = format_date(REQUEST_TIME, 'custom', 'd-m-Y');
+    $format = 'd-m-Y';
+
+    $form['locatie']['date'] = array(
+     '#type' => 'date_select', // types 'date_text' and 'datei_timezone' are also supported. See .inc file.
+     '#title' => 'Datum concert of evenement',
+     '#default_value' => $date,
+     '#date_format' => $format,
+    );
+
+    $form['details']['artists'] = array(
+     '#type' => 'textarea',
+     '#title' => 'Artiest(en)',
+     '#attributes' =>array('placeholder' => 'Alle Namen bands, artiesten, dj\'s, support acts etc.'),
+    );
+
+    $form['details']['description'] = array(
+     '#type' => 'textarea',
+     '#title' => 'Opmerkingen en/of extra informatie',
+     '#attributes' =>array('placeholder' => 'Evt. tijden, prijzen etc.. '), 
+    );
+    
+    $form['details']['email'] = array(
+     '#type' => 'textfield',
+     '#title' => 'Uw e-mail voor eventuele vragen (optioneel / wordt niet weergegeven of gedeeld op de site)',
+     '#attributes' =>array('placeholder' => t('E-mail address'))
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Verzenden'),
+    );
+    return $form;
+}
+
+$ml_mailtipform_inv = array(
+ $free_location_field = array('#type' => 'textfield',
+    '#title' = 'Naam podium / locatie',
+    '#attributes' =array('placeholder' => 'naam locatie, club, cafe of terrein.'),
+    '#required' => true);
+
+
+
+);
+
+function ajax_mailtipform_cityselect_callback($form,$form_state){
+  $rv = array(
+      '#prefix' => '<div id="venue_select">',
+      '#suffix' => '</div>'
+  );
+
+  $venue_options = array(); 
+  $selected_value = $form_state['input']['city_select'];
+  if (strlen($selected_value) && (int) $selected_value){
+    $venues = Muziek_db::get_city_venues($selected_value); 
+    while ( $row = $venues->fetchArray() ){
+      $venue_options[$row['Id']] = $row['Title'];
+    }                                             
+  }
+  
+  if (!empty($venue_options)){
+    $venue_options[0] = '* Locatie niet in lijst? *'
+    $rv['#type'] = 'select';
+    $rv['#title'] = 'Locatie';
+    $rv['#options'] = $venue_options;
+    $rv['#required'] = true;
+  }else{
+  );
+ 
+  return $rv;
+
+}
+
+function mod_muziekladder_mailtipform_validate($form, &$form_state) {
+    // Validation logic.
+    if (!preg_match('/^http(s)?:\/\/(.)+/i',$form_state['values']['link'])) {
+      form_set_error('link', 'Vul aub een volledige url in, inclusief "http://" of "https://"');
+    }
+                
+
+}
+function mod_muziekladder_mailtipform_submit($form, &$form_state) {
+    // Submission logic.
+    $msg = array();
+    $dom_doc = new DOMDocument('1.0', 'utf-8');
+    $dom_doc->formatOutput = true;
+    $root_el = $dom_doc->createElement('input');
+
+    foreach($form_state['values'] as $key => $value) {
+       if ($key == 'link'){
+         
+       }
+
+
+       $e = $dom_doc->createElement($key,$value);
+       $root_el->appendChild($e);
+       $msg[]= $key.' : ' .$value; 
+    }
+    $e = $dom_doc->createElement('time',time());
+    $root_el->appendChild($e);
+    $dom_doc->appendChild($root_el);
+
+    if (!file_exists(MUZIEK_USERDATA_DIR)){
+      mkdir (MUZIEK_USERDATA_DIR,0766);
+      chmod(MUZIEK_USERDATA_DIR,0755);
+    }
+     
+    $filepath = MUZIEK_USERDATA_DIR.'/'.uniqid(date("Y-m-d_H:i:s_")); 
+    $dom_doc->save($filepath,true );
+    chmod ($filepath,0766);
+
+    // send me a notification email
+
+    $body = array();
+    $from = 'muziekladder@hardcode.nl';
+    $body[] = implode("\n",$msg); 
+    $to = 'info@hardcode.nl';
+    $params = array(
+        'body' => $body,
+        'subject' => 'Muziekladder muziekformulier',
+    );
+    if (drupal_mail('mailtipform', 'some_mail_key', $to, language_default(), $params, $from, TRUE)) {
+        drupal_set_message(t('Dank u wel. Uw tip is succesvol verzonden.<br> Wij zullen er zo spoedig mogelijk aandacht aan besteden.'));
+    } else {
+        drupal_set_message('Er ging helaas iets mis bij het verzenden. Probeer het aub later nog eens.');
+    }
+}
+
+function mailtipform_mail($key, &$message, $params) {
+    $headers = array(
+        'MIME-Version' => '1.0',
+        'Content-Type' => 'text/html; charset=UTF-8;',
+        'Content-Transfer-Encoding' => '8Bit',
+        'X-Mailer' => 'Drupal'
+    );
+    foreach ($headers as $key => $value) {
+            $message['headers'][$key] = $value;
+    }
+    $message['subject'] = $params['subject'];
+    $message['body'] = $params['body'];
+}
+
+function mod_muziekladder_preprocess_html(&$vars) {
+  require_once (dirname(__FILE__).'/app/bootstrap.php'); 
+  $aliases = explode('/',MUZIEKLADDER_REQUEST_PATH);
+  $predefined = array(
+    'muziekformulier'=>'muziekformulier',
+    'muziek'=>'dagoverzicht',
+    'gig'=>'detail',
+    'uitgaan'=>'locaties',
+    'locaties'=>'locationPage',
+    'search'=>'zoekpagina',
+  ); 
+  if (isset($predefined[$aliases[0]])){
+    $vars['classes_array'][] = $predefined[$aliases[0]]; 
+  }
+  set_vars_from_singleton($vars,array('head_title','desc_metatag'));
+}
+
+function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {  
+  $singleton = Singleton::get_instance(); 
+  foreach($singleton_vars_to_look_at as $value){
+    if ($setvalue = $singleton->$value){
+      $vars[$value] = $setvalue; 
+    }
+  }
+}
+
+function mod_muziekladder_preprocess_page(&$vars) {
+  set_vars_from_singleton($vars,array('title','city_menu','after_content','agenda'));
+}
+
