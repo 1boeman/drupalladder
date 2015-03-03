@@ -82,7 +82,7 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
       
     $form['details']['link'] = array(
        '#type' => 'textfield',
-       '#title' => 'Link',
+       '#title' => 'Link naar evenement pagina of podium',
        '#required' => true, 
        '#attributes' =>array('placeholder' => 'http:// ...... '),
        '#description' => t('Zonder werkende link kunnen we dit verzoek helaas niet in behandeling nemen'),
@@ -92,7 +92,7 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
        '#type' => 'textfield',
        '#title' => 'Titel',
        '#states' =>array(
-          'required' => array(
+          'required' => array (
             ':input[name="soort"]' => array(
                 array('value' =>'concert'),
                 array('value' =>'festival'),

@@ -1,8 +1,10 @@
 <?php
 
-
 class Muziekformulier extends Controller {
-  function __construct(){ }
+
+  function __construct() {
+  
+  }
 
   function index() {
 
@@ -11,7 +13,7 @@ class Muziekformulier extends Controller {
   
     $form = drupal_get_form('mod_muziekladder_mailtipform');
     $tips = $this->showTips();
-//    var_dump($tips) ; exit; 
+    
     return array('render_array'=>array('muziekform'=>$form,
       'tips'=> array(
         '#type'=>'markup',
@@ -35,6 +37,19 @@ class Muziekformulier extends Controller {
       $proc->importStyleSheet($xsl);
       $xml = new DOMDocument;
       $xml->load(MUZIEK_USERDATA_DIR.'/'.$tip);
+
+      $event_dates = $xml->getElementsByTagName('date');
+      $event_date = $event_dates->item(0)->nodeValue;
+      
+      //make sure the event is in future 
+      $date1 = new DateTime();
+      $date2 = new DateTime($event_date);
+      if ($date2 < $date1) continue; 
+
+      $event_date = explode('-', $event_date);
+      $event_date = array_reverse($event_date);
+      $event_date = implode('-', $event_date);
+
    
       $submit_time = $xml->getElementsByTagname('time');
       $timestamp = $submit_time->item(0)->nodeValue; 
@@ -56,17 +71,6 @@ class Muziekformulier extends Controller {
         $proc->setParameter('','venue_title',$venue_result['Title']);
       }  
 
-      $event_dates = $xml->getElementsByTagName('date');
-      $event_date = $event_dates->item(0)->nodeValue; 
-      
-      //make sure the event is in future 
-      $date1 = new DateTime();
-      $date2 = new DateTime($event_date);
-      if ($date2 < $date1) continue; 
-
-      $event_date = explode('-', $event_date);
-      $event_date = array_reverse($event_date);
-      $event_date = implode('-', $event_date);
 
       $proc->setParameter('','event_date',$event_date);
       $proc->setParameter('','submit_datetime',date("d/m/Y - h:i:s A",$timestamp));
