@@ -10,6 +10,13 @@
   font-style: normal;
 }
 
+#main{
+  background:#fff;
+  padding-top:120px;
+  box-shadow:0px 0px 20px #999
+
+}
+
 .muziekladder_logo{
   margin-left:2px;
   float:left; 
@@ -32,13 +39,13 @@ body {
   line-height:1.4;
   background-image:url(/sites/all/themes/muziekladder/img/bg.png); 
   color:#333;
-  padding-top:100px;
 }
 a {
   color:steelblue;
 }
 a:hover{
-  color:#FF6103;  
+  color:HotPink;
+  text-decoration:none;  
 }
 a:visited {
 }
@@ -56,7 +63,7 @@ padding-left:12px;
 h1.page__title,
 h1{
   font: 32px/36px 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
-  margin-bottom:0.7em;
+  margin-bottom:1em;
   margin-top:10px;
   color:#333;
 }
@@ -94,6 +101,17 @@ blockquote:before {
 }
 
 /* front */
+.front .city_gig_agenda h1{
+  display:none  
+}
+
+.front #agenda .city_gig_agenda .human-date { 
+  font-size:24px; 
+  color:#333;
+}
+.front #main{
+  padding-left:8px;  
+}
 .front #content {
   position:relative;
   padding-top:340px;
@@ -147,7 +165,7 @@ blockquote:before {
 }
 .front #content article.processed header h2{
   padding:0px 8px; 
-  background:#ebebeb;
+  background:white;
   border-top-right-radius:6px;
   margin-bottom:0px;
   font-size:26px; 
@@ -193,7 +211,7 @@ blockquote:before {
   font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
   font-weight:normal;
   font-size:36px;
-  margin-bottom:1em;
+  margin-bottom:0.5em;
   color:white;
   padding:0px 
 }
@@ -223,12 +241,9 @@ blockquote:before {
 .front .naar-agenda-link{
   float:right;  
 }
-.front #agenda{
 
+.front #agenda{
   background:white;
-  border-radius:4px;
-  padding:0.5em 1em;
-  box-shadow:0px 0px 8px #aaa; 
   margin-bottom:1em;
 }
 .front .eventContainerInner .description{
@@ -369,6 +384,7 @@ border-radius: 4px;
   max-width:1200px;
 }
 #page {
+
 }
 #navigation{
   background:#111;
@@ -483,16 +499,91 @@ border-radius: 4px;
 
 /*footer*/
 footer{
- background:#000;
+ background:#333;
+ border-top:8px solid white;
  text-align:center;
  padding-top:20px;
  padding-bottom:80px;
  min-height:100px;
- margin-top:200px; 
 }
 
 
 /* day display */
+.image-cell{
+  float:left;
+  margin:0px 10px;
+}
+.image-cell img{
+  max-width:60px;
+  max-height:60px;
+}
+
+.dagoverzicht h2.human-date{
+  font-size:24px;
+  color:#666;
+  margin-top:18px
+}
+.city_gig_agenda .navigation span.label-el{
+  display:block; 
+  float:left;
+  margin-right:10px;
+  font-weight:bold;
+}
+ 
+.city_gig_agenda .navigation nav{
+  float:left;
+  margin-bottom:10px;
+  margin-right:20px;
+} 
+.dagoverzicht .page-nav-container{
+  min-height:1.5em;
+  text-align:right;
+}
+.dagoverzicht .page-nav-container.bottom{
+  border-top:2px solid LightSteelBlue;
+  border-bottom:0px;
+  text-align:center;
+  padding-top:2em;
+  padding-bottom:2em;
+
+} 
+.dagoverzicht .page-nav-container.top{
+  font-size:small;
+  float:right;
+} 
+.city_gig {
+  margin-top:2px;
+  padding:4px 0px;
+}
+.city_gig .city{
+  padding-left:8px;
+} 
+
+.city_gig .date{
+  font-style:italic;
+
+}
+.city_gig .cell{
+    float:left;
+    width:50%;
+   padding:8px 0px ;
+}
+ .city_gig .name{
+  padding-left:8px;
+  display:block
+} 
+.city_gig{
+  border-left:12px solid LightSteelBlue;
+  border-top:2px solid lightsteelblue;
+} 
+.city_gig .date{
+  float:right;
+} 
+                           
+.city_gig:hover {
+  background:aliceblue
+} 
+
 .dagoverzicht .filter-row {
   margin-bottom:12px;
   margin-top:-8px;
@@ -525,9 +616,21 @@ color:Maroon
 .dagoverzicht .checkbox{
   font-size:12px;  
 }
+
+.agenda-date-selecter{
+  float:left;
+  margin-right:12px;
+}
+.startdatum-container,
+.daybutton-container{
+  float:left;
+}
+.startdatum-container{
+  margin-bottom:1em;
+
+}
 .prevnextlinks a{
   text-decoration:none;
-  color:white
 }
 .prevnextlinks button{
   display:none
@@ -625,11 +728,6 @@ color:Maroon
   float:left;
   margin:0px 12px 8px 0px;
 }
-/*event pages*/
-.eventfull{
-    padding:8px 15px 15px 15px;
-    background:#fff;
-}
 
 /* locatie pagina's */
 .maps_infowindowcontent{
@@ -708,11 +806,28 @@ ul.steden li:hover {
   float:right; 
 }
 .detail .location{
-  background:#dfdfdf;
-  border-radius:4px;
-  padding:6px 20px;
+  background:#efefef;
+  padding:6px 10px;
   clear:both;
+  border-top:5px solid LightSteelBlue  ;
+  border-left:10px solid LightSteelBlue  ;
+  margin-bottom:20px;
+  margin-top:40px;
 }
+.addthis_native_toolbox{
+  min-height:2em;
+}
+.detail .eventfull {
+  margin-bottom:40px;
+} 
+.detail .eventfull .event-container{
+   border-left:10px solid LightSteelBlue  ;
+   border-top:5px solid LightSteelBlue  ;
+   padding-bottom:20px;
+   padding-left:8px; 
+  
+}
+
 .detail .eventImg{ 
   float:right; margin:20px; margin-top:10px; margin-right:0px;
   box-shadow:-2px 1px 8px #999;
@@ -949,8 +1064,10 @@ article p{
 }
 
 /* muziekformulier  */
-.eventfull{
+ 
+.section-muziekformulier .eventfull{
   margin-top:30px;
+  padding: 8px 15px 15px 15px;
   box-shadow:0px 0px 20px #999;
 }
 span.submitted{
@@ -1063,6 +1180,17 @@ clear: both;
  
 /* Landscape phone to portrait tablet */
 @media (max-width:769px) {
+  
+  .city_gig .cell{
+    float:none;
+    clear:both;
+    width:100%;
+
+  }
+  .city_gig .city{
+  padding-left:8px;
+  clear:left;} 
+
  h1.page__title, h1{
    font-size:28px;
    line-height:1.2
@@ -1119,6 +1247,8 @@ clear: both;
 
 /* Landscape phones and down */
 @media (max-width: 500px) {
+
+
   .muziekladder_logo img{
     width:110px;
   }
@@ -1129,7 +1259,7 @@ clear: both;
 
 
  h1.page__title, h1{
-   font-size:22px;
+   font-size:26px;
    line-height:1.2
  } 
   .scrolling .muziekladder_logo img{
@@ -1165,11 +1295,6 @@ clear: both;
   .locationInfo .description {
     float:none;
     width:auto;
-  }
-
-  #frontTabs li {
-    padding:12px 6px;
-    font-size:0.9em;
   }
 }
 

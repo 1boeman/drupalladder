@@ -2,7 +2,7 @@
 function mod_muziekladder_mailtipform($form, &$form_state) {
 
    $locaties_db = Muziek_db::open_locaties_db();
-   $cities = Muziek_db::get_cities();
+   $cities = Muziek_db::get_cities(1);
    $city_options = array('* Plaats  niet in deze lijst?  Klik hier... *');    
    $venue_options = array(); 
 

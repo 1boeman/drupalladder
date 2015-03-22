@@ -45,10 +45,12 @@ function mod_muziekladder_index($arg = false){
   $methodname =  $aRequest[1];
 
   $obj = new $classname;
-  if (!preg_match('/agenda|20[0-9]+/',$methodname) 
+  if ($classname != 'Muziek' &&
+      !preg_match('/20[0-9]+/',$methodname) 
       && !method_exists($obj, $methodname)){
     return MENU_NOT_FOUND; 
   }
+
   $result = $obj->$methodname($arg);
   
   if (isset($result['render_array'])) {
@@ -74,7 +76,7 @@ function mod_muziekladder_index($arg = false){
    
     // Perform end-of-request tasks.
     drupal_page_footer();
-    exit; 
+    drupal_exit(); 
   }
 }
 
@@ -123,11 +125,24 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
           'nextlink'=>NULL
       )
     ), 
+    
     'gig' => array(
       'template' => 'gig',
       'path' => $path.'/theme',
       'variables' => array()
     ),   
+    
+    'agenda_city_gig' => array(
+      'template' => 'agenda_city_gig',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ), 
+    
+    'agenda_city_nav' => array(
+      'template' => 'agenda_city_nav',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ), 
   ); 
 }
 
