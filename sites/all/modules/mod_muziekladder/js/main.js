@@ -78,11 +78,7 @@ var hC = Drupal.settings.muziekladder;
         externalLinks();
 //        drawFrontNews();
         frontSlide(); 
-        $('#block-mod-muziekladder-muziekladder-nieuws-block-1')
-          .prepend('<div class="event clearfix"><h4 class="title"><a href="/muziekformulier">Tips?</a></h4>'+
-          '<p><a href="/muziekformulier"><em>Interessant muzikaal optreden, feest of evenement dat nog ontbreekt op de Muziekladder agenda?</em>'+
-          '<br><strong>Laat het ons weten aub!</strong></a></p></div>');
-       
+        $('#agenda-front-body').load('/muziek/ajax_agenda'); 
         return handlers;
     };
     
@@ -111,6 +107,77 @@ var hC = Drupal.settings.muziekladder;
     }
 
     pageHandlers.dagoverzicht = function(){
+      var $cga = $('.city_gig_agenda');
+      var page = parseInt($cga.data('page'));
+      var result_count = parseInt($cga.data('count'));
+      var result_per_page = parseInt($cga.data('rpp'));
+     
+      //page_links 
+      var pageless_url = location.href.replace(/\?pagina=[0-9]+/,''); 
+      var pagenav = []; 
+      if (page > 0){
+        pagenav.push( '<a href="' + pageless_url + '?pagina=' + (page-1) + '"> &laquo; Vorige pagina</a>' );
+      }
+  
+      if (result_count == result_per_page){
+          pagenav.push( '<a href="' + pageless_url + '?pagina=' + (page+1) + '"> Volgende pagina &raquo;</a>' );
+      } 
+      $('.page-nav-container').append(pagenav.join(' | '));  
+      
+      //date selecter
+      $('.agenda-date-selecter').change(function(e){
+        var choice = $(this).val(); 
+        var city_spec = location.href.match(/\/[0-9]+-[a-z]+\//i);
+        city_spec = city_spec ? city_spec[0] : '/';
+        location.href = '/muziek'+city_spec+'agenda-'+choice+'.html';
+      }); 
+      
+      //city selecter
+      $('.agenda_city_selecter').change(
+        function(e){
+          var choice = '/'+$(this).val();
+          var agenda_spec = location.href.match(/agenda\-[0-9]+/); 
+          
+          if (choice == "/0") choice =''; 
+           
+          if (agenda_spec){
+            agenda_spec = '/' + agenda_spec[0] +'.html';
+          }else{
+            agenda_spec = '/';   
+          }
+         
+          location.href = '/muziek' + choice + agenda_spec; 
+       });
+
+       // day buttons
+       $('.prevnextlinks button').on('click',function(e){
+           e.preventDefault();
+           try {
+              window.location = $(this).find('a')[0].href;
+           } catch(err) {
+              window.location = $(this).attr('data-href')     
+           }
+       });
+      
+       $(window).load(function(){
+          $('.city_gig').each(function(){
+            var $gig = $(this); 
+            var src = $gig.data('imgsrc');
+            if(src){
+              var img = new Image; 
+              img.onload = function(){
+                $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               
+              }
+              img.src = src; 
+            }  
+          });  
+       });
+       
+       crumbTrail.set(location.href);
+       externalLinks();
+       showTipsButton()
+  
+/*
         markCitymenu();
         var handlers = {
             'openLink': cityMenuLinkHandler,
@@ -140,15 +207,7 @@ var hC = Drupal.settings.muziekladder;
                 }
             }
         };
-        $('.prevnextlinks button').on('click',function(e){
-            e.preventDefault();
-            try {
-              window.location = $(this).find('a')[0].href;
-            } catch(err) {
-              window.location = $(this).attr('data-href')     
-            }
-        });
-    
+   
         hC.cityselect = cityselect();
         backtotopButtons();
         dateSelecter();
@@ -159,12 +218,10 @@ var hC = Drupal.settings.muziekladder;
         $('body').addClass('doneloading');
         $('.locationUnit').css({'opacity':1});
         
-        crumbTrail.set(location.href);
-        externalLinks();
-        showTipsButton()
-        $('.locationEvents .title').hover(function(){
+       $('.locationEvents .title').hover(function(){
         }) 
         return handlers;
+      */
     }
 
     function showTipsButton(){

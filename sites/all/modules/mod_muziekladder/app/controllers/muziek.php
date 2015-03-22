@@ -4,17 +4,114 @@ class Muziek extends Controller {
   function __construct(){ }
 
   function __call($name, $arguments) {
-    if (stristr($name,'agenda-')){
+    //city based lists
+    // get cityno
+    if (preg_match('/([0-9]+)-[a-zA-Z]*/',$name,$matches)){
+      // get day offset
+      if (preg_match('/[0-9]+-[a-zA-Z]*\/agenda-([0-9]+)/',$_SERVER['REQUEST_URI'],$matches2)){
+        return $this->city_events($matches[1],$matches2[1]); 
+      }        
+      return $this->city_events($matches[1],0);
+    } elseif (stristr($name,'agenda-')){
+      
       $daynum = str_replace(array('agenda-','.html'),'',$name); 
-      return $this->day($daynum);
+      return $this->city_events(0,$daynum);
+    } 
+  }
+  
+  function navigation_links($cityno,$cityname,$day){
+    $ct = $cityno? $cityno.'-'.$cityname.'/' :'';
+    $daynext = $day + 1 < 90 ? $day +1 : 90;
+    $dayprev = $day - 1 > 0 ? $day - 1 : 0; 
+    $cities = Muziek_db::get_cities(); 
+    $date_array=array();
+    $dt = new DateTime();      
+    $dt->modify('-4 hour'); //don't change first agenda page till 4 am
+ 
+    for ($i=0; $i<90; $i++){
+      $date_option = $dt->format('d/m/Y') .' - '. t($dt->format('l')) ;
+      $date_array []=  $date_option;
+      $dt->modify('+ 1 day' );
     }
+    return theme('agenda_city_nav',array(
+      'dates' => $date_array,
+      'cityno' => $cityno,
+      'cities' => $cities,
+      'day' => $day,
+      'daynext' => $daynext,
+      'dayprev' => $dayprev,
+      'next' =>  '/muziek/'.$ct.'agenda-'.$daynext.'.html',
+      'prev' =>  '/muziek/'.$ct.'agenda-'.$dayprev.'.html',
+      'tday' =>  '/muziek/'.$ct )                  
+    ); 
   }
 
   function index() {
-    return $this->day(0);
+    return $this->city_events(0);
+  }
+  
+  function ajax_agenda(){
+    $events = $this->city_events(0,0,100,1);
+    $content = theme('agenda_city_gig',array(
+        'count'=> 0,
+        'rpp' =>0,
+        'page'=>0,
+        'navigation'=> '',
+        'cityname'=>'',
+        'content'=>$events)); 
+    
+    return array (
+        'html_fragment'=> $content);      
   }
 
+  function city_events($cityno,$day=0, $results_per_page=100, $raw=0){
+    //get pagina
+    if (isset($_REQUEST['pagina'])){
+      $page = (int)$_REQUEST['pagina'];
+    }else{
+      $page = 0; 
+    }
+    $date = new DateTime();
+    if ($day) $date->modify('+'.$day.' day');
+  
+    $date->modify('-4 hour'); //don't change first agenda page till 4 am
+    $db_date = $date->format('Y-m-d');
+ 
+    $gigs = Muziek_db::get_city_gigs($cityno,$db_date,$page,$results_per_page);
+    $contentarr = Array();
+    while($res = $gigs->fetchArray(SQLITE3_ASSOC)){
+      $contentarr []= $res;  
+    }
 
+    if ($raw) return $contentarr;
+    $titletag = 'Agenda ';      
+    if ($cityno) {
+      $cityname = $contentarr[0]['City_Name'];  
+      $titletag .= $cityname;
+    } else {
+      $cityname = '';  
+    }
+    $titletag .= ' - concerten, optredens en evenementen - ' .$day;
+    $this->set_head_title($titletag);
+    $content = theme('agenda_city_gig',array(
+      'count'=> count($contentarr),
+      'rpp' =>$results_per_page,
+      'page'=>$page,
+      'navigation'=> $this->navigation_links($cityno,$cityname,$day),
+      'cityname'=>$cityname,
+      'content'=>$contentarr)); 
+    
+    $render_array = array(
+      'agenda_content'=>array(
+        '#type'=>'markup',
+        '#markup'=>$content,
+      ),
+    );
+
+    return array('render_array'=>$render_array);
+  } 
+
+ /**
   function setcity(){
     if (isset ($_REQUEST['city'])){
         if ($_REQUEST['city'] && $_REQUEST['city'] != '0'){
@@ -26,8 +123,7 @@ class Muziek extends Controller {
       }
     exit;       
   }
-
-  function day($p){
+ function day($p){
     $cities = Muziek_util::getCities();
     drupal_add_js('var muziek_cities = '.json_encode($cities), 
          array('type' => 'inline', 'scope' => 'footer', 'weight' => -10)
@@ -99,4 +195,5 @@ class Muziek extends Controller {
  
     return array('date'=>$frontend_date,'file'=> $file);     
   }
+  **/
 }

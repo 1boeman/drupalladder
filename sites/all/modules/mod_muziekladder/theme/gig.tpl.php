@@ -1,11 +1,12 @@
-    <nav>
-	<ul class="breadcrumb">
-	  <li><a href="/muziek/">Agenda</a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
-	  <li class="active"><span><?php echo $title ?></span></li>
-	</ul>
-    </nav>
+  <nav>
+    <ul class="breadcrumb">
+      <li><a href="/muziek/">Agenda</a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
+      <li class="active"><span><?php echo $title ?></span></li>
+    </ul>
+  </nav>
 	<div class="eventfull clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>">
-		<a itemprop="url" href="<?php echo $link ?>" class="eventlink nodisplay">
+	  <div class="event-container">
+  	<a itemprop="url" href="<?php echo $link ?>" class="eventlink nodisplay">
 			<span itemprop="name"><?php echo $title  ?></span>
 		</a>
 	
@@ -24,7 +25,7 @@
 		<p><?php echo $desc ?></p>
 		<p><strong>Link</strong>: <a itemprop="url" href="<?php echo $link ?>"><?php echo $link ?></a>  </p>
 		<p><i class="icon-info-sign"></i> <a itemprop="url" href="<?php echo $link ?>">Meer informatie</a></p>
-
+    </div>
 		<div class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
 			<h3><a href="<?php echo $location_link ?>"><span itemprop="name"><?php echo $location_title ?></span></a></h3>
 			<p class="description"><?php echo $location_desc ?></p>
