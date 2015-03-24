@@ -183,6 +183,10 @@ function muziekladder_preprocess_node(&$variables, $hook) {
 }
 
 function muziekladder_preprocess_page(&$variables) {
+  if (drupal_is_front_page){
+    unset($variables['page']['content']['system_main']['pager']);
+  }
+
   if (!empty($variables['node']) && !empty($variables['node']->type)) {
     $variables['theme_hook_suggestions'][] = 'page__node__' . $variables['node']->type;
   }
