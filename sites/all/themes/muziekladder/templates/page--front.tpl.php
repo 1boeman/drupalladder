@@ -39,8 +39,9 @@
       <?php print $agenda ?>
      <?php if (isset($after_content)): ?>
     <div class="after_content">
-        <?php print $after_content; ?>
+        <?php print $after_content ?>
     </div>
+
     <?php endif; ?>
 
      <?php print $feed_icons; ?>

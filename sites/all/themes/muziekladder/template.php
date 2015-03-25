@@ -161,12 +161,26 @@ function muziekladder_menu_link(array $variables) {
    //add class for a element
    $variables['element']['#localized_options']['attributes']['class'][] = 'menu-' . $variables['element']['#original_link']['mlid'];
 
-  return theme_menu_link($variables);
+   return theme_menu_link($variables);
 }
 
 function muziekladder_html_head_alter(&$head_elements) {
-//  var_dump($head_elements); exit;
-  unset($head_elements['metatag_generator']);
+  unset($head_elements['system_meta_generator']);
+  foreach($head_elements as $key => $value){
+    if (stristr($key,'shortlink')){
+      unset($head_elements[$key]); 
+    }
+  }
+ 
+ // do not index node urls 
+  if (preg_match('/\/node/',$_SERVER["REQUEST_URI"])){
+    $head_elements['noindex'] = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array('name'=>'robots','content'=>'noindex'));
+  }
+
+
 }
 
 

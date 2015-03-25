@@ -122,13 +122,22 @@ blockquote:before {
 .front .description{
   display:none
 }
-
+.front .sidebar-city, 
 .front .region-sidebar-first, 
 .front .region-sidebar-second{
   padding-left:16px;
   padding-right:0px;  
 }
 
+.front ul.city_agendas li {
+  list-style:none;
+  background:LightSteelBlue;
+  border-radius:4px;
+  display:inline-block;
+  padding:4px 4px;
+  font-weight:bold;
+  margin:2px;
+}
 .front .sidebar .description{
   display:none
 }
