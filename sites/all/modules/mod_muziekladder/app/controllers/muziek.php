@@ -84,16 +84,26 @@ class Muziek extends Controller {
     }
 
     if ($raw) return $contentarr;
-    $titletag = 'Agenda ';      
+    $titletag = '';
     if ($cityno) {
       $cityname = $contentarr[0]['City_Name'];  
       $titletag .= $cityname;
     } else {
       $cityname = '';  
     }
-    $titletag .= ' - concerten, optredens en evenementen - ' .$day;
+    
+    $titletag .= ' Muziekagenda ';      
+    
+    $title_date = t($date->format('l')).' '.$date->format('j').' '. t($date->format('F')); 
+//    $db_date = $date->format('Y-m-d');
+
+    $titletag .= ' v.a. '.$title_date;
+    $titletag .= ' - concerten, optredens en evenementen - ';
+    $titletag .= ' (dag:'.$day .'- pagina:'.($page+1) .')';
+ 
     $this->set_head_title($titletag);
     $content = theme('agenda_city_gig',array(
+      'title_date'=> $title_date,
       'count'=> count($contentarr),
       'rpp' =>$results_per_page,
       'page'=>$page,

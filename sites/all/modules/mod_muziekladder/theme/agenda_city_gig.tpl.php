@@ -1,6 +1,9 @@
 <div class="city_gig_agenda" data-page="<?php echo $page ?>" data-count="<?php echo $count ?>" data-rpp="<?php echo $rpp ?>"> 
-  <h1><?php echo ucfirst (trim($cityname .' muziek agenda')) ?> </h1>
+  <h1><?php echo (strlen ($cityname) ? ucfirst ($cityname) : 'Muziekagenda') ?> - concerten, optredens en evenementen vanaf <?php echo $title_date; ?> </h1>
 <?php echo $navigation ?>
+<?php if($page > 0): ?>
+  <h2 class="pagina">Pagina <?php echo $page+1; ?></h2>
+<?php endif; ?>
 
 <div class="page-nav-container top"></div> 
 <?php 
