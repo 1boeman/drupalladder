@@ -14,7 +14,6 @@
   background:#fff;
   padding-top:120px;
   box-shadow:0px 0px 20px #999
-
 }
 
 .muziekladder_logo{
@@ -24,7 +23,7 @@
 }
 .muziekladder_logo img{
   margin-top:7px;
-   -webkit-transition: all 200ms ease-in-out;
+  -webkit-transition: all 200ms ease-in-out;
   -moz-transition: all 200ms ease-in-out;
   -o-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
@@ -105,9 +104,16 @@ blockquote:before {
   display:none  
 }
 
-.front #agenda .city_gig_agenda .human-date { 
-  font-size:24px; 
-  color:#333;
+.city_gig_agenda .human-date { 
+  font-size:24px;
+  font-weight:normal; 
+  color:white;
+  background:LightSteelBlue;
+  padding:0px 30px;
+  margin:24px 0px 0px -10px;
+  font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
+  font-weight:normal;
+  line-height:1.8;
 }
 .front #main{
   padding-left:8px;  
@@ -128,16 +134,26 @@ blockquote:before {
   padding-left:16px;
   padding-right:0px;  
 }
-
+.front ul.city_agendas {
+  margin:0px
+} 
 .front ul.city_agendas li {
   list-style:none;
-  background:LightSteelBlue;
-  border-radius:4px;
-  display:inline-block;
-  padding:4px 4px;
+  display:block;
+  padding:4px 8px;
   font-weight:bold;
   margin:2px;
+  border-left: 12px solid LightSteelBlue;
+  border-top: 2px solid lightsteelblue; 
 }
+.front ul.city_agendas li a {
+  display:block;
+} 
+
+.front ul.city_agendas li:hover {
+  background:AliceBlue
+} 
+
 .front .sidebar .description{
   display:none
 }
@@ -185,10 +201,10 @@ blockquote:before {
   margin-left:16px;
 }
 
-
 .front #content article.processed header h2 a{
   font-size:22px;
-  line-height:2
+  line-height:2;
+
 }
 
 .front #content article.processed > img{
@@ -212,17 +228,6 @@ blockquote:before {
 .front #content  article > .field{
   padding:20px;
 
-}
-
-
-.front #agenda h2,
-.front .node-teaser h2{
-  font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
-  font-weight:normal;
-  font-size:36px;
-  margin-bottom:0.5em;
-  color:white;
-  padding:0px 
 }
 
 .front .startDate{display:none}
@@ -534,11 +539,6 @@ footer{
   color:SlateGray;
   font-style:italic;
   margin:0px;
-}
-.dagoverzicht h2.human-date{
-  font-size:24px;
-  color:#666;
-  margin-top:18px
 }
 .city_gig_agenda .navigation span.label-el{
   display:block; 

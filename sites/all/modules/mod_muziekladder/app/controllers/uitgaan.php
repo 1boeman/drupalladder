@@ -1,5 +1,15 @@
 <?php 
 class Uitgaan extends Controller {
+    
+    function __call($name, $arguments) {
+      //city based lists
+      // get cityno
+      if (preg_match('/([0-9]+)-[a-zA-Z]*/',$name,$matches)){
+        //var_dump ($matches[1]);
+      } 
+    }
+   
+
     public function index () {
         drupal_add_js(array('city_names' => array('en'=>$this->countrynames_EN,'nl'=>$this->countrynames) ), 'setting');
 

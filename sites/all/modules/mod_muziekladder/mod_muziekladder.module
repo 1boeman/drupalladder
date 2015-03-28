@@ -45,7 +45,7 @@ function mod_muziekladder_index($arg = false){
   $methodname =  $aRequest[1];
 
   $obj = new $classname;
-  if ($classname != 'Muziek' &&
+  if (!in_array($classname, array('Muziek','Uitgaan' )) &&
       !preg_match('/20[0-9]+/',$methodname) 
       && !method_exists($obj, $methodname)){
     return MENU_NOT_FOUND; 

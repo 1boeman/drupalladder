@@ -1,7 +1,6 @@
 <?php 
 
 class Muziek extends Controller {
-  function __construct(){ }
 
   function __call($name, $arguments) {
     //city based lists
