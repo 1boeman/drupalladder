@@ -71,7 +71,32 @@ class Muziek_db {
     } 
     return $rv;      
   }
+  
+  private function result_to_array($result){
+    $rv = array();   
+    while($res = $result->fetchArray(SQLITE3_ASSOC)){ 
+      $rv[]=$res;
+    } 
+    return $rv; 
+  }
+/*
+//@todo : two step gig-get: first try by id then try by date
 
+  function get_gig_by_id($id){
+    $statement = $this->dbhandle->prepare('SELECT * from Gig g WHERE g.Id = :id' );
+    $statement->bindValue(':id',$id);
+    $result = $statement->execute(); 
+    return $result->fetchArray();     
+  }
+  function get_gig($date,$url){
+    $statement = $this->dbhandle->prepare('SELECT * from Gig g WHERE g.Link = :url AND Date = :date ' );
+    $statement->bindValue(':url',$url);
+    $statement->bindValue(':date',$date);
+    $result = $statement->execute(); 
+    $rv = $this->result_to_array($result);    
+    return $rv;       
+  }
+*/
   function get_venue($venue_id){
     $statement = $this->dbhandle->prepare('SELECT * FROM Venue WHERE Id = :id;');
     $statement->bindValue(':id', $venue_id);

@@ -1,9 +1,10 @@
 <?php
 abstract class Controller {
 	protected $view; 
-  protected $countrynames = array('Nederland','België;' );
-  protected $countrynames_EN = array('the Netherlands','Belgium;' );
+  protected $countrynames = array('Nederland','België' );
+  protected $countrynames_EN = array('the Netherlands','Belgium' );
 
+  
 	protected function init_view() {
 		$callers = debug_backtrace(); 
 		$filename = MUZIEK_VIEW_DIR . '/' . strtolower(get_class($this)) . '/' . $callers[1]['function'] . '.xml';

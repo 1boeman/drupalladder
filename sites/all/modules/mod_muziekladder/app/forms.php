@@ -3,18 +3,18 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
 
    $locaties_db = Muziek_db::open_locaties_db();
    $cities = Muziek_db::get_cities(1);
-   $city_options = array('* Plaats  niet in deze lijst?  Klik hier... *');    
+   $city_options = array(t('* City not in list?  Click here... *'));    
    $venue_options = array(); 
 
    while ($row = $cities->fetchArray()) {
       $city_options[$row['Id']] = $row['Name'];
    }
-   $city_options['00']= '* Plaats  niet in deze lijst? Klik hier... *';    
+   $city_options['00']= '** City not in list? Click here... *';    
 
   $selected_value = $form_state['input']['city_select'];
   if (strlen($selected_value) && (int) $selected_value){
     $venues = Muziek_db::get_city_venues($selected_value); 
-    $venue_options = array('0' =>' * Locatie niet in deze lijst? Klik hier... * ');
+    $venue_options = array('0' =>' ** '.t('Venue not in list? Click here...').' * ');
     
     while ( $row = $venues->fetchArray() ){
       $venue_options[$row['Id']] = html_entity_decode($row['Title']);
@@ -35,20 +35,20 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
 
    $form['soort'] = array(
      '#type' => 'select',
-     '#title' => t('Onderwerp tip'),
+     '#title' => t('Type of recommendation'),
      '#options' => array(
-        'concert' => t('Concert of optreden'),
-        'festival'=> t('Festival of feest'),
-        'iets_anders'=>t('Iets anders')
+        'concert' => t('Concert or performance'),
+        'festival'=> t('Festival or party'),
+        'iets_anders'=>t('Something completely different')
      ),
-     '#description' => t('Waarover wilt u Muziekladder tippen...'),
+     '#description' => t('What do you want to recommend to the Muziekladder Calendar ...'),
      '#required'=> true,
     );
 
     $form['item-instucties'] = array(
         '#type' => 'item',
         '#attributes' => array('class'=>array('item-instructies')),
-        '#markup' =>  '<p>Velden  met een * zijn verplicht...</p>',
+        '#markup' =>  '<p>'.t('Fields marked with * are mandatory').'...</p>',
         '#states' =>$visible_c_f_i
 
     ); 
@@ -57,7 +57,7 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
     $form['locatie'] = array(
         '#type' => 'fieldset',
         '#attributes' => array('class'=>array('locatie')),
-        '#title' => 'Praktische informatie',
+        '#title' => t('General information'),
         '#states' =>$visible_c_f_i
 
     ); 
@@ -65,7 +65,7 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
     $form['venue'] = array(
         '#type' => 'fieldset',
         '#attributes' => array('class'=>array('venue')),
-        '#title' => 'Locatie',
+        '#title' => t('Location'),
         '#prefix'=>'<div id="venue_fieldset">',
         '#suffix' => '</div>',
         '#states' =>$visible_c_f_i
@@ -75,22 +75,22 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
     $form['details'] = array(
         '#type' => 'fieldset',
         '#attributes' => array('class'=>array('details')),
-        '#title' => 'Details',
+        '#title' => t('Details'),
         '#states' =>$visible_c_f_i
   
     ); 
       
     $form['details']['link'] = array(
        '#type' => 'textfield',
-       '#title' => 'Link naar evenement pagina of podium',
+       '#title' => t('Link to event or venue'),
        '#required' => true, 
        '#attributes' =>array('placeholder' => 'http:// ...... '),
-       '#description' => t('Zonder werkende link kunnen we dit verzoek helaas niet in behandeling nemen'),
+       '#description' => t('Without a working link we won\'t be able to process this event.'),
     );
     
     $form['details']['title'] = array(
        '#type' => 'textfield',
-       '#title' => 'Titel',
+       '#title' => t('Title of event / name of artist(s)'),
        '#states' =>array(
           'required' => array (
             ':input[name="soort"]' => array(
@@ -100,13 +100,12 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
           )
        ), 
 
-       '#attributes' =>array('placeholder' => 'Naam'),
-       '#description' => t('Naam van de artiest(en), het evenement of optreden'),
+       '#attributes' =>array('placeholder' => t('Name')),
     );
 
     $form['venue']['city_select'] = array(
        '#type' => 'select',
-       '#title' => 'Plaatsnaam',
+       '#title' => t('City'),
        '#options' => $city_options, 
        '#attributes' =>array(),
        '#required' => true, 
@@ -120,7 +119,7 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
 
     $form['venue']['city'] = array(
        '#type' => 'textfield',
-       '#title' => 'Specificeer a.u.b. de naam van de stad, gemeente of het dorp waarin het evenement plaats heeft.',
+       '#title' => t('Please specify the name of the city, municipality or village hosting the event or performance'),
        '#states' => array(
           'visible'=> array(
             ':input[name="city_select"]' => array(array('value' =>'0'),array('value' =>'00'))
@@ -129,14 +128,15 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
             ':input[name="city_select"]' => array(array('value' =>'0'),array('value' =>'00'))
           )
        ),
-       '#attributes' =>array('placeholder' => 'Naam stad, dorp, gemeente of postcodegebied. '),
-       '#required' => false,    
+       '#attributes' =>array('placeholder' => 
+       t('Name or zip of city,village or area')), 
+        '#required' => false,    
     );
 
     if (count ($venue_options) > 1){
       $form['venue']['venue_select'] = array(
         '#type'=> 'select',
-        '#title' => 'Locatie / podium',
+        '#title' => t('Location / venue'),
         '#options' => $venue_options,
         '#required' => true,
         '#ajax' => array(
@@ -154,8 +154,11 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
         (isset($selected_venue) && strlen($selected_venue) && $selected_venue == '0')){
         $form['venue']['venue_freetext'] = array(
           '#type' => 'textarea',
-          '#title' => 'Specificeer a.u.b. naam en adres van de locatie, club, cafe of terrein waar het evenement plaats zal vinden.',
-          '#attributes' => array('placeholder' => 'Naam / adres podium of locatie'),
+          '#title' => t(
+          'Please specify the name and address of the venue, club, area, terrain (or what not) that will host this event.'),
+          '#attributes' => array('placeholder' => 
+          t('Name / address')),
+          
           '#required' => true );
     } 
 
@@ -165,7 +168,7 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
 
     $form['locatie']['date'] = array(
      '#type' => 'date_select', // types 'date_text' and 'datei_timezone' are also supported. See .inc file.
-     '#title' => 'Datum concert of evenement',
+     '#title' => t('Date on which the event will take place'),
      '#default_value' => $date,
      '#date_format' => $format,
      '#required' => true
@@ -173,27 +176,29 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
 
     $form['details']['description'] = array( 
      '#type' => 'textarea',
-     '#title' => 'Opmerkingen en/of extra informatie',
-     '#attributes' =>array('placeholder' => 'Evt. Support acts, tijden, prijzen etc.. '), 
+     '#title' => t('Remarks and/or extra information'),
+     '#attributes' =>array('placeholder' => t('(Support) acts, time, entrance fee, etc.. ')), 
     );
     
     $form['details']['email'] = array(
      '#type' => 'textfield',
-     '#title' => 'Uw e-mail voor eventuele vragen (optioneel / wordt uiteraard niet weergegeven op de site of gedeeld )',
-     '#attributes' =>array('placeholder' => t('E-mail address'))
+     '#title' => t('Your email-address for any other questions that might arise (optional / will of course not be shared in any way on or via this site)'),
+     '#attributes' =>array('placeholder' => t('Email address'))
     );
 
     $form['submit'] = array(
         '#type' => 'submit',
-        '#value' => t('Verzenden'),
+        '#value' => t('Submit'),
         '#states' =>$visible_c_f_i
     );
 
     $form['item'] = array(
         '#type' => 'item',
         '#attributes' => array('class'=>array('item-iets-anders')),
-        '#markup' => '<p>Tips worden op deze pagina geplaatst, en na controle ook in de Muziekladder agenda toegevoegd.</p>'.
-              '<p>Voor algemene opmerkingen kunt u ook terecht op ons Twitter account: <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>'
+        '#markup' => '<p>'. t('Your recommendations will be placed on this page, and after a human check also in the Muziekladder Calendar').'</p>'.
+        
+              '<p>'.t('
+                For general remarks you may also mail (info at muziekladder.nl) or use twitter ').': <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>'
     ); 
 
     return $form;
@@ -207,10 +212,9 @@ function ajax_mailtipform_cityselect_callback($form,$form_state) {
 function mod_muziekladder_mailtipform_validate($form, &$form_state) {
     // Validation logic.
     if (!preg_match('/http(s)?:\/\/(.)+/i',$form_state['values']['link'])) {
-      form_set_error('link', 'Vul aub een volledige url in, inclusief "http://" of "https://"');
+      form_set_error('link', '
+        Please fill out a full working url, including the "http://" of "https://"');
     }
-                
-
 }
 
 function mod_muziekladder_mailtipform_submit($form, &$form_state) {
@@ -251,9 +255,10 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
         'subject' => 'Muziekladder muziekformulier',
     );
     if (drupal_mail('mailtipform', 'some_mail_key', $to, language_default(), $params, $from, TRUE)) {
-        drupal_set_message(t('Dank u wel. Uw tip is succesvol verzonden.<br> Wij zullen er zo spoedig mogelijk aandacht aan besteden.'));
+        drupal_set_message(t('
+        Thanks! Your recommendation has been successfully submitted. <br>We will process it as soon as possible.'));
     } else {
-        drupal_set_message('Er ging helaas iets mis bij het verzenden. Probeer het aub later nog eens.');
+        drupal_set_message('Sorry... the submission failed because of technical problems. Please try again later.');
     }
 }
 

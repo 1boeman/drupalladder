@@ -15,11 +15,6 @@
 // To understand behaviors, see https://drupal.org/node/756722#behaviors
 Drupal.behaviors.muziekladder_menu = {
   attach: function(context, settings) {
-    $('.muziekladder_logo', context).once('muziekladder_menu',function(){
-        $(this).click(function(){
-          location.href = '/'; 
-        })
-    });
 
     $('#block-system-main-menu .menu li', context).once('muziekladder_menu',function(){
         $(this)
@@ -36,15 +31,16 @@ Drupal.behaviors.muziekladder_menu = {
     var menu_locked = false; 
     var scrollTimer = 0; 
     // attach handler to scroll event  - comment this out to disable fixed menu
-    $window.scroll (function(){
-      // prevent resource hogging:
-      if (scrollTimer) {
-         clearTimeout(scrollTimer);   // clear any previous pending timer
-      }
-      scrollTimer = setTimeout(respond_to_scroll, 10);
-    }); 
+    if (screen.width > 500){
+      $window.scroll (function(){
+        // prevent resource hogging:
+        if (scrollTimer) {
+           clearTimeout(scrollTimer);   // clear any previous pending timer
+        }
+        scrollTimer = setTimeout(respond_to_scroll, 10);
+      }); 
     respond_to_scroll(); 
-
+    }
     // Fixes top-menu to top of page on when page scroll reaches scroll_trigger_height 
     function respond_to_scroll(){
       var scrollHeight = $window.scrollTop();

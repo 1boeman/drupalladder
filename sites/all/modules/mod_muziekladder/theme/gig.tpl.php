@@ -1,6 +1,6 @@
   <nav>
     <ul class="breadcrumb">
-      <li><a href="/muziek/">Agenda</a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
+      <li><a href="/muziek/"><?php echo t('Calendar') ?></a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
       <li class="active"><span><?php echo $title ?></span></li>
     </ul>
   </nav>
@@ -17,19 +17,19 @@
 			</a>
 			
 		</h3>
-        <h4><a target="_blank" href="<?php echo $link ?>"><?php echo $location_title ?></a> 
+        <h4><a href="<?php echo $location_link ?>"><?php echo $location_title ?></a> 
             &bull; <span class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></span>
             &bull; <span class="country country<?php echo $countryno ?>" data-countryno="<?php echo $countryno ?>"><?php echo $country ?></span> 
  
         </h4>
-		<p><?php echo $desc ?></p>
+		<p class="description"><?php echo str_replace('||','<br />',$desc) ?></p>
 		<p><strong>Link</strong>: <a itemprop="url" href="<?php echo $link ?>"><?php echo $link ?></a>  </p>
-		<p><i class="icon-info-sign"></i> <a itemprop="url" href="<?php echo $link ?>">Meer informatie</a></p>
+		<p><i class="icon-info-sign"></i> <a itemprop="url" href="<?php echo $link ?>"><?php echo t('More info') ?> &raquo;</a></p>
     </div>
 		<div class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
 			<h3><a href="<?php echo $location_link ?>"><span itemprop="name"><?php echo $location_title ?></span></a></h3>
 			<p class="description"><?php echo $location_desc ?></p>
-			<h4>Locatie	:</h4>
+			<h4><?php echo t('Location') ?>:</h4>
 			<p>
 				<div> <?php echo $street .' '. $streetnumber .' '. $streetnumberAddition ?></div> 
 				<div itemprop="postalCode"><?php echo $zip ?></div>  
@@ -37,7 +37,7 @@
                 <div class="country country<?php echo $countryno ?>" data-countryno="<?php echo $countryno ?>"><?php echo $country ?></div> 
                 
 			</p>
-			<p><a itemprop="url" href="<?php echo $location_link ?>"><i class="icon-info-sign"></i> Meer info over <?php echo $location_title ?></a></p>
+			<p><a itemprop="url" href="<?php echo $location_link ?>"><i class="icon-info-sign"></i> <?php echo t('More about') ?> <?php echo $location_title ?></a></p>
 		</div>
 	</div>
 

@@ -1,6 +1,12 @@
 <?php
 
 class Muziek_util {
+  static function lang_url(){
+    global $language; 
+    $lang_prefix = strlen ($language->prefix) ? '/'.$language->prefix .'/' : '/';
+    return $lang_prefix;   
+  }
+
   static function shorten ( $string,$number = 25 ){
 
 		$wordarray =  preg_split('/\s+/',$string);

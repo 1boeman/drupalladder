@@ -118,7 +118,6 @@ function muziekladder_preprocess_region(&$variables, $hook) {
  * @param $hook
  *   The name of the template being rendered ("block" in this case.)
  */
-/* -- Delete this line if you want to use this function
 function muziekladder_preprocess_block(&$variables, $hook) {
   // Add a count to all the blocks in the region.
   // $variables['classes_array'][] = 'count-' . $variables['block_id'];
@@ -128,6 +127,9 @@ function muziekladder_preprocess_block(&$variables, $hook) {
   //if ($variables['block_html_id'] == 'block-system-main') {
   //  $variables['theme_hook_suggestions'] = array_diff($variables['theme_hook_suggestions'], array('block__no_wrapper'));
   //}
+  
+    
+
 }
 // */
 
@@ -179,10 +181,7 @@ function muziekladder_html_head_alter(&$head_elements) {
       '#tag' => 'meta',
       '#attributes' => array('name'=>'robots','content'=>'noindex'));
   }
-
-
 }
-
 
 function muziekladder_preprocess_node(&$variables, $hook) {
   // Add $unpublished variable.
@@ -193,11 +192,13 @@ function muziekladder_preprocess_node(&$variables, $hook) {
   if ($variables['display_submitted']) {
     $variables['submitted'] = $variables['pubdate'];
   }
-
 }
 
 function muziekladder_preprocess_page(&$variables) {
-  if (drupal_is_front_page){
+  
+  $variables['lang_prefix'] =  Muziek_util::lang_url(); 
+  
+  if (drupal_is_front_page()){
     unset($variables['page']['content']['system_main']['pager']);
   }
 

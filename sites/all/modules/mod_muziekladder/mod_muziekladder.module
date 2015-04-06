@@ -38,6 +38,10 @@ function mod_muziekladder_index($arg = false){
     $aRequest = array('front'); 
   }
   
+  if (in_array($aRequest[0],array('nl','en'))){
+    array_shift($aRequest);
+  }
+   
   require_once ($aRequest[0].'.php');
   if (!isset($aRequest[1])) $aRequest[1] = 'index';
  
@@ -54,7 +58,7 @@ function mod_muziekladder_index($arg = false){
   $result = $obj->$methodname($arg);
   
   if (isset($result['render_array'])) {
-      return $result['render_array']; 
+    return $result['render_array']; 
   } elseif (isset($result['html'])){
     $render_array = array(
       'agenda_content'=>array(
@@ -80,11 +84,16 @@ function mod_muziekladder_index($arg = false){
   }
 }
 
-//drupal_is_front() doesnt work properly so ...
-if ( $_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['REQUEST_URI'] == '/' ){
-  mod_muziekladder_index('<front>');
-}
 
+//drupal_is_front_page() doesnt work properly so ...
+function mod_muziekladder_page_build(&$page){
+
+  if (drupal_is_front_page()){
+//if ( $_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['REQUEST_URI'] == '/' ){
+    mod_muziekladder_index('<front>');
+//}
+  } 
+}
 /**
  * block definitions
  **/
@@ -111,6 +120,15 @@ function mod_muziekladder_block_view($delta) {
   return  $obj->$delta();  
 }
 
+function mod_muziekladder_language_switch_links_alter(array &$links, $type, $path) {
+    // Get query parameters
+    $query = drupal_get_query_parameters();
+
+    foreach ($links as &$link) {
+      // Pass through query parameters:
+      $link['query'] = $query;
+    }
+}
 
 /**
 * Implements hook_theme
@@ -148,6 +166,8 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
 
 
 function mod_muziekladder_preprocess_html(&$vars) {
+  global $language;
+   
   require_once (dirname(__FILE__).'/app/bootstrap.php'); 
   $aliases = explode('/',MUZIEKLADDER_REQUEST_PATH);
   $predefined = array(
@@ -158,6 +178,7 @@ function mod_muziekladder_preprocess_html(&$vars) {
     'locaties'=>'locationPage',
     'search'=>'zoekpagina',
   ); 
+  if ($aliases[0] == $language->prefix) array_shift($aliases);  
   if (isset($predefined[$aliases[0]])){
     $vars['classes_array'][] = $predefined[$aliases[0]]; 
   }

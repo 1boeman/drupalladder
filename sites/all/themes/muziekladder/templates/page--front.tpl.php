@@ -18,7 +18,7 @@
       <h1 class="page__title title" id="page-title"><?php print $title; ?></h1>
 
       <form  action="/search">
-        <input placeholder="Artiest, stad of locatie" id="front-search-input" name="query" type="text" /> 
+        <input placeholder="<?php echo t('Search') ?>" id="front-search-input" name="query" type="text" /> 
         <button type="submit" class="btn btn-large">&raquo;</button>
       </form>
     </div>
@@ -26,7 +26,6 @@
     <div id="content" class="column" role="main">
 
       <?php print render($page['highlighted']); ?>
-      <?php print $breadcrumb; ?>
       <a id="main-content"></a>
 
       <?php print render($tabs); ?>

@@ -23,6 +23,7 @@ class Muziek extends Controller {
     $daynext = $day + 1 < 90 ? $day +1 : 90;
     $dayprev = $day - 1 > 0 ? $day - 1 : 0; 
     $cities = Muziek_db::get_cities(); 
+    $prefix= Muziek_util::lang_url();
     $date_array=array();
     $dt = new DateTime();      
     $dt->modify('-4 hour'); //don't change first agenda page till 4 am
@@ -39,9 +40,9 @@ class Muziek extends Controller {
       'day' => $day,
       'daynext' => $daynext,
       'dayprev' => $dayprev,
-      'next' =>  '/muziek/'.$ct.'agenda-'.$daynext.'.html',
-      'prev' =>  '/muziek/'.$ct.'agenda-'.$dayprev.'.html',
-      'tday' =>  '/muziek/'.$ct )                  
+      'next' =>  $prefix.'muziek/'.$ct.'agenda-'.$daynext.'.html',
+      'prev' =>  $prefix.'muziek/'.$ct.'agenda-'.$dayprev.'.html',
+      'tday' =>  $prefix.'muziek/'.$ct )                  
     ); 
   }
 

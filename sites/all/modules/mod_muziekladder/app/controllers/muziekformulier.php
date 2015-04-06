@@ -8,9 +8,8 @@ class Muziekformulier extends Controller {
 
   function index() {
 
-    $this->set_head_title('Tip muziekladder');
-    $this->set_title('Tip de Muziekladder agenda');
-  
+    $this->set_head_title(t('Muziekladder recommendation'));
+    $this->set_title(t('Recommend stuff to the Muziekladder Calendar'));
     $form = drupal_get_form('mod_muziekladder_mailtipform');
     $tips = $this->showTips();
     
@@ -19,7 +18,7 @@ class Muziekformulier extends Controller {
         '#type'=>'markup',
         '#markup'=>$tips,
         '#prefix' => '<div class="printed-tips eventfull clearfix">
-                        <h3>Recente tips:</h3>',
+                        <h3>'.t('Recent recommendations').':</h3>',
         '#suffix' => '</div>',
       )
     )); 

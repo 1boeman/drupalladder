@@ -1,19 +1,19 @@
 <div class="city_gig_agenda" data-page="<?php echo $page ?>" data-count="<?php echo $count ?>" data-rpp="<?php echo $rpp ?>"> 
-  <h1><?php echo (strlen ($cityname) ? ucfirst ($cityname) : 'Muziekagenda') ?> - concerten, optredens en evenementen vanaf <?php echo $title_date; ?> </h1>
+  <h1><?php echo (strlen ($cityname) ? ucfirst ($cityname) : t('Music Calendar ')) . ' - '. t(' ').$title_date; ?> </h1>
 <?php echo $navigation ?>
 <?php if($page > 0): ?>
-  <h2 class="pagina">Pagina <?php echo $page+1; ?></h2>
+  <h2 class="pagina"> <?php echo t('Page').' '. ($page+1); ?></h2>
 <?php endif; ?>
 
 <div class="page-nav-container top"></div> 
 <?php 
-
+$lang_prefix = Muziek_util::lang_url(); 
 $old_date = '';
 if(!empty($content)){
   
   foreach($content as $value){
     
-    $link = '/gig/?datestring='.$value['Event_Date'].'&g='.rawurlencode($value['Event_Link']); 
+    $link = $lang_prefix.'gig/?datestring='.$value['Event_Date'].'&g='.rawurlencode($value['Event_Link']).'&id='.$value['Event_Id']; 
     
     if ($old_date != $value['Event_Date']){
       $old_date = $value['Event_Date'];
@@ -33,9 +33,8 @@ if(!empty($content)){
       } 
       $old_title =  $value['Event_Title'];
       $old_venue = $value['Venue_Title'];
-       
     }
-    ?>                                          
+?>                                          
     <div class="city_gig clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $value['Event_Img'] ?>">
       <a itemprop="url" href="<?php echo $link ?>">
         <div class="first-cell cell">
@@ -45,19 +44,45 @@ if(!empty($content)){
           <span class="city"><?php echo $value['City_Name'] ?>,</span>
    
           <span class="venue"><?php echo $value['Venue_Title'] ?></span>
-         <span class="date" itemprop="startDate" content="<?php echo $value['Event_Date'] ?>"><?php echo $subhuman_date ?></span>
+           <span class="date" itemprop="startDate" content="<?php echo $value['Event_Date'] ?>"><?php echo $subhuman_date ?></span>
         </div>
        </a>
     </div>
 
   <?php }
 }else{ ?>
-<p>Niks gevonden helaas.</p>
+
+<p>
+<?php 
+if ($lang_prefix =='/en/'): ?>
+<p>
+Sorry, couldn't find any events. 
+</p>
+<p>
+<a href="/en/muziek">
+Please select another day or city perhaps.
+</a>
+</p>
+<p>Or if you know something interesting we don't...</p>
+<p> please take a few seconds to use the  <a href="/en/muziekformulier">
+ recomendation form.
+</a>!
+
+
+</p>
+
+
+<?php
+else: ?>
+<p>
+Niks gevonden helaas.
+</p>
 <p>Probeer een andere stad of dag misschien...</p>
 <p>Of als je vindt dat hier iets had moeten staan wat er nu niet staat - gebruik dan het <a href="/muziekformulier">tip-formulier </a>!</p>
 
 
-<?php    
+<?php
+  endif;    
 }
 ?> 
 

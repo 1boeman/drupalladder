@@ -15,7 +15,9 @@
   padding-top:120px;
   box-shadow:0px 0px 20px #999
 }
-
+#block-locale-language{
+  display:none  
+}
 .muziekladder_logo{
   margin-left:2px;
   float:left; 
@@ -807,12 +809,12 @@ ul.steden li{
   
 }
 ul.steden li:hover {
-  background:white;  
-}
-/*gig / event pagina's */
-.detail h2{
-  font-size:30px;
-}
+    background:white;  
+  }
+  /*gig / event pagina's */
+  .detail h2{
+    font-size:30px;
+  }
 .detail h3 strong{
   font-weight:normal  
 }
@@ -1194,6 +1196,13 @@ clear: both;
  
 /* Landscape phone to portrait tablet */
 @media (max-width:769px) {
+
+  .user-input-inner .muziek_cell2,
+  .user-input-inner .muziek_cell1{
+    width:100%;
+    float:none;  
+  }
+
   
   .city_gig .cell{
     float:none;
@@ -1261,10 +1270,25 @@ clear: both;
 
 /* Landscape phones and down */
 @media (max-width: 500px) {
+  #block-system-main-menu .menu li a{
+    font-size:12px;  
+    
+  }
+  .muziekladder_logo,
+  #block-system-main-menu .menu li{
+    padding-left:0px; 
+    padding-right:0px;
+    margin:0px; 
+    width:25%;
+    overflow:hidden; 
+  }
+ 
 
-
+  #navigation{
+    position:absolute;
+  } 
   .muziekladder_logo img{
-    width:110px;
+    width:100px;
   }
 
   #front-search-input{

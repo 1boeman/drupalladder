@@ -5,10 +5,20 @@ class Uitgaan extends Controller {
       //city based lists
       // get cityno
       if (preg_match('/([0-9]+)-[a-zA-Z]*/',$name,$matches)){
-        //var_dump ($matches[1]);
+        //var_dump ();
+        $this->city_main($matches[1]);
       } 
     }
    
+    public function city_main($cityno){
+      $mdb = new Muziek_db(); 
+      $city = $mdb->get_city($cityno);
+      $venues = $mdb->get_city_venues($cityno);
+      var_dump($city); 
+      var_dump($venues);
+      exit; 
+    }
+
 
     public function index () {
         drupal_add_js(array('city_names' => array('en'=>$this->countrynames_EN,'nl'=>$this->countrynames) ), 'setting');
