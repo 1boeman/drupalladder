@@ -2,7 +2,6 @@
 
 class Search extends Controller {
   public function index() {
-
     $page = isset($_REQUEST['p']) ? $_REQUEST['p'] : 1; 
     $rowsperpage = 10;
     $maxPages = 10;
@@ -10,9 +9,9 @@ class Search extends Controller {
     $bodyClass = 'search';
     $pages = 0;
     $content = '';
-    $titletag = 'Zoeken op Muziekladder';
+    $titletag = t('Search the Muziekladder Calendar');
     $view = $this->init_view();
-        $sort = false;
+    $sort = false;
 
     if (isset($_REQUEST['query']) && strlen(trim($_REQUEST['query']))){
       $q = rawurlencode($_REQUEST['query']);  
@@ -28,8 +27,8 @@ class Search extends Controller {
     }
 
     if (!isset($q)){
-      $content =   Muziek_util::template(Array(),$this->view->nosearchterm);
-      $content .=  Muziek_util::template(Array('searchTerms'=>''),$this->view->searchbox);
+      $content = theme('searchresult',array('nosearchterm'=>1));
+      $content .=  theme('searchresult',Array('searchTerms'=>''));
     }else{
       $url = MUZIEK_SOLRHOST.'select?q='. $q .'&wt=phps&indent=true&defType=edismax'; 
       $url .= '&qf=title+content+city+date+venue+zip+sourcelink&stopwords=true&lowercaseOperators=true'; 
@@ -48,6 +47,7 @@ class Search extends Controller {
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_URL => $query,
       ));
+    
       $resp = curl_exec($curl);
       curl_close($curl);
 
@@ -59,13 +59,13 @@ class Search extends Controller {
       $numFound = (int)$resp['response']['numFound']; 
       $pagination = array();
 
-      $content =  Muziek_util::template(Array('searchTerms'=>rawurldecode($q)),$this->view->searchbox);
+      $content =  theme('searchresult',array('searchTerms'=>rawurldecode($q)));
       if ($numFound === 0 ) {
                 
       }elseif ($numFound === 1){
-        $resultaat = ' resultaat';
+        $resultaat = ' '.t('result');
       }else{
-        $resultaat = ' resultaten';
+        $resultaat = ' '.t('results');
         
         if ($numFound > $rowsperpage){
           $pages = ceil($numFound / $rowsperpage);
@@ -75,7 +75,7 @@ class Search extends Controller {
             if ( $p != $page ){
               $link = '/search/?query='.$q.'&p='.$p. $sortstring;
               $pagination []='<li><a href="'.$link.'">'.$p.'</a></li>';
-            }else{
+            } else {
               $nextLink = '<li><a href="/search/?query='.$q .'&p='. ($p+1) . $sortstring.'">&raquo;</a></li>';
               $pagination []='<li><span>'.$p.'</span></li>';
               $prevLink ='<li><a href="/search/?query='.$q .'&p='. ($p-1) . $sortstring .'">&laquo;</a></li>';
@@ -108,17 +108,19 @@ class Search extends Controller {
         
           foreach ($resp['response']['docs'] as $doc ) {
             $dsc = $doc['content'] ? $doc['content'] : '';
-            $content .= Muziek_util::template(Array(
-                            'title'=>$doc['title'],
-                            'sourcelink'=>$doc['sourcelink'],
-                            'desc'=>Muziek_util::shorten($dsc,50),
-                            'date'=> strftime("%A %e %B %Y", strtotime($doc['date'])),
-                            'id'=>$doc['id'],
-                            'location'=>$doc['venue'],
-                            'city'=>$doc['city'],
-                            'internallink'=> 'datestring='.substr($doc['date'],0, strpos($doc['date'],'T')) .'&g='.rawurlencode($doc['sourcelink']),
-            ),$this->view->result);
-          }
+            $ts = strtotime($doc['date']);
+            $content .= theme('searchresult',array(
+                'searchresult'=>1,
+                'title'=>$doc['title'],
+                'sourcelink'=>$doc['sourcelink'],
+                'desc'=>Muziek_util::shorten($dsc,50),
+                'date'=>t(date('l',$ts)).' '.date('j',$ts). ' ' .t(date('F',$ts)).' '.date('Y',$ts), 
+                'id'=>$doc['id'],
+                'location'=>$doc['venue'],
+                'city'=>$doc['city'],
+                'internallink'=> 'datestring='.substr($doc['date'],0, strpos($doc['date'],'T')) .'&g='.rawurlencode($doc['sourcelink']),
+        ),$this->view->result);
+        }
 
         $content .= Muziek_util::template(Array('pagination'=>$pagination),$this->view->resultfooter);
       }else{

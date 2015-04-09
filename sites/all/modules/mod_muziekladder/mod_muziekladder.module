@@ -143,6 +143,11 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
           'nextlink'=>NULL
       )
     ), 
+    'searchresult' => array(
+      'template' => 'searchresult',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ),   
     
     'gig' => array(
       'template' => 'gig',

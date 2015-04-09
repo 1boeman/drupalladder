@@ -8,7 +8,6 @@ class Muziek_util {
   }
 
   static function shorten ( $string,$number = 25 ){
-
 		$wordarray =  preg_split('/\s+/',$string);
         return implode ( " ", array_slice( $wordarray, 0 , $number ) ); 
 	}

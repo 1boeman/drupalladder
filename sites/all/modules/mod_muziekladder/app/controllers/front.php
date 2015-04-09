@@ -3,11 +3,16 @@ require 'muziek.php';
 class Front extends Controller {
 	public function index () {
       global $language; 
-		//front page 
       	
       $this->set_head_title(t('Muziekladder: calendar for live music, concerts and parties in &amp; around the Netherlands '));
-      $this->set_title(t('Music, concerts and parties'));
-      $this->set_meta_desc(t('Calendar and loction maps for live music, concerts, parties and shows in the Netherlands and surrounding areas'));
+      if ($language->prefix == 'en'){
+        $this->set_meta_desc('Calendar, locations and tips for live music, concerts, parties and shows in the Netherlands and surrounding areas.');
+        $this->set_title('Live music, concerts and parties');
+      }else{
+        $this->set_meta_desc('Agenda, locaties en tips voor live muziek, concerten, feestjes en shows  in Nederland en omstreken.');
+        $this->set_title('Live muziek, concerten en feesten');
+        
+      }
 
       $s = Singleton::get_instance();
       $ga_naar = t('Open calendar' );

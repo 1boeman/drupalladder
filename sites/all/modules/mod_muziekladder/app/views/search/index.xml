@@ -1,27 +1,7 @@
 <?xml version="1.0" ?>
 <snippets>
-	<nosearchterm><![CDATA[
-		<p>
-			Vul een of meerdere zoektermen in:
-		</p>
-	]]>		
-	</nosearchterm>	
 	<searchbox><![CDATA[
-	<div class="form-search-container2">
-		<form class="form-search" action="/search" id="advanced_search">
-			<div class="input-append">
-				<input name="query" type="text" class="input-xxlarge search-query" placeholder="zoek muziek" value="##searchTerms##">
-				<button type="submit" class="btn"><i class="icon icon-search"></i></button>
-            </div>
-            <div class="advanced-search-options">
-                <select name="orderBy" id="orderBy">
-                    <option value="relevance">Sorteer op relevantie</option>
-                    <option value="date">Sorteer op datum</option>
-               </select>
-            </div>
-		</form>
-	</div>
-	]]>		
+		]]>		
 	</searchbox>
 	<resultheader><![CDATA[
 			
