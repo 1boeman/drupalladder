@@ -21,6 +21,7 @@ function mod_muziekladder_init(){
 }
 
 function mod_muziekladder_index($arg = false){
+  
   mod_muziekladder_init();
   //set javascript settings:
   $js_settings = array('muziekladderBasePath' => MUZIEKLADDER_BASE_PATH); 
@@ -49,7 +50,7 @@ function mod_muziekladder_index($arg = false){
   $methodname =  $aRequest[1];
 
   $obj = new $classname;
-  if (!in_array($classname, array('Muziek','Uitgaan' )) &&
+  if (!in_array($classname, array('Muziek','Uitgaan','Locaties' )) &&
       !preg_match('/20[0-9]+/',$methodname) 
       && !method_exists($obj, $methodname)){
     return MENU_NOT_FOUND; 
@@ -66,16 +67,16 @@ function mod_muziekladder_index($arg = false){
         '#markup'=>$result['html'],
       ),
     );
-    return $render_array;  
+   return $render_array;  
   } elseif (isset($result['json'])) {
     drupal_json_output($result['json']); 
   } elseif (isset($result['html_fragment']) || isset($result['json_string'])) {
     // responding to an ajax request
     if (isset( $result['html_fragment'])){
-        echo $result['html_fragment'];
+      echo $result['html_fragment'];
     }else{
-        drupal_add_http_header('Content-Type', 'application/json; charset=utf-8'); 
-        echo $result['json_string']; 
+      drupal_add_http_header('Content-Type','application/json; charset=utf-8'); 
+      echo $result['json_string']; 
     }
    
     // Perform end-of-request tasks.
@@ -85,13 +86,9 @@ function mod_muziekladder_index($arg = false){
 }
 
 
-//drupal_is_front_page() doesnt work properly so ...
 function mod_muziekladder_page_build(&$page){
-
   if (drupal_is_front_page()){
-//if ( $_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['REQUEST_URI'] == '/' ){
     mod_muziekladder_index('<front>');
-//}
   } 
 }
 /**
@@ -148,7 +145,16 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
       'path' => $path.'/theme',
       'variables' => array()
     ),   
-    
+    'locaties' => array(
+      'template'=>'locaties',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ),  
+    'uitgaan' => array(
+      'template'=>'uitgaan',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ),  
     'gig' => array(
       'template' => 'gig',
       'path' => $path.'/theme',

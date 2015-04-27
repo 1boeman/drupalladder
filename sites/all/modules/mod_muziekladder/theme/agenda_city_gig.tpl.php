@@ -1,5 +1,4 @@
 <div class="city_gig_agenda" data-page="<?php echo $page ?>" data-count="<?php echo $count ?>" data-rpp="<?php echo $rpp ?>"> 
-  <h1><?php echo (strlen ($cityname) ? ucfirst ($cityname) : t('Music Calendar ')) . ' - '. t(' ').$title_date; ?> </h1>
 <?php echo $navigation ?>
 <?php if($page > 0): ?>
   <h2 class="pagina"> <?php echo t('Page').' '. ($page+1); ?></h2>

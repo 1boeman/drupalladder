@@ -25,16 +25,23 @@
 }
 .muziekladder_logo img{
   margin-top:7px;
-  -webkit-transition: all 200ms ease-in-out;
-  -moz-transition: all 200ms ease-in-out;
-  -o-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
+  -webkit-transition: all 200ms;
+  -moz-transition: all 200ms;
+  -o-transition: all 200ms;
+  transition: all 200ms;
   width:198px;
 }
 .scrolling .muziekladder_logo img{
   margin-top:2px;
   width:110px;    
 }
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 body { 
   font-size: 18px;  
   line-height:1.4;
@@ -63,10 +70,13 @@ padding-left:12px;
 }
 h1.page__title,
 h1{
-  font: 32px/36px 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
+  font: 34px/36px 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
   margin-bottom:1em;
   margin-top:10px;
   color:#333;
+}
+h2{
+  font-size:28px;
 }
 h2,h3 {
    font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
@@ -169,10 +179,10 @@ blockquote:before {
   position:absolute; 
   top:0px;
   left:0px;
-  -webkit-transition: all 500ms ease-in-out;
-  -moz-transition: all 500ms ease-in-out;
-  -o-transition: all 500ms ease-in-out;
-  transition: all 500ms ease-in-out;
+  -webkit-transition: all 500ms ;
+  -moz-transition: all 500ms ;
+  -o-transition: all 500ms ;
+  transition: all 500ms ;
   cursor:pointer
 }
 
@@ -372,10 +382,10 @@ border-radius: 4px;
   padding-left:30px;
   border-right:1px solid #666;
   height:60px;
-  -webkit-transition: all 200ms ease-in-out;
-  -moz-transition: all 200ms ease-in-out;
-  -o-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
+  -webkit-transition: all 200ms ;
+  -moz-transition: all 200ms ;
+  -o-transition: all 200ms ;
+  transition: all 200ms ;
 
 }
 .scrolling .form-search-container{
@@ -433,10 +443,10 @@ border-radius: 4px;
  padding-bottom:0px;
  padding-left:24px;
  padding-right:24px;
- -webkit-transition: all 200ms ease-in-out;
- -moz-transition: all 200ms ease-in-out;
- -o-transition: all 200ms ease-in-out;
- transition: all 200ms ease-in-out;
+ -webkit-transition: all 200ms ;
+ -moz-transition: all 200ms ;
+ -o-transition: all 200ms ;
+ transition: all 200ms ;
  cursor:pointer;
  border-right:1px solid #666;
  opacity:0.5
@@ -516,7 +526,6 @@ border-radius: 4px;
 /*footer*/
 footer{
  background:#333;
- border-top:8px solid white;
  text-align:center;
  padding-top:20px;
  padding-bottom:80px;
@@ -746,50 +755,93 @@ color:Maroon
 }
 
 /* locatie pagina's */
-.maps_infowindowcontent{
-  width:250px;  
+
+#city_autocomplete{
+  font-size:28px;
+  line-height:1.2;
+  height:auto;
 }
+.maps_infowindowcontent{
+  width:300px;  
+}
+
+.maps_infowindowcontent .desc{
+  display:none;
+
+}
+.locaties .maps_infowindowcontent .adres{
+  display:block;
+} 
+
 .map-placeholder img{
   max-width:none;
 }
-.locaties .hero-unit{
-  box-shadow: 0px 0px 8px #999;
+
+ul.locaties-lijst{
+  float:left;
+  list-style:none;
+  margin:0px;
+  width:33.3333333333%;
 }
-.locatiebeschrijving {
-  background:#efefef;
-  padding:10px 20px;
-  margin-bottom:10px;
-  border-radius:4px;
-  box-shadow:0px 0px 2px #afafaf;
+ul.locaties-lijst p{
+  font-size:15px;
 }
-.city-container .locatiebeschrijving {
-padding:10px; 
-background:transparent;
-border:0px;
-border-radius:0;
-border-top:1px solid #fff;
-box-shadow:none;
-margin-bottom:0px;
-border-bottom:2px dotted #ccc
-}
-.city-container h1 {
-font-size:1.4em;
-padding-left:10px;
-border-bottom:2px dotted #ccc
+.locaties .adres{
+  display:none
 }
 
+.locatiebeschrijving h4 {
+  background:#efefef;
+  text-align:center;
+  display:block;
+  padding:8px 4px;
+}
+
+
+.locaties-lijst:first-of-type .locatiebeschrijving {
+  padding-left:0px;
+}
+.locatiebeschrijving {
+  
+  padding-left:14px;
+  margin-bottom:10px;
+  border:0px;
+  border-radius:0;
+  box-shadow:none;
+  padding-bottom:10px;
+
+}
+.locatiebeschrijving:hover p{
+  background:LightYellow;
+  cursor:pointer  
+}
+.locatiebeschrijving:hover h4{
+  background:black;
+  cursor:pointer  
+}
+.locatiebeschrijving:hover h4 a{
+  color:white
+}
+ 
+.locatiebeschrijving .desc{
+  
+} 
+.city-container h1 {
+border-bottom:2px dotted #ccc
+}
+.city-container {
+}
 .map-placeholder{
-    float:right;
-    width:56%;    
-    min-height:600px;
+    width:100%;    
     box-shadow:0px 0px 10px white;
     background-image:url('../img/ajax-loader.gif'); 
     background-position:center center; 
     background-repeat:no-repeat;
 }
-.stedencontainer{margin-bottom:8px;
-    width:44%;
-    float:left;
+.stedencontainer{
+  margin-top:24px;
+  padding-bottom:12px;
+ 
     background:white
 }
 
@@ -799,13 +851,12 @@ ul.steden li:nth-child(2n){background:#dfdfdf; border-radius:4px; }
 
 ul.steden li{
   list-style:none;
-  /* list-style-position:inside;*/
   padding:10px; 
   float:left;
   line-height:2;
   min-width:146px;
   font-size:0.8em;
-  transition: 0.5s ease-in-out all;
+  transition: 0.5s  all;
   
 }
 ul.steden li:hover {
@@ -876,23 +927,15 @@ ul.steden li:hover {
   margin:6px 0px 0px 20px;
   min-width:400px
 }
+.locationPage .event a{
+  display:inline-block;
 
-.locationPage .event{
-  background:#efefef;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:4px;
-  box-shadow:0px 0px 2px #afafaf; 
-  -webkit-transition: 0.5s ease-in-out all;
-  -moz-transition: 0.5s ease-in-out all;
-  -ms-transition: 0.5s ease-in-out all;
-  -o-transition: 0.5s ease-in-out all;
-  transition: 0.5s ease-in-out all;
-  cursor:pointer;
 }
-.locationPage .event:hover{
-  background:#ffffff;
-  box-shadow:0px 0px 16px #999999;  
+ 
+.locationPage .event{
+  padding:14px 0px;
+  cursor:pointer;
+  border-bottom:2px dotted #333;
 }
 
 
@@ -977,11 +1020,11 @@ font-size: 20px;
   background:white;
   text-align:center;
   border-radius:4px;
-  -webkit-transition: 0.2s ease-in-out all;
-  -moz-transition: 0.2s ease-in-out all;
-  -ms-transition: 0.2s ease-in-out all;
-  -o-transition: 0.2s ease-in-out all;
-  transition: 0.2s ease-in-out all;
+  -webkit-transition: 0.2s  all;
+  -moz-transition: 0.2s  all;
+  -ms-transition: 0.2s  all;
+  -o-transition: 0.2s  all;
+  transition: 0.2s  all;
   cursor:pointer;
   font-weight:bold; 
 }
@@ -1037,7 +1080,7 @@ font-size: 20px;
     border-bottom:0px;
     border-top-left-radius:4px;
     border-top-right-radius:4px;
-    transition: 0.2s ease-in-out all;
+    transition: 0.2s  all;
     color:#005580;
 }
 
@@ -1127,7 +1170,7 @@ body.page-muziekformulier form {
 /* uitgaan */
 .page-uitgaan .club-container {
   background:white;
-  padding:10px;
+  padding:10px 0px;
 } 
 .page-uitgaan .club-container .breadcrumb{
   display:none
@@ -1196,6 +1239,12 @@ clear: both;
  
 /* Landscape phone to portrait tablet */
 @media (max-width:769px) {
+  ul.locaties-lijst{
+    float:left;
+    list-style:none;
+    margin:0px;
+    width:50%;
+  }
 
   .user-input-inner .muziek_cell2,
   .user-input-inner .muziek_cell1{
@@ -1270,6 +1319,13 @@ clear: both;
 
 /* Landscape phones and down */
 @media (max-width: 500px) {
+  ul.locaties-lijst{
+    float:left;
+    list-style:none;
+    margin:0px;
+    width:100%;
+  }
+
   #block-system-main-menu .menu li a{
     font-size:12px;  
     

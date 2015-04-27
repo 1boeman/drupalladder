@@ -18,7 +18,7 @@ class Gig extends Controller{
     $month = $date_arr[1];
     $day = $date_arr[2];
     $weekday = t(date('l',$timestamp));
-    $monthname = t(date('F'));
+    $monthname = t(date('F'.$timestamp));
     
     $date = $day.' ' .$monthname. ' '.$year;
     $bodyClass= 'detail';

@@ -11,30 +11,6 @@
 			</a>
 		</div>]]>
 	</event>
-	<location><![CDATA[
-		<ul class="breadcrumb">
-		  <li><a href="/uitgaan/">Locaties</a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
-		  <li class="active"><span>##location_title##</span></li>
-		</ul>
-
-			  <h2 class="location-title"><span>##location_title##</span></h2>
-
-				<span class="straatnaam"> ##street## </span>  
-				<span class="straatnummer">##streetnumber##</span> 
-				<span class="straatnummer-toevoeging" >##streetnumberAddition##</span> <br>
-				<span itemprop="postalCode">##zip##</span> 
-				<span class="city city##cityno##" data-cityno="##cityno##">##city##</span> 
-			
-			<p class="description">##location_desc##</p>		
-
-			<p><strong>Website: </strong> <a href="##location_link##"><span itemprop="name">##location_link##</span></a><br>
-			
-			
-			
-		</div>
-		<h3>##location_title## agenda:</h3>
-		]]>
-	</location>	
 	<notfound><![CDATA[
 	<div class="410">
 		<h1> Sorry hoor!</h1>

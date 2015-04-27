@@ -11,13 +11,32 @@ class Muziek_db {
     return $dbhandle;   
   }
   
-  static function get_city_venues($cityno){
-     $db = self::open_locaties_db();
-     $statement = $db->prepare('SELECT * from Venue where Cityno = :id order by Title;');
-     $statement->bindValue(':id', (int) $cityno);
-     $result = $statement->execute();
-  
-     return $result;
+  static function get_city_venues($cityno,$raw = true){
+    $db = self::open_locaties_db();
+    $statement = $db->prepare('SELECT * from Venue where Cityno = :id order by Title;');
+    $statement->bindValue(':id', (int) $cityno);
+    $result = $statement->execute();
+    if ($raw){
+      return $result;
+    } else {
+      return self::result_to_array($result);    
+    }
+  }
+
+  static function get_venue_gigs($venue_id,$raw = false){
+    $db = self::open_locaties_db(); 
+    $statement = $db->prepare('
+      SELECT *
+      from Event E 
+      WHERE E.Venue = :id ');
+
+    $statement->bindValue(':id', $venue_id);
+    $result = $statement->execute();
+    if ($raw){
+      return $result;
+    } else {
+      return self::result_to_array($result);    
+    }
   }
 
   static function get_city_gigs($cityno,$startdate,$page=0,$number_per_page=100){
@@ -72,7 +91,7 @@ class Muziek_db {
     return $rv;      
   }
   
-  private function result_to_array($result){
+  private static function result_to_array($result){
     $rv = array();   
     while($res = $result->fetchArray(SQLITE3_ASSOC)){ 
       $rv[]=$res;
@@ -98,16 +117,23 @@ class Muziek_db {
   }
 */
   function get_venue($venue_id){
-    $statement = $this->dbhandle->prepare('SELECT * FROM Venue WHERE Id = :id;');
+    $statement = $this->dbhandle->prepare(
+    'SELECT V.*, C.Name as City_name, Co.Name as Country_name 
+      FROM Venue V 
+      LEFT JOIN City C on V.Cityno = C.Id 
+      LEFT JOIN Country Co on Co.No = C.Countryno WHERE V.Id = :id;');
     $statement->bindValue(':id', $venue_id);
     $result = $statement->execute();
-    return $result->fetchArray();     
+    return $result->fetchArray(SQLITE3_ASSOC);     
   }
   
   function get_city($cityno){
-    $statement = $this->dbhandle->prepare('SELECT * FROM City WHERE Id = :id;');
+    $statement = $this->dbhandle->prepare('
+      SELECT c.*,co.Name as Country_name FROM City c 
+        LEFT JOIN Country co on co.No = c.Countryno 
+        WHERE Id = :id;');
     $statement->bindValue(':id', (int)$cityno);
     $result = $statement->execute();
-    return $result->fetchArray(); 
+    return $result->fetchArray(SQLITE3_ASSOC); 
   }
 }

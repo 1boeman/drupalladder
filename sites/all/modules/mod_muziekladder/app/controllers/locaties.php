@@ -1,7 +1,44 @@
 <?php 
 
 class Locaties extends Controller {
+
+  function __call($name, $arguments) {
+      if (preg_match('#(.+)-[a-zA-Z]+#',$name,$matches)){
+        return $this->locatie($matches[1]);
+      }else{
+        global $base_url; 
+        $url = $base_url.'/uitgaan';
+//        drupal_goto($url,array(),301);   
+      } 
+  }
+ 
+  private function locatie ($venue_id){
+    $db = new Muziek_db(); 
+    $venue = $db->get_venue($venue_id);
+    if (!$venue) {
+      drupal_not_found();
+      drupal_exit();
+    }
+     
+    $content = theme('locaties',array(
+      'venue' => $venue,
+      'events' => Muziek_db::get_venue_gigs($venue_id),
+      'lang_prefix' => Muziek_util::lang_url(), 
+    ));
+
+    $title = $venue['Title'];
+    $this->set_head_title($title . ' - ' . $venue['City_name']);
+    $this->set_title($title);
+    drupal_add_js(array('locatiepagina' => array(
+        'status' => 'venue',
+        'venue'=>$venue
+    )), 'setting');
+      
+    return array('html'=>$content);    
+  } 
+
   public function index () {
+    //@todo redirect
     if (isset($_GET['l'])) {
       $l = $_GET['l'];
       $data = Muziek_util::loadGigdata();

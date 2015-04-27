@@ -9,6 +9,7 @@ var hC = Drupal.settings.muziekladder;
         "bootstrap"     :hC.muziekladderBasePath + hC.jsDir+"bootstrap.min.js",
         "util"          :hC.muziekladderBasePath + hC.jsDir+"util.js",
         "locationpage"  :hC.muziekladderBasePath + hC.jsDir+"locationpage.js",
+        "autocomplete"  :hC.muziekladderBasePath + hC.jsDir+"jquery.autocomplete.min.js",
         "locations"     :hC.muziekladderBasePath + hC.jsDir+"locations.js",
         "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
         "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
@@ -74,7 +75,9 @@ var hC = Drupal.settings.muziekladder;
     };
     
     pageHandlers.front = function(){
-        var handlers = {openLink:cityMenuLinkHandler}; 
+        var handlers = {
+       //   openLink:cityMenuLinkHandleri
+        }; 
         externalLinks();
 //        drawFrontNews();
         frontSlide(); 
@@ -82,7 +85,7 @@ var hC = Drupal.settings.muziekladder;
     };
     
     pageHandlers.locationPage = function(){
-        laad.js('locationpage');
+        laad.js('locations');
         externalLinks();
         crumbTrail.set(location.href);
         return {};
@@ -93,7 +96,6 @@ var hC = Drupal.settings.muziekladder;
         showDetailImages();
         shareButton();
         crumbTrail.backButton($('.breadcrumb li a').eq(0));
-
         return {};
     }
     
@@ -172,7 +174,7 @@ var hC = Drupal.settings.muziekladder;
             var $gig = $(this); 
             var src = $gig.data('imgsrc');
             if(src){
-              var img = new Image; 
+              var img = new Image;
               img.onload = function(){
                 $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               
               }
@@ -236,7 +238,7 @@ var hC = Drupal.settings.muziekladder;
         .eq(i).addClass('current');
       setTimeout(frontSlide,6000); 
     }
-
+/*
     function drawFrontNews(){
        $.get('/nieuws/ajax',function(resp){
           $('.after_content').html('<h3>Overig nieuws</h3>'+resp).fadeIn('slow')
@@ -245,7 +247,6 @@ var hC = Drupal.settings.muziekladder;
 
        });  
     }
-
     function newsLinks(){
         $('.joriso-news-item h3 a').click(function(e){
             e.preventDefault();
@@ -261,12 +262,12 @@ var hC = Drupal.settings.muziekladder;
             }     
         }); 
     } 
-        
+/*        
     /**
      * City Menu functions.
      * The citybuttons on top of the index & dagoverzicht pages
      **/
-    var cityPresets = {     //groupings of cities based on proximity
+/*    var cityPresets = {     //groupings of cities based on proximity
         '1':[2,1,3], //Amsterdam
         '8':[8,5,1388962814,1389535452],    //Rotterdam
         '5':[8,5,100], // Den Haag
@@ -335,8 +336,7 @@ var hC = Drupal.settings.muziekladder;
     var getCurrentDateUrl = function(){
         return '/muziekdata/'+hC.date.year+'/'+hC.date.day+'-'+hC.date.month+'.json';               
     }       
-
-    function getData(){
+   function getData(){
         var url = getCurrentDateUrl();
         // return either the cached value or an
         // jqXHR object (which contains a promise)
@@ -347,14 +347,14 @@ var hC = Drupal.settings.muziekladder;
             }
         });
     }
-    var a = new RegExp('/' + window.location.host + '/');
-    var externalLinks = function(){
+*/
+   var a = new RegExp('/' + window.location.host + '/');
+   var externalLinks = function(){
         $('a[href]').each(function() {
            if(!a.test(this.href)) $(this).attr('target','_blank');
         });     
-    }
-
-    var showDetailImages = function(){
+   }
+   var showDetailImages = function(){
         var $ev = $('.eventfull');
         if ($ev.length){
             var href = $ev.eq(0).data('imgsrc');
@@ -374,7 +374,7 @@ var hC = Drupal.settings.muziekladder;
             }
         }
     };
-    
+ /*   
     var showImages = function(){    
         $.when(getData()).then(function(resp){
             $('.locationUnit')
@@ -394,13 +394,13 @@ var hC = Drupal.settings.muziekladder;
             )
         });
     };
-    
+   */ 
     var shareButton = function(){
         $('.location').before('<div style="margin:20px 0px" class="addthis_native_toolbox"></div>')
  
         laad.js('addthis',function(){});
     };
-  
+  /*
     var dateSelecter = function(){
         var monthNames = [ "", "januari", "februari", "maart", "april", "mei", "juni",
             "juli", "augustus", "september", "october", "november", "december"],
@@ -519,14 +519,14 @@ var hC = Drupal.settings.muziekladder;
         }
         
     };
-    
+ */   
     var backtotopButtons = function(){
         $('.backtotop').on('click',function(e){
             e.stopPropagation();
             window.scrollTo(0,0);
         })
     };
-    
+  /*  
     var cityselect = function(){
         var ct = typeof hC.sessionLocations !== 'undefined' ? hC.sessionLocations : 0,
             $checkboxes = $('.city-select input'),
@@ -675,5 +675,6 @@ var hC = Drupal.settings.muziekladder;
         };
         
         return pub;
-    };      
+    };  i
+    */    
 }(jQuery));

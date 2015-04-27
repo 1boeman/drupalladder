@@ -95,13 +95,14 @@ class Muziek extends Controller {
     $titletag .= ' Muziekagenda ';      
     
     $title_date = t($date->format('l')).' '.$date->format('j').' '. t($date->format('F')); 
-//    $db_date = $date->format('Y-m-d');
-
     $titletag .= ' v.a. '.$title_date;
-    $titletag .= ' - concerten, optredens en evenementen - ';
-    $titletag .= ' (dag:'.$day .'- pagina:'.($page+1) .')';
- 
+    $titletag .= ' (dag:'.($day+1) .'- pagina:'.($page+1) .')';
     $this->set_head_title($titletag);
+
+    $h1 = (strlen ($cityname) ? ucfirst ($cityname) : t('Music Calendar ')) . ' - '. t(' ').$title_date;
+    $h1 .= ' - concerten, feesten en muziek';
+    $this->set_title($h1);
+ 
     $content = theme('agenda_city_gig',array(
       'title_date'=> $title_date,
       'count'=> count($contentarr),
@@ -110,7 +111,7 @@ class Muziek extends Controller {
       'navigation'=> $this->navigation_links($cityno,$cityname,$day),
       'cityname'=>$cityname,
       'content'=>$contentarr)); 
-    
+     
     $render_array = array(
       'agenda_content'=>array(
         '#type'=>'markup',
