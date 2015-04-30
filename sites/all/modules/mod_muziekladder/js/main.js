@@ -51,7 +51,9 @@ var hC = Drupal.settings.muziekladder;
               alert(omg.join("\n\n"))
               return false  
             }
-        }); 
+        });
+        showTipsButton()
+  
         return {}; 
    }; 
 
@@ -65,11 +67,14 @@ var hC = Drupal.settings.muziekladder;
         $orderBy.change(function(){
            $('#advanced_search').submit();
         })
-
+       showTipsButton()
+ 
         return {};     
     };
 
     pageHandlers.articlefull = function(){
+        showTipsButton()
+ 
         externalLinks();
         return {};
     };
@@ -81,19 +86,27 @@ var hC = Drupal.settings.muziekladder;
         externalLinks();
 //        drawFrontNews();
         frontSlide(); 
+        showTipsButton()
+ 
         return handlers;
+
     };
     
     pageHandlers.locationPage = function(){
         laad.js('locations');
         externalLinks();
         crumbTrail.set(location.href);
+        showTipsButton()
+ 
         return {};
     }
     
     pageHandlers.detail = function(){
         externalLinks();
         showDetailImages();
+
+        showTipsButton()
+ 
         shareButton();
         crumbTrail.backButton($('.breadcrumb li a').eq(0));
         return {};
@@ -191,7 +204,28 @@ var hC = Drupal.settings.muziekladder;
     }
 
     function showTipsButton(){
-       $('#page-title, h1').before('<a class="tip-button" href="/muziekformulier">Tips?</a>');
+       var other,other_selector,a,lnk,txt,lng = Drupal.settings.pathPrefix;
+       if (lng.match(/nl/)){
+         lnk = '/en/';
+         txt = 'English';
+         other_selector = '.en';
+       } else {
+          lnk ='/nl/';
+          txt = 'Nederlands'; 
+          other_selector = '.nl';
+       }
+
+       other_selector += ' a.language-link';
+
+       a = $('<a class="tip-button" href="'+lnk+'">'+txt+' &raquo;</a>');
+       a.click(function(e){
+          other = $(other_selector);
+          if (other.length){
+            e.preventDefault(); 
+            location = other[0].href;
+          }
+       });
+       $('#page-title, h1').before(a);
     }    
 
     var crumbTrail = (function(){ 

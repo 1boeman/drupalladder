@@ -28,7 +28,8 @@ class Muziek_db {
     $statement = $db->prepare('
       SELECT *
       from Event E 
-      WHERE E.Venue = :id ');
+      WHERE E.Venue = :id 
+      order by Date');
 
     $statement->bindValue(':id', $venue_id);
     $result = $statement->execute();

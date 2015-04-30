@@ -51,8 +51,9 @@
   if (count ($venues)):
     $break = ceil(count($venues)/3);
     $i = 0;
-    foreach( $venues as $venue ): ?>
-  
+    foreach( $venues as $venue ): 
+    ?>
+        
   <li data-id="<?php echo $venue['Id'] ?>" class="locatiebeschrijving"> 
     <h4><a class="locatie-link" href="<?php echo $lang_prefix ?>locaties/<?php echo rawurlencode($venue['Id']).'-'.$city['Name'] ?>" 
   title="<?php echo $venue['Title'] ?>"><?php echo $venue['Title']?></a></h4>
