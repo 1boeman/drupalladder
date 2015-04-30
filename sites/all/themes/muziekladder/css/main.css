@@ -410,7 +410,7 @@ border-radius: 4px;
   max-width:1200px;
 }
 #page {
-
+  min-height:900px
 }
 #navigation{
   background:#111;
@@ -449,8 +449,10 @@ border-radius: 4px;
  transition: all 200ms ;
  cursor:pointer;
  border-right:1px solid #666;
- opacity:0.5
 }
+
+
+
 .scrolling #block-system-main-menu .menu li{
  height:35px;
  padding-top:15px;
@@ -469,25 +471,33 @@ border-radius: 4px;
  text-shadow: 0px 0px 6px #000;
  box-shadow:none; 
 
-
 }
 
 #block-system-main-menu .menu li.selected,
 .dagoverzicht  #block-system-main-menu .menu li.menu-385,
 .locaties #block-system-main-menu .menu li.menu-387,
+.locationPage #block-system-main-menu .menu li.menu-387,
 .section-nieuws #block-system-main-menu .menu li.menu-384,
-.front #block-system-main-menu .menu li.menu-384{
+.front #block-system-main-menu .menu li.menu-384,
+.muziekformulier  #block-system-main-menu .menu li.menu-475
+
+{
   box-shadow:none;
   overflow: hidden;
-  opacity:1
+  background:white;
+  position:relative;
+  top:1px;
 }
 
 #block-system-main-menu .menu li.selected a,
 .dagoverzicht  #block-system-main-menu .menu li.menu-385 a,
+.locationPage #block-system-main-menu .menu li.menu-387 a,
 .locaties #block-system-main-menu .menu li.menu-387 a,
 .section-nieuws #block-system-main-menu .menu li.menu-384 a,
-.front #block-system-main-menu .menu li.menu-384 a{
-  color:white;
+.front #block-system-main-menu .menu li.menu-384 a,
+.muziekformulier  #block-system-main-menu .menu li.menu-475 a
+{
+  color:#333;
   text-shadow:none;
 }
 
@@ -827,9 +837,7 @@ ul.locaties-lijst p{
   
 } 
 .city-container h1 {
-border-bottom:2px dotted #ccc
-}
-.city-container {
+  border-bottom:2px dotted #ccc
 }
 .map-placeholder{
     width:100%;    
@@ -837,6 +845,8 @@ border-bottom:2px dotted #ccc
     background-image:url('../img/ajax-loader.gif'); 
     background-position:center center; 
     background-repeat:no-repeat;
+    min-height:200px;
+    background:#efefef;
 }
 .stedencontainer{
   margin-top:24px;
