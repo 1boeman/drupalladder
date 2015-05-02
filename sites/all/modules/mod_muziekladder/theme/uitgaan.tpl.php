@@ -43,7 +43,7 @@
 </div>
   
 <div class="locatie-lijst-container clearfix">
-<h2><?php echo 'Venues in ' ?> <?php echo $city['Name'] ?> </h2>
+<h2><?php echo t('Venues in ') ?> <?php echo $city['Name'] ?> </h2>
 <div class="calendar-link"><a href="<?php echo $agenda_link ?>"><?php echo t('Jump to today\'s ').' '.$city['Name'].' '.t('calendar')?> &raquo;</a></div>
 
 <ul class="locaties-lijst">

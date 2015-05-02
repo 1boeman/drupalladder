@@ -21,9 +21,58 @@
       
       laad.js('autocomplete',autocomplete);
     },
+
+   /*******************
+    *** City pages
+    ******************/
     city_main:function() {
       laad.wait('maps');
+    
+      // content tabs
+      (function(){
+        var tabs = [];
+        $('.node-container').each(function(){
+          var $this = $(this); 
+          var title = $this.find('.node-title')[0].innerHTML; 
+          var ids = $this.find('article')[0].className.split(/\s+/)[0];
+          tabs.push('<li><a href="#'+ids+'">'+title+'</a></li>'); 
+        }) 
+        if (tabs.length > 1){
+          var $tabs =$('<ul class="nav nav-tabs">'+tabs.join('')+'</ul>')
+          $('.city-container')
+            .prepend($tabs)
+          var hash = location.hash;
+          var hashchange = function(){
+             var h = location.hash;
+             var ha = h.replace('#','');
+             var $tab = $("a[href='"+h+"']");
+             if ($tab.length) {
+               var $nc = $('.node-container article');
+               $tabs.find('li').removeClass('active'); 
+               $tab.parent().addClass('active');
+               $nc.each(function(){
+                  if (this.className.indexOf(ha) > -1){
+                    $('.node-container').removeClass('active');
+                    $(this).parent().addClass('active')
+                }    
+              })
+             } 
+          }
+
+          $(window).on('hashchange', hashchange);    
+          if (location.hash.length){
+             hashchange(); 
+          } else {
+            $tabs.find('li').eq(0).addClass('active'); 
+            $('.node-container').eq(0).addClass('active'); 
+          }   
+        }
+      }()); 
     },
+
+   /*******************
+    *** Venue pages
+    ******************/
     venue:function(){
       var $container = $('.club-container'); 
       var mapContainer = $('.map-placeholder');
@@ -152,21 +201,9 @@
       processing = false;
     } 
   }
+
   
-   /* 
-  var getCountry = function(cityno){
-    var country = ''; 
-    $('ul.steden > li > a').each(function(){
-      if($(this).data('cityno') == cityno){
-          var $this= $(this); 
-          country = Drupal.settings.city_names['nl'][$this.data('countryno')]; 
-          return false;     
-      }
-    });
-    return country;
-  };
-*/
- 
+
   // draw the map container
   function drawCanvas(height){
     var height = height || '1200px';
@@ -186,7 +223,7 @@
     var muziek_cities = Drupal.settings.muziek_cities; 
     
     var $steden = $('.steden li').click(function(){
-      window.location.hash = $(this).find('a')[0].href;
+      window.location = $(this).find('a')[0].href;
     });
     
     drawCanvas(); 

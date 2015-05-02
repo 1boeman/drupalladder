@@ -13,10 +13,10 @@
 #main{
   background:#fff;
   padding-top:120px;
-  box-shadow:0px 0px 20px #999
+  box-shadow:0px 0px 20px #999;
 }
 #block-locale-language{
-  display:none  
+  display:none;  
 }
 .muziekladder_logo{
   margin-left:2px;
@@ -533,6 +533,8 @@ border-radius: 4px;
   overflow:hidden;  
 }
 
+
+
 /*footer*/
 footer{
  background:#333;
@@ -765,6 +767,14 @@ color:Maroon
 }
 
 /* locatie pagina's */
+.page-uitgaan .node-container{
+  display:none  
+}
+
+.page-uitgaan .node-container.active{
+  display:block
+
+}
 
 #city_autocomplete{
   font-size:28px;
