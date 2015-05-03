@@ -42,7 +42,6 @@
   <?php endif; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>
-<header class="bg-image-container" ><div class="bg-image"></div></header>
  
   <?php print $page_top; ?>
   <?php print $page; ?>
