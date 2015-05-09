@@ -36,26 +36,53 @@
           var title = $this.find('.node-title')[0].innerHTML; 
           var ids = $this.find('article')[0].className.split(/\s+/)[0];
           tabs.push('<li><a href="#'+ids+'">'+title+'</a></li>'); 
-        }) 
+        })
+         
         if (tabs.length > 1){
+          // add the agenda tab und container
+          tabs.push('<li><a href="#agenda">'+Drupal.t("Calendar")+'</a></li>');
+          var $agenda = $('<div class="node-container" id="agenda" />')
+          $('.node-container').last().after($agenda);
+             
+          // add the agenda tab und agenda container
           var $tabs =$('<ul class="nav nav-tabs">'+tabs.join('')+'</ul>')
+          var agenda_has_been_loaded = false; 
           $('.city-container')
             .prepend($tabs)
           var hash = location.hash;
+          var cityno = Drupal.settings.locatiepagina.city.Id;
           var hashchange = function(){
              var h = location.hash;
              var ha = h.replace('#','');
              var $tab = $("a[href='"+h+"']");
              if ($tab.length) {
-               var $nc = $('.node-container article');
-               $tabs.find('li').removeClass('active'); 
-               $tab.parent().addClass('active');
-               $nc.each(function(){
-                  if (this.className.indexOf(ha) > -1){
-                    $('.node-container').removeClass('active');
-                    $(this).parent().addClass('active')
-                }    
-              })
+                $tabs.find('li').removeClass('active'); 
+                $tab.parent().addClass('active');
+                $('.node-container').removeClass('active');
+                if (ha=='agenda'){
+                  // load the agenda
+                  if (!agenda_has_been_loaded){
+                    $agenda.load(
+                      Drupal.settings.basePath +
+                      Drupal.settings.pathPrefix+
+                      'muziek/ajax_agenda/?city='+cityno,
+                        function(){
+                          hC.loadAgendaImages(); 
+                          hC.crumbTrail.set(location.href);
+
+                          agenda_has_been_loaded = true;})
+                  }
+                  $agenda.addClass('active'); 
+
+                } else {
+                  //show the node 
+                  var $nc = $('.node-container article');
+                  $nc.each(function(){
+                      if (this.className.indexOf(ha) > -1){
+                        $(this).parent().addClass('active')
+                      }    
+                  })
+                }
              } 
           }
 
@@ -71,8 +98,8 @@
     },
 
    /*******************
-    *** Venue pages
-    ******************/
+    **** Venue pages
+    *******************/
     venue:function(){
       var $container = $('.club-container'); 
       var mapContainer = $('.map-placeholder');

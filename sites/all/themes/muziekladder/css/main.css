@@ -614,6 +614,7 @@ footer{
 .city_gig{
   border-left:12px solid LightSteelBlue;
   border-top:2px solid lightsteelblue;
+  background:white;
 } 
 .city_gig .date{
   float:right;
@@ -1195,6 +1196,12 @@ body.page-muziekformulier form {
 }
 
 /* uitgaan */
+.page-uitgaan .city-container #agenda{
+   min-height:200px;
+   background-image:url('../img/ajax-loader.gif'); 
+   background-position:center center; 
+   background-repeat:no-repeat;
+}
 .page-uitgaan .club-container {
   background:white;
   padding:10px 0px;

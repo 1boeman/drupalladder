@@ -46,20 +46,37 @@ class Muziek extends Controller {
     ); 
   }
 
+  function link_to_agenda($cityno,$cityname) {
+    $ct = $cityno? $cityno.'-'.$cityname.'/' :'';
+    $prefix= Muziek_util::lang_url();
+    return '<a href="' . $prefix . 'muziek/'.$ct . '">'.t('Jump to the') .' '. $cityname .' '. t('calendar'). ' pages &raquo;</a>';
+  }
+
+
   function index() {
     return $this->city_events(0);
   }
   
   function ajax_agenda(){
-    $events = $this->city_events(0,0,100,1);
+
+    if (isset($_GET['city'])){
+      $cityno = (int) $_GET['city'];  
+    } else {
+      $cityno = 0; 
+    }
+
+    $events = $this->city_events($cityno,0,100,1);
+    $cityname = $events[0]['City_Name'];  
+
     $content = theme('agenda_city_gig',array(
-        'count'=> 0,
-        'rpp' =>0,
-        'page'=>0,
-        'navigation'=> '',
-        'cityname'=>'',
-        'content'=>$events)); 
+      'count'=> 0,
+      'rpp' =>0,
+      'page'=>0,
+      'navigation'=>$this->link_to_agenda($cityno,$cityname),
+      'cityname'=>'',
+      'content'=>$events)); 
     
+    $content .= '<div class="calendar_sublink">'.$this->link_to_agenda($cityno,$cityname).'</div>';
     return array (
         'html_fragment'=> $content);      
   }
