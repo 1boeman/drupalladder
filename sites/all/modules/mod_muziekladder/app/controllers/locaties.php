@@ -40,6 +40,13 @@ class Locaties extends Controller {
   public function index () {
     //@todo redirect
     if (isset($_GET['l'])) {
+      $p = $_GET['l'];
+
+      header( "HTTP/1.1 301 Moved Permanently" );
+      header( "Status: 301 Moved Permanently" );
+      header( "Location: ".rawurldecode($p) );
+      exit;
+
       $l = $_GET['l'];
       $data = Muziek_util::loadGigdata();
       $locationData = Muziek_util::loadLocationIndex();
