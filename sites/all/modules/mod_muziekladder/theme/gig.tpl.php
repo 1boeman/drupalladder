@@ -1,44 +1,43 @@
   <nav>
     <ul class="breadcrumb">
-      <li><a href="/muziek/"><?php echo t('Calendar') ?></a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
-      <li class="active"><span><?php echo $title ?></span></li>
+      <li><a href="<?php echo $prefix ?>muziek/"><?php echo t('Calendar') ?></a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
+      <li class="active"><span><?php echo $gig['Title'] ?></span></li>
     </ul>
   </nav>
-	<div class="eventfull clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>">
-	  <div class="event-container">
-  	<a itemprop="url" href="<?php echo $link ?>" class="eventlink nodisplay">
-			<span itemprop="name"><?php echo $title  ?></span>
-		</a>
 	
-        <h1><a target="_blank" href="<?php echo $link ?>"><?php echo $title ?></a></h1>
-		<h3>
-			<a target="_blank" href="<?php echo $link ?>">
-				<strong itemprop="startDate" class="date"><?php echo $date ?></strong>
-			</a>
-			
-		</h3>
-        <h4><a href="<?php echo $location_link ?>"><?php echo $location_title ?></a> 
-            &bull; <span class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></span>
-            &bull; <span class="country country<?php echo $countryno ?>" data-countryno="<?php echo $countryno ?>"><?php echo $country ?></span> 
+  <div class="eventfull clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $gig['Img'] ?>">
+	  <div class="event-container">
+    	<a itemprop="url" href="<?php echo $gig['Link'] ?>" class="eventlink nodisplay">
+		  	<span itemprop="name"><?php echo $gig['Title'] ?></span>
+		  </a>
+        <h1 data-id="<?php echo $gig['Id'] ?>"><?php echo $gig['Title'] ?></h1>
+        <h2>
+          <a target="_blank" href="<?php echo $gig['Link'] ?>">
+            <span itemprop="startDate" class="date"><?php echo $human_date ?></span>
+          </a>
+          
+        </h2>
+        <h3><a href="<?php echo $location_link ?>"><?php echo $venue['Title'] ?></a> 
+
+            &bull; <a href="<?php echo $prefix .'uitgaan/'.$venue['Cityno'].'-'.rawurlencode($venue['City_name']) ?>" class="city city<?php echo $venue['Cityno'] ?>" data-cityno="<?php echo $venue['Cityno'] ?>"><?php echo $venue['City_name'] ?></a>
+            &bull; <span class="country country<?php echo $venue['Countryno'] ?>" data-countryno="<?php echo $venue['Countryno'] ?>"><?php echo t($venue['Country_name']) ?></span> 
  
-        </h4>
-		<p class="description"><?php echo str_replace('||','<br />',$desc) ?></p>
-		<p><strong>Link</strong>: <a itemprop="url" href="<?php echo $link ?>"><?php echo $link ?></a>  </p>
-		<p><i class="icon-info-sign"></i> <a itemprop="url" href="<?php echo $link ?>"><?php echo t('More info') ?> &raquo;</a></p>
+        </h3>
+		<p class="description"><?php echo str_replace('||','<br />',$gig['Desc']) ?></p>
+		<p><strong>Link</strong>: <a itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo $gig['Link'] ?></a>  </p>
+		<p><i class="icon-info-sign"></i> <a itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
     </div>
 		<div class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
 			<h3><a href="<?php echo $location_link ?>"><span itemprop="name"><?php echo $location_title ?></span></a></h3>
-			<p class="description"><?php echo $location_desc ?></p>
+			<p class="description"><?php echo $venue['Desc'] ?></p>
 			<h4><?php echo t('Location') ?>:</h4>
 			<p>
-				<div> <?php echo $street .' '. $streetnumber .' '. $streetnumberAddition ?></div> 
-				<div itemprop="postalCode"><?php echo $zip ?></div>  
+				<div> <?php echo $venue['Street'] .' '. $venue['Street_number'] .' '. $venue['Addition'] ?></div> 
+				<div itemprop="postalCode"><?php echo $venue['Zip'] ?></div>  
 				<div class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></div>
-                <div class="country country<?php echo $countryno ?>" data-countryno="<?php echo $countryno ?>"><?php echo $country ?></div> 
+                <div class="country country<?php echo $venue['Countryno'] ?>" data-countryno="<?php echo $venue['Countryno'] ?>"><?php echo $venue['Country_name'] ?></div> 
                 
 			</p>
-			<p><a itemprop="url" href="<?php echo $location_link ?>"><i class="icon-info-sign"></i> <?php echo t('More about') ?> <?php echo $location_title ?></a></p>
+			<p><a itemprop="url" href="<?php echo $location_link ?>"><i class="icon-info-sign"></i> <?php echo t('More about') ?> <?php echo $venue['Title'] ?></a></p>
 		</div>
 	</div>
-
-

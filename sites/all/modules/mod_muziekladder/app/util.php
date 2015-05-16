@@ -1,6 +1,18 @@
 <?php
 
 class Muziek_util {
+
+  static function human_date($event_date){
+     $timestamp = strtotime($event_date); 
+     return array(
+       'timestamp' => $timestamp,
+       'monthname' => t(date("F",$timestamp)),
+       'dayname' => t(date("l",$timestamp)),                                                                  
+       'daynumber' => date('d',$timestamp),                                                                     
+       'monthnumber' =>  date('m',$timestamp),                                                                    
+       'year' => date('Y',$timestamp),
+     ); 
+  }
   static function lang_url(){
     global $language; 
     $lang_prefix = strlen ($language->prefix) ? '/'.$language->prefix .'/' : '/';

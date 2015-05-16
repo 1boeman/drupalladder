@@ -9,6 +9,8 @@
 $lang_prefix = Muziek_util::lang_url(); 
 $old_date = '';
 $old_city = ''; 
+$old_title = '';
+$old_venue = '';
 if(!empty($content)){
   
   foreach($content as $value){
@@ -17,13 +19,10 @@ if(!empty($content)){
     // block headers
     if ($old_date != $value['Event_Date']){
       $old_date = $value['Event_Date'];
-      $timestamp = strtotime($value['Event_Date']);
-      $monthname = t(date("F",$timestamp));
-      $dayname = t(date("l",$timestamp));
-      $daynumber =  date('d',$timestamp); 
-      $monthnumber =  date('m',$timestamp); 
-      $human_date = $dayname. ' ' .$daynumber.' '.$monthname. ' ' .date('Y',$timestamp);
-      $subhuman_date = substr($dayname,0,2) . ' ' . $daynumber . '/' . $monthnumber;
+      $hd = Muziek_util::human_date($value['Event_Date']);
+
+      $human_date = $hd['dayname']. ' ' .$hd['daynumber'].' '.$hd['monthname']. ' ' .$hd['year'];
+      $subhuman_date = substr($hd['dayname'],0,2) . ' ' . $hd['daynumber'] . '/' . $hd['monthnumber'];
       echo '<h2 class="human-date">'.$human_date.'</h2>';
     }else{
      // prevent duplications

@@ -101,26 +101,29 @@ class Muziek_db {
     return $rv; 
   }
 /*
-//@todo : two step gig-get: first try by id then try by date
+//@todo : two step gig-get: first try by id then try by date */
 
   function get_gig_by_id($id){
-    $statement = $this->dbhandle->prepare('SELECT * from Gig g WHERE g.Id = :id' );
+    $statement = $this->dbhandle->prepare('
+      SELECT * from Event  WHERE Id = :id;' );
     $statement->bindValue(':id',$id);
     $result = $statement->execute(); 
-    return $result->fetchArray();     
+    $rv = $this->result_to_array($result);    
+    return $rv;       
   }
   function get_gig($date,$url){
-    $statement = $this->dbhandle->prepare('SELECT * from Gig g WHERE g.Link = :url AND Date = :date ' );
+    $statement = $this->dbhandle->prepare('SELECT * from Event g WHERE g.Link = :url AND Date = :date ' );
     $statement->bindValue(':url',$url);
     $statement->bindValue(':date',$date);
     $result = $statement->execute(); 
     $rv = $this->result_to_array($result);    
     return $rv;       
   }
-*/
+  
   function get_venue($venue_id){
     $statement = $this->dbhandle->prepare(
-    'SELECT V.*, C.Name as City_name, Co.Name as Country_name 
+    'SELECT V.*, C.Name as City_name, 
+      Co.Name as Country_name, Co.No as Countryno 
       FROM Venue V 
       LEFT JOIN City C on V.Cityno = C.Id 
       LEFT JOIN Country Co on Co.No = C.Countryno WHERE V.Id = :id;');

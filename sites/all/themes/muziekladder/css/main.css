@@ -588,7 +588,8 @@ footer{
 
 } 
 .dagoverzicht .city_header:hover a{
-  text-decoration:underline
+  text-decoration:underline;
+  color:hotpink;
 }
 
 .dagoverzicht .city_header a{
