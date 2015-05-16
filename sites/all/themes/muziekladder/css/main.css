@@ -120,15 +120,14 @@ blockquote:before {
 }
 
 .city_gig_agenda .human-date { 
-  font-size:24px;
+  font-size:20px;
   font-weight:normal; 
   color:white;
-  background:LightSteelBlue;
+  background:#333;
   padding:0px 30px;
   margin:24px 0px 0px -10px;
   font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
   font-weight:normal;
-  line-height:1.8;
 }
 .front #main{
   padding-left:8px;  
@@ -588,8 +587,20 @@ footer{
   padding-bottom:2em;
 
 } 
-.dagoverzicht .page-nav-container.top{
-} 
+.dagoverzicht .city_header:hover a{
+  text-decoration:underline
+}
+
+.dagoverzicht .city_header a{
+
+}
+
+.dagoverzicht .city_header{
+  background:LightSteelBlue;
+  font-size:20px;
+  padding-left:12px;
+  margin-bottom:-2px
+}
 .city_gig {
   margin-top:2px;
   padding:4px 0px;

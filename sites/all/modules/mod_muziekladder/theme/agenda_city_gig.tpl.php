@@ -8,12 +8,13 @@
 <?php 
 $lang_prefix = Muziek_util::lang_url(); 
 $old_date = '';
+$old_city = ''; 
 if(!empty($content)){
   
   foreach($content as $value){
-    
+       
     $link = $lang_prefix.'gig/?datestring='.$value['Event_Date'].'&g='.rawurlencode($value['Event_Link']).'&id='.$value['Event_Id']; 
-    
+    // block headers
     if ($old_date != $value['Event_Date']){
       $old_date = $value['Event_Date'];
       $timestamp = strtotime($value['Event_Date']);
@@ -33,6 +34,12 @@ if(!empty($content)){
       $old_title =  $value['Event_Title'];
       $old_venue = $value['Venue_Title'];
     }
+
+    if($old_city != $value['City_Name']){
+      $old_city = $value['City_Name'];
+      echo '<h3 class="city_header"><a href="'.$lang_prefix.'muziek/'.$value['City_Id'].'-'.$value['City_Name'].'">'.$value['City_Name'].'</a></h3>'; 
+    }
+
 ?>                                          
     <div class="city_gig clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $value['Event_Img'] ?>">
       <a itemprop="url" href="<?php echo $link ?>">

@@ -56,6 +56,7 @@ class Muziek_db {
         V.Link as Venue_Link,
         V.Title as Venue_Title, 
         C.Name as City_Name,
+        C.Id as City_Id,
         C.Countryno as City_Countryno
     '; 
     if ($cityno){
