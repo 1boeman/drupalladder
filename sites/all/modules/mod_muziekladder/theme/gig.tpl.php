@@ -28,7 +28,7 @@
 		<p><i class="icon-info-sign"></i> <a itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
     </div>
 		<div class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
-			<h3><a href="<?php echo $location_link ?>"><span itemprop="name"><?php echo $location_title ?></span></a></h3>
+			<h3><a href="<?php echo $location_link ?>"><span itemprop="name"><?php echo $venue['Title'] ?></span></a></h3>
 			<p class="description"><?php echo $venue['Desc'] ?></p>
 			<h4><?php echo t('Location') ?>:</h4>
 			<p>
