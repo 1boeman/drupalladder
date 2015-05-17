@@ -124,8 +124,8 @@ class Muziek extends Controller {
     $titletag .= ' (dag:'.($day+1) .'- pagina:'.($page+1) .')';
     $this->set_head_title($titletag);
 
-    $h1 = (strlen ($cityname) ? ucfirst ($cityname) : t('Music Calendar ')) . ' - '. t(' ').$title_date;
-    $h1 .= ' - concerten, feesten en muziek';
+    $h1 = (strlen ($cityname) ? ucfirst ($cityname) .' '.t('calendar'): t('Music Calendar ')); 
+    $h1 .= ' - muziek, concerten, evenementen ' . ' - '. t('Starting from').' '.$title_date;
     $this->set_title($h1);
  
     $content = theme('agenda_city_gig',array(
