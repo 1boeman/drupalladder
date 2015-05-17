@@ -34,7 +34,7 @@
 			<p>
 				<div> <?php echo $venue['Street'] .' '. $venue['Street_number'] .' '. $venue['Addition'] ?></div> 
 				<div itemprop="postalCode"><?php echo $venue['Zip'] ?></div>  
-				<div class="city city<?php echo $cityno ?>" data-cityno="<?php echo $cityno ?>"><?php echo $city ?></div>
+				<div class="city city<?php echo $venue['Cityno'] ?>" data-cityno="<?php echo $venue['Cityno'] ?>"><?php echo $venue['City_name'] ?></div>
                 <div class="country country<?php echo $venue['Countryno'] ?>" data-countryno="<?php echo $venue['Countryno'] ?>"><?php echo $venue['Country_name'] ?></div> 
                 
 			</p>

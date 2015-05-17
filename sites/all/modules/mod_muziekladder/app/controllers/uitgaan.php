@@ -18,6 +18,7 @@ class Uitgaan extends Controller {
       $mdb = new Muziek_db(); 
       $city = $mdb->get_city($cityno);
       $venues = $mdb->get_city_venues($cityno,false);
+      $items =array(); 
       drupal_add_js(array('locatiepagina' => array(
         'status' => 'city_main',
         'city' => $city
@@ -25,7 +26,7 @@ class Uitgaan extends Controller {
         
       // Get the current language
       global $language;
-       
+         
       // Setup the EntityFieldQuery
       $query = new EntityFieldQuery();
       $query->entityCondition('entity_type', 'node')
