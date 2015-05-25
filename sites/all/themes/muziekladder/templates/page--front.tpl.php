@@ -22,9 +22,15 @@
         <button type="submit" class="btn btn-large">&raquo;</button>
       </form>
     </div>
-   
+    <nav>
+      <?php echo $city_menu ?>
+    </nav>
+ 
+  
     <div id="content" class="column" role="main">
-
+      
+   
+       
       <?php print render($page['highlighted']); ?>
       <a id="main-content"></a>
 

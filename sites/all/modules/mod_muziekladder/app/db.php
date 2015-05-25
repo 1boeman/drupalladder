@@ -80,6 +80,24 @@ class Muziek_db {
   
      return $result; 
   }
+  
+  static function get_cities_by_ids($ids){
+    $identifiers = array();
+    foreach($ids as $id){
+      $identifiers[]=(int)$id;
+    }
+    $locaties_db = self::open_locaties_db();
+    $result = $locaties_db->query('SELECT * from City 
+      where Id in ('.join(",",$identifiers).')' );
+    if ($raw) return $result;
+   
+    $rv = array();   
+    while($res = $result->fetchArray(SQLITE3_ASSOC)){ 
+      $rv[]=$res;
+    } 
+    return $rv;      
+   
+  }
     
   static function get_cities($raw = false){
     $locaties_db = self::open_locaties_db();

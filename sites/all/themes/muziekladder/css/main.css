@@ -21,13 +21,10 @@
   margin-left:2px;
   float:left; 
   cursor:pointer;
+
 }
 .muziekladder_logo img{
   margin-top:7px;
-  -webkit-transition: all 200ms;
-  -moz-transition: all 200ms;
-  -o-transition: all 200ms;
-  transition: all 200ms;
   width:198px;
 }
 .scrolling .muziekladder_logo img{
@@ -115,6 +112,52 @@ blockquote:before {
 }
 
 /* front */
+ul.front-city-menu, .front-city-menu ul{
+  margin-left:0px;  
+}
+ul.front-city-menu > li{
+
+  
+}
+ul.front-city-menu  li{
+  list-style:none  ;
+}
+.front .city-links a{
+  font-weight:bold  
+  
+}
+.front-city-menu img{
+  margin-bottom:4px;  
+  width:80%;
+}
+
+.front-city-menu .city-name{
+  position:absolute;
+  top:16px;
+  left:0px;
+  color: #fff;
+  font-size: 2em;
+  font-weight: bold;
+  text-shadow:2px 2px 2px black;
+  display:block;
+  width:100%;
+  text-align:center;
+}
+
+.front-city-menu li.city{
+  list-style:none;
+  float:left;
+  display:block;
+  height:240px;
+  position:relative;
+  text-align:center; 
+  width:33%; 
+}
+
+.front-city-menu li.city:first-child{
+ 
+}
+
 .front .city_gig_agenda h1{
   display:none  
 }
@@ -383,10 +426,6 @@ border-radius: 4px;
   padding-left:30px;
   border-right:1px solid #666;
   height:60px;
-  -webkit-transition: all 200ms ;
-  -moz-transition: all 200ms ;
-  -o-transition: all 200ms ;
-  transition: all 200ms ;
 
 }
 .scrolling .form-search-container{
@@ -444,10 +483,6 @@ border-radius: 4px;
  padding-bottom:0px;
  padding-left:24px;
  padding-right:24px;
- -webkit-transition: all 200ms ;
- -moz-transition: all 200ms ;
- -o-transition: all 200ms ;
- transition: all 200ms ;
  cursor:pointer;
  border-right:1px solid #666;
 }
@@ -1282,9 +1317,15 @@ clear: both;
       float:none;
   }
 }
- 
+   
 /* Landscape phone to portrait tablet */
 @media (max-width:769px) {
+.front-city-menu li.city{
+  width:50%; 
+}
+
+
+  
   ul.locaties-lijst{
     float:left;
     list-style:none;

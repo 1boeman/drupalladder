@@ -1,6 +1,10 @@
 <?php
 
 class Muziek_util {
+  
+  static function city_link(Array $db_row,$section = 'muziek'){
+    return self::lang_url().$section.'/'.$db_row['Id'].'-'.rawurlencode($db_row['Name']);
+  } 
 
   static function human_date($event_date){
      $timestamp = strtotime($event_date); 
@@ -13,6 +17,7 @@ class Muziek_util {
        'year' => date('Y',$timestamp),
      ); 
   }
+
   static function lang_url(){
     global $language; 
     $lang_prefix = strlen ($language->prefix) ? '/'.$language->prefix .'/' : '/';
@@ -24,13 +29,16 @@ class Muziek_util {
         return implode ( " ", array_slice( $wordarray, 0 , $number ) ); 
 	}
 
+  /**** Deprecated : 
+  ***** All of the below should be avoided / removed 
+  *****/
 	static function getWeekDay($day,$month,$year){
 		$weekdagen = Array(
 			'Monday'=>'Maandag','Tuesday'=>'Dinsdag','Wednesday'=>'Woensdag',
 			'Thursday'=>'Donderdag','Friday'=>'Vrijdag','Saturday'=>'Zaterdag','Sunday'=>'Zondag');
 		return $weekdagen[date("l",strtotime($year.'-'.$month.'-'.$day))];
 	}
- // @redo this by xsl -ing a list of cities
+
   static function getCities(){
 		$rv=array(); 
     $data = simplexml_load_file(MUZIEK_DATA_LOCATIONS, 'SimpleXMLElement', LIBXML_NOCDATA);	

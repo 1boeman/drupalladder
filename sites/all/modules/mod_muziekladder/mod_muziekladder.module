@@ -171,7 +171,13 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
       'template' => 'agenda_city_nav',
       'path' => $path.'/theme',
       'variables' => array()
-    ), 
+    ),
+
+    'city_menu' => array(
+      'template' => 'city_menu',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ),
   ); 
 }
 

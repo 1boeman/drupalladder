@@ -76,7 +76,11 @@ class Uitgaan extends Controller {
       ));
       
       if ( isset($_GET['c'])) {
+        header("HTTP/1.1 303 See Other");
+        header("Location: http://muziekladder.nl/uitgaan/");
+
           // @todo : redirect
+       /* 
         $steden = explode(',',$_GET['c']);
         foreach($steden as $stad){
             $stadnaam = $stad.'.html';
@@ -87,14 +91,14 @@ class Uitgaan extends Controller {
             }
         }
 
-
-      } else {
-          /* index */     
-          if ($file = file_get_contents(MUZIEK_GEODATA_JSON)){
-              drupal_add_js(array('muziekladder'=>array('location_data'=>json_decode($file))), 'setting');
-          }   
-          $titletag = t('Find concerts, clubs, festivals and parties' );          
-      }
+       */
+      } 
+      /* index */     
+      if ($file = file_get_contents(MUZIEK_GEODATA_JSON)){
+          drupal_add_js(array('muziekladder'=>array('location_data'=>json_decode($file))), 'setting');
+      }   
+      $titletag = t('Find concerts, clubs, festivals and parties' );          
+    
       $this->set_head_title(ucfirst($titletag));
       $this->set_title(ucfirst($titletag));
       
