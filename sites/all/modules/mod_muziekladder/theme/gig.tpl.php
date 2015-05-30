@@ -1,3 +1,4 @@
+<?php if ($gig): ?>
   <nav>
     <ul class="breadcrumb">
       <li><a href="<?php echo $prefix ?>muziek/"><?php echo t('Calendar') ?></a> <span class="divider"><i class="icon-chevron-right"></i></span></li>
@@ -26,7 +27,21 @@
 		<p class="description"><?php echo str_replace('||','<br />',$gig['Desc']) ?></p>
 		<p><strong>Link</strong>: <a itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo $gig['Link'] ?></a>  </p>
 		<p><i class="icon-info-sign"></i> <a itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
-    </div>
+  </div>
+
+<?php endif; ?>
+
+
+<?php if (isset($url_only)): ?>
+  <h1 data-id="<?php echo $id ?>"><?php echo $title_tag ?></h1>
+ <?php if ($url): ?>
+ 	  <p class="url_only"><strong>Link</strong>: <a href="<?php echo $url ?>"><?php echo $url ?></a>  </p>
+  <?php endif; ?>
+<?php endif; ?>
+
+
+
+<?php if ($venue): ?>
 		<div class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
 			<h3><a href="<?php echo $location_link ?>"><span itemprop="name"><?php echo $venue['Title'] ?></span></a></h3>
 			<p class="description"><?php echo $venue['Desc'] ?></p>
@@ -41,3 +56,5 @@
 			<p><a itemprop="url" href="<?php echo $location_link ?>"><i class="icon-info-sign"></i> <?php echo t('More about') ?> <?php echo $venue['Title'] ?></a></p>
 		</div>
 	</div>
+<?php endif; ?>
+ 

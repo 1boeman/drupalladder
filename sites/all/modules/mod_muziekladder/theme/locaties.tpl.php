@@ -35,7 +35,7 @@
 <h3><?php echo $venue['Title'] ?> <?php echo t('calendar') ?>:</h3>
 
   <?php foreach ($events as $event): 
-    $internal_link = $lang_prefix.'gig/?datestring='.$event['Date'].'&g='.rawurlencode($event['Link']).'&id='.$event['Id']; 
+    $internal_link = Muziek_util::gig_link($event); 
     $timestamp = strtotime($event['Date']);
     $monthname = t(date("F",$timestamp));
     $dayname = t(date("l",$timestamp));

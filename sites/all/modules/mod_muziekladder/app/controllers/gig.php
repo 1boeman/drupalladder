@@ -9,9 +9,10 @@ class Gig extends Controller{
     }
   
     $url = rawurldecode($_GET['g']);
-   
     $db  = new Muziek_db(); 
     $gig = false; 
+    $id = 0;
+    $date = 0; 
     if (isset( $_GET['id'] )){
       $id = $_GET['id'];
       $gig = $db->get_gig_by_id($id);
@@ -23,32 +24,97 @@ class Gig extends Controller{
     }
     
     if (!$gig){
-      $this->redirect($url); 
-    }
+       $render_array = $this->dont_redirect($id,$date,$url);
+    } else {
    
-    $gig = $gig[0];    
-   
-    $venue = $db->get_venue($gig['Venue']);
-    if (!$venue){
-      $this->redirect($url); 
+      $gig = $gig[0];    
+     
+      $venue = $db->get_venue($gig['Venue']);
+
+      if (!$venue){
+        $render_array = $this->dont_redirect($id,$date,$url); 
+      } else {
+
+        // display the gig
+        $prefix =  Muziek_util::lang_url();
+
+        $hd = Muziek_util::human_date($gig['Date']);
+        $human_date = $hd['dayname']. ' ' .$hd['daynumber'].' '.$hd['monthname']. ' ' .$hd['year'];
+
+     
+        $html = theme('gig',array(
+          'gig'=>$gig,
+          'venue'=>$venue,
+          'prefix'=> $prefix,
+          'human_date' => $human_date,
+          'location_link'=>$prefix.'locaties/'.$venue['Id'].'-'.rawurlencode($venue['City_name'])
+        ));
+
+        #  var_dump($venue);
+       # var_dump($gig); 
+        $render_array = array(
+          'gig'=>array(
+            '#type'=>'markup',
+            '#markup'=>$html,
+          ),
+        );
+      }
+
+      $titletag = htmlspecialchars($gig['Title']) .' - '. htmlspecialchars($venue['Title']) . ' - '. $venue['City_name'] . ' - ' .$human_date; 
+      $this->set_head_title($titletag);
     }
 
-    $prefix =  Muziek_util::lang_url();
-
-    $hd = Muziek_util::human_date($gig['Date']);
-    $human_date = $hd['dayname']. ' ' .$hd['daynumber'].' '.$hd['monthname']. ' ' .$hd['year'];
-
+    return array('render_array'=>$render_array);
+  }
  
+  function dont_redirect($id, $date, $url){
+    $venue = false; 
+    $location_link = false;
+    $title_tag = array();  
+    if ($id){
+      // first check if id contains venue_id
+      $array_id = explode('_',$id);
+      if (count($array_id) > 3){
+        $venue_id = implode('_',array_slice($array_id,3));
+        $db = new Muziek_db(); 
+        $venue = $db->get_venue($venue_id);
+        if ($venue){
+          $location_link = Muziek_util::lang_url() .'locaties/'.$venue['Id'].'-'.rawurlencode($venue['City_name']);
+          $title_tag[]=$venue['Title'];
+          $title_tag[]=$venue['City_name']; 
+        }else{
+          $this->redirect($url);  
+        }
+        // Only show the link if it seems safe  - contains the the venue.
+        // We dont want folks displaying any old link here. 
+        if (!stristr($url,$venue['Link'])){
+          $url = false; 
+        }
+      } 
+    }
+    
+    if ($date){
+      $hd = Muziek_util::human_date($date);
+      $human_date = $hd['dayname']. ' ' .$hd['daynumber'].' '.$hd['monthname']. ' ' .$hd['year'];
+      $title_tag[]=$human_date; 
+    }else{
+      $this->redirect($url);  
+    }
+
+    $title_tag = join(' - ',$title_tag); 
+    $this->set_head_title($title_tag);
+
     $html = theme('gig',array(
-      'gig'=>$gig,
+      'gig'=>false,
+      'url_only'=> 1,
+      'url'=>$url,
+      'title_tag' => $title_tag,
       'venue'=>$venue,
-      'prefix'=> $prefix,
+      'prefix'=> Muziek_util::lang_url(),
       'human_date' => $human_date,
-      'location_link'=>$prefix.'locaties/'.$venue['Id'].'-'.rawurlencode($venue['City_name'])
+      'location_link'=> $location_link
     ));
 
-  #  var_dump($venue);
-   # var_dump($gig); 
     $render_array = array(
       'gig'=>array(
         '#type'=>'markup',
@@ -56,12 +122,7 @@ class Gig extends Controller{
       ),
     );
     
-
-    $titletag = htmlspecialchars($gig['Title']) .' - '. htmlspecialchars($venue['Title']) . ' - '. $venue['City_name'] . ' - ' .$human_date; 
-
-    $this->set_head_title($titletag);
-    return array('render_array'=>$render_array);
-
+    return $render_array; 
   }
   
   function redirect($url){
@@ -70,89 +131,4 @@ class Gig extends Controller{
       exit(); 
   }
 
-/*
-  function _index(){
-    if (!isset($_GET['g'])){
-         exit;
-     }else{
-         $p = $_GET['g'];
-    }
-
-    $event_id ='';
-    //if (isset ($_GET['id'])) $event_id = $_GET['id'];
-    $datestring = $_GET['datestring'];
-    $timestamp = strtotime($datestring);
-  
-    $date_arr =  explode('-',$datestring);
-    $year = $date_arr[0];
-    $month = $date_arr[1];
-    $day = $date_arr[2];
-    $weekday = t(date('l',$timestamp));
-    $monthname = t(date('F',$timestamp));
-    
-    $date = $day.' ' .$monthname. ' '.$year;
-    $bodyClass= 'detail';
-
-    $data = Muziek_util::loadGigdata();
-    $locationData = Muziek_util::loadLocationIndex();
-
-    $content='';
-    $eventlinks = $data->xpath('//day[@date="'.$datestring.'"]/event/link[text()="'.rawurldecode($p).'"]'); 
-    if (count ($eventlinks) && $eventlinks){
-      $beenhere = false;
-      foreach($eventlinks as $link){
-        $event = $link->xpath("parent::*"); 
-        $event = $event[0];
-        if (!$beenhere){
-            $beenhere = 1;
-            $location = $locationData->xpath('//key[@value="'.$event->src.'"]');
-            $location = $location[0]->locationData;
-        }
-        $img = strlen(trim($event->img)) ? rawurlencode(trim($event->img)) : '';
-               
-        $countryno = $location->countryno ? $location->countryno : 0;
-        
-        $countryname = t($this->countrynames_EN[(int)$countryno]);
-
-        $titletag = htmlspecialchars($event->title).' - ';
-        $str = theme('gig',array(
-            'desc'=>$event->desc,
-            'location_title'=>$location->title,
-            'city'=>$location->city,
-            'cityno'=>$location->cityno,
-                    'country'=>$countryname,
-                    'countryno'=>$countryno,
-            'location_desc'=>$location->desc,
-            'zip'=>$location->zip,
-            'street'=> $location->street,
-            'location_link'=> '/locaties/?l='.rawurlencode($location->link),
-            'location_location'=> $location->location,
-            'streetnumber'=> $location->streetnumber,
-            'streetnumberAddition'=> $location->streetnumberAddition,
-            'img'=>$img,
-            'link'=>$event->link,
-            'title'=>$event->title,               
-            'date'=>$weekday.' ' . $date),$this->view->event);        
-        $content .=$str;  
-        $metadesc = ''; 
-        $metadesc .= htmlspecialchars(strip_tags($event->desc));
-        $metadesc .= htmlspecialchars($event->title). ' - ';
-
-        $metadesc .= $date . ' - '. $location->title . ' - '. htmlspecialchars($location->city); 
-        $titletag .= $date . ' - '. $location->title . ' - '. htmlspecialchars($location->city); 
-      }
-
-      $this->set_head_title($titletag);
-      # $this->set_title($event->title); 
-      return array( 'html' => $str ); 
-
-    
-    } else {
-      header( "HTTP/1.1 301 Moved Permanently" );
-      header( "Status: 301 Moved Permanently" );
-      header( "Location: ".rawurldecode($p) );
-    }
-
-  }
-  */
 }

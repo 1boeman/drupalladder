@@ -60,8 +60,6 @@ class Muziek extends Controller {
   function ajax_agenda(){
 
     if (isset($_GET['city'])){
-      $cityno = (int) $_GET['city']; 
-    } else {
       $cityno = 0; 
     }
 

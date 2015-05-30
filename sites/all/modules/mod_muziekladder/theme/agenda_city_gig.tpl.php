@@ -6,7 +6,6 @@
 
 <div class="page-nav-container top"></div> 
 <?php 
-$lang_prefix = Muziek_util::lang_url(); 
 $old_date = '';
 $old_city = ''; 
 $old_title = '';
@@ -14,8 +13,8 @@ $old_venue = '';
 if(!empty($content)){
   
   foreach($content as $value){
-       
-    $link = $lang_prefix.'gig/?datestring='.$value['Event_Date'].'&g='.rawurlencode($value['Event_Link']).'&id='.$value['Event_Id']; 
+    $link = Muziek_util::gig_link($value);  
+    
     // block headers
     if ($old_date != $value['Event_Date']){
       $old_date = $value['Event_Date'];
@@ -47,7 +46,6 @@ if(!empty($content)){
         </div>
         <div class="second-cell cell">
           <span class="city"><?php echo $value['City_Name'] ?>,</span>
-   
           <span class="venue"><?php echo $value['Venue_Title'] ?></span>
            <span class="date" itemprop="startDate" content="<?php echo $value['Event_Date'] ?>"><?php echo $subhuman_date ?></span>
         </div>
@@ -68,8 +66,8 @@ Sorry, couldn't find any events.
 Please select another day or city perhaps.
 </a>
 </p>
-<p>Or if you know something interesting we don't...</p>
-<p> please take a few seconds to use the  <a href="/en/muziekformulier">
+<p>Or if you know something we should have...</p>
+<p> Please be so kind as to take a few seconds for our  <a href="/en/muziekformulier">
  recomendation form.
 </a>!
 

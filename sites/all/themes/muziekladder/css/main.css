@@ -931,11 +931,25 @@ ul.steden li{
 }
 ul.steden li:hover {
     background:white;  
-  }
-  /*gig / event pagina's */
-  .detail h2{
+}
+  
+/*gig / event pagina's */
+
+p.url_only{
+ background:white;  
+  padding-bottom: 20px; 
+  padding-top:20px;
+  border-top:8px dotted #cecece;
+  border-bottom:8px dotted #cecece;
+
+}
+
+ 
+
+.detail h2{
     font-size:30px;
-  }
+}
+
 .detail h3 strong{
   font-weight:normal  
 }

@@ -1,6 +1,21 @@
 <?php
 
 class Muziek_util {
+
+  static function gig_link(Array $db_row){
+    if (isset($db_row['Id'])){
+      $id = $db_row['Id'];
+      $date = $db_row['Date'];
+      $link = rawurlencode($db_row['Link']);  
+    }else{
+      $id = $db_row['Event_Id'];
+      $date = $db_row['Event_Date'];
+      $link = rawurlencode($db_row['Event_Link']); 
+    }
+
+    $lang_prefix = self::lang_url(); 
+    return $lang_prefix.'gig/?id='.$id.'&datestring='.$date.'&g='.$link; 
+  }
   
   static function city_link(Array $db_row,$section = 'muziek'){
     return self::lang_url().$section.'/'.$db_row['Id'].'-'.rawurlencode($db_row['Name']);
