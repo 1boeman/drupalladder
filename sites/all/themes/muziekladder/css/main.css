@@ -48,7 +48,7 @@ a {
   color:steelblue;
 }
 a:hover{
-  color:HotPink;
+  color:MediumSeaGreen  ;
   text-decoration:none;  
 }
 a:visited {
@@ -624,7 +624,7 @@ footer{
 } 
 .dagoverzicht .city_header:hover a{
   text-decoration:underline;
-  color:hotpink;
+  color:MediumSeaGreen;
 }
 
 .dagoverzicht .city_header a{

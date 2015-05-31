@@ -71,7 +71,7 @@ class Gig extends Controller{
     $venue = false; 
     $location_link = false;
     $title_tag = array();  
-    if ($id){
+    if ($id) {
       // first check if id contains venue_id
       $array_id = explode('_',$id);
       if (count($array_id) > 3){
@@ -91,6 +91,8 @@ class Gig extends Controller{
           $url = false; 
         }
       } 
+    } else {
+      $this->redirect($url);  
     }
     
     if ($date){
