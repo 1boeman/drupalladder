@@ -90,6 +90,8 @@ class Gig extends Controller{
         if (!stristr($url,$venue['Link'])){
           $url = false; 
         }
+      } else {
+        $this->redirect($url);  
       } 
     } else {
       $this->redirect($url);  
