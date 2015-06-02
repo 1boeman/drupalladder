@@ -8,8 +8,14 @@ class Locaties extends Controller {
         //regular venue_id
         return $this->locatie($matches[1]);
       } elseif (preg_match('#^([0-9]+_[A-Z][a-z\-]+)-[A-Z]#',$name,$matches)){
+        $id_arr = explode('-',$name);
+        if (count($id_arr) > 2){
+          $id = $id_arr[0].'-'.$id_arr[1];
+          return $this->locatie($id);
+        } else {
         //diverse_locaties venue_id
-        return $this->locatie($matches[1]);
+          return $this->locatie($matches[1]);
+        }
       } else {
         global $base_url; 
         $url = $base_url.'/uitgaan';
