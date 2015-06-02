@@ -3,12 +3,17 @@
 class Locaties extends Controller {
 
   function __call($name, $arguments) {
+
       if (preg_match('#^([\-a-z0-9_]+)-[A-Z]#',$name,$matches)){
+        //regular venue_id
         return $this->locatie($matches[1]);
-      }else{
+      } elseif (preg_match('#^([0-9]+_[A-Z][a-z\-]+)-[A-Z]#',$name,$matches)){
+        //diverse_locaties venue_id
+        return $this->locatie($matches[1]);
+      } else {
         global $base_url; 
         $url = $base_url.'/uitgaan';
-//        drupal_goto($url,array(),301);   
+        drupal_goto($url,array(),301);   
       } 
   }
  

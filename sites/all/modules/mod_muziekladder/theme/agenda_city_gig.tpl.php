@@ -1,3 +1,7 @@
+<?php 
+  $lang_prefix = Muziek_util::lang_url(); 
+?>
+
 <div class="city_gig_agenda" data-page="<?php echo $page ?>" data-count="<?php echo $count ?>" data-rpp="<?php echo $rpp ?>"> 
 <?php echo $navigation ?>
 <?php if($page > 0): ?>
