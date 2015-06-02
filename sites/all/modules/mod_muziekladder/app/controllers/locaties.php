@@ -3,7 +3,7 @@
 class Locaties extends Controller {
 
   function __call($name, $arguments) {
-      if (preg_match('#(.+)-[a-zA-Z]+#',$name,$matches)){
+      if (preg_match('#^([\-a-z0-9_]+)-[A-Z]#',$name,$matches)){
         return $this->locatie($matches[1]);
       }else{
         global $base_url; 
