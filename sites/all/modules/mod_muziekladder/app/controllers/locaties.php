@@ -3,9 +3,9 @@
 class Locaties extends Controller {
 
   function __call($name, $arguments) {
-
-      if (preg_match('#^([\-a-z0-9_]+)-[A-Z]#',$name,$matches)){
+      if (preg_match('#^([\-a-z\.0-9_]+)-[A-Z]#',$name,$matches)){
         //regular venue_id
+        
         return $this->locatie($matches[1]);
       } elseif (preg_match('#^([0-9]+_[A-Z][a-z\-]+)-[A-Z]#',$name,$matches)){
         $id_arr = explode('-',$name);
