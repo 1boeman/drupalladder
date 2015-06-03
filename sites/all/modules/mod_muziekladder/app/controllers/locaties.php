@@ -3,19 +3,21 @@
 class Locaties extends Controller {
 
   function __call($name, $arguments) {
-      if (preg_match('#^([\-a-z\.0-9_]+)-[A-Z]#',$name,$matches)){
-        //regular venue_id
-        
-        return $this->locatie($matches[1]);
-      } elseif (preg_match('#^([0-9]+_[A-Z][a-z\-]+)-[A-Z]#',$name,$matches)){
+
+      if (preg_match('#^([0-9]+_[A-Z][a-z\-]+)-[A-Z]#',$name,$matches)){
+        //diverse_locaties venue_id
         $id_arr = explode('-',$name);
+        
         if (count($id_arr) > 2){
           $id = $id_arr[0].'-'.$id_arr[1];
           return $this->locatie($id);
         } else {
-        //diverse_locaties venue_id
           return $this->locatie($matches[1]);
         }
+
+      }elseif (preg_match('#^([\-a-z\.0-9_]+)-[A-Z]#',$name,$matches)){
+        //regular venue_id
+        return $this->locatie($matches[1]);
       } else {
         global $base_url; 
         $url = $base_url.'/uitgaan';
