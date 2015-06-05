@@ -59,6 +59,7 @@ class Muziek_db {
         C.Id as City_Id,
         C.Countryno as City_Countryno
     '; 
+    $city_clause = ''; 
     if ($cityno){
       $city_clause=' and Venue in
         (select id from Venue where Cityno = :id) ';
@@ -81,7 +82,7 @@ class Muziek_db {
      return $result; 
   }
   
-  static function get_cities_by_ids($ids){
+  static function get_cities_by_ids($ids, $raw=false){
     $identifiers = array();
     foreach($ids as $id){
       $identifiers[]=(int)$id;

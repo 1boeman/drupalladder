@@ -59,8 +59,10 @@ class Muziek extends Controller {
   
   function ajax_agenda(){
 
-    if (isset($_GET['city'])){
+    if (!isset($_GET['city'])){
       $cityno = 0; 
+    } else {
+      $cityno = $_GET['city']; 
     }
 
     $events = $this->city_events($cityno,0,100,1);
@@ -108,7 +110,7 @@ class Muziek extends Controller {
 
     if ($raw) return $contentarr;
     $titletag = '';
-    if ($cityno) {
+    if ($cityno && isset($contentarr[0])) {
       $cityname = $contentarr[0]['City_Name'];  
       $titletag .= $cityname;
     } else {
@@ -123,7 +125,7 @@ class Muziek extends Controller {
     $this->set_head_title($titletag);
 
     $h1 = (strlen ($cityname) ? ucfirst ($cityname) .' '.t('calendar'): t('Music Calendar ')); 
-    $h1 .= ' - muziek, concerten, evenementen ' . ' - '. t('Starting from').' '.$title_date;
+    $h1 .= ' - '.t(' music, concerts, events ') . ' - '. t('Starting from').' '.$title_date;
     $this->set_title($h1);
  
     $content = theme('agenda_city_gig',array(
