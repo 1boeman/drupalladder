@@ -15,7 +15,6 @@ if (isset($resultheader)): ?>
 
 <?php endif; ?>
 
-
 <?php 
 if(isset($nosearchterm)): ?>
  		<p>
