@@ -47,9 +47,8 @@ class Muziekformulier extends Controller {
          // delete it we dont need it.
          // a week after the event date.
          $diff = $date2->diff($date1);
-         if ($diff->d && $dif->d > 7){
-            var_dump($diff);
-            unlink (MUZIEK_USERDATA_DIR.'/'.$tip);
+         if ((bool)$diff->d && $diff->d > 7){
+            rename (MUZIEK_USERDATA_DIR.'/'.$tip,'/tmp/'.$tip);
          } 
          continue; 
       }
