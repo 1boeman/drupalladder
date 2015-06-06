@@ -1,6 +1,17 @@
 <?php 
+if (isset($simple_list)): ?>
+  <nav>
+    <ul class="nav nav-pills agenda-city-menu">
+      <?php foreach ($cities as $city): ?>
+      <li><a href="<?php echo Muziek_util::city_link($city); ?>"><?php echo $city['Name'] ?></a></li>
+      <?php endforeach; ?>
+    </ul>
+  </nav> 
+<?php  
+else:
 
 ?>
+<nav>
 <ul class="front-city-menu clearfix">
 <?php foreach ($cities as $city): ?>
 
@@ -20,3 +31,6 @@
 
 <?php endforeach; ?>
 </ul>
+</nav>
+
+<?php endif; ?>

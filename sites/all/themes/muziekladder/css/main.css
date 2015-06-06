@@ -21,7 +21,6 @@
   margin-left:2px;
   float:left; 
   cursor:pointer;
-
 }
 .muziekladder_logo img{
   margin-top:7px;
@@ -85,7 +84,6 @@ blockquote {
   padding: 0.25em 40px;
   line-height: 1.45;
   position: relative;
-  color: #efefef;
 }
 
 blockquote:before {
@@ -582,6 +580,18 @@ footer{
 
 
 /* day display */
+
+.agenda-city-menu>li>a {
+  background:AliceBlue;      
+}
+
+ .agenda-city-menu>li {
+  margin-right:20px;
+
+}
+
+ 
+  
 .image-cell{
   float:left;
   margin:0px 10px;

@@ -4,7 +4,6 @@ class Muziek_block extends Controller {
 
     public function muziekladder_nieuws_block(){
 
-
     }
 
     public function muziekladder_nieuws_block_1(){
@@ -22,7 +21,7 @@ class Muziek_block extends Controller {
       }
        
       return array(
-        'content'=>$list.$cntnt 
+        'content'=>$list 
       ); 
     }
 

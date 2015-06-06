@@ -1,3 +1,6 @@
+<?php 
+  echo $city_menu; 
+?>
 <div class="navigation clearfix">   
    <nav class="cities-agendas">
     <select class="agenda_city_selecter">
@@ -13,7 +16,6 @@
       <?php endforeach; ?>
     </select>
   </nav> 
-   
   <nav class="prevnextlinks">
    <div class="startdatum-container">
     <span class="label-el"><?php echo t('Starting from')?>:</span>

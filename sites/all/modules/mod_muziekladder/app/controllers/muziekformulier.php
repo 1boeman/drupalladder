@@ -56,7 +56,6 @@ class Muziekformulier extends Controller {
       $event_date = explode('-', $event_date);
       $event_date = array_reverse($event_date);
       $event_date = implode('-', $event_date);
-
    
       $submit_time = $xml->getElementsByTagname('time');
       $timestamp = $submit_time->item(0)->nodeValue; 
@@ -71,13 +70,15 @@ class Muziekformulier extends Controller {
 
       $venue_desc = ''; 
       $venue_ids = $xml->getElementsByTagName('venue_select');
-      $venue_id = $venue_ids->item(0)->nodeValue;
+      $venue_id =''; 
+      if ( $venue_ids->item(0) ) {
+        $venue_id = $venue_ids->item(0)->nodeValue;
+      }
       if (strlen($venue_id)){
         $venue_result = $db->get_venue($venue_id);
         $proc->setParameter('','venue_link',$venue_result['Link']);
         $proc->setParameter('','venue_title',$venue_result['Title']);
       }  
-
 
       $proc->setParameter('','event_date',$event_date);
       $proc->setParameter('','submit_datetime',date("d/m/Y - h:i:s A",$timestamp));

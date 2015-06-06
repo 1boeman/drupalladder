@@ -33,10 +33,20 @@ class Muziek extends Controller {
       $date_array []=  $date_option;
       $dt->modify('+ 1 day' );
     }
+
+
+    if (!$cityno){
+      $menucities = Muziek_db::get_cities_by_ids(array(1,8,5,1412801590,1413406572,4,7,15,6,));
+      $city_menu = theme('city_menu',array('cities' => $menucities, 'simple_list'=>1 )); 
+    }else{
+      $city_menu = ''; 
+    } 
+
     return theme('agenda_city_nav',array(
       'dates' => $date_array,
       'cityno' => $cityno,
       'cities' => $cities,
+      'city_menu'=>$city_menu,
       'day' => $day,
       'daynext' => $daynext,
       'dayprev' => $dayprev,
