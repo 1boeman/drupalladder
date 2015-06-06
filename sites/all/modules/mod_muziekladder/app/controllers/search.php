@@ -12,7 +12,6 @@ class Search extends Controller {
     $pages = 0;
     $content = '';
     $titletag = t('Search the Muziekladder Calendar');
-    $view = $this->init_view();
     $sort = false;
 
     if (isset($_REQUEST['query']) && strlen(trim($_REQUEST['query']))){
@@ -128,7 +127,7 @@ class Search extends Controller {
                 'id'=>$doc['id'],
                 'location'=>$doc['venue'],
                 'city'=>$doc['city'],
-                'internallink'=> 'datestring='.substr($doc['date'],0, strpos($doc['date'],'T')) .'&g='.rawurlencode($doc['sourcelink']),
+                'internallink'=> 'id='.$doc['id'].'&datestring='.substr($doc['date'],0, strpos($doc['date'],'T')) .'&g='.rawurlencode($doc['sourcelink']),
         ),$this->view->result);
         }
 
