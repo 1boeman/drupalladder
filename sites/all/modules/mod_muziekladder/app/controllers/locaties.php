@@ -3,50 +3,55 @@
 class Locaties extends Controller {
 
   function __call($name, $arguments) {
-
-      if (preg_match('#^([0-9]+_[A-Z][a-z\-]+)-[A-Z]#',$name,$matches)){
-        //diverse_locaties venue_id
-        $id_arr = explode('-',$name);
-        
-        if (count($id_arr) > 2){
-          $id = $id_arr[0].'-'.$id_arr[1];
-          return $this->locatie($id);
-        } else {
-          return $this->locatie($matches[1]);
-        }
-
-      }elseif (preg_match('#^([\-a-z\.0-9_]+)-[A-Z]#',$name,$matches)){
-        //regular venue_id
-        return $this->locatie($matches[1]);
+    if (preg_match('#^([0-9]+_[A-Z][a-z\-]+)-[A-Z]#',$name,$matches)){
+      //diverse_locaties venue_id
+      $id_arr = explode('-',$name);
+      
+      if (count($id_arr) > 2){
+        $id = $id_arr[0].'-'.$id_arr[1];
+        return $this->locatie($id);
       } else {
-        global $base_url; 
-        $url = $base_url.'/uitgaan';
-        drupal_goto($url,array(),301);   
-      } 
+        return $this->locatie($matches[1]);
+      }
+
+    }elseif (preg_match('#^([\-a-z\.0-9_]+)-[A-Z]#',$name,$matches)){
+      //regular venue_id
+      return $this->locatie($matches[1]);
+    } else {
+      global $base_url; 
+      $url = $base_url.'/uitgaan';
+      drupal_goto($url,array(),301);   
+    } 
   }
  
   private function locatie ($venue_id){
     $db = new Muziek_db(); 
     $venue = $db->get_venue($venue_id);
-    if (!$venue) {
-      drupal_not_found();
-      drupal_exit();
-    }
-     
-    $content = theme('locaties',array(
-      'venue' => $venue,
-      'events' => Muziek_db::get_venue_gigs($venue_id),
-      'lang_prefix' => Muziek_util::lang_url(), 
-    ));
 
-    $title = $venue['Title'];
-    $this->set_head_title($title . ' - ' . $venue['City_name']);
-    $this->set_title($title);
-    drupal_add_js(array('locatiepagina' => array(
-        'status' => 'venue',
-        'venue'=>$venue
-    )), 'setting');
-      
+    if (!$venue) {
+      $content = theme('locaties',array(
+        'not_found' =>1,
+        'lang_prefix' => Muziek_util::lang_url() 
+      ));
+    
+      $this->set_head_title(t('Currently no information available for this location'));
+
+    } else {
+     
+      $content = theme('locaties',array(
+        'venue' => $venue,
+        'events' => Muziek_db::get_venue_gigs($venue_id),
+        'lang_prefix' => Muziek_util::lang_url(), 
+      ));
+
+      $title = $venue['Title'];
+      $this->set_head_title($title . ' - ' . $venue['City_name']);
+      $this->set_title($title);
+      drupal_add_js(array('locatiepagina' => array(
+          'status' => 'venue',
+          'venue'=>$venue
+      )), 'setting');
+    }  
     return array('html'=>$content);    
   } 
 

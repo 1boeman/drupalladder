@@ -1,3 +1,6 @@
+<?php 
+  if (!isset($not_found)):  
+?>
 <div class="map-placeholder"></div>
 
 <div class="page-uitgaan">
@@ -52,5 +55,20 @@
 		</div>
 <?php endforeach; ?>
 	  <p><a href="<?php echo $venue['Link'] ?>"><?php echo $venue['Link'] ?></a></p>
-  
 </div>
+
+<?php else: ?>
+<div>
+  <?php if (stristr($lang_prefix,'/en/')): ?>   
+
+    <p><em>Sorry...</em> at the moment there is no information available for the location you've requested.</p>
+    <p><a href="/en/uitgaan">Check out some of the other locations available to find something of your interest.</a></p>
+  <?php else: ?>
+
+    <p><em>Sorry...</em> op dit moment is er geen informatie beschikbaar over de locatie die je hebt opgevraagd.</p>
+    <p><a href="/nl/uitgaan">Wellicht vindt je meer interessante locaties op de locatie pagina.</a></p>
+
+  <?php endif; ?>
+
+</div>
+<?php endif; ?>
