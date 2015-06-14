@@ -14,7 +14,7 @@ class Locaties extends Controller {
         return $this->locatie($matches[1]);
       }
 
-    }elseif (preg_match('#^([\-a-z\.0-9_]+)-[A-Z]#',$name,$matches)){
+    }elseif (preg_match('#^([\-a-zA-Z\.0-9_]+)-[A-Z]#',$name,$matches)){
       //regular venue_id
       return $this->locatie($matches[1]);
     } else {
