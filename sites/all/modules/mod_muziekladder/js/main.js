@@ -192,6 +192,8 @@ var hC = Drupal.settings.muziekladder;
     }
 
     function loadAgendaImages(){
+      // temp disable:
+      return;
       $('.city_gig').each(function(){
         var $gig = $(this); 
         var src = $gig.data('imgsrc');
