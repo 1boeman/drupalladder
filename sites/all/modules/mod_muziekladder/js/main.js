@@ -193,11 +193,15 @@ var hC = Drupal.settings.muziekladder;
 
     function loadAgendaImages(){
       // temp disable:
-      return;
+      return; 
       $('.city_gig').each(function(){
         var $gig = $(this); 
-        var src = $gig.data('imgsrc');
-        if(src){
+        var img_code = $.trim($gig.data('imgsrc')); 
+       
+        if (!img_code.length) return; 
+        
+        var src = '/muziekdata/img/?p='+img_code;
+        if(src && src.length){
           var img = new Image;
           img.onload = function(){
             $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               
@@ -397,9 +401,8 @@ var hC = Drupal.settings.muziekladder;
    var showDetailImages = function(){
         var $ev = $('.eventfull');
         if ($ev.length){
-            var href = $ev.eq(0).data('imgsrc');
+            var href = $.trim($ev.eq(0).data('imgsrc'));
             if (href && href.length){
-                href = decodeURIComponent(href);
                 var img = new Image();
                 img.onload = function(){
                     var lnk = $('.eventlink').eq(0).attr('href');
@@ -410,7 +413,7 @@ var hC = Drupal.settings.muziekladder;
                     a.appendChild(img); 
                     $ev.prepend(a);
                 }
-                img.src = href; 
+                img.src = '/muziekdata/img?p='+href; 
             }
         }
     };

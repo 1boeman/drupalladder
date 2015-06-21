@@ -3,7 +3,7 @@
  * implements hook_menu 
 **/
 function mod_muziekladder_menu(){
-  $methods = array( 'nieuws','muziek','gig','uitgaan','locaties','getgeo','search', 'muziekformulier', 'muziekdata/2014','muziekdata/2015');
+  $methods = array( 'nieuws','muziek','gig','uitgaan','locaties','getgeo','search', 'muziekformulier', 'muziekdata');
   $items = array();  
   foreach($methods as $method){
     $items[$method] = array (

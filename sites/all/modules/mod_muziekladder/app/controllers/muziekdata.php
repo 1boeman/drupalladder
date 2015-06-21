@@ -1,16 +1,68 @@
 <?php
 class Muziekdata extends Controller {
-  function __construct(){ }
-
-  function __call($name, $arguments) {
-       
-    if (preg_match('/^20[0-9]{2}$/',$name) && $arguments[0] &&
-        preg_match('/^[0-9]{2}-[0-9]{2}\.json$/',$arguments[0] )){
-        return array('json_string'=> file_get_contents(MUZIEK_DATA.'/'.$name.'/'.$arguments[0])); 
-    }
+  private $image_cache = '';
+  
+  function __construct(){ 
+    $this->image_cache = DRUPAL_ROOT.'/'.variable_get('file_public_path', conf_path() . '/files/muziek_agenda_image_cache');
   }
 
-  function index() {
-    
+  function img() {
+    // make sure the cache exists
+    $image_cache = $this->image_cache;  
+    if (!file_exists($image_cache)){
+      mkdir($image_cache); 
+      chmod($image_cache,0750);
+    }
+    if (isset($_GET['p']) && basename($_GET['p']) == $_GET['p']) {
+        $get_p = $_GET['p'];
+         
+        $p = base64_decode($get_p); // $url
+        $cache_file = md5($p);
+        $pic = $image_cache .'/'. $cache_file;
+        if (file_exists($pic) && is_readable($pic)) {
+            //image in cache
+        } elseif (preg_match('/^(http|HTTP|\/\/)/',$p)){
+          // image not yet in cache 
+          // download it and store it.
+          if (substr($p,0,2) == '//'){
+            $p = 'http:'.$p;  
+          }
+          set_time_limit(0);
+          $fp = fopen ( $pic, 'w+');//This is the file where we save the    information
+          $ch = curl_init(str_replace(" ","%20",$p));//Here is the file we are downloading, replace spaces with %20
+          curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+          curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
+          curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+          curl_exec($ch); // get curl response
+          curl_close($ch);
+          fclose($fp);
+        } else { 
+          watchdog('PHP',"Error trying to fetch image with incomplete url: ".$p);
+          drupal_not_found();
+          drupal_exit();  
+        }
+
+        // set the MIME type
+        $info = @getimagesize($pic);
+        $mime = false; 
+        if (isset($info['mime'])) {
+          $mime = $info['mime'];
+        }
+
+        // if a valid MIME type exists, display the image
+        // by sending appropriate headers and streaming the file
+        if ($mime) {
+           $file =  fopen($pic, 'rb');
+            if ($file) {
+                header('Content-type: '.$mime);
+                header('Content-length: '.filesize($pic));
+                fpassthru($file);
+                exit;
+            }
+        }
+    }
+
+//    drupal_not_found();
+    drupal_exit();  
   }
 }
