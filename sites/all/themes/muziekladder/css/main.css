@@ -664,6 +664,14 @@ footer{
     width:50%;
    padding:8px 0px ;
 }
+.city_gig .first-cell{
+  color:black
+} 
+.city_gig .first-cell:hover{
+  color: green
+} 
+ 
+
  .city_gig .name{
   padding-left:8px;
   display:block
