@@ -74,8 +74,8 @@ class Gig extends Controller{
     if ($id) {
       // first check if id contains venue_id
       $array_id = explode('_',$id);
-      if (count($array_id) > 3){
-        $venue_id = implode('_',array_slice($array_id,3));
+      if (count($array_id) > 1){
+        $venue_id = implode('_',array_slice($array_id,1));
         $db = new Muziek_db(); 
         $venue = $db->get_venue($venue_id);
         if ($venue){
