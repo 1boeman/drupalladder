@@ -4,7 +4,6 @@ var hC = Drupal.settings.muziekladder;
     hC.jsDir = '/js/';
     hC.mapsKey = 'AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo';
     hC.pathToTheme = Drupal.settings.basePath + "sites/all/themes/" + Drupal.settings.ajaxPageState.theme;
-    var pageHandlers = {};
     laad.pathConfig = {
         "bootstrap"     :hC.muziekladderBasePath + hC.jsDir+"bootstrap.min.js",
         "util"          :hC.muziekladderBasePath + hC.jsDir+"util.js",
@@ -14,7 +13,30 @@ var hC = Drupal.settings.muziekladder;
         "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
         "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
     }
-    
+    var pageHandlers = {}, 
+        handlers = {
+          presentLogin:function(){
+            var $loginblock = $('#block-user-login');
+            if ( $loginblock.length ) {
+              var $close = $loginblock.find('.close_button');
+              if (!$close.length){
+                $close = $('<div class="close_button">&times;</div>');  
+                $loginblock.prepend($close)
+                  .appendTo('body')
+                  .animate({top:'110px'});
+                $close.click(function(){
+                  $loginblock.removeClass('present')
+                  $('#page').removeClass('login_open');
+                });
+              } 
+              $loginblock.addClass('present')
+              $('#page').addClass('login_open');
+            }else{
+              alert('Login not available')  
+            } 
+        }  
+    };
+     
     laad.wait(['util'],function(){
         $(function(){
             $('body').on('click','.handleMe',function(e){
@@ -28,8 +50,8 @@ var hC = Drupal.settings.muziekladder;
                 lngth = bodyClass.length; 
             
             for (i = 0; i < lngth; i++){
-                if (typeof pageHandlers[bodyClass[i]] === 'function')
-                    handlers = pageHandlers[bodyClass[i]]();
+                if ( typeof pageHandlers[bodyClass[i]] === 'function' )
+                    $.extend(handlers, pageHandlers[bodyClass[i]]());
             }
         });
    });

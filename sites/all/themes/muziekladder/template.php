@@ -154,18 +154,6 @@ function muziekladder_js_alter(&$javascript) {
 */
 
 
-/**
-* theme_menu_link()
-*/
-function muziekladder_menu_link(array $variables) {
-   //add class for li element
-   $variables['element']['#attributes']['class'][] = 'menu-' . $variables['element']['#original_link']['mlid'];
-   //add class for a element
-   $variables['element']['#localized_options']['attributes']['class'][] = 'menu-' . $variables['element']['#original_link']['mlid'];
-
-   return theme_menu_link($variables);
-}
-
 function muziekladder_html_head_alter(&$head_elements) {
   unset($head_elements['system_meta_generator']);
   foreach($head_elements as $key => $value){
@@ -195,9 +183,8 @@ function muziekladder_preprocess_node(&$variables, $hook) {
 }
 
 function muziekladder_preprocess_page(&$variables) {
-  
   $variables['lang_prefix'] =  Muziek_util::lang_url(); 
-  
+   
   if (drupal_is_front_page()){
     unset($variables['page']['content']['system_main']['pager']);
   }

@@ -22,6 +22,29 @@
   float:left; 
   cursor:pointer;
 }
+.logged-in .user-container{
+  float:left;
+  font-size:14px;
+  padding:4px;
+  padding-left:12px;
+}
+
+.user-container a{
+    color:white;
+    font-weight:bold;
+  
+}
+.logged-in .muziekladder_logo_small{
+  display:block;
+  margin-top:6px;
+}
+.scrolling .muziekladder_logo_small img{
+  height:40px; 
+}
+.logged-in .muziekladder_logo{
+  display:none;  
+
+}
 .muziekladder_logo img{
   margin-top:7px;
   width:198px;
@@ -30,6 +53,13 @@
   margin-top:2px;
   width:110px;    
 }
+
+
+.muziekladder_logo_small {
+ display:none  
+}
+
+
 
 .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
@@ -109,7 +139,58 @@ blockquote:before {
   margin-left:0px;
 }
 
+#page.login_open{
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+#block-user-login {
+  display:none;
+  width:300px;
+ 
+  margin-left:-200px;
+  padding:20px 40px 0px 40px;
+  background:white;
+  box-shadow:0px 0px 4px #333;
+  position:absolute;
+  top:-1000px;
+  left:50%;
+
+}
+#block-user-login .close_button:hover{  
+  opacity:1; 
+}
+#block-user-login .close_button{  
+  opacity:0.5;
+  position:absolute;
+  top:12px;
+  right:12px;
+  cursor:pointer;
+  font-weight:bold;
+  background:#333;
+  padding:0px;
+  padding:10px 20px;
+  border-radius:4px;
+  font-size:22px;
+  color:white;
+}
+
+#block-user-login.present {
+  display:block;
+}
+
+
 /* front */
+
+ 
+.muziekladder_logo_small {
+    float:left;
+}
+
+
 ul.front-city-menu, .front-city-menu ul{
   margin-left:0px;  
 }
@@ -472,11 +553,20 @@ border-radius: 4px;
  position:relative;
  float:right; 
 }
+#block-system-main-menu .menu li.header_user_link{
+  
+
+}
+ 
+.user-container{
+}
 
 #block-system-main-menu .menu li{
  text-align:center;
  min-width:70px; 
  height:55px;
+ display:block;
+ overflow:hidden;
  padding-top:35px;
  padding-bottom:0px;
  padding-left:24px;
@@ -484,8 +574,6 @@ border-radius: 4px;
  cursor:pointer;
  border-right:1px solid #666;
 }
-
-
 
 .scrolling #block-system-main-menu .menu li{
  height:35px;
@@ -725,6 +813,9 @@ color:Maroon
 .agenda-date-selecter{
   float:left;
   margin-right:12px;
+}
+.daybutton-container{
+  display:none;
 }
 .startdatum-container,
 .daybutton-container{
@@ -1349,14 +1440,40 @@ clear: both;
       float:none;
   }
 }
+
    
 /* Landscape phone to portrait tablet */
 @media (max-width:769px) {
-.front-city-menu li.city{
-  width:50%; 
-}
+ 
+  #block-user-login {
+    display:none;
+    width:260px;
+   
+    margin-left:-150px;
+    padding:20px 20px 0px 20px;
+    background:white;
+    box-shadow:0px 0px 4px #333;
+    position:absolute;
+    top:-1000px;
+    left:50%;
+  }
 
+ 
+  .front-city-menu li.city{
+    width:50%;
+    overflow:hidden;
+    height:160px; 
+  }
 
+  .front-city-menu .city-links a{
+    font-size:0.9em;
+    font-weight:normal
+
+  }
+
+  .front-city-menu .city-name{
+    font-size:1.2em
+  }
   
   ul.locaties-lijst{
     float:left;
@@ -1438,23 +1555,49 @@ clear: both;
 
 /* Landscape phones and down */
 @media (max-width: 500px) {
+  
   ul.locaties-lijst{
     float:left;
     list-style:none;
     margin:0px;
     width:100%;
   }
-
-  #block-system-main-menu .menu li a{
-    font-size:12px;  
-    
+  .muziekladder_logo{
+    display:none; 
   }
-  .muziekladder_logo,
+.logged-in .user-container a{
+  background:black
+}
+.logged-in .user-container{
+  position:absolute; 
+  top:0px;
+  padding:4px;
+  padding-left:8px;
+  left:0px;
+  background:black;
+  z-index:10;
+  font-size:12px;
+ }     
+  .muziekladder_logo_small {
+    display:block;
+    float:left;
+    width:10%;
+    text-align:center;
+  }
+
+  .muziekladder_logo_small img{
+    width:70%;
+    margin-top:10px;
+  }
+  #block-system-main-menu .menu li a{
+    font-size:12px; 
+  }
+
   #block-system-main-menu .menu li{
     padding-left:0px; 
     padding-right:0px;
     margin:0px; 
-    width:25%;
+    width:20%;
     overflow:hidden; 
   }
  
@@ -1463,7 +1606,8 @@ clear: both;
     position:absolute;
   } 
   .muziekladder_logo img{
-    width:100px;
+    width:50px;
+    max-width:100%;
   }
 
   #front-search-input{

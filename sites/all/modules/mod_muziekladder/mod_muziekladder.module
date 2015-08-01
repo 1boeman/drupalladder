@@ -215,3 +215,24 @@ function mod_muziekladder_preprocess_page(&$vars) {
   set_vars_from_singleton($vars,array('title','city_menu','after_content','agenda','var1'));
 }
 
+
+function mod_muziekladder_form_alter(&$form, &$form_state, $form_id)
+{
+    if ($form_id == "user_login_block")
+    {
+        $form["#validate"][] = "mod_muziekladder_validate_login";
+    }
+}
+
+
+function mod_muziekladder_validate_login($form, &$form_state)
+{
+    // on successful login, the uid is set in form_state.
+    if (empty($form_state["uid"]))
+    {
+        $_GET["destination"] = "user/login";
+        drupal_goto("user/login"); 
+    }
+}
+
+
