@@ -194,10 +194,6 @@ blockquote:before {
 ul.front-city-menu, .front-city-menu ul{
   margin-left:0px;  
 }
-ul.front-city-menu > li{
-
-  
-}
 ul.front-city-menu  li{
   list-style:none  ;
 }
@@ -211,30 +207,67 @@ ul.front-city-menu  li{
 }
 
 .front-city-menu .city-name{
-  position:absolute;
-  top:16px;
-  left:0px;
   color: #fff;
   font-size: 2em;
   font-weight: bold;
   text-shadow:2px 2px 2px black;
   display:block;
-  width:100%;
+  width:294px;
+  height:110px;
+  margin:0 auto;
+  margin-bottom:6px;
+  line-height:1.5;  
   text-align:center;
+  background-image:url('../city_images/bigpicture.jpg');
+  background-repeat:no-repeat;
+  background-position:top center;
+}
+
+.front-city-menu .city-4 .city-name{
+  background-position:0px -10px; 
+}
+
+.front-city-menu .city-5 .city-name{
+  background-position:0px -170px; 
+}
+.front-city-menu .city-7 .city-name{
+  background-position:0px -550px; 
+}
+.front-city-menu .city-6 .city-name{
+  background-position:0px -370px; 
+}
+.front-city-menu .city-1413406572 .city-name{
+  background-position:0px -1150px; 
+
+}
+
+.front-city-menu .city-8 .city-name{
+  background-position:0px -690px; 
+}
+
+
+.front-city-menu .city-15 .city-name{
+  background-position:0px -816px; 
+}
+
+
+
+.front-city-menu .city-1 .city-name{
+  background-position:0px -1274px; 
+}
+
+.front-city-menu .city-1412801590 .city-name{
+  background-position:0px -990px; 
 }
 
 .front-city-menu li.city{
   list-style:none;
   float:left;
   display:block;
-  height:240px;
+  height:190px;
   position:relative;
   text-align:center; 
   width:33%; 
-}
-
-.front-city-menu li.city:first-child{
- 
 }
 
 .front .city_gig_agenda h1{
@@ -1555,7 +1588,8 @@ clear: both;
 
 /* Landscape phones and down */
 @media (max-width: 500px) {
-  
+  .front-city-menu .city-name{ width:80%; }  
+
   ul.locaties-lijst{
     float:left;
     list-style:none;
