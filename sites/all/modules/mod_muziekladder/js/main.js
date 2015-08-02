@@ -31,8 +31,9 @@ var hC = Drupal.settings.muziekladder;
               } 
               $loginblock.addClass('present')
               $('#page').addClass('login_open');
+              $('html,body').animate({scrollTop: 0}, 500);
             }else{
-              alert('Login not available')  
+              alert('Login not available'); 
             } 
         }  
     };
