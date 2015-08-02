@@ -1,19 +1,24 @@
   <header class="header" id="header" role="banner">
     <div id="navigation">
     <nav class="brand clearfix">
-     <div class="muziekladder_logo"><a href="<?php echo $lang_prefix ?>"><img src="/<?php echo path_to_theme(); ?>/img/logo.png" /></a></div>
-      <div class="muziekladder_logo_small"><a href="<?php echo $lang_prefix ?>"><img src="/<?php echo path_to_theme(); ?>/img/muziekladder.png" /></a>
-     
+      <div class="muziekladder_logo">
+        <a href="<?php echo $lang_prefix ?>"><img src="/<?php echo path_to_theme(); ?>/img/logo.png" /></a>
       </div>
-
-
+      <div class="muziekladder_logo_small">
+        <a href="<?php echo $lang_prefix ?>"><img src="/<?php echo path_to_theme(); ?>/img/muziekladder.png" /></a>
+      </div>
       <div class="user-container">
-     <?php if ($user->uid > 0 ): ?>
-        <a href="<?php echo $lang_prefix ?>user" title=""><?php echo truncate_utf8($user->name,20,TRUE,TRUE) ?></a>
+      <?php if ($user->uid > 0 ): ?>
+        <a class="handleMe" 
+            data-handler="showUserOptions"
+            href="#<?php echo $lang_prefix ?>user"><?php echo truncate_utf8($user->name,20,TRUE,TRUE) ?></a>
+
+        <ul class="userOptions nodisplay">
+          <li><a href="<?php echo $lang_prefix ?>user/"><?php echo t('User page') ?></a></li>
+          <li><a href="<?php echo $lang_prefix ?>user/logout"><?php echo t('Log out') ?></a></li>
+        </ul>
       <?php endif; ?>
       </div>
- 
-
 
       <div class="form-search-container">
           <form class="form-search" action="<?php echo $lang_prefix ?>search">

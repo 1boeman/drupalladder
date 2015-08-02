@@ -14,29 +14,7 @@ var hC = Drupal.settings.muziekladder;
         "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
     }
     var pageHandlers = {}, 
-        handlers = {
-          presentLogin:function(){
-            var $loginblock = $('#block-user-login');
-            if ( $loginblock.length ) {
-              var $close = $loginblock.find('.close_button');
-              if (!$close.length){
-                $close = $('<div class="close_button">&times;</div>');  
-                $loginblock.prepend($close)
-                  .appendTo('body')
-                  .animate({top:'110px'});
-                $close.click(function(){
-                  $loginblock.removeClass('present')
-                  $('#page').removeClass('login_open');
-                });
-              } 
-              $loginblock.addClass('present')
-              $('#page').addClass('login_open');
-              $('html,body').animate({scrollTop: 0}, 500);
-            }else{
-              alert('Login not available'); 
-            } 
-        }  
-    };
+        handlers = {};
      
     laad.wait(['util'],function(){
         $(function(){
@@ -58,26 +36,25 @@ var hC = Drupal.settings.muziekladder;
    });
 
    pageHandlers.muziekformulier = function(){
-        var $form = $('#mod-muziekladder-mailtipform'); 
- 
-        // workaround for Drupal #states required-functionality only active client-side 
-        $form.submit(function(){
-            var omg = [];
-            $('.form-required').each(function(){
-               var $form_item =  $(this).parents('.form-item');
-               var $field = $form_item.find('input, textarea, select').eq(0);
-               if($.trim($field.val()).length < 1){
-                  omg.push('Het veld "' + $form_item.find('label').text() +'" moet nog worden ingevuld.')
-               } 
-            })
-            if (omg.length){
-              alert(omg.join("\n\n"))
-              return false  
-            }
-        });
-        showTipsButton()
-  
-        return {}; 
+      var $form = $('#mod-muziekladder-mailtipform'); 
+
+      // workaround for Drupal #states required-functionality only active client-side 
+      $form.submit(function(){
+          var omg = [];
+          $('.form-required').each(function(){
+             var $form_item =  $(this).parents('.form-item');
+             var $field = $form_item.find('input, textarea, select').eq(0);
+             if($.trim($field.val()).length < 1){
+                omg.push('Het veld "' + $form_item.find('label').text() +'" moet nog worden ingevuld.')
+             } 
+          })
+          if (omg.length){
+            alert(omg.join("\n\n"))
+            return false  
+          }
+      });
+      showTipsButton()
+      return {}; 
    }; 
 
    pageHandlers.zoekpagina = function(){

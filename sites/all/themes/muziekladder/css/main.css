@@ -27,13 +27,36 @@
   font-size:14px;
   padding:4px;
   padding-left:12px;
+  position:relative;
+}
+.logged-in .user-container .userOptions{
+  background:#666;
+  position:absolute; 
+   box-shadow:-1px 1px 9px #111;;
+  
 }
 
+.logged-in .user-container .userOptions li a{
+  display:block;
+  padding:12px 20px;
+  min-width:100px;
+  white-space:nowrap;
+}
+.logged-in .user-container .userOptions li{
+  display:block;
+
+}
+
+.logged-in .user-container .userOptions li:hover{
+  background:white;  
+}
+  
 .user-container a{
     color:white;
     font-weight:bold;
-  
 }
+
+
 .logged-in .muziekladder_logo_small{
   display:block;
   margin-top:6px;
