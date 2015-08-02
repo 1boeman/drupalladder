@@ -43,10 +43,11 @@ class Muziekformulier extends Controller {
       //make sure the event is in future 
       $date1 = new DateTime();
       $date2 = new DateTime($event_date);
-      if ($date2 < $date1){
+      $diff = $date2->diff($date1);
+
+      if (($date2 < $date1) && $diff->d > 1){
          // delete it we dont need it.
          // a week after the event date.
-         $diff = $date2->diff($date1);
          if ((bool)$diff->d && $diff->d > 7){
             rename (MUZIEK_USERDATA_DIR.'/'.$tip,'/tmp/'.$tip);
          } 
