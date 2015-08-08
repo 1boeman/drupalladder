@@ -1479,11 +1479,14 @@ clear: both;
  
 /* Portrait tablet to landscape and desktop */
 @media (max-width: 979px) {    
-  #block-system-main-menu .menu li{
-    padding-left:8px; 
-    padding-right:8px;
-  } 
-
+.muziekladder_logo img{
+width:120px;  
+}
+  #block-system-main-menu .menu li,
+  .scrolling #block-system-main-menu .menu li{
+    padding-left:7px;
+    padding-right:7px;
+  }
  .dateselectContainer label { display:none}
 
  .page-uitgaan .map-placeholder{
