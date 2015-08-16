@@ -3,7 +3,7 @@
 class Locaties extends Controller {
 
   function __call($name, $arguments) {
-    if (preg_match('#^([0-9]+_[A-Z][a-z\-]+)-[A-Z]#',$name,$matches)){
+    if (preg_match('#^([0-9]+_[A-Z][a-z\-]+)-[A-Z]#',$name,$matches)) {
       //diverse_locaties venue_id
       $id_arr = explode('-',$name);
       
@@ -14,7 +14,7 @@ class Locaties extends Controller {
         return $this->locatie($matches[1]);
       }
 
-    }elseif (preg_match('#^([\-a-zA-Z\.0-9_]+)-[A-Z]#',$name,$matches)){
+    } elseif (preg_match('#^([\-a-zA-Z\.0-9_]+)-[A-Z]#',$name,$matches)) {
       //regular venue_id
       return $this->locatie($matches[1]);
     } else {
@@ -37,9 +37,28 @@ class Locaties extends Controller {
       $this->set_head_title(t('Currently no information available for this location'));
 
     } else {
-     
+      // venue_found
+      // get node
+      $diverse_locaties = strstr($venue['Title'],'diverse locaties'); 
+      if (!$diverse_locaties){
+        $node = $this->get_location_node($venue_id);
+        if (!$node) { 
+          $this->create_locatie_node($venue,$venue_id);
+          $node = $this->get_location_node($venue_id);
+        }
+        
+        $node_view = node_view($node);
+        $node_view['comments'] = comment_node_page_additions($node);
+        $rendered_node = drupal_render($node_view);
+      }else{
+        $rendered_node = '';  
+      }
+       
+      //render node + comments and add it tot $content
       $content = theme('locaties',array(
         'venue' => $venue,
+        'diverse_locaties' => $diverse_locaties,
+        'venue_node' => $rendered_node,
         'events' => Muziek_db::get_venue_gigs($venue_id),
         'lang_prefix' => Muziek_util::lang_url(), 
       ));
@@ -51,7 +70,7 @@ class Locaties extends Controller {
           'status' => 'venue',
           'venue'=>$venue
       )), 'setting');
-    }  
+    }
     return array('html'=>$content);    
   } 
 
@@ -68,9 +87,7 @@ class Locaties extends Controller {
       drupal_not_found();
       drupal_exit();
     }
-      
   }
-  
 
   function info(){
       $this->init_view();    
@@ -98,4 +115,74 @@ class Locaties extends Controller {
         return array('html_fragment'=>$str);
       }
   }
+
+  private function get_location_node($venue_id,$single = true){
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+          ->entityCondition('bundle', 'locatiespagina') // ex. article
+          ->propertyCondition('status', 1) // published nodes
+          ->fieldCondition('field_locaties_id','value',$venue_id, '=');
+    $result= $query->execute();
+
+    if (isset($result['node'])) {
+      $nids = array_keys($result['node']);
+      $items = node_load_multiple($nids);
+      //var_dump($items)  ;
+      if ($single) {
+        return array_pop($items); 
+      } else {
+        return $items;
+      }
+    }
+    return false;
+  }
+
+  private function create_locatie_node($venue,$venue_id) {
+    global $user;
+    // entity_create replaces the procedural steps in the first example of
+    // creating a new object $node and setting its 'type' and uid property
+    $values = array(
+      'type' => 'locatiespagina',
+      'uid' => $user->uid,
+      'status' => 1,
+      'promote' => 0,
+    );
+    $entity = entity_create('node', $values);
+
+    // The entity is now created, but we have not yet simplified use of it.
+    // Now create an entity_metadata_wrapper around the new node entity
+    // to make getting and setting values easier
+    $ewrapper = entity_metadata_wrapper('node', $entity);
+     // Using the wrapper, we do not have to worry about telling Drupal
+    // what language we are using. The Entity API handles that for us.
+    $ewrapper->title->set($venue['Title']. ', '.$venue['City_name']);
+    $ewrapper->field_locaties_id->set($venue_id);
+
+    // Setting the body is a bit different from other properties or fields
+    // because the body can have both its complete value and its
+    // summary
+    $content = theme('locatie_reviews_body', array (
+        'venue' => $venue 
+    ));
+    
+    $ewrapper->body->set(array('value' => $content));
+    
+    // Setting the value of an entity reference field only requires passing
+    // the entity id (e.g., nid) of the entity to which you want to refer
+    // The nid 15 here is just an example.
+#    $ref_nid = 15;
+    // Note that the entity id (e.g., nid) must be passed as an integer not a
+    // string
+ #   $ewrapper->field_my_entity_ref->set(intval($ref_nid));
+
+    // Entity API cannot set date field values so the 'old' method must
+    // be used
+
+    // Now just save the wrapper and the entity
+    // There is some suggestion that the 'true' argument is necessary to
+    // the entity save method to circumvent a bug in Entity API. If there is
+    // such a bug, it almost certainly will get fixed, so make sure to check.
+    $ewrapper->save();
+  }
+
 }

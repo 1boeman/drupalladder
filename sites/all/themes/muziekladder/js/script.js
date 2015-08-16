@@ -55,6 +55,21 @@
     }
   });
 
+ /** @todo
+  * this is a temporary solution - remove when navigation  is improved
+  */ 
+  if ( document.body.className.indexOf('node-type-locatiespagina') > -1 ) {
+    var $bodyfield = $('.field-name-body .field-item');
+    var t_list = $bodyfield.text().split('---');
+    if (t_list.length === 4){
+      var lnk = 'https://muziekladder.nl/locaties/'+
+        encodeURIComponent($.trim(t_list[3]))
+        +'-'+
+        encodeURIComponent($.trim(t_list[1]));
+        $bodyfield.html('<a href="'+lnk+'">'+lnk+'</a>') 
+    }  
+  }
+
 
 // To understand behaviors, see https://drupal.org/node/756722#behaviors
 Drupal.behaviors.muziekladder_menu = {
