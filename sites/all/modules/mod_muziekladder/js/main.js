@@ -1,10 +1,10 @@
 var hC = Drupal.settings.muziekladder;
  
 (function($){
-    hC.jsDir = '/js/';
-    hC.mapsKey = 'AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo';
-    hC.pathToTheme = Drupal.settings.basePath + "sites/all/themes/" + Drupal.settings.ajaxPageState.theme;
-    laad.pathConfig = {
+  hC.jsDir = '/js/';
+  hC.mapsKey = 'AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo';
+  hC.pathToTheme = Drupal.settings.basePath + "sites/all/themes/" + Drupal.settings.ajaxPageState.theme;
+  laad.pathConfig = {
         "bootstrap"     :hC.muziekladderBasePath + hC.jsDir+"bootstrap.min.js",
         "util"          :hC.muziekladderBasePath + hC.jsDir+"util.js",
         "locationpage"  :hC.muziekladderBasePath + hC.jsDir+"locationpage.js",
@@ -12,11 +12,11 @@ var hC = Drupal.settings.muziekladder;
         "locations"     :hC.muziekladderBasePath + hC.jsDir+"locations.js",
         "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
         "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
-    }
-    var pageHandlers = {}, 
+  }
+  var pageHandlers = {}, 
         handlers = {};
      
-    laad.wait(['util'],function(){
+  laad.wait(['util'],function(){
         $(function(){
             $('body').on('click','.handleMe',function(e){
                 e.preventDefault();
@@ -33,9 +33,9 @@ var hC = Drupal.settings.muziekladder;
                     $.extend(handlers, pageHandlers[bodyClass[i]]());
             }
         });
-   });
+  });
 
-   pageHandlers.muziekformulier = function(){
+  pageHandlers.muziekformulier = function(){
       var $form = $('#mod-muziekladder-mailtipform'); 
 
       // workaround for Drupal #states required-functionality only active client-side 
@@ -55,9 +55,9 @@ var hC = Drupal.settings.muziekladder;
       });
       showTipsButton()
       return {}; 
-   }; 
+  }; 
 
-   pageHandlers.zoekpagina = function(){
+  pageHandlers.zoekpagina = function(){
         var orderBy = Drupal.settings.muziekladder_search_orderby, 
             $orderBy = $('#orderBy'); 
         if (orderBy && orderBy != 'relevance'){
@@ -70,16 +70,16 @@ var hC = Drupal.settings.muziekladder;
        showTipsButton()
  
         return {};     
-    };
+   };
 
-    pageHandlers.articlefull = function(){
+   pageHandlers.articlefull = function(){
         showTipsButton()
  
         externalLinks();
         return {};
-    };
+   };
     
-    pageHandlers.front = function(){
+   pageHandlers.front = function(){
         var handlers = {
        //   openLink:cityMenuLinkHandleri
         }; 
@@ -90,18 +90,18 @@ var hC = Drupal.settings.muziekladder;
  
         return handlers;
 
-    };
+   };
     
-    pageHandlers.locationPage = function(){
+   pageHandlers.locationPage = function(){
         laad.js('locations');
         externalLinks();
         crumbTrail.set(location.href);
         showTipsButton()
  
         return {};
-    }
+   }
     
-    pageHandlers.detail = function(){
+   pageHandlers.detail = function(){
         externalLinks();
         showDetailImages();
 
@@ -110,17 +110,17 @@ var hC = Drupal.settings.muziekladder;
         shareButton();
         crumbTrail.backButton($('.breadcrumb li a').eq(0));
         return {};
-    }
+   }
     
-    pageHandlers.locaties = function(){
+   pageHandlers.locaties = function(){
         laad.js('util');
         laad.wait('locations');
         showTipsButton();
         externalLinks();
         return {};
-    }
+   }
 
-    pageHandlers.dagoverzicht = function(){
+   pageHandlers.dagoverzicht = function(){
       if (Drupal.settings.pathPrefix == 'en/'){
         var nexttext = "Next page";
         var prevtext = "Previous page";   
@@ -189,7 +189,7 @@ var hC = Drupal.settings.muziekladder;
        showTipsButton()
       
        return handlers;   
-    }
+   }
 
     function loadAgendaImages(){
       // temp disable:

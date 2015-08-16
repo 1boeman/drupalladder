@@ -132,6 +132,13 @@ function mod_muziekladder_language_switch_links_alter(array &$links, $type, $pat
 **/
 function mod_muziekladder_theme($existing, $type, $theme, $path){
   return array(
+  
+    'locatie_reviews_body' => array(
+      'template' => 'locatie_reviews_body',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ), 
+    
     'agenda_header' => array(
       'template' => 'agenda_header',
       'path' => $path.'/theme',
@@ -236,3 +243,24 @@ function mod_muziekladder_validate_login($form, &$form_state)
 }
 
 
+/** Implements hook_query_TAG_alter().
+ *
+ * Alter comments query to order by DESC as well as the default ASC.
+ */
+function mod_muziekladder_query_comment_filter_alter(QueryAlterableInterface $query) {
+  $orderby = &$query->getOrderBy();
+
+  // Sorting for threaded comments.
+  if (isset($orderby['torder'])) {
+    // Sort by root parent first, then normal threaded.
+    $query->addExpression("SUBSTRING_INDEX(c.thread, '.', 1)", 'rparent');
+    $orderby = array('rparent' => 'DESC') + $orderby;
+  }
+  // Sorting for flat comments.
+  else if (isset($orderby['c.cid'])) {
+    $direction = 'DESC';
+
+    $orderby['c.cid'] = $direction;
+    $orderby = array('c.created' => $direction) + $orderby;
+  }
+}

@@ -2,6 +2,10 @@
 
 class Muziek_util {
 
+  static function locatie_link (Array $db_row){
+    
+  }
+  
   static function gig_link(Array $db_row){
     if (isset($db_row['Id'])){
       $id = $db_row['Id'];
