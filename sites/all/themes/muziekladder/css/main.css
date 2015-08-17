@@ -261,22 +261,29 @@ ul.front-city-menu  li{
 }
 .front-city-menu .city-1413406572 .city-name{
   background-position:0px -1150px; 
-
 }
 
 .front-city-menu .city-8 .city-name{
   background-position:0px -690px; 
 }
 
-
 .front-city-menu .city-15 .city-name{
   background-position:0px -816px; 
 }
 
-
-
 .front-city-menu .city-1 .city-name{
   background-position:0px -1274px; 
+}
+.front-city-menu .city-1439757759 .city-name{
+  background-position:0px -1460px; 
+}
+
+.front-city-menu .city-100 .city-name{
+  background-position:0px -1790px; 
+}
+
+.front-city-menu .city-17 .city-name{
+  background-position:0px -1620px; 
 }
 
 .front-city-menu .city-1412801590 .city-name{
@@ -495,18 +502,7 @@ ul.front-city-menu  li{
   height:800px;
   opacity:1;
 }
-/*
-.bg-image:after{
-  content : " ";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(240,240,240,0), rgba(235,235,235,1) ) ; 
-}
-*/
+
 .front .frontheader{
   padding:0px 10px;
 }
@@ -518,7 +514,6 @@ ul.front-city-menu  li{
 .node .field-items{
 clear:both;  
 } 
-
 
 .block-mod-muziekladder .event{
   background-color:white;
