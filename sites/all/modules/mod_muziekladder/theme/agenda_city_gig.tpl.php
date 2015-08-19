@@ -49,9 +49,13 @@ if(!empty($content)){
           <strong class="name" itemprop="name"><?php echo $value['Event_Title']  ?></strong>
         </div>
         <div class="second-cell cell">
-          <span class="city"><?php echo $value['City_Name'] ?>,</span>
-          <span class="venue"><?php echo $value['Venue_Title'] ?></span>
-           <span class="date" itemprop="startDate" content="<?php echo $value['Event_Date'] ?>"><?php echo $subhuman_date ?></span>
+            <span class="city">
+            <?php if (!stristr($value['Venue_Title'],'diverse locaties')): ?>
+              <?php echo $value['City_Name'] ?>,
+            <?php endif; ?>
+            </span>
+            <span class="venue"><?php echo $value['Venue_Title'] ?></span>
+            <span class="date" itemprop="startDate" content="<?php echo $value['Event_Date'] ?>"><?php echo $subhuman_date ?></span>
         </div>
        </a>
     </div>
