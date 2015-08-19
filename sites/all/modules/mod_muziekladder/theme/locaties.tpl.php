@@ -30,7 +30,7 @@
       <p><strong>Website: </strong> <a href="<?php echo $venue['Link'] ?>"><?php echo $venue['Link'] ?></a><br></p>
         
     </div>
-    <?php $blockclass = ( count($events) > 1 ) ? ' locatie-half' : ''; ?>
+    <?php $blockclass = ( count($events) >= 1 ) ? ' locatie-half' : ''; ?>
     <div class="aux-block clearfix">
       <div id="kolovoz" class="locatie-agenda-container<?php echo $blockclass ?>">
         <div class="locatie-half-inner">
