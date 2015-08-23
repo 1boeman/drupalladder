@@ -62,10 +62,27 @@ class Locaties extends Controller {
         'events' => Muziek_db::get_venue_gigs($venue_id),
         'lang_prefix' => Muziek_util::lang_url(), 
       ));
-
       $title = $venue['Title'];
       $this->set_head_title($title . ' - ' . $venue['City_name']);
       $this->set_title($title);
+      
+      $this->crumbs(array(
+        array(
+          'text'=>t('Locaties'),
+          'link'=>$lang_prefix . 'uitgaan'
+        ),
+        array(
+          'text' => $venue['City_name'],
+          'link' => Muziek_util::city_link(
+            array(
+              'Id' => $venue['Cityno'],
+              'Name'=> $venue['City_name']
+            ),'uitgaan'
+          )
+        ),
+        array('text'=> $venue['Title'])
+      ));
+
       drupal_add_js(array('locatiepagina' => array(
           'status' => 'venue',
           'venue'=>$venue

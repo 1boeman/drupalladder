@@ -15,6 +15,7 @@ class Uitgaan extends Controller {
    
     public function city_main($cityno){
       $lang_prefix = Muziek_util::lang_url(); 
+
       $mdb = new Muziek_db(); 
       $city = $mdb->get_city($cityno);
       $venues = $mdb->get_city_venues($cityno,false);
@@ -54,12 +55,24 @@ class Uitgaan extends Controller {
       $title = $city['Name'].' - '. t(' find concerts, parties, events');
       $this->set_head_title($title);
       $this->set_title($title);
-      
+      $this->crumbs(array(
+        array(
+          'text'=>t('Locaties'),
+          'link'=>$lang_prefix . 'uitgaan'
+        ),
+        array(
+          'text' => $city['Name']
+        )      
+      ));
+
+
+     
       return array('html'=>$content); 
     }
 
 
     public function index () {
+      $this->add_body_class('uitgaan-root'); 
       drupal_add_js(array('locatiepagina' => array('status' => 'index')), 'setting');
      
       $lang_prefix = Muziek_util::lang_url(); 

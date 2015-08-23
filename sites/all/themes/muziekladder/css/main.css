@@ -1077,26 +1077,32 @@ ul.locaties-lijst p{
 .map-placeholder{
   margin-bottom:40px;
 }
+.uitgaan-root .map-placeholder{
+ margin-bottom:80px; 
+ width:50%;
+ float:left; 
+ margin-top:24px;
+}
+
+
 .stedencontainer{
   margin-top:24px;
   padding-bottom:12px;
- 
-    background:white
+  background:white;
+  width:50%; 
+  float:left;
 }
 
-ul.steden {margin:0px}
-
-ul.steden li:nth-child(2n){background:#dfdfdf; border-radius:4px; }
-
-ul.steden li{
-  list-style:none;
-  padding:10px; 
+ul.steden {
+  margin:0px;
+  width:32%;
+  margin-right:1%;
   float:left;
-  line-height:2;
-  min-width:146px;
-  font-size:0.8em;
-  transition: 0.5s  all;
-  
+}
+
+ul.steden li:nth-child(2n){background:#efefef; border-radius:4px; }
+ul.steden li{
+ list-style:inside; 
 }
 ul.steden li:hover {
     background:white;  

@@ -5,11 +5,13 @@
 <input id="city_autocomplete" type="text" class="input-xxlarge" placeholder="<?php echo t('City')?>" />
   <p><em><?php echo t('Type a <strong>city name</strong> or click a city on the <strong>map</strong> to browse its <strong>nightlife, venues, festivals and clubs</strong>: ')?></em></p>
  
-<div class="map-placeholder"></div>
-
 <div class="stedencontainer clearfix">
   <h2><?php echo t('Alfabetic list of cities') ?></h2>
   <p><?php echo t('Find venues, festivals and clubs in the following cities: ')?></p>
+  <?php 
+    $breakpoint = count($cities)/3;
+    $i=0;
+  ?>
   <ul class="steden">
 <?php foreach ($cities as $city): ?> 
    <li><a href="<?php echo $lang_prefix ?>uitgaan/<?php echo $city['Id'] ?>-<?php echo rawurlencode($city['Name'])?>" 
@@ -17,10 +19,23 @@
       data-countryno="<?php echo $city['Countryno'] ?>"
       title="<?php echo htmlspecialchars($city['Name']) ?>"
     ><?php echo $city['Name'] ?></a></li>
-<?php endforeach; ?>
+
+<?php
+  $i++;  
+  
+  if ($i > $breakpoint) {
+    $i=0;   
+    echo '</ul> <ul class="steden">';
+  }
+
+endforeach; ?>
   </ul>
 
 </div>
+
+<div class="map-placeholder"></div>
+
+
 <?php endif; ?>
 
 

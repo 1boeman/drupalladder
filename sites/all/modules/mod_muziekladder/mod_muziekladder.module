@@ -21,7 +21,6 @@ function mod_muziekladder_init(){
 }
 
 function mod_muziekladder_index($arg = false){
-  
   mod_muziekladder_init();
   //set javascript settings:
   $js_settings = array('muziekladderBasePath' => MUZIEKLADDER_BASE_PATH); 
@@ -132,13 +131,16 @@ function mod_muziekladder_language_switch_links_alter(array &$links, $type, $pat
 **/
 function mod_muziekladder_theme($existing, $type, $theme, $path){
   return array(
-  
+    'crumb_trail' => array(
+      'template' => 'crumb_trail',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ),
     'locatie_reviews_body' => array(
       'template' => 'locatie_reviews_body',
       'path' => $path.'/theme',
       'variables' => array()
     ), 
-    
     'agenda_header' => array(
       'template' => 'agenda_header',
       'path' => $path.'/theme',
@@ -167,19 +169,16 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
       'path' => $path.'/theme',
       'variables' => array()
     ),   
-    
     'agenda_city_gig' => array(
       'template' => 'agenda_city_gig',
       'path' => $path.'/theme',
       'variables' => array()
     ), 
-    
     'agenda_city_nav' => array(
       'template' => 'agenda_city_nav',
       'path' => $path.'/theme',
       'variables' => array()
     ),
-
     'city_menu' => array(
       'template' => 'city_menu',
       'path' => $path.'/theme',
@@ -202,10 +201,12 @@ function mod_muziekladder_preprocess_html(&$vars) {
     'locaties'=>'locationPage',
     'search'=>'zoekpagina',
   ); 
-  if ($aliases[0] == $language->prefix) array_shift($aliases);  
+  if ($aliases[0] == $language->prefix) array_shift($aliases); 
+   
   if (isset($predefined[$aliases[0]])){
     $vars['classes_array'][] = $predefined[$aliases[0]]; 
   }
+  
   set_vars_from_singleton($vars,array('head_title','desc_metatag'));
 }
 
@@ -216,10 +217,47 @@ function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {
       $vars[$value] = $setvalue; 
     }
   }
+  if ($body_class = $singleton->body_class){
+     $vars['classes_array'][] =  $body_class; 
+  }
 }
 
 function mod_muziekladder_preprocess_page(&$vars) {
-  set_vars_from_singleton($vars,array('title','city_menu','after_content','agenda','var1'));
+  set_vars_from_singleton($vars,array('crumbs','title','city_menu','after_content','agenda','var1'));
+
+  if (node_type_get_name($vars['node']) == 'Locatiespagina') {
+    $lang_prefix = Muziek_util::lang_url(); 
+    $venue_id = $vars['node']->field_locaties_id['und'][0]['value']; 
+    $db = new Muziek_db(); 
+    $venue = $db->get_venue($venue_id);
+    
+    $vars['crumbs']  = theme('crumb_trail',array(
+        'items'=> 
+          array(
+            array(
+              'text'=>t('Locaties'),
+              'link'=>$lang_prefix . 'uitgaan'
+            ),
+            array(
+              'text' => $venue['City_name'],
+              'link' => Muziek_util::city_link(
+                array(
+                  'Id' => $venue['Cityno'],
+                  'Name'=> $venue['City_name']
+                ),'uitgaan'
+              )
+            ),
+            array(
+              'text'=> $venue['Title'],
+              'link' =>Muziek_util::locatie_link($venue)
+            ),
+            array(
+              'text' => 'reviews by visitors'
+            )
+          )
+        )       
+     );
+  } 
 }
 
 

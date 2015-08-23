@@ -13,6 +13,11 @@
     <div id="content" class="column" role="main">
       <?php print render($page['highlighted']); ?>
       <?php print $breadcrumb; ?>
+      <?php 
+      if (isset($crumbs)): ?>
+        <?php print $crumbs ?>
+      <?php endif; ?>
+      
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>

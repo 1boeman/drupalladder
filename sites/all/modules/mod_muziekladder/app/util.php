@@ -3,7 +3,9 @@
 class Muziek_util {
 
   static function locatie_link (Array $db_row){
-    
+     $lang_prefix = self::lang_url(); 
+     return $lang_prefix.'locaties/'.rawurlencode($db_row['Id']).'-'.rawurlencode($db_row['City_name']);
+       
   }
   
   static function gig_link(Array $db_row){

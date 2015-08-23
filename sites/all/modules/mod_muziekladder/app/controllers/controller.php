@@ -14,6 +14,18 @@ abstract class Controller {
 		$this->view = simplexml_load_file($filename, 'SimpleXMLElement', LIBXML_NOCDATA);
 	}
 
+  protected function crumbs(Array $items){
+    $s = Singleton::get_instance();
+    $s->crumbs = theme('crumb_trail',array(
+      'items'=>$items
+    )); 
+  }
+
+	protected function add_body_class($title) {
+		$s = Singleton::get_instance();
+		$s->body_class = $title;
+	}
+
 	protected function set_head_title($title) {
 		$s = Singleton::get_instance();
 		$s->head_title = $title;
