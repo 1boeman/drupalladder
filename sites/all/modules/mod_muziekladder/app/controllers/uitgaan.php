@@ -57,7 +57,7 @@ class Uitgaan extends Controller {
       $this->set_title($title);
       $this->crumbs(array(
         array(
-          'text'=>t('Locaties'),
+          'text'=>t('Locations'),
           'link'=>$lang_prefix . 'uitgaan'
         ),
         array(

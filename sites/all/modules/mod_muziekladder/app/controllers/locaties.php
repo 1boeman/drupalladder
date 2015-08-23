@@ -68,7 +68,7 @@ class Locaties extends Controller {
       
       $this->crumbs(array(
         array(
-          'text'=>t('Locaties'),
+          'text'=>t('Locations'),
           'link'=>$lang_prefix . 'uitgaan'
         ),
         array(
