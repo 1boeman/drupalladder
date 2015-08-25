@@ -27,7 +27,6 @@
     ******************/
     city_main:function() {
       laad.wait('maps');
-    
       // content tabs
       (function(){
         var tabs = [];
@@ -196,15 +195,19 @@
     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
     return map;
   };
+ 
 
   // simple ajaxQueue for retrieving geolocation data / drawing map markers
   var aQueue = [];
   var processing = false;
+  var clearQ = function(){
+    aQueue = [];
+  }
   var ajaxQueue = function(urlString,map,cityOrVenue,element) {
     var element = element || false;
     var cityOrVenue;
     cityOrVenue = cityOrVenue || 'city';
-    aQueue.push({ "u" : urlString, "map": map, "element":element,"cityOrVenue":cityOrVenue });
+    aQueue.push({ "u" : urlString, "map": map, "element": element,"cityOrVenue": cityOrVenue });
     
     if (processing) return; 
     ajaxQueueProcess();
@@ -221,15 +224,13 @@
             }else{
               hC.venueMarker(resp,currentRequest["map"],currentRequest["element"]);  
             }
-            setTimeout(ajaxQueueProcess,200);
+            setTimeout(ajaxQueueProcess,100);
          },'json');
       }())
     }else{
       processing = false;
     } 
   }
-
-  
 
   // draw the map container
   function drawCanvas(height){
@@ -321,33 +322,59 @@
   }; 
  
 
+  var blowUp = function (callback){
+    var $map = $('.map-placeholder');
+    if($map.find('.blowup_map_button').length) return;
+    var $button = $('<div class="blowup_map_button">'+
+    '<span class="btn grow"><i class="icon-fullscreen"></i> '+Drupal.t('larger')+'</span>'+
+    '<span class="btn shrink"><i class="icon-resize-small"></i> '+Drupal.t('smaller')+'</span>'+
+      '</div>');
+    $button.find('.btn').click(function(){
+      if (this.className.match(/grow/)){
+        $map
+          .addClass('enlarged')
+          .height (1000);
+      }else{
+         $map
+          .removeClass('enlarged')
+          .height (250);
+      }
+      callback();
+    });
+    $map.append($button); 
+  };
+
+
   /*******************************************/
   /** Map containing all venues in the city **/
   /*******************************************/
   var city_overview = function(){
     var s = Drupal.settings;  
     var citymap;
+    blowUp(city_overview);
     var cityno = location.href.match(/uitgaan\/([0-9])+/)[1];
-          drawCanvas('250px');
-          // retrieve te main map 
-          $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+
-            s.locatiepagina.city.Name+
-            '+'+ 
-            s.locatiepagina.city.Country_name,function(resp){
-              citymap = hC.city_mapInitialize(resp);  
-                // draw venuemarkers   
-                $('.locatiebeschrijving')
-                  .click(function(){
-                    location = $(this).find('a')[0].href;
-                  })
-                  .each(function(){
-                    var l = getVenueInfo(this);
-                    if (!!l.stad && l.stad.length && !!l.straatnaam && l.straatnaam.length && !!l.nummer && l.nummer.length){
-                      var api_call ='https://maps.googleapis.com/maps/api/geocode/json?address='+l.straatnaam+'+'+l.nummer+'+'+l.stad
-                      ajaxQueue(api_call,citymap,'venue',this);
-                    }
-                  });   
-            });
+    drawCanvas($('.map-placeholder').height());
+    // retrieve te main map 
+    $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' +
+      s.locatiepagina.city.Name + 
+      '+' + 
+      s.locatiepagina.city.Country_name,function(resp){
+        clearQ();
+
+        citymap = hC.city_mapInitialize(resp);  
+        // draw venuemarkers   
+        $('.locatiebeschrijving')
+          .click(function(){
+            location = $(this).find('a')[0].href;
+          })
+          .each(function(){
+            var l = getVenueInfo(this);
+            if (!!l.stad && l.stad.length && !!l.straatnaam && l.straatnaam.length && !!l.nummer && l.nummer.length){
+              var api_call ='https://maps.googleapis.com/maps/api/geocode/json?address='+l.straatnaam+'+'+l.nummer+'+'+l.stad
+              ajaxQueue(api_call,citymap,'venue',this);
+            }
+        });   
+    });
   };
 
       

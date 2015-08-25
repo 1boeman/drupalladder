@@ -977,6 +977,24 @@ color:Maroon
 }
 
 /* locatie pagina's */
+.enlarged .blowup_map_button .grow{
+  display:none  
+}
+ .blowup_map_button .shrink{
+   display:none;
+}
+.enlarged .blowup_map_button .shrink{
+  display:block;
+  
+}
+.blowup_map_button{
+  position:absolute; 
+  top:-32px;
+  left:0px; 
+  height:20px;
+  cursor:pointer
+} 
+
 
 .locationPage .node-locatiespagina .field-name-body{
   display:none;  
@@ -1004,6 +1022,8 @@ color:Maroon
   display:none;
 
 }
+
+
 .locaties .maps_infowindowcontent .adres{
   display:block;
 } 
@@ -1070,8 +1090,10 @@ ul.locaties-lijst p{
     background-image:url('../img/ajax-loader.gif'); 
     background-position:center center; 
     background-repeat:no-repeat;
-    min-height:200px;
+    min-height:250px;
     background:#efefef;
+    position:relative;
+    margin-top:40px; 
 }
 .locationPage
 .map-placeholder{
