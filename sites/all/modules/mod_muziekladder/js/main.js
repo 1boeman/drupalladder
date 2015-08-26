@@ -5,72 +5,73 @@ var hC = Drupal.settings.muziekladder;
   hC.mapsKey = 'AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo';
   hC.pathToTheme = Drupal.settings.basePath + "sites/all/themes/" + Drupal.settings.ajaxPageState.theme;
   laad.pathConfig = {
-        "bootstrap"     :hC.muziekladderBasePath + hC.jsDir+"bootstrap.min.js",
-        "util"          :hC.muziekladderBasePath + hC.jsDir+"util.js",
-        "locationpage"  :hC.muziekladderBasePath + hC.jsDir+"locationpage.js",
-        "autocomplete"  :hC.muziekladderBasePath + hC.jsDir+"jquery.autocomplete.min.js",
-        "locations"     :hC.muziekladderBasePath + hC.jsDir+"locations.js",
-        "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
-        "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
+    "bootstrap"     :hC.muziekladderBasePath + hC.jsDir+"bootstrap.min.js",
+    "util"          :hC.muziekladderBasePath + hC.jsDir+"util.js",
+    "locationpage"  :hC.muziekladderBasePath + hC.jsDir+"locationpage.js",
+    "autocomplete"  :hC.muziekladderBasePath + hC.jsDir+"jquery.autocomplete.min.js",
+    "locations"     :hC.muziekladderBasePath + hC.jsDir+"locations.js",
+    "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
+    "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
   }
   var pageHandlers = {}, 
         handlers = {};
      
   laad.wait(['util'],function(){
-        $(function(){
-            $('body').on('click','.handleMe',function(e){
-                e.preventDefault();
-                var $this = $(this);
-                if ( typeof handlers[$this.data('handler')] === 'function' ){
-                     handlers[$this.data('handler')].apply(this,[e]);
-                }
-            });
-            var i,bodyClass =  document.body.className.split(/\s+/),
-                lngth = bodyClass.length; 
-            
-            for (i = 0; i < lngth; i++){
-                if ( typeof pageHandlers[bodyClass[i]] === 'function' )
-                    $.extend(handlers, pageHandlers[bodyClass[i]]());
+    $(function(){
+        $('body').on('click','.handleMe',function(e){
+            e.preventDefault();
+            var $this = $(this);
+            if ( typeof handlers[$this.data('handler')] === 'function' ){
+                 handlers[$this.data('handler')].apply(this,[e]);
             }
         });
+        var i,bodyClass =  document.body.className.split(/\s+/),
+            lngth = bodyClass.length; 
+        
+        for (i = 0; i < lngth; i++){
+            if ( typeof pageHandlers[bodyClass[i]] === 'function' )
+                $.extend(handlers, pageHandlers[bodyClass[i]]());
+        }
+    });
   });
 
   pageHandlers.muziekformulier = function(){
-      var $form = $('#mod-muziekladder-mailtipform'); 
+    var $form = $('#mod-muziekladder-mailtipform'); 
 
-      // workaround for Drupal #states required-functionality only active client-side 
-      $form.submit(function(){
-          var omg = [];
-          $('.form-required').each(function(){
-             var $form_item =  $(this).parents('.form-item');
-             var $field = $form_item.find('input, textarea, select').eq(0);
-             if($.trim($field.val()).length < 1){
-                omg.push('Het veld "' + $form_item.find('label').text() +'" moet nog worden ingevuld.')
-             } 
-          })
-          if (omg.length){
-            alert(omg.join("\n\n"))
-            return false  
-          }
-      });
-      showTipsButton()
-      return {}; 
+    // workaround for Drupal #states required-functionality only active client-side 
+    $form.submit(function(){
+        var omg = [];
+        $('.form-required').each(function(){
+           var $form_item =  $(this).parents('.form-item');
+           var $field = $form_item.find('input, textarea, select').eq(0);
+           if($.trim($field.val()).length < 1){
+              omg.push('Het veld "' + $form_item.find('label').text() +'" moet nog worden ingevuld.')
+           } 
+        })
+        if (omg.length){
+          alert(omg.join("\n\n"))
+          return false  
+        }
+    });
+    showTipsButton()
+    return {}; 
   }; 
 
   pageHandlers.zoekpagina = function(){
-        var orderBy = Drupal.settings.muziekladder_search_orderby, 
-            $orderBy = $('#orderBy'); 
-        if (orderBy && orderBy != 'relevance'){
-            $orderBy.val(orderBy); 
-        }
-        crumbTrail.set(location.href);
-        $orderBy.change(function(){
-           $('#advanced_search').submit();
-        })
-       showTipsButton()
- 
-        return {};     
-   };
+    var orderBy = Drupal.settings.muziekladder_search_orderby, 
+        $orderBy = $('#orderBy'); 
+    if (orderBy && orderBy != 'relevance'){
+        $orderBy.val(orderBy); 
+    }
+    crumbTrail.set(location.href);
+    $orderBy.change(function(){
+       $('#advanced_search').submit();
+    })
+    showTipsButton()
+
+
+    return {};     
+  };
 
    pageHandlers.articlefull = function(){
         showTipsButton()
@@ -150,8 +151,9 @@ var hC = Drupal.settings.muziekladder;
       //date selecter
       $('.agenda-date-selecter').change(function(e){
         var choice = $(this).val(); 
-        var city_spec = location.href.match(/\/[0-9]+-[a-z]+\//i);
+        var city_spec = location.href.match(/\/[0-9]+-[a-z]+\/*/i);
         city_spec = city_spec ? city_spec[0] : '/';
+        if (!city_spec.match(/\/$/)) city_spec += '/';
         location.href = pathprefix+'muziek'+city_spec+'agenda-'+choice+'.html';
       }); 
       
@@ -398,36 +400,37 @@ var hC = Drupal.settings.muziekladder;
            if(!a.test(this.href)) $(this).attr('target','_blank');
         });     
    }
-   var showDetailImages = function(){
-        var $ev = $('.eventfull');
-        if ($ev.length){
-            var href = $.trim($ev.eq(0).data('imgsrc'));
-            if (href && href.length){
-                var img = new Image();
-                img.onload = function(){
-                    var lnk = $('.eventlink').eq(0).attr('href');
-                    var a = document.createElement('a');
-                    a.href = lnk; 
-                    a.className="eventImg";
-                    a.target="_blank";
-                    a.appendChild(img); 
-                    $ev.prepend(a);
-                }
-                img.src = '/muziekdata/img?p='+href; 
+
+  var showDetailImages = function(){
+    var $ev = $('.eventfull');
+    if ($ev.length){
+        var href = $.trim($ev.eq(0).data('imgsrc'));
+        if (href && href.length){
+            var img = new Image();
+            img.onload = function(){
+                var lnk = $('.eventlink').eq(0).attr('href');
+                var a = document.createElement('a');
+                a.href = lnk; 
+                a.className="eventImg";
+                a.target="_blank";
+                a.appendChild(img); 
+                $ev.prepend(a);
             }
+            img.src = '/muziekdata/img?p='+href; 
         }
-    };
+    }
+  };
     
-    var shareButton = function(){
-        $('.location').before('<div style="margin:20px 0px" class="addthis_native_toolbox"></div>')
- 
-        laad.js('addthis',function(){});
-    };
-    
-    var backtotopButtons = function(){
-        $('.backtotop').on('click',function(e){
-            e.stopPropagation();
-            window.scrollTo(0,0);
-        })
-    };
+  var shareButton = function(){
+      $('.location').before('<div style="margin:20px 0px" class="addthis_native_toolbox"></div>')
+
+      laad.js('addthis',function(){});
+  };
+  
+  var backtotopButtons = function(){
+      $('.backtotop').on('click',function(e){
+          e.stopPropagation();
+          window.scrollTo(0,0);
+      })
+  };
 }(jQuery));
