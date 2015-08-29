@@ -225,7 +225,7 @@ function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {
 function mod_muziekladder_preprocess_page(&$vars) {
   set_vars_from_singleton($vars,array('crumbs','title','city_menu','after_content','agenda','var1'));
 
-  if (node_type_get_name($vars['node']) == 'Locatiespagina') {
+  if (isset($vars['node']) && node_type_get_name($vars['node']) == 'Locatiespagina') {
     $lang_prefix = Muziek_util::lang_url(); 
     $venue_id = $vars['node']->field_locaties_id['und'][0]['value']; 
     $db = new Muziek_db(); 
