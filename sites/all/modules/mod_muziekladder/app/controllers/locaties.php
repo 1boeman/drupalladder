@@ -55,12 +55,13 @@ class Locaties extends Controller {
       }
        
       //render node + comments and add it tot $content
+      $lang_prefix = Muziek_util::lang_url();
       $content = theme('locaties',array(
         'venue' => $venue,
         'diverse_locaties' => $diverse_locaties,
         'venue_node' => $rendered_node,
         'events' => Muziek_db::get_venue_gigs($venue_id),
-        'lang_prefix' => Muziek_util::lang_url(), 
+        'lang_prefix' => $lang_prefix, 
       ));
       $title = $venue['Title'];
       $this->set_head_title($title . ' - ' . $venue['City_name']);

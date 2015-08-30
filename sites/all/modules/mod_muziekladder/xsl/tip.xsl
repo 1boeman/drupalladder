@@ -11,7 +11,24 @@
   <xsl:template match="/">
     <div class="user-input">
       <div class="user-input-inner clearfix">
-        <span class="submitted">Gepost op: <xsl:value-of select="$submit_datetime" /></span>
+        <span class="submitted"> 
+          <em><xsl:value-of select="$lbl_postdate"/></em>: <xsl:value-of select="$submit_datetime" />
+        </span><br />
+        <xsl:if test="$uid != ''">
+          <span class="submitted">
+            <xsl:value-of select="$lbl_user"/>:
+
+            <a href="/user/">
+              <xsl:attribute name="href">
+                <xsl:value-of select="$user_link" />
+              </xsl:attribute>
+              <xsl:value-of select="$user" />
+            </a>
+          </span>
+ 
+
+        </xsl:if>
+ 
         <xsl:apply-templates/>
       </div>
     </div>
@@ -49,12 +66,12 @@
         </a>
         </li> 
       </xsl:if>
-        <li class="date"><span>Datum: </span>
+        <li class="date"><span class="labels"><xsl:value-of select="$lbl_date"/>: </span>
           <em><xsl:value-of select="$event_date"/>
           </em>
         </li>
         <li class="stad">
-          <span>Plaats: </span>
+          <span class="labels"><xsl:value-of select="$lbl_place"/>: </span>
           <em>
           <xsl:choose>
             <xsl:when test="$city_name != ''">
@@ -67,7 +84,9 @@
           </em>
         </li> 
 
-        <li class="soort"><span>Soort: </span> <em>Concert of optreden</em></li>
+        <li class="soort">
+	        <span class="labels"><xsl:value-of select="$lbl_soort"/>: </span>
+           <em><xsl:value-of select="$soort" /></em></li>
         <li>
           <a class="title-link" target="_blank">
             <xsl:attribute name="href">

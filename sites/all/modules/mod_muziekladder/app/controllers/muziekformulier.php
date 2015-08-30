@@ -25,6 +25,7 @@ class Muziekformulier extends Controller {
   }
 
   function showTips(){
+
     $tips = scandir(MUZIEK_USERDATA_DIR,SCANDIR_SORT_DESCENDING);
     $html = array(); 
     $db = new Muziek_db;  
@@ -84,8 +85,47 @@ class Muziekformulier extends Controller {
       $proc->setParameter('','event_date',$event_date);
       $proc->setParameter('','submit_datetime',date("d/m/Y - h:i:s A",$timestamp));
       $proc->setParameter('','city_name',$city_name);
-       
-//      $proc->setParameter('','')
+
+      // soort 
+      $soort = '';
+      $type = $xml->getElementsByTagName('soort');
+      if ( $type->item(0) ) {
+        $soort = $type->item(0)->nodeValue;
+      }    
+      $types = array(
+          'concert' => t('Concert or performance'),
+          'festival' => t('Festival'),
+          'iets_anders' => t('Something else')
+      );  
+      
+      if (isset($types[$soort]) ){
+      	 $soort = $types[$soort]; 
+      }
+      $proc->setParameter('','soort',$soort);
+
+      //user     
+      $user= '';
+      $uid = '';
+      $user_link = ''; 
+      $type = $xml->getElementsByTagName('uid');
+      if ( $type->item(0) ) {
+        $uid = $type->item(0)->nodeValue;
+        $userobj = user_load($uid);
+        $user = $userobj->name;
+        $user_link = Muziek_util::lang_url().'user/'.$uid; 
+      }    
+      $proc->setParameter('','user',$user);
+      $proc->setParameter('','uid',$uid);
+      $proc->setParameter('','user_link',$user_link);
+      
+      //labels
+      $proc->setParameter('','lbl_postdate',t('Posted on'));
+      $proc->setParameter('','lbl_soort',t('Type'));
+      $proc->setParameter('','lbl_date',t('Date'));
+      $proc->setParameter('','lbl_place',t('Place'));
+      $proc->setParameter('','lbl_soort',t('Type'));
+      $proc->setParameter('','lbl_user',t('Posted by'));
+      
       $doc = $proc->transformToDoc($xml); 
     
       $html[]= $doc->saveHTML();

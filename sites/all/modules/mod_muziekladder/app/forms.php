@@ -12,10 +12,12 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
     while ($row = $cities->fetchArray()) {
       $city_options[$row['Id']] = $row['Name'];
     }
-    $city_options['00']= '** City not in list? Click here... *';    
 
-    $selected_value = $form_state['input']['city_select'];
-    if (strlen($selected_value) && (int) $selected_value){
+    $city_options['00'] = '** City not in list? Click here... *';    
+    
+    $selected_value = isset($form_state['input']['city_select']) ? $form_state['input']['city_select'] : false;
+
+    if ( strlen($selected_value) && (int) $selected_value ) {
       $venues = Muziek_db::get_city_venues($selected_value); 
       $venue_options = array('0' =>' ** '.t('Venue not in list? Click here...').' * ');
       
@@ -27,9 +29,9 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
     $visible_c_f_i = array(
      'visible'=> array(
       ':input[name="soort"]' => array(
-            array('value' =>'concert'),
-            array('value' =>'festival'),
-            array('value' =>'iets_anders'),
+          array('value' =>'concert'),
+          array('value' =>'festival'),
+          array('value' =>'iets_anders'),
       )        
     ));
            
@@ -49,11 +51,10 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
       );
 
       $form['item-instucties'] = array(
-          '#type' => 'item',
-          '#attributes' => array('class'=>array('item-instructies')),
-          '#markup' =>  '<p>'.t('Fields marked with * are mandatory').'...</p>',
-          '#states' =>$visible_c_f_i
-
+        '#type' => 'item',
+        '#attributes' => array('class'=>array('item-instructies')),
+        '#markup' =>  '<p>'.t('Fields marked with * are mandatory').'...</p>',
+        '#states' =>$visible_c_f_i
       ); 
 
       /* main fieldsets */
@@ -62,7 +63,6 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
           '#attributes' => array('class'=>array('locatie')),
           '#title' => t('General information'),
           '#states' =>$visible_c_f_i
-
       ); 
       
       $form['venue'] = array(
@@ -72,7 +72,6 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
           '#prefix'=>'<div id="venue_fieldset">',
           '#suffix' => '</div>',
           '#states' =>$visible_c_f_i
-
       ); 
       
       $form['details'] = array(
@@ -80,7 +79,6 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
           '#attributes' => array('class'=>array('details')),
           '#title' => t('Details'),
           '#states' =>$visible_c_f_i
-    
       ); 
         
       $form['details']['link'] = array(
@@ -149,8 +147,8 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
             'effect' => 'none',
           ),
         );
-        
-        $selected_venue = $form_state['input']['venue_select'];
+         
+        $selected_venue = isset($form_state['input']['venue_select'] ) ? $form_state['input']['venue_select'] : false ;
       }
 
       if ( $selected_value == '0' || $selected_value =='00' ||  
@@ -196,8 +194,6 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
       );
 
     } else {
-   
-   
        $form['item2'] = array(
           '#type' => 'item',
           '#attributes' => array('class'=>array('item-iets-anders')),
@@ -221,23 +217,32 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
 function ajax_mailtipform_cityselect_callback($form,$form_state) {
   $rv = array();
   return $form['venue'];
- }
+}
 
 function mod_muziekladder_mailtipform_validate($form, &$form_state) {
-    // Validation logic.
-    if (!preg_match('/http(s)?:\/\/(.)+/i',$form_state['values']['link'])) {
-      form_set_error('link', '
-        Please fill out a full working url, including the "http://" of "https://"');
-    }
+  // Validation logic.
+  if (!preg_match('/http(s)?:\/\/(.)+/i',$form_state['values']['link'])) {
+    form_set_error('link', '
+      Please fill out a full working url, including the "http://" of "https://"');
+  }
 }
 
 function mod_muziekladder_mailtipform_submit($form, &$form_state) {
     // Submission logic.
+    global $user; 
+
     $msg = array();
     $dom_doc = new DOMDocument('1.0', 'utf-8');
     $dom_doc->formatOutput = true;
     $root_el = $dom_doc->createElement('input');
 
+    // add the user
+    $e = $dom_doc->createElement('uid');
+    $data_section = $dom_doc->createCDATASection($user->uid);
+    $e->appendChild($data_section);
+    $root_el->appendChild($e);
+
+    // add the form data
     foreach($form_state['values'] as $key => $value) {
        $e = $dom_doc->createElement($key);
        $data_section = $dom_doc->createCDATASection(trim($value));

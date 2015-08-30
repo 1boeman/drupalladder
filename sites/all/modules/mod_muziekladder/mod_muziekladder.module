@@ -2,6 +2,7 @@
 /**
  * implements hook_menu 
 **/
+echo $bla;
 function mod_muziekladder_menu(){
   $methods = array( 'nieuws','muziek','gig','uitgaan','locaties','getgeo','search', 'muziekformulier', 'muziekdata');
   $items = array();  
@@ -201,12 +202,13 @@ function mod_muziekladder_preprocess_html(&$vars) {
     'locaties'=>'locationPage',
     'search'=>'zoekpagina',
   ); 
-  if ($aliases[0] == $language->prefix) array_shift($aliases); 
-   
-  if (isset($predefined[$aliases[0]])){
-    $vars['classes_array'][] = $predefined[$aliases[0]]; 
-  }
-  
+  if (isset($aliases[0])){
+    if ($aliases[0] == $language->prefix) array_shift($aliases); 
+     
+    if (isset($predefined[$aliases[0]])){
+      $vars['classes_array'][] = $predefined[$aliases[0]]; 
+    }
+  }  
   set_vars_from_singleton($vars,array('head_title','desc_metatag'));
 }
 
