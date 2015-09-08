@@ -19,7 +19,7 @@ if (!stristr( $_SERVER['SERVER_NAME'], 'muziekladder.nl' )){
             echo $msg; exit;
         }
     }
-    set_error_handler('errHandle');
+//    set_error_handler('errHandle');
 
 } else {
     // Production

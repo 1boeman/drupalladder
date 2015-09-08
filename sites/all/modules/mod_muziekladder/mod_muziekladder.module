@@ -2,7 +2,6 @@
 /**
  * implements hook_menu 
 **/
-echo $bla;
 function mod_muziekladder_menu(){
   $methods = array( 'nieuws','muziek','gig','uitgaan','locaties','getgeo','search', 'muziekformulier', 'muziekdata');
   $items = array();  
