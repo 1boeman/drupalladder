@@ -139,14 +139,14 @@ var hC = Drupal.settings.muziekladder;
       var pageless_url = location.href.replace(/\?pagina=[0-9]+/,''); 
       var pagenav = []; 
       if (page > 0){
-        pagenav.push( '<a href="' + pageless_url + '?pagina=' + (page-1) + '"> &laquo; '+prevtext+'</a>' );
+        pagenav.push( '<a class="btn btn-inverse" href="' + pageless_url + '?pagina=' + (page-1) + '"> &laquo; '+prevtext+'</a>' );
      
       }
   
       if (result_count == result_per_page){
-          pagenav.push( '<a href="' + pageless_url + '?pagina=' + (page+1) + '">'+nexttext+'  &raquo;</a>' );
+          pagenav.push( '<a class="btn btn-inverse" href="' + pageless_url + '?pagina=' + (page+1) + '">'+nexttext+'  &raquo;</a>' );
       } 
-      $('.page-nav-container').append(pagenav.join(' | '));  
+      $('.page-nav-container').append(pagenav.join('&nbsp;&nbsp;&nbsp;'));  
       
       //date selecter
       $('.agenda-date-selecter').change(function(e){

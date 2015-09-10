@@ -39,7 +39,7 @@ if(!empty($content)){
 
     if($old_city != $value['City_Name']){
       $old_city = $value['City_Name'];
-      echo '<h3 class="city_header"><a href="'.$lang_prefix.'muziek/'.$value['City_Id'].'-'.$value['City_Name'].'">'.$value['City_Name'].'</a></h3>'; 
+      echo '<h3 class="city_header nodisplay"><a href="'.$lang_prefix.'muziek/'.$value['City_Id'].'-'.$value['City_Name'].'">'.$value['City_Name'].'</a></h3>'; 
     }
 
 ?>                                          
