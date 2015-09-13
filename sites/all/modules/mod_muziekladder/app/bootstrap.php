@@ -21,7 +21,7 @@ if (!stristr( $_SERVER['SERVER_NAME'], 'muziekladder.nl' )){
         }
     }
     // uncomment to die on all errors includig notice  / warning
-    set_error_handler('errHandle');
+#    set_error_handler('errHandle');
 
 } else {
     // Production
