@@ -37,7 +37,38 @@ var hC = Drupal.settings.muziekladder;
 
   pageHandlers.muziekformulier = function(){
     var $form = $('#mod-muziekladder-mailtipform'); 
+    // not logged in / always
+    $('.aanraadloginlink').parents('.btn').click(function(){
+      location.href = $(this).find('a')[0].href 
+    });
 
+
+    // logged in            
+    var $datefield = $('#datepicker');
+    var $textfield = $('#edit-date');
+    if ($datefield.length){
+      
+      $datefield.datepicker({
+        'multidate':true,
+        'format':'dd-mm-yyyy'
+      })
+      .on("changeDate", function(event) {
+        $textfield.val( $datefield.datepicker('getFormattedDate')); 
+      })
+      // dates already set 
+      var set_dates =  $.trim($textfield.val());
+      if (set_dates.length) {
+        var date_objects = []; 
+        var ddmmyyyy;
+        var set_dates_arr = set_dates.split(',');
+        for (var i=0; i < set_dates_arr.length; i++){
+          ddmmyyyy = set_dates_arr[i].split('-');
+          date_objects.push(new Date(ddmmyyyy[2],ddmmyyyy[1]-1,ddmmyyyy[0]))
+        }
+        $datefield.datepicker('setDates',date_objects);
+      }
+    }
+     
     // workaround for Drupal #states required-functionality only active client-side 
     $form.submit(function(){
         var omg = [];
@@ -53,6 +84,8 @@ var hC = Drupal.settings.muziekladder;
           return false  
         }
     });
+      
+      
     showTipsButton()
     return {}; 
   }; 

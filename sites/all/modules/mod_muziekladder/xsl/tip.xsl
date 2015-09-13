@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0"
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:php="http://php.net/xsl">
 
   <xsl:param name="venue_title" />
   <xsl:param name="venue_link" />
   <xsl:param name="submit_datetime" />
   <xsl:param name="city_name" />
-  <xsl:param name="event_date" />
-  
+  <xsl:param name="event_dates" >
+  </xsl:param>
+
   <xsl:template match="/">
     <div class="user-input">
       <div class="user-input-inner clearfix">
@@ -25,14 +27,32 @@
               <xsl:value-of select="$user" />
             </a>
           </span>
- 
-
         </xsl:if>
- 
         <xsl:apply-templates/>
       </div>
     </div>
   </xsl:template>
+   
+  <xsl:template name="tokenize">
+    <xsl:param name="text" select="."/>
+    <xsl:param name="separator" select="','"/>
+    <xsl:choose>
+      <xsl:when test="not(contains($text, $separator))">
+        <li class="event-date">
+         <xsl:value-of select="normalize-space($text)"/>
+        </li>
+      </xsl:when>
+      <xsl:otherwise>
+        <li class="event-date">
+         <xsl:value-of select="normalize-space(substring-before($text, $separator))"/>
+        </li>
+        <xsl:call-template name="tokenize">
+         <xsl:with-param name="text" select="substring-after($text, $separator)"/>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template match="input[soort[text()='concert']]">
        <xsl:call-template name="concert" />
   </xsl:template>
@@ -66,13 +86,17 @@
         </a>
         </li> 
       </xsl:if>
-        <li class="date"><span class="labels"><xsl:value-of select="$lbl_date"/>: </span>
-          <em><xsl:value-of select="$event_date"/>
-          </em>
+        <li class="date">
+          <span class="labels"><xsl:value-of select="$lbl_date"/>: </span>
+          <ul>
+            <xsl:call-template name="tokenize">
+               <xsl:with-param name="text" select="$event_dates" />
+            </xsl:call-template>
+          </ul>
         </li>
         <li class="stad">
           <span class="labels"><xsl:value-of select="$lbl_place"/>: </span>
-          <em>
+          <em class="city-name">
           <xsl:choose>
             <xsl:when test="$city_name != ''">
                <xsl:value-of select="$city_name"/>
@@ -94,7 +118,6 @@
             </xsl:attribute>
             <xsl:value-of select="./link"/>
           </a>
-    
         </li>
       </ul>
     </div>
@@ -104,7 +127,6 @@
            <xsl:value-of select="./venue_freetext"/>
         </pre>
       </xsl:if>
-       
     </div>
     <div class="muziek_cell3">
        <pre>

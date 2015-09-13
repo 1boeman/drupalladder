@@ -195,6 +195,7 @@ function muziekladder_preprocess_node(&$variables, $hook) {
 }
 
 function muziekladder_preprocess_page(&$variables) {
+  global $user; 
   $variables['lang_prefix'] =  Muziek_util::lang_url(); 
    
   if (drupal_is_front_page()){
@@ -204,5 +205,15 @@ function muziekladder_preprocess_page(&$variables) {
   if (!empty($variables['node']) && !empty($variables['node']->type)) {
     $variables['theme_hook_suggestions'][] = 'page__node__' . $variables['node']->type;
   }
+
+  if (current_path() == 'muziekformulier' && $user->uid){
+    $themepath = drupal_get_path('theme','muziekladder'); 
+    drupal_add_css($themepath.'/bootstrapdatepicker/css/bootstrap-datepicker.min.css'); 
+    drupal_add_js($themepath.'/bootstrapdatepicker/js/bootstrap-datepicker.min.js'); 
+  }
+
+
+
+
 }
 

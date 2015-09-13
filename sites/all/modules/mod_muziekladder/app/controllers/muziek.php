@@ -34,7 +34,6 @@ class Muziek extends Controller {
       $dt->modify('+ 1 day' );
     }
 
-
     if (!$cityno){
       $menucities = Muziek_db::get_cities_by_ids(array(1,8,5,1412801590,1413406572,4,7,15,6,));
       $city_menu = theme('city_menu',array('cities' => $menucities, 'simple_list'=>1 )); 
@@ -75,7 +74,7 @@ class Muziek extends Controller {
       $cityno = $_GET['city']; 
     }
 
-    $events = $this->city_events($cityno,0,100,1);
+    $events = $this->city_events($cityno,0,300,1);
     $nav =''; 
     
     if ($cityno){
@@ -99,7 +98,7 @@ class Muziek extends Controller {
         'html_fragment'=> $content);      
   }
 
-  function city_events($cityno,$day=0, $results_per_page=100, $raw=0){
+  function city_events($cityno,$day=0, $results_per_page=300, $raw=0){
     //get pagina
     if (isset($_REQUEST['pagina'])){
       $page = (int)$_REQUEST['pagina'];

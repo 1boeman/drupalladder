@@ -204,7 +204,7 @@ function mod_muziekladder_preprocess_html(&$vars) {
   if (isset($aliases[0])){
     if ($aliases[0] == $language->prefix) array_shift($aliases); 
      
-    if (isset($predefined[$aliases[0]])){
+    if (isset($aliases[0]) && isset($predefined[$aliases[0]])){
       $vars['classes_array'][] = $predefined[$aliases[0]]; 
     }
   }  

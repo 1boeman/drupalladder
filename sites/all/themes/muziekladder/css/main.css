@@ -804,7 +804,7 @@ footer{
    padding:8px 0px ;
 }
 .city_gig .first-cell{
-  color:black
+  color:#333
 } 
 .city_gig .first-cell:hover{
   color: green
@@ -1415,9 +1415,34 @@ article p{
 }
 
 /* muziekformulier  */
- 
+.datepicker td {
+  font-size:16px; 
+  padding:20px 30px; 
+}
+
+.form-item-date input{
+  width:90%  
+}
+
+.datepicker-inline{
+  width:80%;  
+}
+.datepicker {
+  padding:10px 20px;
+  border:1px solid #dfdfdf;
+  border-right:0px;
+  border-left:0px;
+}
+.btn .form-item{
+  margin:12px;
+  font-size:16px;  
+}
+a.aanraadloginlink{
+   color:white 
+}
 .section-muziekformulier .eventfull{
   margin-top:30px;
+  margin-bottom:100px;
   padding: 8px 15px 15px 15px;
   box-shadow:0px 0px 20px #999;
 }
@@ -1455,8 +1480,9 @@ body.page-muziekformulier .form-item-city input{
     width:80%;     
 }
 
-body.page-muziekformulier .form-item-date select{
-    width:80px
+body.page-muziekformulier .form-item-date select,
+body.page-muziekformulier .form-item-date-until select {
+    width:80px;
 }
 form .description{
    font-style:italic; 
@@ -1598,6 +1624,11 @@ clear: both;
    
 /* Landscape phone to portrait tablet */
 @media (max-width:769px) {
+.datepicker td {
+  font-size:16px; 
+  padding:20px 20px; 
+}
+
  .locatie-half {
     float:left; 
     width:50%;
@@ -1715,6 +1746,13 @@ clear: both;
 
 /* Landscape phones and down */
 @media (max-width: 500px) {
+.datepicker td {
+  font-size:16px; 
+  padding:6px 6px; 
+}
+
+
+
   .locatie-half{
     width:100%;
     float:none;  

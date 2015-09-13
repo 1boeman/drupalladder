@@ -100,7 +100,6 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
               )        
             )
          ), 
-
          '#attributes' =>array('placeholder' => t('Name')),
       );
 
@@ -163,18 +162,24 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
             '#required' => true );
       } 
 
-
-      $date = format_date(REQUEST_TIME, 'custom', 'd-m-Y');
-      $format = 'd-m-Y';
+      
+      //$date = format_date(REQUEST_TIME, 'custom', 'd-m-Y');
+      //$format = 'd-m-Y';
 
       $form['locatie']['date'] = array(
-       '#type' => 'date_select', // types 'date_text' and 'datei_timezone' are also supported. See .inc file.
-       '#title' => t('Date on which the event will take place'),
-       '#default_value' => $date,
-       '#date_format' => $format,
-       '#required' => true
-      );
+       '#title' => t('Selected Date(s)'),
+       '#type' => 'textfield', // types 'date_text' and 'datei_timezone' are also supported. See .inc file.
+       '#required' => true,
+       '#maxlength' => 999, 
+       '#prefix'  => '<label>'.t('Select the event date(s)')
+       .' <span style="color:red">*</span></label>'.
+        '<div id="datepicker"></div>',
+       '#attributes'=> array(
+          'readonly'=>'readonly',
+          'class'=>array('full-width'))
+      ); 
 
+      
       $form['details']['description'] = array( 
        '#type' => 'textarea',
        '#title' => t('Remarks and/or extra information'),
@@ -190,14 +195,17 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
       $form['submit'] = array(
           '#type' => 'submit',
           '#value' => t('Submit'),
-          '#states' =>$visible_c_f_i
+          '#attributes' => array('class'=>array('btn btn-large btn-inverse')),
+          '#states' =>$visible_c_f_i,
       );
 
     } else {
        $form['item2'] = array(
           '#type' => 'item',
           '#attributes' => array('class'=>array('item-iets-anders')),
-          '#markup' => '<p><a href="'.Muziek_util::lang_url().'user?destination=muziekformulier">'.t('Please log in or register to recommend your events to Muziekladder').'</a></p>'
+          '#markup' => '<a class="aanraadloginlink" href="'.Muziek_util::lang_url().'user?destination=muziekformulier"><i class="icon icon-white icon-plus-sign"></i> '.t('Please log in or register to recommend your events to Muziekladder').'</a>',
+          '#prefix'=>'<div class="btn btn-large btn-inverse">',
+          '#suffix' => '</div>',
           
       ); 
     } 
@@ -205,9 +213,7 @@ function mod_muziekladder_mailtipform($form, &$form_state) {
     $form['item'] = array(
           '#type' => 'item',
           '#markup' => '<p>'. t('Your recommendations will be placed on this page, and after a human check also in the Muziekladder Calendar').'</p>'.
-          
-                '<p>'.t('
-                  For general remarks you may also mail (info at muziekladder.nl) or use twitter ').': <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>'
+          '<p>'.t('For general remarks you may also mail (info at muziekladder.nl) or use twitter ').': <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>'
       ); 
 
   
@@ -222,8 +228,7 @@ function ajax_mailtipform_cityselect_callback($form,$form_state) {
 function mod_muziekladder_mailtipform_validate($form, &$form_state) {
   // Validation logic.
   if (!preg_match('/http(s)?:\/\/(.)+/i',$form_state['values']['link'])) {
-    form_set_error('link', '
-      Please fill out a full working url, including the "http://" of "https://"');
+    form_set_error('link', t('Please fill out a full working url, including the "http://" or "https:// at the beginning"'));
   }
 }
 
@@ -244,11 +249,23 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
 
     // add the form data
     foreach($form_state['values'] as $key => $value) {
-       $e = $dom_doc->createElement($key);
-       $data_section = $dom_doc->createCDATASection(trim($value));
-       $e->appendChild($data_section);
-       $root_el->appendChild($e);
-       $msg[]= $key.' : ' .$value; 
+      if ($key == 'date'){
+        $corrected_date_values = array(); 
+        // format received is [dd-mm-yyyy]
+        // but we will store [yyyy-mm-dd]
+        $arr_values = explode(',',$value);
+        foreach ($arr_values as $dty){
+          $arr_dty = array_reverse(explode('-',$dty)); 
+          $corrected_date_values[]= implode('-',$arr_dty); 
+        }
+        sort ($corrected_date_values); 
+        $value = implode(',',$corrected_date_values);
+      }
+      $e = $dom_doc->createElement($key);
+      $data_section = $dom_doc->createCDATASection(trim($value));
+      $e->appendChild($data_section);
+      $root_el->appendChild($e);
+      $msg[]= $key.' : ' .$value; 
     }
     $e = $dom_doc->createElement('time',time());
     $root_el->appendChild($e);

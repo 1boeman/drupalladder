@@ -115,7 +115,7 @@ class Uitgaan extends Controller {
       $this->set_head_title(ucfirst($titletag));
       $this->set_title(ucfirst($titletag));
       
-      if ($_GET['ajax']){
+      if (isset($_GET['ajax'])){
         return array('html_fragment' => $content);
       }
       return array('html'=>$content); 

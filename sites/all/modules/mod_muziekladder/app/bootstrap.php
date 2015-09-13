@@ -10,16 +10,18 @@ if (!stristr( $_SERVER['SERVER_NAME'], 'muziekladder.nl' )){
     define ('MUZIEK_NEWSPORTAL', '/home/joriso/devlop/newscrawl/newscrawl_output/pages/3.html');
     define ('MUZIEK_SOLRHOST', 'http://localhost:8983/solr/core0/');
     
-    // die on all errors includig notice  / warning
-    function errHandle($errNo, $errStr, $errFile, $errLine) {
+   function errHandle($errNo, $errStr, $errFile, $errLine) {
         $msg = "$errNo $errStr in $errFile on line $errLine";
+        debug_print_backtrace();
+
         if ($errNo == E_NOTICE || $errNo == E_WARNING) {
             echo ($msg); exit;
         } else {
             echo $msg; exit;
         }
     }
-//    set_error_handler('errHandle');
+    // uncomment to die on all errors includig notice  / warning
+    set_error_handler('errHandle');
 
 } else {
     // Production
