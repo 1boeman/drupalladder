@@ -52,7 +52,7 @@
               </a>
             </div>
         <?php endforeach; ?>
-            <?php echo $comment_form; ?>
+            <?php if (isset($comment_form)) echo $comment_form; ?>
 
             <p class="venue_link"><a href="<?php echo $venue['Link'] ?>"><?php echo $venue['Link'] ?></a></p>
            </div>
