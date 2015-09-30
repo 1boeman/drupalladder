@@ -12,6 +12,10 @@
 
   <xsl:template match="/">
     <div class="user-input">
+      <xsl:attribute name="data-id">
+        <xsl:value-of select="$file_name" />
+      </xsl:attribute>
+
       <div class="user-input-inner clearfix">
         <span class="submitted"> 
           <em><xsl:value-of select="$lbl_postdate"/></em>: <xsl:value-of select="$submit_datetime" />
@@ -28,6 +32,18 @@
             </a>
           </span>
         </xsl:if>
+        <xsl:if test="$edit_link != ''">
+          <a class="btn btn-inverse btn-small">
+          <xsl:attribute name="href">
+            <xsl:value-of select="$edit_link" />
+          </xsl:attribute>
+          <span>
+          <i class="icon icon-edit icon-white"></i>
+           &#160; 
+          <xsl:value-of select="$lbl_edit" /></span>
+          </a>
+        </xsl:if>
+
         <xsl:apply-templates/>
       </div>
     </div>

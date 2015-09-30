@@ -13,8 +13,9 @@ var hC = Drupal.settings.muziekladder;
     "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
     "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
   }
+
   var pageHandlers = {}, 
-        handlers = {};
+      handlers = {};
      
   laad.wait(['util'],function(){
     $(function(){
@@ -41,13 +42,11 @@ var hC = Drupal.settings.muziekladder;
     $('.aanraadloginlink').parents('.btn').click(function(){
       location.href = $(this).find('a')[0].href 
     });
-
-
-    // logged in            
+    
+    // logged in? 
     var $datefield = $('#datepicker');
     var $textfield = $('#edit-date');
     if ($datefield.length){
-      
       $datefield.datepicker({
         'multidate':true,
         'format':'dd-mm-yyyy'
@@ -67,6 +66,11 @@ var hC = Drupal.settings.muziekladder;
         }
         $datefield.datepicker('setDates',date_objects);
       }
+    
+      return {
+
+      
+      } 
     }
      
     // workaround for Drupal #states required-functionality only active client-side 
