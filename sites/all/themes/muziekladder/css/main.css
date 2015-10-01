@@ -207,12 +207,10 @@ blockquote:before {
 
 
 /* front */
-
  
 .muziekladder_logo_small {
     float:left;
 }
-
 
 ul.front-city-menu, .front-city-menu ul{
   margin-left:0px;  
@@ -544,8 +542,13 @@ border-radius: 4px;
 .controls .dayselect{width:180px;}
 .dateselectContainer{display:none}
 
+/* user page */
+.page-user .form-item-hybridauth{ 
+    display:none;
+    
+  
+}
 /* top navigation */
-
 .selectContainer select{margin-top:5px; 
   margin-left:20px; margin-bottom:0px; float:left
 }
