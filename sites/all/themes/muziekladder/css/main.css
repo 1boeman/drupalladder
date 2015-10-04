@@ -245,7 +245,8 @@ ul.front-city-menu  li{
   background-image:url('../city_images/bigpicture.jpg');
   background-repeat:no-repeat;
   background-position:top center;
-}
+
+  clear:both}
 
 .front-city-menu .city-4 .city-name{
   background-position:0px -10px; 
@@ -324,6 +325,8 @@ ul.front-city-menu  li{
   position:relative;
   padding-left:0px;
   padding-right:0px;
+
+padding-bottom:40px;
   overflow:hidden
 }
 
@@ -1383,8 +1386,19 @@ font-size: 20px;
     color:#005580;
 }
 
-/*article pages*/ 
-article p{
+/*article pages*/
+.node-type-article .node .field-items{
+  clear:left;
+}
+.node-type-article .field-type-image{
+  float:right;
+} 
+.user_in_node{
+  float:right;
+  clear:both
+}
+
+.node-type-article article p{
   line-height:1.8;
 }
 
