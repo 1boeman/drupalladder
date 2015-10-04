@@ -22,24 +22,18 @@
         <button type="submit" class="btn btn-large">&raquo;</button>
       </form>
     </div>
-    <nav>
-      <?php echo $city_menu ?>
-    </nav>
- 
-  
+    
+    <h2><?php echo t('Latest tips')?>:</h2>
+
     <div id="content" class="column" role="main">
-      
-   
-       
+
       <?php print render($page['highlighted']); ?>
       <a id="main-content"></a>
 
-      <?php print render($tabs); ?>
       <?php print render($page['help']); ?>
       <?php if ($action_links): ?>
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
-
       <?php print render($page['content']); ?>
       <?php print $agenda ?>
      <?php if (isset($after_content)): ?>
@@ -52,17 +46,11 @@
      <?php print $feed_icons; ?>
       
     </div>
-      <?php
-      // Render the sidebars to see if there's anything in them.
-      $sidebar_first  = render($page['sidebar_first']);
-      $sidebar_second = render($page['sidebar_second']);
+    <div class="city_menu-container">
+      <?php echo $city_menu ?>
+    </div>
+ 
    
-      if ($sidebar_first || $sidebar_second): ?>
-      <aside class="sidebars">
-        <?php print $sidebar_first; ?>
-        <?php print $sidebar_second; ?>
-      </aside>
-    <?php endif; ?>
   </div>
 
   <?php print render($page['footer']); ?>

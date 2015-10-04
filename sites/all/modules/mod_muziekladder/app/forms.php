@@ -355,15 +355,28 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
 
       $update=true;  
       $form_state['redirect'] = 'muziekformulier';  
-      $filepath = MUZIEK_USERDATA_DIR.'/'.$form_state['values']['name'];
-
+      $file_name = $form_state['values']['name'];
+      $nid = isset($gig['node_id']) ? $gig['node_id'] : false; 
     } else {
-
-      $filepath = MUZIEK_USERDATA_DIR.'/'.uniqid(date("Y-m-d_H:i:s_")).'_'.$user->uid; 
+      $file_name = uniqid(date("Y-m-d_H:i:s_")).'_'.$user->uid; 
+      $nid = false; 
     }
+    
+    $filepath = MUZIEK_USERDATA_DIR.'/'.$file_name;
 
-    $dom_doc->save( $filepath,true );
-    chmod ( $filepath,0766 );
+    //save to file ;
+    file_put_contents(  $filepath, $dom_doc->saveXML());
+    chmod ( $filepath,0765 );
+   
+    // save to node ; 
+    if ($node_id = Muziek_util::saveTipNode($file_name,$nid)){
+      // - add the node id to xml for future reference and resave
+      $e = $dom_doc->createElement('node_id');
+      $data_section = $dom_doc->createCDATASection($node_id);
+      $e->appendChild($data_section);
+      $root_el->appendChild($e);
+      file_put_contents(  $filepath, $dom_doc->saveXML());
+    }
 
     // send me a notification email
     $body = array();

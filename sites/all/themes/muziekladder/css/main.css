@@ -32,8 +32,7 @@
 .logged-in .user-container .userOptions{
   background:#666;
   position:absolute; 
-   box-shadow:-1px 1px 9px #111;;
-  
+  box-shadow:-1px 1px 9px #111;;
 }
 
 .logged-in .user-container .userOptions li a{
@@ -211,6 +210,10 @@ blockquote:before {
 .muziekladder_logo_small {
     float:left;
 }
+.front .city_menu-container{
+  float:right;
+  width: 66%;
+}
 
 ul.front-city-menu, .front-city-menu ul{
   margin-left:0px;  
@@ -295,7 +298,7 @@ ul.front-city-menu  li{
   height:190px;
   position:relative;
   text-align:center; 
-  width:33%; 
+  width:50%; 
 }
 
 .front .city_gig_agenda h1{
@@ -316,10 +319,12 @@ ul.front-city-menu  li{
   padding-left:8px;  
 }
 .front #content {
+  float:left;
+  width:33%;
   position:relative;
-  padding-top:340px;
   padding-left:0px;
   padding-right:0px;
+  overflow:hidden
 }
 
 .front .description{
@@ -355,54 +360,43 @@ ul.front-city-menu  li{
   display:none
 }
 
-.front #content > article{
-  height:300px;
-  overflow:hidden;
-  width:100%;
-  opacity:0;
-  background:black;
-  position:absolute; 
-  top:0px;
-  left:0px;
-  -webkit-transition: all 500ms ;
-  -moz-transition: all 500ms ;
-  -o-transition: all 500ms ;
-  transition: all 500ms ;
-  cursor:pointer
+.front #content > article {
+  padding-bottom:20px;
+  
+  border-bottom:4px dotted steelblue;
+  margin-bottom:40px;
+
 }
 
+
+.front article h2 {
+  text-transform: uppercase;
+  text-rendering: optimizeLegibility;
+  color: #2c2c2c;
+  background-color: white;
+  letter-spacing: .05em;
+  text-shadow: 2px 2px 0px #d5d5d5, 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+
+.front #content article label{
+  display:none;
+}
 .front #content article.processed .field{
-  display:none;  
 }
 
 .front #content article.processed ul.inline{
-  display:none;  
 }
 
 .front #content article.processed header{
-  position:absolute;
-  bottom:0px;
-  left:0px;
  
 }
-.front #content article.processed header h2{
-  padding:0px 8px; 
-  background:white;
-  border-top-right-radius:6px;
-  margin-bottom:0px;
-  font-size:26px; 
-} 
 
 
 .front #content article.processed header h2 button{ 
   margin-left:16px;
 }
 
-.front #content article.processed header h2 a{
-  font-size:22px;
-  line-height:2;
-
-}
 
 .front #content article.processed > img{
   position:absolute;
@@ -418,6 +412,16 @@ ul.front-city-menu  li{
 .front #content article img{
 }
 .front #content .links.inline{
+}
+.front #content .links.inline li{
+  display:block;
+}
+
+.front #content .dates_in_node ul{
+  padding-left:20px;
+}
+.front #content .dates_in_node ul li{
+  white-space:nowrap
 }
 .front #content article p{
   display:none
@@ -1595,7 +1599,7 @@ clear: both;
 /* Portrait tablet to landscape and desktop */
 @media (max-width: 979px) {    
   .front-city-menu li.city{
-    width:31%;
+    width:48%;
     margin-left:1%;
     margin-right:1%;
     overflow:hidden;
@@ -1627,6 +1631,16 @@ clear: both;
    
 /* Landscape phone to portrait tablet */
 @media (max-width:769px) {
+.front article h2{
+  font-size:16px;
+  line-height:1.6
+}
+
+#content article li{
+ font-size:12px; 
+  
+}
+
 .datepicker td {
   font-size:16px; 
   padding:20px 20px; 
@@ -1652,9 +1666,9 @@ clear: both;
 
  
   .front-city-menu li.city{
-    width:48%;
-    margin-left:1%;
-    margin-right:1%;
+    width:100%;
+    margin-left:0;
+    margin-right:0;
     overflow:hidden;
     height:160px; 
   }
@@ -1754,14 +1768,11 @@ clear: both;
   padding:6px 6px; 
 }
 
-
-
   .locatie-half{
     width:100%;
     float:none;  
     
   }
-
 
   .front-city-menu .city-name{ width:80%; }  
 

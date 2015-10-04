@@ -123,7 +123,7 @@ var hC = Drupal.settings.muziekladder;
         }; 
         externalLinks();
 //        drawFrontNews();
-        frontSlide(); 
+//        frontSlide(); 
         showTipsButton()
  
         return handlers;
@@ -298,14 +298,13 @@ var hC = Drupal.settings.muziekladder;
     function frontSlide(){
       var $article = $('#content > article')
       var i = $article.length-1;
-      $article.each(function(index){
+        $article.each(function(index){
           var $this = $(this); 
           if (!$this.hasClass('processed')){
              var $header = $this.find('header').eq(0); 
              $header.find('h2').append('<button class="btn btn-inverse"><i class="icon-white icon-chevron-right"></i></button>')
              $this.addClass('processed')
-                .append($this.find('img').eq(0))
-                .append($header)
+          //      .append($this.find('img').eq(0))
                 .click(function(e){
                   e.preventDefault()
                   location.href = $('#content article.current').find('.links a')[0]['href'] ; 
@@ -460,7 +459,6 @@ var hC = Drupal.settings.muziekladder;
     
   var shareButton = function(){
       $('.location').before('<div style="margin:20px 0px" class="addthis_native_toolbox"></div>')
-
       laad.js('addthis',function(){});
   };
   

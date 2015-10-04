@@ -22,8 +22,17 @@ class Muziekformulier extends Controller {
     )); 
   }
 
+  function updatenode() {
+    $file_name = array_pop(explode('/',$_GET['q']));
+    Muziek_util::saveTipNode($file_name);
+
+
+  }
+
+
   function edit() {
     global $user;  
+  
     $file_name = array_pop(explode('/',$_GET['q']));
 
     //check if its the legitimate owner editing 
