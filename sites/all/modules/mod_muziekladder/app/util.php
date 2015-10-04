@@ -85,7 +85,7 @@ class Muziek_util {
       'value' => $my_body_content));
  
    
-     #$ewrapper->body->summary->set($my_body_content_summary);
+     $ewrapper->body->summary->set($my_body_content_summary);
      
      // Setting the value of an entity reference field only requires passing
      // the entity id (e.g., nid) of the entity to which you want to refer
