@@ -67,10 +67,7 @@ var hC = Drupal.settings.muziekladder;
         $datefield.datepicker('setDates',date_objects);
       }
     
-      return {
-
-      
-      } 
+      return {};
     }
      
     // workaround for Drupal #states required-functionality only active client-side 
@@ -221,6 +218,8 @@ var hC = Drupal.settings.muziekladder;
            }
        });
       
+       
+       
        $(window).load(hC.loadAgendaImages);
        
        crumbTrail.set(location.href);
@@ -232,7 +231,6 @@ var hC = Drupal.settings.muziekladder;
 
     function loadAgendaImages(){
       // temp disable:
-      return; 
       $('.city_gig').each(function(){
         var $gig = $(this); 
         var img_code = $.trim($gig.data('imgsrc')); 
