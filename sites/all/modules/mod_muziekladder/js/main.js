@@ -231,6 +231,7 @@ var hC = Drupal.settings.muziekladder;
 
     function loadAgendaImages(){
       // temp disable:
+      var i = 0; 
       $('.city_gig').each(function(){
         var $gig = $(this); 
         var img_code = $.trim($gig.data('imgsrc')); 
@@ -239,6 +240,9 @@ var hC = Drupal.settings.muziekladder;
         
         var src = '/muziekdata/img/?s=1&p='+img_code;
         if(src && src.length){
+          i++;
+          if (i>20) return
+
           var img = new Image;
           img.onload = function(){
             $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               
