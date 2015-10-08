@@ -14,6 +14,17 @@ class Muziekdata extends Controller {
       chmod($image_cache,0750);
     }
     if (isset($_GET['p']) && basename($_GET['p']) == $_GET['p']) {
+
+        header("Cache-Control: private, max-age=10800, pre-check=10800");
+        header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
+        // the browser will send a $_SERVER['HTTP_IF_MODIFIED_SINCE'] if it has a cached copy 
+        if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
+            // if the browser has a cached version of this image, send 304
+              header('Last-Modified: '.$_SERVER['HTTP_IF_MODIFIED_SINCE'],true,304);
+                exit;
+        }
+
+
         $get_p = $_GET['p'];
          
         $p = base64_decode($get_p); // $url
