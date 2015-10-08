@@ -23,7 +23,7 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     
     // check if a city has been selected from the list 
     $selected_value = isset($form_state['input']['city_select']) ? $form_state['input']['city_select'] : false;
-    
+     
     // check if a city has been selected in presets - but only if a nocity option ('0' or '00') hasn't been explicly selected
     if ( !(int)$selected_value && 
           $form_state['input']['city_select'] !='0' &&
@@ -188,17 +188,19 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
           'effect' => 'none',
         ),
       );
-       
-      $selected_venue = isset($form_state['input']['venue_select'] ) ? $form_state['input']['venue_select'] : false ;
 
+      $selected_venue = isset($form_state['input']['venue_select'] ) ? $form_state['input']['venue_select'] : false ;
+      
       // presets
-      if (isset($presets['venue_select']) && strlen($presets['venue_select']) ){
-        $form['venue']['venue_select']['#default_value'] = $presets['venue_select'];
+      if (!$selected_venue){
+        if (isset($presets['venue_select']) && strlen($presets['venue_select']) ){
+          $form['venue']['venue_select']['#default_value'] = $presets['venue_select'];
+          $selected_venue = $presets['venue_select'];
+        }
       }
     }
-
-
-    // if no city selected or venue unknown selected 
+      
+      // if no city selected or venue unknown selected 
     if ( $selected_value == '0' || $selected_value =='00' ||  
         (isset($selected_venue) && strlen($selected_venue) && $selected_venue == '0')){
         $form['venue']['venue_freetext'] = array(
