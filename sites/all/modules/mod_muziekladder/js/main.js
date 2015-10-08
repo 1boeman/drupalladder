@@ -237,7 +237,7 @@ var hC = Drupal.settings.muziekladder;
        
         if (!img_code.length) return; 
         
-        var src = '/muziekdata/img/?p='+img_code;
+        var src = '/muziekdata/img/?s=1&p='+img_code;
         if(src && src.length){
           var img = new Image;
           img.onload = function(){

@@ -42,28 +42,28 @@ class Muziekdata extends Controller {
           drupal_not_found();
           drupal_exit();  
         }
-
         
         // do we want the thumb or the full image
-        // set the MIME type
-        $info = @getimagesize($pic);
-
-        $mime = false; 
-        if (isset($info['mime'])) {
-          $mime = $info['mime'];
-        }
-        var_dump($mime);
-        exit;
         if(isset($_GET['s'])){
           // thumb
           if (file_exists($thumb) && is_readable($thumb)) {
             $pic = $thumb;        
           } else {
-            // create thumb;   
+            // create thumb;  
+            require ('thumb.php');
+            $thumb_img = new Thumbnail($pic); 
+            $thumb_img->createThumb(Array('width'=>60,'maxDimension'=>60),$thumb);
+            $pic = $thumb;
           }
         }
 
-
+        // set the MIME type
+        $info = @getimagesize($pic);
+        $mime = false; 
+        if (isset($info['mime'])) {
+          $mime = $info['mime'];
+        }
+       
         // if a valid MIME type exists, display the image
         // by sending appropriate headers and streaming the file
         if ($mime) {
@@ -79,26 +79,6 @@ class Muziekdata extends Controller {
 
 //    drupal_not_found();
     drupal_exit();  
-  }
-
-  function make_thumb($src, $dest, $desired_width, $mime) {
-
-    /* read the source image */
-    $source_image = imagecreatefromjpeg($src);
-    $width = imagesx($source_image);
-    $height = imagesy($source_image);
-    
-    /* find the "desired height" of this thumbnail, relative to the desired width  */
-    $desired_height = floor($height * ($desired_width / $width));
-    
-    /* create a new, "virtual" image */
-    $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
-    
-    /* copy source image at a resized size */
-    imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
-    
-    /* create the physical thumbnail image to its destination */
-    imagejpeg($virtual_image, $dest);
   }
 
 }
