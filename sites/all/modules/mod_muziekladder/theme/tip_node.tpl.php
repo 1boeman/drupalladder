@@ -8,13 +8,13 @@
   <ul>
     <li class="event_link_in_node"><a href="<?php echo $tip['link'] ?>" target="_blank"><?php echo $tip['link'] ?></a></li>
     <li class="venue_in_node"><?php 
-        if ( isset($tip['venue_select']) ){
+        if ( $tip['venue_select']){
           if ($tip['db_venue']) {
           ?><a href="<?php echo $tip['locatie_link']?>"><?php echo $tip['db_venue']['Title'] ?></a> <?php 
           } else { 
             echo $tip['venue_select'];
           }   
-        } elseif (!$summary) {?>
+        } else {?>
           <div class="freetext_in_node">
           <?php echo nl2br(filter_xss($tip['venue_freetext']));?>
           </div>
@@ -23,7 +23,7 @@
       ?>
     </li>
     <li class="city_in_node"><span><?php 
-      if ((int)$tip['city_select'] && isset($tip['db_city']) && $tip['db_city']){
+      if ($tip['city_select'] && isset($tip['db_city']) && $tip['db_city']){
         echo $tip['db_city']['Name'] ;
       } elseif (isset($tip['city'])) {
          echo filter_xss($tip['city']);

@@ -67,10 +67,7 @@ var hC = Drupal.settings.muziekladder;
         $datefield.datepicker('setDates',date_objects);
       }
     
-      return {
-
-      
-      } 
+      return {};
     }
      
     // workaround for Drupal #states required-functionality only active client-side 
@@ -221,10 +218,17 @@ var hC = Drupal.settings.muziekladder;
      });
     
      $(window).load(hC.loadAgendaImages);
-     
-
      eventLinksListener();  
-      
+      // day buttons
+     $('.prevnextlinks button').on('click',function(e){
+         e.preventDefault();
+         try {
+            window.location = $(this).find('a')[0].href;
+         } catch(err) {
+            window.location = $(this).attr('data-href')     
+         }
+     });
+
      crumbTrail.set(location.href);
      externalLinks();
      showTipsButton()
@@ -262,15 +266,18 @@ var hC = Drupal.settings.muziekladder;
 
     function loadAgendaImages(){
       // temp disable:
-      return; 
+      var i = 0; 
       $('.city_gig').each(function(){
         var $gig = $(this); 
         var img_code = $.trim($gig.data('imgsrc')); 
        
         if (!img_code.length) return; 
         
-        var src = '/muziekdata/img/?p='+img_code;
+        var src = '/muziekdata/img/?s=1&p='+img_code;
         if(src && src.length){
+          i++;
+          if (i>20) return
+
           var img = new Image;
           img.onload = function(){
             $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               

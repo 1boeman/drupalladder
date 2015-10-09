@@ -14,11 +14,23 @@ class Muziekdata extends Controller {
       chmod($image_cache,0750);
     }
     if (isset($_GET['p']) && basename($_GET['p']) == $_GET['p']) {
+
+        header("Cache-Control: private, max-age=10800, pre-check=10800");
+        header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
+        // the browser will send a $_SERVER['HTTP_IF_MODIFIED_SINCE'] if it has a cached copy 
+        if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
+            // if the browser has a cached version of this image, send 304
+              header('Last-Modified: '.$_SERVER['HTTP_IF_MODIFIED_SINCE'],true,304);
+                exit;
+        }
+
+
         $get_p = $_GET['p'];
          
         $p = base64_decode($get_p); // $url
         $cache_file = md5($p);
         $pic = $image_cache .'/'. $cache_file;
+        $thumb = $pic.'_thumb'; 
         if (file_exists($pic) && is_readable($pic)) {
             //image in cache
         } elseif (preg_match('/^(http|HTTP|\/\/)/',$p)){
@@ -41,6 +53,20 @@ class Muziekdata extends Controller {
           drupal_not_found();
           drupal_exit();  
         }
+        
+        // do we want the thumb or the full image
+        if(isset($_GET['s'])){
+          // thumb
+          if (file_exists($thumb) && is_readable($thumb)) {
+            $pic = $thumb;        
+          } else {
+            // create thumb;  
+            require ('thumb.php');
+            $thumb_img = new Thumbnail($pic); 
+            $thumb_img->createThumb(Array('width'=>60,'maxDimension'=>60),$thumb);
+            $pic = $thumb;
+          }
+        }
 
         // set the MIME type
         $info = @getimagesize($pic);
@@ -48,7 +74,7 @@ class Muziekdata extends Controller {
         if (isset($info['mime'])) {
           $mime = $info['mime'];
         }
-
+       
         // if a valid MIME type exists, display the image
         // by sending appropriate headers and streaming the file
         if ($mime) {
@@ -65,4 +91,5 @@ class Muziekdata extends Controller {
 //    drupal_not_found();
     drupal_exit();  
   }
+
 }

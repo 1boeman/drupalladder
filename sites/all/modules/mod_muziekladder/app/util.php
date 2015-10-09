@@ -38,81 +38,81 @@ class Muziek_util {
       $data['user_name'] = $userobj->name;
     }
 
-    if (isset($data['venue_select'])){
+    if (isset($data['venue_select']) && (int)$data['venue_select']){
       $data['db_venue'] = $db->get_venue($data['venue_select']);
       $data['locatie_link']  = $data['db_venue'] ? self::locatie_link ($data['db_venue']) : false;
-
+    }else{
+      $data['venue_select'] = false; 
     }
-    
     if (isset($data['city_select']) && (int)$data['city_select']){
       $data['db_city'] = $db->get_city($data['city_select']); 
+    }else{
+      $data['city_select'] = false; 
     }
+    $my_body_content = theme('tip_node',array( 'tip' => $data, 'summary' => 0 ));
+    $my_body_content_summary = theme('tip_node',array('tip'=>$data ,'summary' => 1));
 
-     $my_body_content = theme('tip_node',array( 'tip' => $data, 'summary' => 0 ));
-     $my_body_content_summary = theme('tip_node',array('tip'=>$data ,'summary' => 1));
+    if ($node_id){
+     $entity = entity_load_single('node',$node_id);  
+    } else {
+     // entity_create replaces the procedural steps in the first example of
+     // creating a new object $node and setting its 'type' and uid property
+     $values = array(
+        'type' => 'article',
+        'uid' => $user->uid,
+        'status' => 1,
+        'comment' => 2,
+        'promote' => 1,
+      );
 
-     
-     if ($node_id){
-       $entity = entity_load_single('node',$node_id);  
-     } else {
-       // entity_create replaces the procedural steps in the first example of
-       // creating a new object $node and setting its 'type' and uid property
-       $values = array(
-         'type' => 'article',
-         'uid' => $user->uid,
-         'status' => 1,
-         'comment' => 2,
-         'promote' => 1,
-       );
-   
-       $entity = entity_create('node', $values);
-     }
-     // The entity is now created, but we have not yet simplified use of it.
-     // Now create an entity_metadata_wrapper around the new node entity
-     // to make getting and setting values easier
-     $ewrapper = entity_metadata_wrapper('node', $entity);
-     
-     // Using the wrapper, we do not have to worry about telling Drupal
-     // what language we are using. The Entity API handles that for us.
-     $ewrapper->title->set($data['title']);
-     
-     // Setting the body is a bit different from other properties or fields
-     // because the body can have both its complete value and its
-     // summary
-     # $ewrapper->body->value = 'new value';
-     $ewrapper->body->set(array(
-      'format' => 'full_html',
-      'value' => $my_body_content));
- 
-   
-     $ewrapper->body->summary->set($my_body_content_summary);
-     
-     // Setting the value of an entity reference field only requires passing
-     // the entity id (e.g., nid) of the entity to which you want to refer
-     // The nid 15 here is just an example.
-     #$ref_nid = 15;
-     // Note that the entity id (e.g., nid) must be passed as an integer not a
-     // string
-     #$ewrapper->field_my_entity_ref->set(intval($ref_nid));
-     
-     // Entity API cannot set date field values so the 'old' method must
-     // be used
-/*     $my_date = new DateTime('January 1, 2013');
-     $entity->field_my_date[LANGUAGE_NONE][0] = array(
-        'value' => date_format($my_date, 'Y-m-d'),
-           'timezone' => 'UTC',
-              'timezone_db' => 'UTC',
-               );
-  */   
-     // Now just save the wrapper and the entity
-     // There is some suggestion that the 'true' argument is necessary to
-     // the entity save method to circumvent a bug in Entity API. If there is
-     // such a bug, it almost certainly will get fixed, so make sure to check.
-     
-     $ewrapper->save(); 
-     $node_id = $ewrapper->getIdentifier();
-     
-     return $node_id; 
+      $entity = entity_create('node', $values);
+    }
+    // The entity is now created, but we have not yet simplified use of it.
+    // Now create an entity_metadata_wrapper around the new node entity
+    // to make getting and setting values easier
+    $ewrapper = entity_metadata_wrapper('node', $entity);
+
+    // Using the wrapper, we do not have to worry about telling Drupal
+    // what language we are using. The Entity API handles that for us.
+    $ewrapper->title->set($data['title']);
+
+    // Setting the body is a bit different from other properties or fields
+    // because the body can have both its complete value and its
+    // summary
+# $ewrapper->body->value = 'new value';
+    $ewrapper->body->set(array(
+    'format' => 'full_html',
+    'value' => $my_body_content));
+
+
+    $ewrapper->body->summary->set($my_body_content_summary);
+
+    // Setting the value of an entity reference field only requires passing
+    // the entity id (e.g., nid) of the entity to which you want to refer
+    // The nid 15 here is just an example.
+#$ref_nid = 15;
+    // Note that the entity id (e.g., nid) must be passed as an integer not a
+    // string
+#$ewrapper->field_my_entity_ref->set(intval($ref_nid));
+
+    // Entity API cannot set date field values so the 'old' method must
+    // be used
+    /*     $my_date = new DateTime('January 1, 2013');
+    $entity->field_my_date[LANGUAGE_NONE][0] = array(
+      'value' => date_format($my_date, 'Y-m-d'),
+         'timezone' => 'UTC',
+            'timezone_db' => 'UTC',
+             );
+    */   
+    // Now just save the wrapper and the entity
+    // There is some suggestion that the 'true' argument is necessary to
+    // the entity save method to circumvent a bug in Entity API. If there is
+    // such a bug, it almost certainly will get fixed, so make sure to check.
+
+    $ewrapper->save(); 
+    $node_id = $ewrapper->getIdentifier();
+
+    return $node_id; 
   }
 
   static function getTip ($file_name) {
