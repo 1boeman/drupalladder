@@ -26,8 +26,8 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
      
     // check if a city has been selected in presets - but only if a nocity option ('0' or '00') hasn't been explicly selected
     if ( !(int)$selected_value && 
-          $form_state['input']['city_select'] !='0' &&
-            $form_state['input']['city_select'] !='00' ){
+          $form_state['input']['city_select'] !=='0' &&
+            $form_state['input']['city_select'] !=='00' ){
       if (isset($presets['city_select']) && $presets['city_select'] ){
         $selected_value = $presets['city_select']; 
       }
@@ -190,26 +190,23 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
       );
 
       $selected_venue = isset($form_state['input']['venue_select'] ) ? $form_state['input']['venue_select'] : false ;
-      
       // presets
-      if (!$selected_venue){
+      if (!$selected_venue && $selected_venue !== '0'){
         if (isset($presets['venue_select']) && strlen($presets['venue_select']) ){
           $form['venue']['venue_select']['#default_value'] = $presets['venue_select'];
           $selected_venue = $presets['venue_select'];
         }
       }
     }
-      
       // if no city selected or venue unknown selected 
-    if ( $selected_value == '0' || $selected_value =='00' ||  
-        (isset($selected_venue) && strlen($selected_venue) && $selected_venue == '0')){
+    if ( $selected_value === '0' || $selected_value === '00' ||  
+        (isset($selected_venue) && strlen($selected_venue) && $selected_venue === '0')){
         $form['venue']['venue_freetext'] = array(
           '#type' => 'textarea',
           '#title' => t(
           'Please specify the name and address of the venue, club, area, terrain (or what not) that will host this event.'),
           '#attributes' => array('placeholder' => 
           t('Name / address')),
-          
           '#required' => true );
         // presets
         if ( isset( $presets['venue_freetext'] ) ){
@@ -399,9 +396,7 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
             Thanks! Your updates have been successfully processed.
             They will also be updated in the calendar pages as soon as possible.  
           '));
-  
         }
-
     } else {
         drupal_set_message('Sorry... the submission failed because of technical problems. Please try again later.');
     }
