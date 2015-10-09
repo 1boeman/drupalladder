@@ -316,7 +316,7 @@ class Muziek_util {
 
   static function lang_url(){
     global $language; 
-    $lang_prefix = strlen ($language->prefix) ? '/'.$language->prefix .'/' : '/';
+    $lang_prefix = strlen ($language->prefix) ? base_path().$language->prefix .'/' : base_path();
     return $lang_prefix;   
   }
 

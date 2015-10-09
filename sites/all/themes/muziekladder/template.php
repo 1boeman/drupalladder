@@ -211,8 +211,5 @@ function muziekladder_preprocess_page(&$variables) {
     drupal_add_js($themepath.'/bootstrapdatepicker/js/bootstrap-datepicker.min.js'); 
   }
 
-
-
-
 }
 

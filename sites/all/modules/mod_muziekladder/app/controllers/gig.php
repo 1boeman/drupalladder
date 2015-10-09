@@ -52,19 +52,27 @@ class Gig extends Controller{
 
         #  var_dump($venue);
        # var_dump($gig); 
-        $render_array = array(
-          'gig'=>array(
-            '#type'=>'markup',
-            '#markup'=>$html,
-          ),
-        );
       }
 
       $titletag = htmlspecialchars($gig['Title']) .' - '. htmlspecialchars($venue['Title']) . ' - '. $venue['City_name'] . ' - ' .$human_date; 
       $this->set_head_title($titletag);
     }
+    
+    if (isset($_GET['ajax'])){
 
-    return array('render_array'=>$render_array);
+      return array('html_fragment'=>$html);
+
+    } else {
+
+      $render_array = array(
+        'gig'=>array(
+          '#type'=>'markup',
+          '#markup'=>$html,
+        ),
+      );
+
+      return array('render_array'=>$render_array);
+    }
   }
  
   function dont_redirect($id, $date, $url){

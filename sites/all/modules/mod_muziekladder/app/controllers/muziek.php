@@ -61,7 +61,6 @@ class Muziek extends Controller {
     return '<a href="' . $prefix . 'muziek/'.$ct . '">'.t('Jump to the') .' '. $cityname .' '. t('calendar'). ' pages &raquo;</a>';
   }
 
-
   function index() {
     return $this->city_events(0);
   }
@@ -152,6 +151,11 @@ class Muziek extends Controller {
         '#markup'=>$content,
       ),
     );
+
+    $themepath = drupal_get_path('theme','muziekladder'); 
+    drupal_add_css($themepath.'/css/vex.css');
+    drupal_add_css($themepath.'/css/vex-theme-top.css'); 
+    drupal_add_js($themepath.'/js/vex.combined.min.js'); 
 
     return array('render_array'=>$render_array);
   } 

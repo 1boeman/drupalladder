@@ -76,12 +76,9 @@
   width:110px;    
 }
 
-
 .muziekladder_logo_small {
  display:none  
 }
-
-
 
 .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
@@ -113,7 +110,6 @@ label{font-size:16px}
 }
 .front-search h1.page__title{
   padding-left:12px;
-
 }
 h1.page__title,
 h1{
@@ -604,6 +600,7 @@ border-radius: 4px;
 }
 #navigation.scrolling{
   height:50px;
+  opacity:0.9;
 } 
 #navigation .block{
   vertical-align:bottom;
@@ -633,7 +630,7 @@ border-radius: 4px;
  padding-left:24px;
  padding-right:24px;
  cursor:pointer;
- border-right:1px solid #666;
+ border-right:1px solid #fff;
 }
 
 .scrolling #block-system-main-menu .menu li{
@@ -646,7 +643,7 @@ border-radius: 4px;
 
 
 #block-system-main-menu .menu li:first-of-type{
- border-left:1px solid #666
+ border-left:1px solid #fff
 
 } 
 #block-system-main-menu .menu li.hover{
@@ -734,12 +731,9 @@ footer{
   background:AliceBlue;      
 }
 
- .agenda-city-menu>li {
+.agenda-city-menu>li {
   margin-right:20px;
-
 }
-
- 
   
 .image-cell{
   float:left;
@@ -749,6 +743,31 @@ footer{
   max-width:60px;
   max-height:60px;
 }
+
+.vex-theme-top {
+  padding-top:40px;
+}
+.vex p.description {
+  font-size:16px;
+  line-height:1.4;
+}
+.vex .location {
+  font-size:16px;
+}
+.vex.vex-theme-top .vex-content{
+ width:90% 
+}
+.vex.vex-theme-top .vex-close:before{
+  font-size:60px;
+  background-color:#333;
+  padding:10px; 
+  padding:10px;
+  top:10px;
+  right:10px;
+  width:auto;
+  height:auto; 
+}
+.vex .breadcrumb{display:none}
 .dagoverzicht h1{
   font-size:28px;
 } 
