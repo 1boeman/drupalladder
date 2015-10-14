@@ -12,7 +12,7 @@ var hC = Drupal.settings.muziekladder;
     "locations"     :hC.muziekladderBasePath + hC.jsDir+"locations.js",
     "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
     "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
-  }
+  };
 
   var pageHandlers = {}, 
       handlers = {};
@@ -102,14 +102,11 @@ var hC = Drupal.settings.muziekladder;
        $('#advanced_search').submit();
     })
     showTipsButton()
-
-
     return {};     
   };
 
   pageHandlers.articlefull = function(){
       showTipsButton()
-
       externalLinks();
       return {};
   };
@@ -139,9 +136,7 @@ var hC = Drupal.settings.muziekladder;
   pageHandlers.detail = function(){
     externalLinks();
     showDetailImages();
-
     showTipsButton()
-
     shareButton();
     crumbTrail.backButton($('.breadcrumb li a').eq(0));
     return {};
@@ -195,9 +190,7 @@ var hC = Drupal.settings.muziekladder;
       function(e){
         var choice = '/'+$(this).val();
         var agenda_spec = location.href.match(/agenda\-[0-9]+/); 
-        
         if (choice == "/0") choice =''; 
-         
         if (agenda_spec){
           agenda_spec = '/' + agenda_spec[0] +'.html';
         }else{
@@ -239,98 +232,95 @@ var hC = Drupal.settings.muziekladder;
   function eventLinksListener(){
     var loading = false; 
     $('.city_gig > a').click(function(e){
+      e.preventDefault(); 
       if (loading) return; 
       loading = true; 
-      var that = this; 
-      var gigContainer = $(this).parents('.city_gig'); 
-      e.preventDefault(); 
+      var that = this;
+      var $pageContainer = $('<div class="page-gig detail loading"></div>');
+      var $gigContainer = $(this).parents('.city_gig'); 
+      $gigContainer.append($pageContainer);
       $.get(this.href+'&ajax=1',function(resp){
-        
-    //    gigContainer.append(resp);
-        vex.defaultOptions.className = 'vex-theme-top';
-        vex.dialog.open({
-          message: resp,
-          showCloseButton: true,
-          buttons: [vex.dialog.buttons.YES],
-          focusFirstInput: false
-
-        });
-        loading = false; 
+        $gigContainer.addClass('opened');
+        $pageContainer
+          .append(resp)
+          .removeClass('loading');
+        loading = false;
+        $pageContainer.find('.eventfull').slideDown();
+        showDetailImages($pageContainer); 
       }).fail(function(){
         location.href = that.href; 
         loading = false; 
       });
-    })
+    });
   }
 
+  function loadAgendaImages(){
+    // temp disable:
+    var i = 0; 
+    $('.city_gig').each(function(){
+      var $gig = $(this); 
+      var img_code = $.trim($gig.data('imgsrc')); 
+     
+      if (!img_code.length) return; 
+      
+      var src = '/muziekdata/img/?s=1&p='+img_code;
+      if(src && src.length){
+        i++;
+        if (i>20) return
 
-    function loadAgendaImages(){
-      // temp disable:
-      var i = 0; 
-      $('.city_gig').each(function(){
-        var $gig = $(this); 
-        var img_code = $.trim($gig.data('imgsrc')); 
-       
-        if (!img_code.length) return; 
-        
-        var src = '/muziekdata/img/?s=1&p='+img_code;
-        if(src && src.length){
-          i++;
-          if (i>20) return
+        var img = new Image;
+        img.onload = function(){
+          $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               
+        }
+        img.src = src; 
+      }  
+    });  
+  };  
+  hC.loadAgendaImages = loadAgendaImages; 
 
-          var img = new Image;
-          img.onload = function(){
-            $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               
+  function showTipsButton(){
+     var other,other_selector,a,lnk,txt,lng = Drupal.settings.pathPrefix;
+     if (lng.match(/nl/)){
+       lnk = '/en/';
+       txt = 'English';
+       other_selector = '.en';
+     } else {
+        lnk ='/nl/';
+        txt = 'Nederlands'; 
+        other_selector = '.nl';
+     }
+
+     other_selector += ' a.language-link';
+
+     a = $('<a class="tip-button" href="'+lnk+'">'+txt+' &raquo;</a>');
+     a.click(function(e){
+        other = $(other_selector);
+        if (other.length){
+          e.preventDefault(); 
+          location = other[0].href;
+        }
+     });
+     $('#page-title, h1').before(a);
+  }    
+
+  var crumbTrail = (function(){ 
+      var cname = 'werwasib4'; 
+      return {
+          set:function(url){
+              $.cookie(cname,url,{ expires: 7, path: '/' });
+          },
+          backButton:function($element){
+              var backuri = $.cookie(cname);    
+              if (backuri){
+                  $element.click(function(e){
+                      e.preventDefault(); 
+                      location.href = backuri;
+                  })
+              }
           }
-          img.src = src; 
-        }  
-      });  
-    };  
-    hC.loadAgendaImages = loadAgendaImages; 
-
-    function showTipsButton(){
-       var other,other_selector,a,lnk,txt,lng = Drupal.settings.pathPrefix;
-       if (lng.match(/nl/)){
-         lnk = '/en/';
-         txt = 'English';
-         other_selector = '.en';
-       } else {
-          lnk ='/nl/';
-          txt = 'Nederlands'; 
-          other_selector = '.nl';
-       }
-
-       other_selector += ' a.language-link';
-
-       a = $('<a class="tip-button" href="'+lnk+'">'+txt+' &raquo;</a>');
-       a.click(function(e){
-          other = $(other_selector);
-          if (other.length){
-            e.preventDefault(); 
-            location = other[0].href;
-          }
-       });
-       $('#page-title, h1').before(a);
-    }    
-
-    var crumbTrail = (function(){ 
-        var cname = 'werwasib4'; 
-        return {
-            set:function(url){
-                $.cookie(cname,url,{ expires: 7, path: '/' });
-            },
-            backButton:function($element){
-                var backuri = $.cookie(cname);    
-                if (backuri){
-                    $element.click(function(e){
-                        e.preventDefault(); 
-                        location.href = backuri;
-                    })
-                }
-            }
-        }; 
-    }());
-    hC.crumbTrail = crumbTrail;
+      }; 
+  }());
+  hC.crumbTrail = crumbTrail;
 
     function frontSlide(){
       var $article = $('#content > article')
@@ -474,23 +464,24 @@ var hC = Drupal.settings.muziekladder;
         });     
    }
 
-  var showDetailImages = function(){
-    var $ev = $('.eventfull');
+  var showDetailImages = function($container){
+    if (typeof $container == 'undefined') $container = $('body'); 
+    var $ev = $container.find('.eventfull');
     if ($ev.length){
-        var href = $.trim($ev.eq(0).data('imgsrc'));
-        if (href && href.length){
-            var img = new Image();
-            img.onload = function(){
-                var lnk = $('.eventlink').eq(0).attr('href');
-                var a = document.createElement('a');
-                a.href = lnk; 
-                a.className="eventImg";
-                a.target="_blank";
-                a.appendChild(img); 
-                $ev.prepend(a);
-            }
-            img.src = '/muziekdata/img?p='+href; 
+      var href = $.trim($ev.eq(0).data('imgsrc'));
+      if (href && href.length){
+        var img = new Image();
+        img.onload = function(){
+          var lnk = $container.find('.eventlink').eq(0).attr('href');
+          var a = document.createElement('a');
+          a.href = lnk; 
+          a.className="eventImg";
+          a.target="_blank";
+          a.appendChild(img); 
+          $ev.prepend(a);
         }
+        img.src = '/muziekdata/img?p='+href; 
+      }
     }
   };
     

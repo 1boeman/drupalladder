@@ -8,14 +8,12 @@
 	
   <div class="eventfull clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo base64_encode($gig['Img']) ?>">
 	  <div class="event-container">
-    	<a itemprop="url" href="<?php echo $gig['Link'] ?>" class="eventlink nodisplay">
+    	<a itemprop="url" target="_blank" href="<?php echo $gig['Link'] ?>" class="eventlink nodisplay">
 		  	<span itemprop="name"><?php echo $gig['Title'] ?></span>
 		  </a>
         <h1 data-id="<?php echo $gig['Id'] ?>"><?php echo $gig['Title'] ?></h1>
         <h2>
-          <a target="_blank" href="<?php echo $gig['Link'] ?>">
-            <span itemprop="startDate" class="date"><?php echo $human_date ?></span>
-          </a>
+           <span itemprop="startDate" class="date"><?php echo $human_date ?></span>
           
         </h2>
         <h3><a href="<?php echo $location_link ?>"><?php echo $venue['Title'] ?></a> 
@@ -25,8 +23,8 @@
  
         </h3>
 		<p class="description"><?php echo str_replace('||','<br />',$gig['Desc']) ?></p>
-		<p><strong>Link</strong>: <a itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo $gig['Link'] ?></a>  </p>
-		<p><i class="icon-info-sign"></i> <a itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
+		<p><strong>Link</strong>: <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo $gig['Link'] ?></a>  </p>
+		<p><i class="icon-info-sign"></i> <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
   </div>
 
 <?php endif; ?>

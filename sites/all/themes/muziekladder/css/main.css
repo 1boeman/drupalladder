@@ -55,7 +55,6 @@
     font-weight:bold;
 }
 
-
 .logged-in .muziekladder_logo_small{
   display:block;
   margin-top:6px;
@@ -840,7 +839,7 @@ footer{
 } 
  
 
- .city_gig .name{
+.city_gig .name{
   padding-left:8px;
   display:block
 } 
@@ -856,6 +855,31 @@ footer{
 .city_gig:hover {
   background:aliceblue
 } 
+.city_gig.opened .cell{
+  display:none
+
+}
+.city_gig .loading {
+  background-image:url('../img/ajax-loader.gif'); 
+  background-position:40px 18px; 
+  background-repeat:no-repeat;
+  display:block;
+  clear:all;
+  min-height:36px;
+  box-shadow:0px 0px 400px white;
+}
+.city_gig .eventfull{
+  display:none;
+}
+.city_gig .page-gig{
+  margin-left:-12px;
+  margin-top:-4px;
+  background-color:white; 
+
+}
+.dagoverzicht .breadcrumb{
+  display:none
+}
 
 .dagoverzicht .filter-row {
   margin-bottom:12px;
@@ -998,9 +1022,14 @@ color:Maroon
   margin-left:10px;
   
 }
+.dagoverzicht .detail .eventfull .date{ 
+  float:none;
+}
+.dagoverzicht .eventfull .eventImg img { 
+  float:right;
+  margin:0px; 
+}
 .dagoverzicht .eventImg img{ 
-  max-width:60px;
-  max-height:60px;
   float:left;
   margin:0px 12px 8px 0px;
 }
@@ -1170,10 +1199,13 @@ p.url_only{
 
 }
 
- 
+.dagoverzicht .detail h1{
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:bold;  
+}
 
 .detail h2{
-    font-size:30px;
+  font-size:30px;
 }
 
 .detail h3 strong{
@@ -1194,21 +1226,17 @@ p.url_only{
 .addthis_native_toolbox{
   min-height:2em;
 }
-.detail .eventfull {
-  margin-bottom:40px;
-} 
-.detail .eventfull .event-container{
-   border-left:10px solid LightSteelBlue  ;
-   border-top:5px solid LightSteelBlue  ;
-   padding-bottom:20px;
-   padding-left:8px; 
-  
+.detail .eventfull .event-container {
+  border-left:10px solid LightSteelBlue;
+  border-top:5px solid LightSteelBlue;
+  padding-bottom:20px;
+  padding-left:8px; 
+   
 }
 
 .detail .eventImg{ 
   float:right; margin:20px; margin-top:10px; margin-right:0px;
   box-shadow:-2px 1px 8px #999;
-  
   max-width:30%;
 }
 .detail .eventfull a.addthisicon{

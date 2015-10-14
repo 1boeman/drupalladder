@@ -152,11 +152,6 @@ class Muziek extends Controller {
       ),
     );
 
-    $themepath = drupal_get_path('theme','muziekladder'); 
-    drupal_add_css($themepath.'/css/vex.css');
-    drupal_add_css($themepath.'/css/vex-theme-top.css'); 
-    drupal_add_js($themepath.'/js/vex.combined.min.js'); 
-
     return array('render_array'=>$render_array);
   } 
 

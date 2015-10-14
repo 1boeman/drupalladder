@@ -44,7 +44,7 @@ if(!empty($content)){
 
 ?>                                          
     <div class="city_gig clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo base64_encode($value['Event_Img']) ?>">
-      <a itemprop="url" href="<?php echo $link ?>">
+      <a class="clearfix" itemprop="url" href="<?php echo $link ?>">
         <div class="first-cell cell">
           <strong class="name" itemprop="name"><?php echo $value['Event_Title']  ?></strong>
         </div>
