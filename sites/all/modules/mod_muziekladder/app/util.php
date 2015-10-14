@@ -37,8 +37,7 @@ class Muziek_util {
       $userobj = user_load($data['uid']);
       $data['user_name'] = $userobj->name;
     }
-
-    if (isset($data['venue_select']) && (int)$data['venue_select']){
+    if (isset($data['venue_select']) && strlen($data['venue_select']) && $data['venue_select'] !== '0'){
       $data['db_venue'] = $db->get_venue($data['venue_select']);
       $data['locatie_link']  = $data['db_venue'] ? self::locatie_link ($data['db_venue']) : false;
     }else{
