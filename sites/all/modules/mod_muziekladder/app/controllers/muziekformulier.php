@@ -25,8 +25,6 @@ class Muziekformulier extends Controller {
   function updatenode() {
     $file_name = array_pop(explode('/',$_GET['q']));
     Muziek_util::saveTipNode($file_name);
-
-
   }
 
 

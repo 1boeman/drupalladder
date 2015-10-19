@@ -58,50 +58,53 @@ endforeach; ?>
 </div>
   
 <div class="locatie-lijst-container clearfix">
-<h2><?php echo t('Venues in ') ?> <?php echo $city['Name'] ?> </h2>
-<div class="calendar-link"><a href="<?php echo $agenda_link ?>"><?php echo t('Jump to today\'s ').' '.$city['Name'].' '.t('calendar')?> &raquo;</a></div>
-
-<ul class="locaties-lijst">
-<?php 
-  if (count ($venues)):
-    $break = ceil(count($venues)/3);
-    $i = 0;
-    foreach( $venues as $venue ): 
-    ?>
-        
-  <li data-id="<?php echo $venue['Id'] ?>" class="locatiebeschrijving"> 
-    <h4><a class="locatie-link" href="<?php echo $lang_prefix ?>locaties/<?php echo rawurlencode($venue['Id']).'-'.$city['Name'] ?>" 
-  title="<?php echo $venue['Title'] ?>"><?php echo $venue['Title']?></a></h4>
-    <div class="desc"><p>
-        <?php 
-        if(stristr($lang_prefix,'/en/')){
-          echo  strlen($venue['Desc_en']) ? $venue['Desc_en']  : $venue['Desc'] ;
-        } else {
-          echo  strlen($venue['Desc']) ? $venue['Desc']  :'';
-        }
-      ?></p>
+  <h2><?php echo t('Venues in ') ?> <?php echo $city['Name'] ?> </h2>
+  <div class="formContainer">
+    <a href="#add" class="btn btn-inverse handleMe" data-handler="show_venuetips" ><?php echo t('Your favourite venue in ').$city['Name']. t(' not listed? Please add it now!') ?></a>
+    <div class="venue_tipformContainer">  
+        <?php echo drupal_render($venue_form); ?>
     </div>
-    <div class="adres">
-      <span class="straat"><?php echo $venue['Street']?></span> 
-      <span class="straatnummer"><?php echo $venue['Street_number'] ?></span> 
-      <span class="straatnummer_toevoeging"> <?php echo $venue['Addition'] ?></span>
-    <br>
-      <span class="zip"> <?php echo $venue['Zip'] ?></span>
-      <strong class="stad"><?php echo $city['Name']?></strong>
-    </div>
-  </li>
-  
-<?php 
-  $i++; 
-  if ($i > $break){
-      $i=0; 
-      echo '</ul><ul class="locaties-lijst">';
-  }
-  endforeach; 
-endif; 
+  </div>
+  <ul class="locaties-lijst">
+  <?php 
+    if (count ($venues)):
+      $break = ceil(count($venues)/3);
+      $i = 0;
+      foreach( $venues as $venue ): ?>
+          
+    <li data-id="<?php echo $venue['Id'] ?>" class="locatiebeschrijving"> 
+      <h4><a class="locatie-link" href="<?php echo $lang_prefix ?>locaties/<?php echo rawurlencode($venue['Id']).'-'.$city['Name'] ?>" 
+    title="<?php echo $venue['Title'] ?>"><?php echo $venue['Title']?></a></h4>
+      <div class="desc"><p>
+          <?php 
+          if(stristr($lang_prefix,'/en/')){
+            echo  strlen($venue['Desc_en']) ? $venue['Desc_en']  : $venue['Desc'] ;
+          } else {
+            echo  strlen($venue['Desc']) ? $venue['Desc']  :'';
+          }
+        ?></p>
+      </div>
+      <div class="adres">
+        <span class="straat"><?php echo $venue['Street']?></span> 
+        <span class="straatnummer"><?php echo $venue['Street_number'] ?></span> 
+        <span class="straatnummer_toevoeging"> <?php echo $venue['Addition'] ?></span>
+      <br>
+        <span class="zip"> <?php echo $venue['Zip'] ?></span>
+        <strong class="stad"><?php echo $city['Name']?></strong>
+      </div>
+    </li>
+    
+  <?php 
+    $i++; 
+    if ($i > $break){
+        $i=0; 
+        echo '</ul><ul class="locaties-lijst">';
+    }
+    endforeach; 
+  endif; 
 
-?>
-</ul>
+  ?>
+  </ul>
 </div>
 
 <?php endif; ?>

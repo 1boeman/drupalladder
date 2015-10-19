@@ -147,7 +147,13 @@ var hC = Drupal.settings.muziekladder;
     laad.wait('locations');
     showTipsButton();
     externalLinks();
-    return {};
+     
+    return {
+      show_venuetips:function(){
+        $(this).hide();
+        $('.venue_tipformContainer').slideDown();
+      }  
+    };
   }
 
   pageHandlers.dagoverzicht = function(){

@@ -19,7 +19,6 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     }
 
     $city_options['00'] = '** City not in list? Click here... *';    
-  
     
     // check if a city has been selected from the list 
     $selected_value = isset($form_state['input']['city_select']) ? $form_state['input']['city_select'] : false;
@@ -387,7 +386,6 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
         'subject' => 'Muziekladder muziekformulier',
     );
     if (drupal_mail('mailtipform', 'some_mail_key', $to, language_default(), $params, $from, TRUE)) {
-        
         if (!$update){
           drupal_set_message(t('
             Thanks! Your recommendation has been successfully submitted. <br>We will process it as soon as possible.'));
@@ -405,7 +403,7 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
 function mailtipform_mail($key, &$message, $params) {
     $headers = array(
         'MIME-Version' => '1.0',
-        'Content-Type' => 'text/html; charset=UTF-8;',
+        'Content-Type' => 'text/plain; charset=UTF-8;',
         'Content-Transfer-Encoding' => '8Bit',
         'X-Mailer' => 'Drupal'
     );
@@ -415,3 +413,73 @@ function mailtipform_mail($key, &$message, $params) {
     $message['subject'] = $params['subject'];
     $message['body'] = $params['body'];
 }
+
+
+function mod_muziekladder_locationtipform(){
+  $form = array (); 
+  $form['venue_title'] = array(
+    '#type'=> 'textfield',
+    '#title'=>t('Venue name'),
+    '#attributes' => array('placeholder' => 
+      t('Name')),
+    '#required' => true,
+  );
+
+  $form['venue_url'] = array(
+    '#type'=> 'textfield',
+    '#size'=> '90',
+    '#title'=>t('Venue website or social media url'),
+    '#attributes' => array('placeholder' =>  'website'),
+    '#required' => true,
+  );
+ 
+  $form['venue_freetext'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Please specify the name and address of the venue'),
+    '#attributes' => array('placeholder' => 
+      t('Name / address')),
+    '#required' => true,
+  );
+ 
+  $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Submit'),
+      '#attributes' => array('class'=>array('btn btn-large btn-inverse')),
+  );
+    
+  return $form;  
+}
+
+
+
+
+function mod_muziekladder_locationtipform_submit($form, &$form_state) {
+    // send me a notification email
+    $body = array();
+    $from = 'muziekladder@hardcode.nl';
+    $msg = array(); 
+    foreach($form_state['values'] as $key=>$value){
+      $msg[]= $key.' : ' .$value."\n\r"; 
+    }
+
+    $body[] = implode("\n",$msg); 
+    $to = 'info@hardcode.nl';
+    $params = array(
+        'body' => $body,
+        'subject' => 'Muziekladder locatie formulier',
+    );
+    if (drupal_mail('mailtipform', 'some_mail_key', $to, language_default(), $params, $from, TRUE)) {
+        if (!$update){
+          drupal_set_message(t('
+            Thanks! Your recommendation has been successfully submitted. <br>We will process it as soon as possible.'));
+        }else{
+          drupal_set_message(t('
+            Thanks! Your updates have been successfully processed.
+            They will also be updated in the calendar pages as soon as possible.  
+          '));
+        }
+    } else {
+        drupal_set_message('Sorry... the submission failed because of technical problems. Please try again later.');
+    }
+}
+
