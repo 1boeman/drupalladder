@@ -435,7 +435,7 @@ function mod_muziekladder_locationtipform(){
  
   $form['venue_freetext'] = array(
     '#type' => 'textarea',
-    '#title' => t('Please specify the name and address of the venue'),
+    '#title' => t('Address'),
     '#attributes' => array('placeholder' => 
       t('Name / address')),
     '#required' => true,
