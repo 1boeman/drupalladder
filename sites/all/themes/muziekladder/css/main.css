@@ -1066,6 +1066,9 @@ color:Maroon
   display:block
 
 }
+.page-uitgaan .venue_tipformContainer{
+  display:none  
+}
 
 #city_autocomplete{
   font-size:28px;

@@ -40,17 +40,19 @@ class Uitgaan extends Controller {
       if (isset($result['node'])) {
         $nids = array_keys($result['node']);
         $items = node_load_multiple($nids);
-        //var_dump($items)  ;
+        //var_dump($items);
       }
       
-      $content = theme('uitgaan',array(
-        'city' => $city,
-        'venues' => $venues,
-        'nodes' => $items,
-        'lang_prefix'=> $lang_prefix,
-        'agenda_link' => $lang_prefix.'muziek/'.$city['Id'].'-'.rawurlencode($city['Name']), 
-        'tpl'=>'city_main'
-        
+      $form = drupal_get_form('mod_muziekladder_locationtipform'); 
+      $content = theme (
+        'uitgaan',array (
+          'venue_form'=>$form,
+          'city' => $city,
+          'venues' => $venues,
+          'nodes' => $items,
+          'lang_prefix'=> $lang_prefix,
+          'agenda_link' => $lang_prefix.'muziek/'.$city['Id'].'-'.rawurlencode($city['Name']), 
+          'tpl'=>'city_main'
       ));
       $title = $city['Name'].' - '. t(' find concerts, parties, events');
       $this->set_head_title($title);
@@ -65,11 +67,8 @@ class Uitgaan extends Controller {
         )      
       ));
 
-
-     
       return array('html'=>$content); 
     }
-
 
     public function index () {
       $this->add_body_class('uitgaan-root'); 
