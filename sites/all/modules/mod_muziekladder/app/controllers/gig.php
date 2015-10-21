@@ -25,6 +25,7 @@ class Gig extends Controller{
     
     if (!$gig){
        $render_array = $this->dont_redirect($id,$date,$url);
+       return array('render_array'=>$render_array);
     } else {
    
       $gig = $gig[0];    
