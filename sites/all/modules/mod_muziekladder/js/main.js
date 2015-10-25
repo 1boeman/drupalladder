@@ -265,21 +265,24 @@ var hC = Drupal.settings.muziekladder;
     var i = 0; 
     $('.city_gig').each(function(){
       var $gig = $(this); 
+      var src; 
       var img_code = $.trim($gig.data('imgsrc')); 
-     
-      if (!img_code.length) return; 
+             
+      if (!img_code || !img_code.length) return; 
       
-      var src = '/muziekdata/img/?s=1&p='+img_code;
-      if(src && src.length){
-        i++;
-        if (i>20) return
-
-        var img = new Image;
-        img.onload = function(){
-          $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               
-        }
-        img.src = src; 
-      }  
+      if (img_code.match(/^data/)){
+        src = img_code;  
+      }else{
+        src = '/muziekdata/img/?s=1&p='+img_code;
+      }
+       
+      i++;
+      if (i>24) return
+      var img = new Image;
+      img.onload = function(){
+        $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               
+      }
+      img.src = src; 
     });  
   };  
   hC.loadAgendaImages = loadAgendaImages; 
@@ -477,7 +480,7 @@ var hC = Drupal.settings.muziekladder;
       var href = $.trim($ev.eq(0).data('imgsrc'));
       if (href && href.length){
         var img = new Image();
-        img.onload = function(){
+        var imgcreate = function(){
           var lnk = $container.find('.eventlink').eq(0).attr('href');
           var a = document.createElement('a');
           a.href = lnk; 
@@ -486,7 +489,14 @@ var hC = Drupal.settings.muziekladder;
           a.appendChild(img); 
           $ev.prepend(a);
         }
-        img.src = '/muziekdata/img?p='+href; 
+
+        if (href.match(/^data/)){
+          img.src = href; 
+          imgcreate();
+        } else {
+          img.onload = imgcreate; 
+          img.src = '/muziekdata/img?p='+href; 
+        }
       }
     }
   };

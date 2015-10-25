@@ -7,7 +7,7 @@ class Gig extends Controller{
       drupal_not_found();
       drupal_exit();   
     }
-  
+    $html = '';  
     $url = rawurldecode($_GET['g']);
     $db  = new Muziek_db(); 
     $gig = false; 

@@ -42,8 +42,10 @@ if(!empty($content)){
       echo '<h3 class="city_header nodisplay"><a href="'.$lang_prefix.'muziek/'.$value['City_Id'].'-'.$value['City_Name'].'">'.$value['City_Name'].'</a></h3>'; 
     }
 
-?>                                          
-    <div class="city_gig clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo base64_encode($value['Event_Img']) ?>">
+    $img = preg_match ("/^data/",$value['Event_Img']) ? $value['Event_Img'] : base64_encode($value['Event_Img']);  
+?>
+                                          
+    <div class="city_gig clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>">
       <a class="clearfix" itemprop="url" href="<?php echo $link ?>">
         <div class="first-cell cell">
           <strong class="name" itemprop="name"><?php echo $value['Event_Title']  ?></strong>
