@@ -5,8 +5,10 @@
       <li class="active"><span><?php echo $gig['Title'] ?></span></li>
     </ul>
   </nav>
+<?php
+    $img = preg_match ("/^data/",$gig['Img']) ? $gig['Img'] : base64_encode($gig['Img']); ?>
 	
-  <div class="eventfull clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo base64_encode($gig['Img']) ?>">
+  <div class="eventfull clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>">
 	  <div class="event-container">
     	<a itemprop="url" target="_blank" href="<?php echo $gig['Link'] ?>" class="eventlink nodisplay">
 		  	<span itemprop="name"><?php echo $gig['Title'] ?></span>

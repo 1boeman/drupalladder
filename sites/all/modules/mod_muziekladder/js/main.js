@@ -488,8 +488,7 @@ var hC = Drupal.settings.muziekladder;
           a.target="_blank";
           a.appendChild(img); 
           $ev.prepend(a);
-        }
-
+        } 
         if (href.match(/^data/)){
           img.src = href; 
           imgcreate();
