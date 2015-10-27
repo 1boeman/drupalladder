@@ -34,7 +34,7 @@ class Muziek extends Controller {
       $dt->modify('+ 1 day' );
     }
 
-    if (!$cityno){
+    if (!$cityno && !$day){
       $menucities = Muziek_db::get_cities_by_ids(array(1,8,5,1412801590,1413406572,4,7,15,6,));
       $city_menu = theme('city_menu',array('cities' => $menucities, 'simple_list'=>1 )); 
     }else{

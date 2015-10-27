@@ -1,5 +1,6 @@
 <?php 
-if (isset($simple_list)): ?>
+if (isset($simple_list)): 
+  if (!isset($_GET['pagina'])|| $_GET['pagina']=='0'):?>
   <nav>
     <ul class="nav nav-pills agenda-city-menu">
       <?php foreach ($cities as $city): ?>
@@ -7,7 +8,8 @@ if (isset($simple_list)): ?>
       <?php endforeach; ?>
     </ul>
   </nav> 
-<?php  
+<?php
+  endif;  
 else:
 ?>
 <nav>
