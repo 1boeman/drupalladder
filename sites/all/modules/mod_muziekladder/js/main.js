@@ -54,7 +54,7 @@ var hC = Drupal.settings.muziekladder;
       .on("changeDate", function(event) {
         $textfield.val( $datefield.datepicker('getFormattedDate')); 
       })
-      // dates already set 
+      // dates already set  
       var set_dates =  $.trim($textfield.val());
       if (set_dates.length) {
         var date_objects = []; 
@@ -66,12 +66,13 @@ var hC = Drupal.settings.muziekladder;
         }
         $datefield.datepicker('setDates',date_objects);
       }
-    
-      return {};
     }
-     
-    // workaround for Drupal #states required-functionality only active client-side 
-    $form.submit(function(){
+    
+    $('#edit-submit').click(function(){
+      overlay();
+    }); 
+    // workaround for Drupal #states required-functionality only active client-side
+    $form.submit( function(e){
         var omg = [];
         $('.form-required').each(function(){
            var $form_item =  $(this).parents('.form-item');
@@ -82,11 +83,50 @@ var hC = Drupal.settings.muziekladder;
         })
         if (omg.length){
           alert(omg.join("\n\n"))
+          overlay({close:1});
           return false  
         }
     });
       
-      
+    $('.tip-delete-link').click(function(e){
+      e.preventDefault();
+      var delete_link = this.href; 
+      var $container = $(this).parents('.tip-link-container');
+
+      if (!$container.find('.delete_event_modal').length){
+        var txt,txt1,txt2,txt3;
+        if (Drupal.settings.pathPrefix.match('en')){
+          //english
+          txt = 'Confirm delete';
+          txt1 = 'Are you sure you want to delete this event?';
+          txt2 = 'Cancel';
+          txt3 = 'Yes Delete it!'; 
+        }else{
+          txt = 'Verwijderen bevestigen';
+          txt1 = 'Weet je zeker dat je deze tip wilt verwijderen?';
+          txt2 = 'Nee niet doen';
+          txt3 = 'Ja verwijder nu!'; 
+        }
+        $container.append('<div class="delete_event_modal modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+         ' <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>'+
+         '  <h3 id="myModalLabel">'+txt+'</h3></div>'+
+         '  <div class="modal-body">'+
+         '            <p>'+txt1+'</p>'+
+         '             </div>'+
+         '              <div class="modal-footer">'+
+         '                 <button class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">'+txt2+'</button>'+
+         '                    <button class="btn btn-inverse delete_the_damn_thing">'+txt3+'</button>'+
+         '                     </div>'+
+         '                    </div>');
+        $container.find('.delete_the_damn_thing').click(function(){
+          $.post(delete_link,function(){
+            location.reload();       
+          });   
+        }); 
+      }
+      $container.find('.delete_event_modal').modal({})
+    });
+
     showTipsButton()
     return {}; 
   }; 
@@ -231,9 +271,24 @@ var hC = Drupal.settings.muziekladder;
      crumbTrail.set(location.href);
      externalLinks();
      showTipsButton()
-    
      return handlers;   
   }
+
+  function overlay(options) {
+    if(typeof options === 'undefined') options ={};
+    if (options.close ==1) {
+       $('.el_overlay').fadeOut('fast',
+        function(){
+          $(this).remove(); 
+        }) ;
+       return
+    }
+    var id = 'layer_'+((Math.random()*1000000)+'').replace('.','_');
+    var $layer = $('<div id="'+id+'" class="loading el_overlay" />'); 
+    $layer.css({"height":$(window).height()+'px'}); 
+    $('body').append($layer);
+  }
+
 
   function eventLinksListener(){
     var loading = false; 
@@ -255,7 +310,7 @@ var hC = Drupal.settings.muziekladder;
         showDetailImages($pageContainer); 
       }).fail(function(){
         location.href = that.href; 
-        loading = false; 
+       loading = false; 
       });
     });
   }

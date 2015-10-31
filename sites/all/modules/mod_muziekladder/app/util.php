@@ -114,6 +114,19 @@ class Muziek_util {
     return $node_id; 
   }
 
+  static function deleteTip ($file_name) {
+    if ( !preg_match ('/[0-9\-_a-z:]+/',$file_name ) ){
+      throw new Exception('gig name probe');
+    }
+
+    if( unlink(MUZIEK_USERDATA_DIR.'/'.$file_name) ){
+      return 1;
+    }
+    return 2; 
+  } 
+
+
+
   static function getTip ($file_name) {
     if ( !preg_match ('/[0-9\-_a-z:]+/',$file_name ) ){
       throw new Exception('gig name probe');
@@ -239,6 +252,7 @@ class Muziek_util {
       $uid = '';
       $user_link = '';
       $edit_link = '';
+      $delete_link = ''; 
       $type = $xml->getElementsByTagName('uid');
       if ( $type->item(0) ) {
         $uid = $type->item(0)->nodeValue;
@@ -250,12 +264,14 @@ class Muziek_util {
       // if user is logged in  edit link for their own events
       if ( strlen($uid) && (int)$user->uid && $user->uid == $uid ){
         $edit_link = $lang_url . 'muziekformulier/edit/'.$tip;  
+        $delete_link = $lang_url. 'muziekformulier/delete/'.$tip; 
       }
 
       $proc->setParameter('','user',$user_name);
       $proc->setParameter('','uid',$uid);
       $proc->setParameter('','user_link',$user_link);
       $proc->setParameter('','edit_link',$edit_link);
+      $proc->setParameter('','delete_link',$delete_link);
       $proc->setParameter('','file_name',$tip); 
 
       //labels
@@ -266,6 +282,7 @@ class Muziek_util {
       $proc->setParameter('','lbl_soort',t('Type'));
       $proc->setParameter('','lbl_user',t('Posted by'));
       $proc->setParameter('','lbl_edit',t('Edit'));
+      $proc->setParameter('','lbl_delete',t('Delete'));
 
       $proc->registerPHPFunctions();     
        

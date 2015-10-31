@@ -101,19 +101,6 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
         '#title' => t('Details'),
         '#states' =>$visible_c_f_i
     ); 
-      
-    $form['details']['link'] = array(
-       '#type' => 'textfield',
-       '#title' => t('Link to event or venue'),
-       '#required' => true, 
-       '#attributes' =>array('placeholder' => 'http:// ...... '),
-       '#description' => t('Without a working link we won\'t be able to process this event.'),
-    );
-
-    // presets
-    if (isset($presets['link'])){
-      $form['details']['link']['#default_value'] = $presets['link'];
-    }
  
     $form['details']['title'] = array(
        '#type' => 'textfield',
@@ -133,7 +120,21 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     if (isset($presets['title'])){
       $form['details']['title']['#default_value'] = $presets['title'];
     }
+      
+    $form['details']['link'] = array(
+       '#type' => 'textfield',
+       '#title' => t('Link to event or venue'),
+       '#required' => true, 
+       '#attributes' =>array('placeholder' => 'http:// ...... '),
+       '#description' => t('Without a working link we won\'t be able to process this event.'),
+    );
+
+    // presets
+    if (isset($presets['link'])){
+      $form['details']['link']['#default_value'] = $presets['link'];
+    }
  
+
     $form['venue']['city_select'] = array(
        '#type' => 'select',
        '#title' => t('City'),
@@ -293,9 +294,6 @@ function ajax_mailtipform_cityselect_callback($form,$form_state) {
 
 function mod_muziekladder_mailtipform_validate($form, &$form_state) {
   // Validation logic.
-  if (!preg_match('/http(s)?:\/\/(.)+/i',$form_state['values']['link'])) {
-    form_set_error('link', t('Please fill out a full working url, including the "http://" or "https:// at the beginning"'));
-  }
 }
 
 function mod_muziekladder_mailtipform_submit($form, &$form_state) {

@@ -33,15 +33,27 @@
           </span>
         </xsl:if>
         <xsl:if test="$edit_link != ''">
-          <a class="btn btn-inverse btn-small">
-          <xsl:attribute name="href">
-            <xsl:value-of select="$edit_link" />
-          </xsl:attribute>
-          <span>
-          <i class="icon icon-edit icon-white"></i>
-           &#160; 
-          <xsl:value-of select="$lbl_edit" /></span>
-          </a>
+          <div class="tip-link-container">
+            <a class="btn btn-inverse btn-small tip-edit-link">
+            <xsl:attribute name="href">
+              <xsl:value-of select="$edit_link" />
+            </xsl:attribute>
+            <span>
+            <i class="icon icon-edit icon-white"></i>
+             &#160; 
+            <xsl:value-of select="$lbl_edit" /></span>
+            </a>
+          
+            <a class="btn btn-inverse btn-small tip-delete-link">
+            <xsl:attribute name="href">
+              <xsl:value-of select="$delete_link" />
+            </xsl:attribute>
+            <span>
+            <i class="icon icon-remove icon-white"></i>
+             &#160; 
+            <xsl:value-of select="$lbl_delete" /></span>
+            </a>
+          </div>
         </xsl:if>
 
         <xsl:apply-templates/>
