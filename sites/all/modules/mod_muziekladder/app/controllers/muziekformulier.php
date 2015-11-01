@@ -6,20 +6,34 @@ class Muziekformulier extends Controller {
   }
 
   function index() {
+    global $user; 
     $this->set_head_title(t('Muziekladder recommendation'));
     $this->set_title(t('Recommend stuff to the Muziekladder Calendar'));
-    $form = drupal_get_form('mod_muziekladder_mailtipform');
+    $formfree = drupal_get_form('mod_muziekladder_mailtipform');
+    $form = drupal_get_form('mod_muziekladder_freetextform');
+
     $tips = Muziek_util::showTips();
     
-    return array('render_array'=>array('muziekform'=>$form,
+    $rv = array(
+      'render_array'=>array(
+      'freeform'=> $formfree,
+      'muziekform'=>$form,
       'tips'=> array(
         '#type'=>'markup',
         '#markup'=>$tips,
         '#prefix' => '<div class="printed-tips eventfull clearfix">
                         <h3>'.t('Recent recommendations').':</h3>',
         '#suffix' => '</div>',
-      )
-    )); 
+      ),
+    ));
+    if ($user->uid){
+       $rv['render_array']['#prefix'] = '<ul class="nav nav-tabs" id="formtabs">
+        <li><a href="#tab-1">'.t('Event form').'</a></li>
+        <li><a href="#tab-2">'.t('Free text').'</a></li>
+      </ul>';
+    }
+    
+    return $rv;   
   }
 
   function updatenode() {

@@ -23,7 +23,7 @@ var hC = Drupal.settings.muziekladder;
             e.preventDefault();
             var $this = $(this);
             if ( typeof handlers[$this.data('handler')] === 'function' ){
-                 handlers[$this.data('handler')].apply(this,[e]);
+              handlers[$this.data('handler')].apply(this,[e]);
             }
         });
         var i,bodyClass =  document.body.className.split(/\s+/),
@@ -47,6 +47,7 @@ var hC = Drupal.settings.muziekladder;
     var $datefield = $('#datepicker');
     var $textfield = $('#edit-date');
     if ($datefield.length){
+      //logged in!
       $datefield.datepicker({
         'multidate':true,
         'format':'dd-mm-yyyy'
@@ -66,6 +67,21 @@ var hC = Drupal.settings.muziekladder;
         }
         $datefield.datepicker('setDates',date_objects);
       }
+      // tabs free text or event form
+      var $formtabs = $('#formtabs li');
+      $formtabs.click(function(){
+        $.cookie('muziekformtab',$(this).index());
+        $formtabs.removeClass('active');
+        var a  = $(this).addClass('active').find('a')[0];
+        var ref = a.href.split('#')[1];
+        $('.muziek-tab').addClass('nodisplay');
+        $('.'+ref).removeClass('nodisplay')
+        
+      });
+      // open the correct tab
+      var tabindex = $.cookie('muziekformtab') ? $.cookie('muziekformtab') : 0; 
+      $formtabs.eq(tabindex).trigger('click');
+
     }
     
     $('#edit-submit').click(function(){
