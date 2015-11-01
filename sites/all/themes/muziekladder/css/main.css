@@ -1505,6 +1505,24 @@ font-size: 20px;
 }
 
 /* muziekformulier  */
+.section-muziekformulier div.tab-container{
+  margin-bottom:0px;   
+  background:white;
+  border:4px solid lightsteelblue;
+  border-bottom:0px;
+  padding-top:20px;
+  box-shadow:none;
+}
+
+.legenda1{padding-bottom:10px;}
+.section-muziekformulier div.muziek-tab{
+  margin-top:0px;
+  background:white;
+  border:4px solid lightsteelblue;
+  border-top:0px;
+  box-shadow:none;
+}
+
 .tip-delete-link {
   margin-left:40px;
 }

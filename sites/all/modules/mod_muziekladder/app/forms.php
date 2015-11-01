@@ -280,8 +280,7 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
   
   $form['item'] = array(
         '#type' => 'item',
-        '#markup' => '<p>'. t('Your recommendations will be placed on this page, and after a human check also in the Muziekladder Calendar').'</p>'.
-        '<p>'.t('For general remarks you may also mail (info at muziekladder.nl) or use twitter ').': <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>'
+        '#markup' => ''
     ); 
 
   return $form;

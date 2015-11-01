@@ -6,7 +6,20 @@ class Muziekformulier extends Controller {
   }
 
   function index() {
-    global $user; 
+    global $user;
+    global $language;  
+    if ($language->language == 'nl'){
+      $legend2 =  ' <p>Tips worden op deze pagina geplaatst, en na controle ook aan de Muziekladder agenda toegevoegd.
+ </p><p>Voor algemene opmerkingen of vragen kunt u ons ook mailen (info at muziekladder.nl), of contact opnemen via twitter.: <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p> '; 
+      $legend = '<p><em>Geen zin om het formulier in te vullen? Kies dan voor "vrije tekst".</em></p>';
+      
+    } else {
+      $legend2 = '<p>Your recommendations will be placed on this page, and after a human check also in the Muziekladder Calendar.</p>'.
+      '<p>For general remarks you may also mail (info at muziekladder.nl) or use twitter: <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>';
+      $legend = '<p><em>Don\'t have time to fill out the entire form? Select  "free text"</em> </p>';
+
+    }
+
     $this->set_head_title(t('Muziekladder recommendation'));
     $this->set_title(t('Recommend stuff to the Muziekladder Calendar'));
     $formfree = drupal_get_form('mod_muziekladder_mailtipform');
@@ -26,11 +39,14 @@ class Muziekformulier extends Controller {
         '#suffix' => '</div>',
       ),
     ));
-    if ($user->uid){
-       $rv['render_array']['#prefix'] = '<ul class="nav nav-tabs" id="formtabs">
-        <li><a href="#tab-1">'.t('Event form').'</a></li>
-        <li><a href="#tab-2">'.t('Free text').'</a></li>
-      </ul>';
+    if ($user->uid) {
+       $rv['render_array']['#prefix'] = '<div class="eventfull tab-container">
+        <div class="legenda2">'.$legend2.'</div>
+         <div class="legenda1">'.$legend.'</div>
+      <ul class="nav nav-tabs" id="formtabs">
+          <li><a href="#tab-1">'.t('Event form').'</a></li>
+          <li><a href="#tab-2">'.t('Free text').'</a></li>
+        </ul></div>';
     }
     
     return $rv;   
