@@ -90,7 +90,7 @@ var hC = Drupal.settings.muziekladder;
     // workaround for Drupal #states required-functionality only active client-side
     $form.submit( function(e){
         var omg = [];
-        $('.form-required').each(function(){
+        $form.find('.form-required').each(function(){
            var $form_item =  $(this).parents('.form-item');
            var $field = $form_item.find('input, textarea, select').eq(0);
            if($.trim($field.val()).length < 1){
