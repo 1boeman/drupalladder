@@ -90,16 +90,15 @@ class Muziekformulier extends Controller {
   }
 
   function edit() {
-    global $user;  
-  
-    $file_name = array_pop(explode('/',$_GET['q']));
-
+    global $user; 
+    $get_q =  $_GET['q'];
+    $q = explode('/',$get_q);
+    $file_name = array_pop($q);
     $form = array(
       '#type'=>'markup',
       '#markup'=>'<p>'.t('The event you are trying to edit is not available (anymore)').'</p>',
     );
     $gig = Muziek_util::getTip($file_name);
-
     if(count($gig)){
       //check if its the legitimate owner editing 
       if ( $gig['uid'] !== $user->uid ){

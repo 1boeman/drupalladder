@@ -1505,6 +1505,12 @@ font-size: 20px;
 }
 
 /* muziekformulier  */
+body.page-muziekformulier-edit div.muziek-tab{
+  border-top:4px solid lightsteelblue;
+
+  
+}
+
 .section-muziekformulier div.tab-container{
   margin-bottom:0px;   
   background:white;

@@ -36,6 +36,10 @@ var hC = Drupal.settings.muziekladder;
     });
   });
 
+  pageHandlers['page-muziekformulier-edit'] = function(){
+    $('.tab-1').fadeIn();
+    return {};
+  };
   pageHandlers.muziekformulier = function(){
     var $form = $('#mod-muziekladder-mailtipform'); 
     // not logged in / always
