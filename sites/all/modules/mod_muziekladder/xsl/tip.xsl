@@ -93,9 +93,12 @@
 
   <xsl:template name="concert">
     <h3>
-      <a class="title-link" target="_blank">
+      <a class="title-link">
         <xsl:attribute name="href">
+          <xsl:if test="$node_url = ''"> 
             <xsl:value-of select="./link" />
+          </xsl:if>
+          <xsl:value-of select="$node_url" />
         </xsl:attribute>
         <xsl:value-of select="./title"/>
       </a>
@@ -147,6 +150,16 @@
             <xsl:value-of select="./link"/>
           </a>
         </li>
+        <xsl:if test="$node_url != ''"> 
+        <li>
+          <a class="title-link">
+            <xsl:attribute name="href">
+              <xsl:value-of select="$node_url" />
+            </xsl:attribute>
+            <xsl:value-of select="$node_url" />
+          </a>
+        </li>
+        </xsl:if>
       </ul>
     </div>
     <div class="muziek_cell2">

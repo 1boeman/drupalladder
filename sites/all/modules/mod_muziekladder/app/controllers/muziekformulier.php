@@ -51,12 +51,12 @@ class Muziekformulier extends Controller {
     
     return $rv;   
   }
-
+/*
   function updatenode() {
     $file_name = array_pop(explode('/',$_GET['q']));
     Muziek_util::saveTipNode($file_name);
   }
-
+*/
   function delete() {
     global $user;  
     $file_name = array_pop(explode('/',$_GET['q']));
@@ -73,8 +73,11 @@ class Muziekformulier extends Controller {
         Muziek_util::deny();
       }
       $gig['file_name'] = $file_name;
+      
+ 
+      $nid = isset($gig['node_id']) ? $gig['node_id'] : false; 
 
-      if ( Muziek_util::deleteTip( $file_name ) === 1 ){
+      if ( Muziek_util::deleteTip( $file_name,$nid ) === 1 ){
         $this->set_head_title(t('Muziekladder recommendation'));
         $this->set_title(t('Delete'));
         $rv = array(

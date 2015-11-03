@@ -114,10 +114,12 @@ class Muziek_util {
     return $node_id; 
   }
 
-  static function deleteTip ($file_name) {
+  static function deleteTip ($file_name, $node_id) {
     if ( !preg_match ('/[0-9\-_a-z:]+/',$file_name ) ){
       throw new Exception('gig name probe');
     }
+
+    if ($node_id) node_delete($node_id);
 
     if( unlink(MUZIEK_USERDATA_DIR.'/'.$file_name) ){
       return 1;
@@ -149,7 +151,9 @@ class Muziek_util {
 
     $tips = scandir(MUZIEK_USERDATA_DIR,SCANDIR_SORT_DESCENDING);
     $html = array(); 
-    $db = new Muziek_db;  
+    $db = new Muziek_db; 
+    $options = array('absolute' => TRUE);
+  
     foreach($tips as $tip){
       if ($tip == '.' || $tip == '..' ) continue;
       $xsl = new DOMDocument;
@@ -159,6 +163,9 @@ class Muziek_util {
       $xml = new DOMDocument;
       $xml->load(MUZIEK_USERDATA_DIR.'/'.$tip);
 
+      $node_ids = $xml->getElementsByTagName('node_id');
+      $node_id = $node_ids->item(0)->nodeValue;
+  
       $event_dates = $xml->getElementsByTagName('date');
       $event_date = $event_dates->item(0)->nodeValue;
 
@@ -267,13 +274,19 @@ class Muziek_util {
         $delete_link = $lang_url. 'muziekformulier/delete/'.$tip; 
       }
 
+      $node_url = '';
+      if ($node_id){
+        $node_url = url('node/' . $node_id, $options);
+      }
+
       $proc->setParameter('','user',$user_name);
       $proc->setParameter('','uid',$uid);
       $proc->setParameter('','user_link',$user_link);
       $proc->setParameter('','edit_link',$edit_link);
       $proc->setParameter('','delete_link',$delete_link);
       $proc->setParameter('','file_name',$tip); 
-
+      $proc->setParameter('','node_url',$node_url);
+       
       //labels
       $proc->setParameter('','lbl_postdate',t('Posted on'));
       $proc->setParameter('','lbl_soort',t('Type'));
@@ -283,8 +296,7 @@ class Muziek_util {
       $proc->setParameter('','lbl_user',t('Posted by'));
       $proc->setParameter('','lbl_edit',t('Edit'));
       $proc->setParameter('','lbl_delete',t('Delete'));
-
-      $proc->registerPHPFunctions();     
+      $proc->setParameter('','lbl_comments',t('Comments'));
        
       $doc = $proc->transformToDoc($xml); 
     

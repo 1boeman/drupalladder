@@ -33,7 +33,7 @@
     ?></span>
     </li>
     <li class="dates_in_node">
-      <span><?php echo t('Dates') ?>:</span>
+      <span><?php echo t('Date') ?>:</span>
       <ul>
       <?php foreach( $tip['timestamp_array'] as $key => $value ): ?>
         <li><?php echo t(date('l',$key)) ?> <?php echo date('j',$key) ?> <?php echo t(date('F',$key)).', '.date('Y',$key); ?>
