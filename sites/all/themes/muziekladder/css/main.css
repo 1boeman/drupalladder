@@ -1456,6 +1456,25 @@ font-size: 20px;
 }
 
 /*article pages*/
+.node-type-article .article-container{
+  margin-top:60px;  
+}
+.node-type-article .article-container ul.event_data_in_node{
+  background:#efefef;
+  list-style:inside;
+  padding:12px;
+  border-radius:6px;
+  display:inline-block;
+  margin-left:0px;
+  margin-bottom:20px;
+}
+ul.links.inline{
+  
+margin-top:20px;
+padding-top:20px;
+margin-left:0px;
+}
+
 .node-type-article .node .field-items{
   clear:left;
 }
@@ -1469,6 +1488,7 @@ font-size: 20px;
 
 .node-type-article article p{
   line-height:1.8;
+  margin-bottom:20px;
 }
 
 .articlefull article{

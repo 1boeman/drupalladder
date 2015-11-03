@@ -5,7 +5,7 @@
     <a class="user_link_in_node" data-uid="<?php echo $tip['uid'] ?>"  href="<?php echo Muziek_util::lang_url().'user/'.$tip['uid']  ?>"><?php echo $tip['user_name'] ?></a>
   </div>
   <?php endif; ?>
-  <ul>
+  <ul class="event_data_in_node">
     <li class="event_link_in_node"><a href="<?php echo $tip['link'] ?>" target="_blank"><?php echo $tip['link'] ?></a></li>
     <li class="venue_in_node"><?php 
         if ( $tip['venue_select']){
