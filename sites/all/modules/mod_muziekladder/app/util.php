@@ -164,8 +164,12 @@ class Muziek_util {
       $xml->load(MUZIEK_USERDATA_DIR.'/'.$tip);
 
       $node_ids = $xml->getElementsByTagName('node_id');
-      $node_id = $node_ids->item(0)->nodeValue;
-  
+      if( $node_ids->length ) {
+        $node_id = $node_ids->item(0)->nodeValue;
+      } else {
+        $node_id = false; 
+      }
+       
       $event_dates = $xml->getElementsByTagName('date');
       $event_date = $event_dates->item(0)->nodeValue;
 
