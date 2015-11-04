@@ -1456,6 +1456,10 @@ font-size: 20px;
 }
 
 /*article pages*/
+.node-type-article #main{
+  margin-bottom:180px;
+  
+}
 .node-type-article .article-container{
   margin-top:60px;  
 }
