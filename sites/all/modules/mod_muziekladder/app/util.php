@@ -265,11 +265,13 @@ class Muziek_util {
       $edit_link = '';
       $delete_link = ''; 
       $type = $xml->getElementsByTagName('uid');
-      if ( $type->item(0) ) {
+      if ( $type->length && $type->item(0) ) {
         $uid = $type->item(0)->nodeValue;
         $userobj = user_load($uid);
-        $user_name = $userobj->name;
-        $user_link = $lang_url . 'user/'.$uid; 
+        if ($userobj){
+          $user_name = $userobj->name;
+          $user_link = $lang_url . 'user/'.$uid; 
+        }
       }    
 
       // if user is logged in  edit link for their own events

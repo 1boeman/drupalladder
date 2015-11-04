@@ -24,9 +24,11 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     $selected_value = isset($form_state['input']['city_select']) ? $form_state['input']['city_select'] : false;
      
     // check if a city has been selected in presets - but only if a nocity option ('0' or '00') hasn't been explicly selected
-    if ( !(int)$selected_value && 
-          $form_state['input']['city_select'] !=='0' &&
-            $form_state['input']['city_select'] !=='00' ){
+    if ( !(int)$selected_value &&
+           isset($form_state['input']) &&
+            isset($form_state['input']['city_select']) &&
+              $form_state['input']['city_select'] !=='0' &&
+                $form_state['input']['city_select'] !=='00' ){
       if (isset($presets['city_select']) && $presets['city_select'] ){
         $selected_value = $presets['city_select']; 
       }
