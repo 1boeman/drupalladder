@@ -115,7 +115,7 @@ class Search extends Controller {
           'pagination'=>$pagination));
        
           foreach ($resp['response']['docs'] as $doc ) {
-            $dsc = $doc['content'] ? $doc['content'] : '';
+            $dsc = isset($doc['content']) ? $doc['content'] : '';
             $ts = strtotime($doc['date']);
             $content .= theme('searchresult',array(
                 'searchresult'=>1,
@@ -128,8 +128,8 @@ class Search extends Controller {
                 'location'=>$doc['venue'],
                 'city'=>$doc['city'],
                 'internallink'=> 'id='.$doc['id'].'&datestring='.substr($doc['date'],0, strpos($doc['date'],'T')) .'&g='.rawurlencode($doc['sourcelink']),
-        ),$this->view->result);
-        }
+            ));
+         } 
 
         $content .= theme('searchresult',Array(
           'resultfooter'=>1,
