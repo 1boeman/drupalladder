@@ -217,13 +217,14 @@ var hC = Drupal.settings.muziekladder;
   }
 
   pageHandlers.dagoverzicht = function(){
-    if (Drupal.settings.pathPrefix == 'en/'){
+    if (Drupal.settings.pathPrefix == 'en/') {
       var nexttext = "Next page";
       var prevtext = "Previous page";   
-    }else{
+    } else {
       var nexttext = "Volgende pagina";
       var prevtext = "Vorige pagina";   
     }
+
     var pathprefix = Drupal.settings.basePath+Drupal.settings.pathPrefix;
     var $cga = $('.city_gig_agenda');
     var page = parseInt($cga.data('page'));
@@ -238,7 +239,7 @@ var hC = Drupal.settings.muziekladder;
     }
 
     if (result_count == result_per_page){
-        pagenav.push( '<a class="btn btn-inverse" href="' + pageless_url + '?pagina=' + (page+1) + '">'+nexttext+'  &raquo;</a>' );
+      pagenav.push( '<a class="btn btn-inverse" href="' + pageless_url + '?pagina=' + (page+1) + '">'+nexttext+'  &raquo;</a>' );
     } 
     $('.page-nav-container').append(pagenav.join('&nbsp;&nbsp;&nbsp;'));  
     

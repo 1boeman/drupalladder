@@ -95,7 +95,12 @@ Drupal.behaviors.muziekladder_menu = {
     var $topmenu = $('#navigation');
     var scroll_trigger_height = 20;
     var menu_locked = false; 
-    var scrollTimer = 0; 
+    var scrollTimer = 0;
+    var $dagnav = $('.navigation-dagoverzicht-top');
+    var dagoverzicht = $dagnav.length;
+    var dagnav_trigger_height = 200;
+    var dagnav_locked = false; 
+    
     // attach handler to scroll event  - comment this out to disable fixed menu
     if (screen.width > 500){
       $window.scroll (function(){
@@ -103,19 +108,30 @@ Drupal.behaviors.muziekladder_menu = {
         if (scrollTimer) {
            clearTimeout(scrollTimer);   // clear any previous pending timer
         }
-        scrollTimer = setTimeout(respond_to_scroll, 10);
+        scrollTimer = setTimeout( respond_to_scroll, 10 );
       }); 
-    respond_to_scroll(); 
+      respond_to_scroll(); 
     }
     // Fixes top-menu to top of page on when page scroll reaches scroll_trigger_height 
     function respond_to_scroll(){
       var scrollHeight = $window.scrollTop();
       if ( scrollHeight > scroll_trigger_height && !menu_locked  ) {
-           menu_locked = true;
-           $topmenu.addClass('scrolling'); 
+        menu_locked = true;
+        $topmenu.addClass('scrolling');
       } else if ( scrollHeight < scroll_trigger_height && menu_locked ) {
-           menu_locked = false;
-           $topmenu.removeClass('scrolling');
+        menu_locked = false;
+        $topmenu.removeClass('scrolling');
+      }
+      
+      if (dagoverzicht){
+        // fixes day and city navigation to top on agenda
+        if (scrollHeight > dagnav_trigger_height) {
+          dagnav_locked = true; 
+          $dagnav.addClass('scrolling');
+        } else if (scrollHeight < dagnav_trigger_height) {
+          dagnav_locked = false; 
+          $dagnav.removeClass('scrolling');
+        }
       } 
     }
   }

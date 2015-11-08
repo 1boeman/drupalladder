@@ -761,31 +761,20 @@ footer{
   max-width:60px;
   max-height:60px;
 }
-
-.vex-theme-top {
-  padding-top:40px;
+.navigation-dagoverzicht-top.scrolling{
+  position:fixed;  
+  top:51px;
+  width:100%;
+  margin-left:-100%;
+  padding-left:100%;
+  background:#ccc;
+  opacity:0.9;
+  height:36px;
+  padding-top:6px;
 }
-.vex p.description {
-  font-size:16px;
-  line-height:1.4;
+.scrolling .nav-dag-inner{
+  margin:0 auto;
 }
-.vex .location {
-  font-size:16px;
-}
-.vex.vex-theme-top .vex-content{
- width:90% 
-}
-.vex.vex-theme-top .vex-close:before{
-  font-size:60px;
-  background-color:#333;
-  padding:10px; 
-  padding:10px;
-  top:10px;
-  right:10px;
-  width:auto;
-  height:auto; 
-}
-.vex .breadcrumb{display:none}
 .dagoverzicht h1{
   font-size:28px;
 } 
