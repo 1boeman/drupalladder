@@ -772,6 +772,9 @@ footer{
   height:36px;
   padding-top:6px;
 }
+.nav-dag-outer{
+  min-height:68px;  
+}
 .scrolling .nav-dag-inner{
   margin:0 auto;
 }

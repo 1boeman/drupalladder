@@ -98,7 +98,7 @@ Drupal.behaviors.muziekladder_menu = {
     var scrollTimer = 0;
     var $dagnav = $('.navigation-dagoverzicht-top');
     var dagoverzicht = $dagnav.length;
-    var dagnav_trigger_height = 200;
+    var dagnav_trigger_height = 134;
     var dagnav_locked = false; 
     
     // attach handler to scroll event  - comment this out to disable fixed menu
