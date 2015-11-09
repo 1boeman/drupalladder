@@ -200,8 +200,10 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
         }
       }
     }
+
       // if no city selected or venue unknown selected 
-    if ( $selected_value === '0' || $selected_value === '00' ||  
+    if ( $selected_value === '0' || $selected_value === '00' ||
+        (isset($presets) && isset($presets['venue_freetext'])) ||
         (isset($selected_venue) && strlen($selected_venue) && $selected_venue === '0')){
         $form['venue']['venue_freetext'] = array(
           '#type' => 'textarea',
