@@ -22,18 +22,20 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     
     // check if a city has been selected from the list 
     $selected_value = isset($form_state['input']['city_select']) ? $form_state['input']['city_select'] : false;
-     
-    // check if a city has been selected in presets - but only if a nocity option ('0' or '00') hasn't been explicly selected
+    
+    // check if a city has been selected in presets 
+    // but don't overrule a newly selected city 
+    // - and only if a nocity option ('0' or '00') hasn't been explicly selected
     if ( !(int)$selected_value &&
-           isset($form_state['input']) &&
-            isset($form_state['input']['city_select']) &&
-              $form_state['input']['city_select'] !=='0' &&
-                $form_state['input']['city_select'] !=='00' ){
+           !isset($form_state['input']['city_select']) ||
+              ( isset($form_state['input']) &&
+                isset($form_state['input']['city_select']) &&
+                  $form_state['input']['city_select'] !=='0' &&
+                    $form_state['input']['city_select'] !=='00') ){
       if (isset($presets['city_select']) && $presets['city_select'] ){
         $selected_value = $presets['city_select']; 
       }
     }
-    
     // if we have a selected city - go get the venues
     if ( strlen($selected_value) && (int) $selected_value ) {
       $venues = Muziek_db::get_city_venues($selected_value); 
