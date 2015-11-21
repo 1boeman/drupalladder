@@ -15,11 +15,11 @@
   padding-top:120px;
 }
 #block-locale-language{
-  display:none;  
+  display:none;
 }
 .muziekladder_logo{
   margin-left:2px;
-  float:left; 
+  float:left;
   cursor:pointer;
 }
 .logged-in .user-container{
@@ -31,7 +31,7 @@
 }
 .logged-in .user-container .userOptions{
   background:#666;
-  position:absolute; 
+  position:absolute;
   box-shadow:-1px 1px 9px #111;;
 }
 
@@ -47,9 +47,9 @@
 }
 
 .logged-in .user-container .userOptions li:hover{
-  background:white;  
+  background:white;
 }
-  
+
 .user-container a{
     color:white;
     font-weight:bold;
@@ -60,10 +60,10 @@
   margin-top:6px;
 }
 .scrolling .muziekladder_logo_small img{
-  height:40px; 
+  height:40px;
 }
 .logged-in .muziekladder_logo{
-  display:none;  
+  display:none;
 
 }
 .muziekladder_logo img{
@@ -72,11 +72,11 @@
 }
 .scrolling .muziekladder_logo img{
   margin-top:2px;
-  width:110px;    
+  width:110px;
 }
 
 .muziekladder_logo_small {
- display:none  
+ display:none
 }
 
 .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
@@ -86,8 +86,8 @@
 .autocomplete-group { padding: 2px 5px; }
 .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 
-body { 
-  font-size: 18px;  
+body {
+  font-size: 18px;
   line-height:1.4;
   color:#333;
 }
@@ -96,7 +96,7 @@ a {
 }
 a:hover{
   color:MediumSeaGreen  ;
-  text-decoration:none;  
+  text-decoration:none;
 }
 a:visited {
 }
@@ -105,14 +105,14 @@ label{font-size:16px}
 .front-search h1.page__title, h1{
   color:#dfdfdf;
   text-align:left;
-  margin-bottom:0.4em 
+  margin-bottom:0.4em
 }
 .front-search h1.page__title{
   padding-left:12px;
 }
 h1.page__title,
 h1{
-  font: 34px/36px 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
+  font: 34px/36px 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif;
   margin-bottom:1em;
   margin-top:10px;
   color:#333;
@@ -121,8 +121,8 @@ h2{
   font-size:28px;
 }
 h2,h3 {
-   font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
-  font-weight:normal  
+   font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif;
+  font-weight:normal
 }
 blockquote {
   font-size: 16px;
@@ -144,9 +144,9 @@ blockquote:before {
 }
 .waiting{
 	height:20px;
-    background-image:url('../img/ajax-loader.gif'); 
-    background-position:center center; 
-    background-repeat:no-repeat; 
+    background-image:url('../img/ajax-loader.gif');
+    background-position:center center;
+    background-repeat:no-repeat;
 }
 
 #content article li{
@@ -154,18 +154,18 @@ blockquote:before {
 }
 
 .el_overlay{
-  position:fixed; 
+  position:fixed;
   top:0px;
   left:0px;
   width:100%;
   height:100%;
   background:white;
-  opacity:0.9 
+  opacity:0.9
 }
 .loading{
-  background-image:url('../img/ajax-loader.gif'); 
-    background-position:center center; 
-    background-repeat:no-repeat; 
+  background-image:url('../img/ajax-loader.gif');
+    background-position:center center;
+    background-repeat:no-repeat;
 
 }
 
@@ -186,7 +186,7 @@ blockquote:before {
 #block-user-login {
   display:none;
   width:300px;
- 
+
   margin-left:-200px;
   padding:20px 40px 0px 40px;
   background:white;
@@ -196,10 +196,10 @@ blockquote:before {
   left:50%;
 
 }
-#block-user-login .close_button:hover{  
-  opacity:1; 
+#block-user-login .close_button:hover{
+  opacity:1;
 }
-#block-user-login .close_button{  
+#block-user-login .close_button{
   opacity:0.5;
   position:absolute;
   top:12px;
@@ -220,7 +220,7 @@ blockquote:before {
 
 
 /* front */
- 
+
 .muziekladder_logo_small {
     float:left;
 }
@@ -230,17 +230,17 @@ blockquote:before {
 }
 
 ul.front-city-menu, .front-city-menu ul{
-  margin-left:0px;  
+  margin-left:0px;
 }
 ul.front-city-menu  li{
   list-style:none  ;
 }
 .front .city-links a{
-  font-weight:bold  
-  
+  font-weight:bold
+
 }
 .front-city-menu img{
-  margin-bottom:4px;  
+  margin-bottom:4px;
   width:80%;
 }
 
@@ -254,7 +254,7 @@ ul.front-city-menu  li{
   height:110px;
   margin:0 auto;
   margin-bottom:6px;
-  line-height:1.5;  
+  line-height:1.5;
   text-align:center;
   background-image:url('../city_images/bigpicture.jpg');
   background-repeat:no-repeat;
@@ -263,47 +263,47 @@ ul.front-city-menu  li{
   clear:both}
 
 .front-city-menu .city-4 .city-name{
-  background-position:0px -10px; 
+  background-position:0px -10px;
 }
 
 .front-city-menu .city-5 .city-name{
-  background-position:0px -170px; 
+  background-position:0px -170px;
 }
 .front-city-menu .city-7 .city-name{
-  background-position:0px -550px; 
+  background-position:0px -550px;
 }
 .front-city-menu .city-6 .city-name{
-  background-position:0px -370px; 
+  background-position:0px -370px;
 }
 .front-city-menu .city-1413406572 .city-name{
-  background-position:0px -1150px; 
+  background-position:0px -1150px;
 }
 
 .front-city-menu .city-8 .city-name{
-  background-position:0px -690px; 
+  background-position:0px -690px;
 }
 
 .front-city-menu .city-15 .city-name{
-  background-position:0px -816px; 
+  background-position:0px -816px;
 }
 
 .front-city-menu .city-1 .city-name{
-  background-position:0px -1274px; 
+  background-position:0px -1274px;
 }
 .front-city-menu .city-1439757759 .city-name{
-  background-position:0px -1460px; 
+  background-position:0px -1460px;
 }
 
 .front-city-menu .city-100 .city-name{
-  background-position:0px -1790px; 
+  background-position:0px -1790px;
 }
 
 .front-city-menu .city-17 .city-name{
-  background-position:0px -1620px; 
+  background-position:0px -1620px;
 }
 
 .front-city-menu .city-1412801590 .city-name{
-  background-position:0px -990px; 
+  background-position:0px -990px;
 }
 
 .front-city-menu li.city{
@@ -312,26 +312,26 @@ ul.front-city-menu  li{
   display:block;
   height:190px;
   position:relative;
-  text-align:center; 
-  width:50%; 
+  text-align:center;
+  width:50%;
 }
 
 .front .city_gig_agenda h1{
-  display:none  
+  display:none
 }
 
-.city_gig_agenda .human-date { 
+.city_gig_agenda .human-date {
   font-size:20px;
-  font-weight:normal; 
+  font-weight:normal;
   color:white;
   background:#333;
   padding:0px 30px;
   margin:24px 0px 0px -10px;
-  font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif; 
+  font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif;
   font-weight:normal;
 }
 .front #main{
-  padding-left:8px;  
+  padding-left:8px;
 }
 .front #content {
   float:left;
@@ -347,15 +347,15 @@ padding-bottom:40px;
 .front .description{
   display:none
 }
-.front .sidebar-city, 
-.front .region-sidebar-first, 
+.front .sidebar-city,
+.front .region-sidebar-first,
 .front .region-sidebar-second{
   padding-left:16px;
-  padding-right:0px;  
+  padding-right:0px;
 }
 .front ul.city_agendas {
   margin:0px
-} 
+}
 .front ul.city_agendas li {
   list-style:none;
   display:block;
@@ -363,15 +363,15 @@ padding-bottom:40px;
   font-weight:bold;
   margin:2px;
   border-left: 12px solid LightSteelBlue;
-  border-top: 2px solid lightsteelblue; 
+  border-top: 2px solid lightsteelblue;
 }
 .front ul.city_agendas li a {
   display:block;
-} 
+}
 
 .front ul.city_agendas li:hover {
   background:AliceBlue
-} 
+}
 
 .front .sidebar .description{
   display:none
@@ -379,7 +379,7 @@ padding-bottom:40px;
 
 .front #content > article {
   padding-bottom:20px;
-  
+
   border-bottom:4px dotted steelblue;
   margin-bottom:40px;
 
@@ -406,11 +406,11 @@ padding-bottom:40px;
 }
 
 .front #content article.processed header{
- 
+
 }
 
 
-.front #content article.processed header h2 button{ 
+.front #content article.processed header h2 button{
   margin-left:16px;
 }
 
@@ -422,9 +422,9 @@ padding-bottom:40px;
   width:100% !important;
   bottom:0px  !important;
 }
-.front #content article.current{ 
+.front #content article.current{
   opacity:1
-} 
+}
 
 .front #content article img{
 }
@@ -450,28 +450,28 @@ padding-bottom:40px;
 
 .front .startDate{display:none}
 .front .event{
-	padding:10px 0px; 
-	
+	padding:10px 0px;
+
 }
 .front .locationmenu{
-  display:none  
+  display:none
 }
 .front .locationmenu{
-  display:none  
+  display:none
 }
 .front .locationUnit {
  box-shadow:none;
- border-top:1px solid lightsteelblue; 
+ border-top:1px solid lightsteelblue;
  margin-bottom:0px;
  padding:4px 0px;
 }
 .front .locationUnit .locationName{
-  display:none; 
+  display:none;
 }
 .front .eventContainerInner .title{
 }
 .front .naar-agenda-link{
-  float:right;  
+  float:right;
 }
 
 .front #agenda{
@@ -481,39 +481,39 @@ padding-bottom:40px;
 .front .eventContainerInner .description{
   display:none;
 }
-.front .pager{display:none} 
+.front .pager{display:none}
 .front .node-teaser{}
 .front-search{
   text-align:center;
   background:black;
   padding:10px 0px;
   margin: 40px auto 60px auto;
-  box-shadow:0px 0px 40px #666; 
+  box-shadow:0px 0px 40px #666;
   border-radius:6px;
   width:80%
 }
 .front-search form {
-  margin-bottom:0px; 
+  margin-bottom:0px;
 }
 .front-search button{
   margin-left:1%;
-  width:15%    
+  width:15%
 }
 #front-search-input{
   font-size:27px;
   height:auto;
   line-height:1.2;
   width:80%;
-  margin-bottom:0px 
+  margin-bottom:0px
 }
 
 .bg-image-container{
-  position:absolute; 
+  position:absolute;
   top:0px;
   left:0px;
-  margin-top:4px; 
+  margin-top:4px;
   height:800px;
-  width:100%; 
+  width:100%;
 }
 .bg-image{
   position:absolute;
@@ -526,17 +526,17 @@ padding-bottom:40px;
   padding:0px 10px;
 }
 .node .submitted{
-  font-style: italic; 
-  
+  font-style: italic;
+
   margin-bottom:0px;
 }
 .node .field-items{
-clear:both;  
-} 
+clear:both;
+}
 
 .block-mod-muziekladder .event{
   background-color:white;
-  border-radius:4px; 
+  border-radius:4px;
   padding:0.5em 1em;
   margin-bottom:1em;
   box-shadow: 0px 0px 8px #aaa;
@@ -557,20 +557,68 @@ border-radius: 4px;
 
 .controls{
   margin-bottom:40px;
-  visibility:hidden; 
+  visibility:hidden;
 }
 .controls .monthselect{width:110px; }
 .controls .dayselect{width:180px;}
 .dateselectContainer{display:none}
 
+
+/* Tips archief */
+.event_data_in_node li{
+  list-style-position: inside;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.event_data_in_node li:nth-child(odd){
+  background: #efefef;
+}
+.page-archief  .naar-tips-link{
+  float:right;
+}
+.page-archief h2{
+margin-bottom: 20px;
+
+}
+.page-archief ul.links {
+  float:left;
+  clear:both;
+}
+.page-archief .field-type-text-with-summary{
+  float:left;
+}
+.page-archief .field-type-image{
+  float:right;
+}
+.page-archief .views-row{
+  border-bottom:4px dotted #efefef;
+  padding-bottom: 12px;
+  margin-bottom: 60px;
+
+}
+.page-archief .views-summary{
+
+}
+
+.page-archief .views-summary li{
+  padding:6px 12px;
+}
+.page-archief .views-summary li:hover {
+  background-color:white;
+
+}
+
+.page-archief .views-summary li:nth-child(odd){
+  background:#dfdfdf;
+}
 /* user page */
-.page-user .form-item-hybridauth{ 
+.page-user .form-item-hybridauth{
     display:none;
-    
-  
+
 }
 /* top navigation */
-.selectContainer select{margin-top:5px; 
+.selectContainer select{margin-top:5px;
   margin-left:20px; margin-bottom:0px; float:left
 }
 .form-search-container{
@@ -585,7 +633,7 @@ border-radius: 4px;
 .scrolling .form-search-container{
   height:40px;
   padding-top:10px;
-  
+
 }
 .form-search-container form{
     margin-bottom:10px;
@@ -598,9 +646,9 @@ border-radius: 4px;
   background:white;
 }
 
-.brand{ 
+.brand{
   display:block;
-  margin:0 auto; 
+  margin:0 auto;
   max-width:1200px;
 }
 #page {
@@ -614,12 +662,12 @@ border-radius: 4px;
   left:0px;
   z-index:4;
   border-bottom:1px solid #666;
-  
+
 }
 #navigation.scrolling{
   height:50px;
   opacity:0.9;
-} 
+}
 #navigation .block{
   vertical-align:bottom;
 }
@@ -627,19 +675,19 @@ border-radius: 4px;
 /* top menu */
 #block-system-main-menu{
  position:relative;
- float:right; 
+ float:right;
 }
 #block-system-main-menu .menu li.header_user_link{
-  
+
 
 }
- 
+
 .user-container{
 }
 
 #block-system-main-menu .menu li{
  text-align:center;
- min-width:70px; 
+ min-width:70px;
  height:55px;
  display:block;
  overflow:hidden;
@@ -663,11 +711,11 @@ border-radius: 4px;
 #block-system-main-menu .menu li:first-of-type{
  border-left:1px solid #fff
 
-} 
+}
 #block-system-main-menu .menu li.hover{
  background-color:#555;
  text-shadow: 0px 0px 6px #000;
- box-shadow:none; 
+ box-shadow:none;
 
 }
 
@@ -707,7 +755,7 @@ border-radius: 4px;
   font-weight:bold;
   color:whitesmoke;
   text-decoration:none;
-  white-space:nowrap; 
+  white-space:nowrap;
   display:block
 }
 
@@ -716,9 +764,9 @@ border-radius: 4px;
 }
 .brand a.logo em{
   padding-left:8px;
-  font-family: Georgia, "Times New Roman", Times, serif; 
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-size:16px; font-weight:normal; white-space:nowrap;
-  color:#ABD3E8;  
+  color:#ABD3E8;
 }
 .brand a.navi.selected:hover,
 .brand a.navi.selected{
@@ -728,7 +776,7 @@ border-radius: 4px;
 }
 
 .locationmenu ul li{
-  overflow:hidden;  
+  overflow:hidden;
 }
 
 
@@ -746,13 +794,13 @@ footer{
 /* day display */
 
 .agenda-city-menu>li>a {
-  background:AliceBlue;      
+  background:AliceBlue;
 }
 
 .agenda-city-menu>li {
   margin-right:20px;
 }
-  
+
 .image-cell{
   float:left;
   margin:0px 10px;
@@ -762,7 +810,7 @@ footer{
   max-height:60px;
 }
 .navigation-dagoverzicht-top.scrolling{
-  position:fixed;  
+  position:fixed;
   top:51px;
   width:100%;
   margin-left:-100%;
@@ -773,14 +821,14 @@ footer{
   padding-top:6px;
 }
 .nav-dag-outer{
-  min-height:68px;  
+  min-height:68px;
 }
 .scrolling .nav-dag-inner{
   margin:0 auto;
 }
 .dagoverzicht h1{
   font-size:28px;
-} 
+}
 .dagoverzicht h2.pagina{
   font-size:20px;
   color:SlateGray;
@@ -788,17 +836,17 @@ footer{
   margin:0px;
 }
 .city_gig_agenda .navigation span.label-el{
-  display:block; 
+  display:block;
   float:left;
   margin-right:10px;
   font-weight:bold;
 }
- 
+
 .city_gig_agenda .navigation nav{
   float:left;
   margin-bottom:10px;
   margin-right:20px;
-} 
+}
 .dagoverzicht .page-nav-container{
   min-height:1.5em;
 }
@@ -809,7 +857,7 @@ footer{
   padding-top:2em;
   padding-bottom:2em;
 
-} 
+}
 .dagoverzicht .city_header:hover a{
   text-decoration:underline;
   color:MediumSeaGreen;
@@ -831,7 +879,7 @@ footer{
 }
 .city_gig .city{
   padding-left:8px;
-} 
+}
 
 .city_gig .date{
   font-style:italic;
@@ -844,35 +892,35 @@ footer{
 }
 .city_gig .first-cell{
   color:#333
-} 
+}
 .city_gig .first-cell:hover{
   color: green
-} 
- 
+}
+
 
 .city_gig .name{
   padding-left:8px;
   display:block
-} 
+}
 .city_gig{
   border-left:12px solid LightSteelBlue;
   border-top:2px solid lightsteelblue;
   background:white;
-} 
+}
 .city_gig .date{
   float:right;
-} 
-                           
+}
+
 .city_gig:hover {
   background:aliceblue
-} 
+}
 .city_gig.opened .cell{
   display:none
 
 }
 .city_gig .loading {
-  background-image:url('../img/ajax-loader.gif'); 
-  background-position:40px 18px; 
+  background-image:url('../img/ajax-loader.gif');
+  background-position:40px 18px;
   background-repeat:no-repeat;
   display:block;
   clear:all;
@@ -885,7 +933,7 @@ footer{
 .city_gig .page-gig{
   margin-left:-12px;
   margin-top:-4px;
-  background-color:white; 
+  background-color:white;
 
 }
 .dagoverzicht .breadcrumb{
@@ -911,18 +959,18 @@ html body.doneloading .container{
   cursor:pointer;
 }
 .city-select label.checked span{
-font-weight:bold; 
-color:Maroon  
+font-weight:bold;
+color:Maroon
 
 }
 .dagoverzicht .container h1{
   color:SteelBlue;
   margin-bottom:1em;
 
-  letter-spacing: 0;  
+  letter-spacing: 0;
 }
 .dagoverzicht .checkbox{
-  font-size:12px;  
+  font-size:12px;
 }
 
 .agenda-date-selecter{
@@ -948,17 +996,17 @@ color:Maroon
 }
 
 .locationUnit{
-  margin-bottom:10px; 
-  box-shadow: 0px 0px 30px #999; 
+  margin-bottom:10px;
+  box-shadow: 0px 0px 30px #999;
 }
 .locationUnit h4{
   font-size:16px;
-  padding:0px; 
+  padding:0px;
   margin:0px
 }
 .eventContainerInner .title{
-  float:left; 
-  width:69%; 
+  float:left;
+  width:69%;
   padding-right:1%
 }
 .eventContainerInner .description{
@@ -974,7 +1022,7 @@ color:Maroon
     font-size:0.9em;
 }
 .eventContainerInner .time-space p{
-   margin-bottom:0px    
+   margin-bottom:0px
 }
 
 .locationUnit h2{
@@ -1018,7 +1066,7 @@ color:Maroon
 
 
 .dagoverzicht .locationEvents{
-    
+
 }
 .dagoverzicht .event{
   background:#fff;
@@ -1031,46 +1079,46 @@ color:Maroon
 .event .addthisicon{
   float:right; cursor:pointer;
   margin-left:10px;
-  
+
 }
-.dagoverzicht .detail .eventfull .date{ 
+.dagoverzicht .detail .eventfull .date{
   float:none;
 }
-.dagoverzicht .eventfull .eventImg img { 
+.dagoverzicht .eventfull .eventImg img {
   float:right;
-  margin:0px; 
+  margin:0px;
 }
-.dagoverzicht .eventImg img{ 
+.dagoverzicht .eventImg img{
   float:left;
   margin:0px 12px 8px 0px;
 }
 
 /* locatie pagina's */
 .enlarged .blowup_map_button .grow{
-  display:none  
+  display:none
 }
  .blowup_map_button .shrink{
    display:none;
 }
 .enlarged .blowup_map_button .shrink{
   display:block;
-  
+
 }
 .blowup_map_button{
-  position:absolute; 
+  position:absolute;
   top:-32px;
-  left:0px; 
+  left:0px;
   height:20px;
   cursor:pointer
-} 
+}
 
 
 .locationPage .node-locatiespagina .field-name-body{
-  display:none;  
+  display:none;
 }
 
 .page-uitgaan .node-container{
-  display:none  
+  display:none
 }
 
 .page-uitgaan .node-container.active{
@@ -1078,7 +1126,7 @@ color:Maroon
 
 }
 .page-uitgaan .venue_tipformContainer{
-  display:none  
+  display:none
 }
 
 #city_autocomplete{
@@ -1087,7 +1135,7 @@ color:Maroon
   height:auto;
 }
 .maps_infowindowcontent{
-  width:300px;  
+  width:300px;
 }
 
 .maps_infowindowcontent .desc{
@@ -1098,7 +1146,7 @@ color:Maroon
 
 .locaties .maps_infowindowcontent .adres{
   display:block;
-} 
+}
 
 .map-placeholder img{
   max-width:none;
@@ -1129,7 +1177,7 @@ ul.locaties-lijst p{
   padding-left:0px;
 }
 .locatiebeschrijving {
-  
+
   padding-left:14px;
   margin-bottom:10px;
   border:0px;
@@ -1140,41 +1188,41 @@ ul.locaties-lijst p{
 }
 .locatiebeschrijving:hover p{
   background:LightYellow;
-  cursor:pointer  
+  cursor:pointer
 }
 .locatiebeschrijving:hover h4{
   background:black;
-  cursor:pointer  
+  cursor:pointer
 }
 .locatiebeschrijving:hover h4 a{
   color:white
 }
- 
+
 .locatiebeschrijving .desc{
-  
-} 
+
+}
 .city-container h1 {
   border-bottom:2px dotted #ccc
 }
 .map-placeholder{
-    width:100%;    
+    width:100%;
     box-shadow:0px 0px 10px white;
-    background-image:url('../img/ajax-loader.gif'); 
-    background-position:center center; 
+    background-image:url('../img/ajax-loader.gif');
+    background-position:center center;
     background-repeat:no-repeat;
     min-height:250px;
     background:#efefef;
     position:relative;
-    margin-top:40px; 
+    margin-top:40px;
 }
 .locationPage
 .map-placeholder{
   margin-bottom:40px;
 }
 .uitgaan-root .map-placeholder{
- margin-bottom:80px; 
+ margin-bottom:80px;
  width:50%;
- float:left; 
+ float:left;
  margin-top:24px;
 }
 
@@ -1183,7 +1231,7 @@ ul.locaties-lijst p{
   margin-top:24px;
   padding-bottom:12px;
   background:white;
-  width:50%; 
+  width:50%;
   float:left;
 }
 
@@ -1196,17 +1244,17 @@ ul.steden {
 
 ul.steden li:nth-child(2n){background:#efefef; border-radius:4px; }
 ul.steden li{
- list-style:inside; 
+ list-style:inside;
 }
 ul.steden li:hover {
-    background:white;  
+    background:white;
 }
-  
+
 /*gig / event pagina's */
 
 p.url_only{
- background:white;  
-  padding-bottom: 20px; 
+ background:white;
+  padding-bottom: 20px;
   padding-top:20px;
   border-top:8px dotted #cecece;
   border-bottom:8px dotted #cecece;
@@ -1215,7 +1263,7 @@ p.url_only{
 
 .dagoverzicht .detail h1{
   font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:bold;  
+  font-weight:bold;
 }
 
 .detail h2{
@@ -1223,10 +1271,10 @@ p.url_only{
 }
 
 .detail h3 strong{
-  font-weight:normal  
+  font-weight:normal
 }
 .section-gig .addthisicon{
-  float:right; 
+  float:right;
 }
 .detail .location{
   background:#efefef;
@@ -1244,32 +1292,32 @@ p.url_only{
   border-left:10px solid LightSteelBlue;
   border-top:5px solid LightSteelBlue;
   padding-bottom:20px;
-  padding-left:8px; 
-   
+  padding-left:8px;
+
 }
 
-.detail .eventImg{ 
+.detail .eventImg{
   float:right; margin:20px; margin-top:10px; margin-right:0px;
   box-shadow:-2px 1px 8px #999;
   max-width:30%;
 }
 .detail .eventfull a.addthisicon{
   display:block;
-  margin-bottom:1em; 
+  margin-bottom:1em;
 }
 
 
 /* locationpages   */
 .page-uitgaan{
-  margin-bottom:10px; 
+  margin-bottom:10px;
 }
 .aux-block .venue_link{
- padding-top:22px; 
+ padding-top:22px;
 }
 .aux-block{
-  padding-top:20px; 
-  border-top:2px dotted #999; 
-  margin-bottom:40px; 
+  padding-top:20px;
+  border-top:2px dotted #999;
+  margin-bottom:40px;
 }
 .locationPage .location{
   font-size: 16px;
@@ -1280,8 +1328,8 @@ p.url_only{
 
 }
 .locationPage #content{
-  background:white;  
-} 
+  background:white;
+}
 .locationPage .location-title{
   display:none
 }
@@ -1294,7 +1342,7 @@ p.url_only{
   display:inline-block;
 
 }
- 
+
 .locationPage .event{
   padding:14px 0px;
   cursor:pointer;
@@ -1342,11 +1390,11 @@ p.url_only{
 .after_content h2{
 font-family: 'PatuaOneRegular', Georgia, "Times New Roman", Times, serif;
 font-weight: normal;
-font-size: 26px;    
+font-size: 26px;
 line-height:1.2
 }
 .after_content h3{
-font-size: 20px;    
+font-size: 20px;
 
 }
 
@@ -1358,13 +1406,13 @@ font-size: 20px;
 .after_content .page_section {
     width:33%;
     float:left;
-    overflow:hidden;    
+    overflow:hidden;
 }
 .after_content .page_section .joriso-news-block {
     padding:16px;
     margin-left:10px;
     margin-bottom:14px;
-    background:white; 
+    background:white;
     border-radius:4px;
     overflow:hidden;
     box-shadow:1px 1px 10px #ccc
@@ -1389,7 +1437,7 @@ font-size: 20px;
   -o-transition: 0.2s  all;
   transition: 0.2s  all;
   cursor:pointer;
-  font-weight:bold; 
+  font-weight:bold;
 }
 .citymenu .selected,
 .citymenu .span2:hover{
@@ -1403,10 +1451,10 @@ font-size: 20px;
   color:#005580;
   line-height:3;
   text-decoration:none
-} 
+}
 
 .after_content {
-    clear:both;   
+    clear:both;
 }
 #frontTabs {
     border-bottom:1px solid #ccc;
@@ -1417,9 +1465,9 @@ font-size: 20px;
     margin-bottom:0px;
     padding-bottom:0px
 }
-#frontTabs li:hover, 
+#frontTabs li:hover,
 #frontTabs li.active {
-    opacity:1;   
+    opacity:1;
     background:white;
 }
 #frontTabs li.active:hover {
@@ -1432,12 +1480,12 @@ font-size: 20px;
 
 #frontTabs li {
     font-weight:bold;
-    cursor:pointer; 
+    cursor:pointer;
     list-style:none;
     display:inline-block;
-    background:white; 
+    background:white;
     padding:12px 20px;
-    opacity:0.8; 
+    opacity:0.8;
     background:#dfdfdf;
     border:1px solid #ccc;
     border-bottom:0px;
@@ -1450,10 +1498,10 @@ font-size: 20px;
 /*article pages*/
 .node-type-article #main{
   margin-bottom:180px;
-  
+
 }
 .node-type-article .article-container{
-  margin-top:60px;  
+  margin-top:60px;
 }
 .node-type-article .article-container ul.event_data_in_node{
   background:#efefef;
@@ -1464,7 +1512,7 @@ font-size: 20px;
   margin-bottom:20px;
 }
 ul.links.inline{
-  
+
 margin-top:20px;
 padding-top:20px;
 margin-left:0px;
@@ -1475,7 +1523,7 @@ margin-left:0px;
 }
 .node-type-article .field-type-image{
   float:right;
-} 
+}
 .user_in_node{
   float:right;
   clear:both
@@ -1502,32 +1550,32 @@ margin-left:0px;
 }
 
 .section-nieuws .article-container{
-  background:white; 
-  padding:0.5em 1em; 
+  background:white;
+  padding:0.5em 1em;
   border-radius:4px;
   box-shadow:0px 0px 4px #aaa;
-} 
+}
 .node-teaser .submitted,
 .section-nieuws .submitted{
   float:right;
-  font-size:x-small; 
+  font-size:x-small;
   padding:4px 6px;
 }
 
 /* zoekpagina   */
 .zoekpagina .advanced-search-options{
-  margin-top:12px;          
+  margin-top:12px;
 }
 
 /* muziekformulier  */
 body.page-muziekformulier-edit div.muziek-tab{
   border-top:4px solid lightsteelblue;
 
-  
+
 }
 
 .section-muziekformulier div.tab-container{
-  margin-bottom:0px;   
+  margin-bottom:0px;
   background:white;
   border:4px solid lightsteelblue;
   border-bottom:0px;
@@ -1548,16 +1596,16 @@ body.page-muziekformulier-edit div.muziek-tab{
   margin-left:40px;
 }
 .datepicker td {
-  font-size:16px; 
-  padding:20px 30px; 
+  font-size:16px;
+  padding:20px 30px;
 }
 
 .form-item-date input{
-  width:90%  
+  width:90%
 }
 
 .datepicker-inline{
-  width:80%;  
+  width:80%;
 }
 .datepicker {
   padding:10px 20px;
@@ -1567,10 +1615,10 @@ body.page-muziekformulier-edit div.muziek-tab{
 }
 .btn .form-item{
   margin:12px;
-  font-size:16px;  
+  font-size:16px;
 }
 a.aanraadloginlink{
-   color:white 
+   color:white
 }
 .section-muziekformulier .eventfull{
   margin-top:30px;
@@ -1579,14 +1627,14 @@ a.aanraadloginlink{
   box-shadow:0px 0px 20px #999;
 }
 span.submitted{
-  float:right;  
+  float:right;
   font-size:12px;
   font-style:italic;
 }
 a.tip-button{
 	float:right;
-	background:#f5f5f5; 
-	border-radius:6px; 
+	background:#f5f5f5;
+	border-radius:6px;
 	padding:6px;
   margin-top:6px;
   margin-right:8px;
@@ -1598,18 +1646,18 @@ a.tip-button{
 .form-item-venue-freetext input,
 body.page-muziekformulier select {
     width:80%;
-} 
+}
 body.page-muziekformulier .form-item-location,
 body.page-muziekformulier .form-item-link,
 body.page-muziekformulier .form-item-city
 {
-    
+
 }
 body.page-muziekformulier .form-item-title input,
 body.page-muziekformulier .form-item-location input,
 body.page-muziekformulier .form-item-link input,
 body.page-muziekformulier .form-item-city input{
-    width:80%;     
+    width:80%;
 }
 
 body.page-muziekformulier .form-item-date select,
@@ -1617,7 +1665,7 @@ body.page-muziekformulier .form-item-date-until select {
     width:80px;
 }
 form .description{
-   font-style:italic; 
+   font-style:italic;
 }
 body.page-muziekformulier form {
 
@@ -1633,13 +1681,13 @@ body.page-muziekformulier form {
 
 .comments h2{
   padding: 10px 0px;
-  margin:0px;    
-  border-top:2px dotted #999; 
+  margin:0px;
+  border-top:2px dotted #999;
 }
 
 .locatie-half-inner h2{
   padding:10px 0px;
- margin:0px;    
+ margin:0px;
 
 }
 
@@ -1650,11 +1698,11 @@ body.page-muziekformulier form {
   display:block;
 }
 .diverse-locaties .locatie-half{
-  width:100%;   
-   
+  width:100%;
+
 }
 .locatie-half {
-  float:left; 
+  float:left;
   width:50%;
 }
 #kolovoz .locatie-half-inner {
@@ -1662,20 +1710,20 @@ body.page-muziekformulier form {
 }
 
 .review-node-container .locatie-half-inner {
-  padding-left:30px;  
+  padding-left:30px;
   border-left:1px solid #999;
-  
+
 }
 .page-uitgaan .city-container #agenda {
    min-height:200px;
-   background-image:url('../img/ajax-loader.gif'); 
-   background-position:center center; 
+   background-image:url('../img/ajax-loader.gif');
+   background-position:center center;
    background-repeat:no-repeat;
 }
 .page-uitgaan .club-container {
   background:white;
   padding:10px 0px;
-} 
+}
 .page-uitgaan .club-container .breadcrumb{
   display:none
 }
@@ -1683,18 +1731,18 @@ body.page-muziekformulier form {
   padding:10px 0px;
   border-top:2px solid white;
   border-bottom:2px dotted #ccc;
-  margin:10px 0px;  
+  margin:10px 0px;
 }
 .page-uitgaan .club-container .event{
-  border-top:2px dotted #ccc; 
-  padding:10px 10px 10px 0px; 
-} 
+  border-top:2px dotted #ccc;
+  padding:10px 10px 10px 0px;
+}
 .page-uitgaan .club-container .event .icon-stop{
  display:none;
 }
 
 .user-input{
-  border-bottom:2px dotted #333; 
+  border-bottom:2px dotted #333;
 }
 .user-input h3{
 
@@ -1714,26 +1762,26 @@ body.page-muziekformulier form {
   float:left;
 }
 .user-input-inner .muziek_cell3{
-clear: both; 
+clear: both;
 }
 
 /* media queries*/
 /* Large desktop */
 @media (min-width: 1200px) { }
- 
+
 /* Portrait tablet to landscape and desktop */
-@media (max-width: 979px) {    
+@media (max-width: 979px) {
   .front-city-menu li.city{
     width:48%;
     margin-left:1%;
     margin-right:1%;
     overflow:hidden;
     height:160px;
-    font-size:0.9em; 
+    font-size:0.9em;
   }
 
   .muziekladder_logo img{
-    width:120px;  
+    width:120px;
   }
   #block-system-main-menu .menu li,
   .scrolling #block-system-main-menu .menu li{
@@ -1745,7 +1793,7 @@ clear: both;
  .page-uitgaan .map-placeholder{
       float:none;
       width:auto;
-        
+
   }
  .page-uitgaan .stedencontainer{margin-bottom:8px;
       width:auto;
@@ -1753,7 +1801,7 @@ clear: both;
   }
 }
 
-   
+
 /* Landscape phone to portrait tablet */
 @media (max-width:769px) {
 .front article h2{
@@ -1762,24 +1810,24 @@ clear: both;
 }
 
 #content article li{
- font-size:12px; 
-  
+ font-size:12px;
+
 }
 
 .datepicker td {
-  font-size:16px; 
-  padding:20px 20px; 
+  font-size:16px;
+  padding:20px 20px;
 }
 
  .locatie-half {
-    float:left; 
+    float:left;
     width:50%;
   }
 
   #block-user-login {
     display:none;
     width:260px;
-   
+
     margin-left:-150px;
     padding:20px 20px 0px 20px;
     background:white;
@@ -1789,13 +1837,13 @@ clear: both;
     left:50%;
   }
 
- 
+
   .front-city-menu li.city{
     width:100%;
     margin-left:0;
     margin-right:0;
     overflow:hidden;
-    height:160px; 
+    height:160px;
   }
 
   .front-city-menu .city-links a{
@@ -1807,7 +1855,7 @@ clear: both;
   .front-city-menu .city-name{
     font-size:1.2em
   }
-  
+
   ul.locaties-lijst{
     float:left;
     list-style:none;
@@ -1818,10 +1866,10 @@ clear: both;
   .user-input-inner .muziek_cell2,
   .user-input-inner .muziek_cell1{
     width:100%;
-    float:none;  
+    float:none;
   }
 
-  
+
   .city_gig .cell{
     float:none;
     clear:both;
@@ -1830,33 +1878,33 @@ clear: both;
   }
   .city_gig .city{
   padding-left:8px;
-  clear:left;} 
+  clear:left;}
 
  h1.page__title, h1{
    font-size:28px;
    line-height:1.2
- } 
- 
- .front #agenda h2{
-   font-size:26px 
  }
-  
+
+ .front #agenda h2{
+   font-size:26px
+ }
+
   .front-search{
     width:90%;
-  } 
+  }
   .front-search button{
     margin-left:1%;
-    width:10%    
+    width:10%
   }
 
-   
+
   .form-search-container{
-    display:none;  
-  } 
+    display:none;
+  }
 
   body {
     padding-right:0px;
-    padding-left:0px; 
+    padding-left:0px;
   }
   .eventContainerInner .title{
     float:none;  width:auto; padding-right:0;
@@ -1875,31 +1923,39 @@ clear: both;
    padding-bottom:0px;
    padding-left:2px;
    padding-right:2px;
-   
+
   }
   #block-system-main-menu .menu li a {
     font-size:16px;
   }
   .controls div[class*="span"]{margin-bottom:8px; text-align:right}
   .after_content .page_section{
-    width:100%;        
+    width:100%;
   }
 }
 
 /* Landscape phones and down */
 @media (max-width: 500px) {
+  .page-archief .field-type-text-with-summary{
+    float:none
+  }
+  .page-archief .field-type-image{
+    float:none
+  }
+
+
 .datepicker td {
-  font-size:16px; 
-  padding:6px 6px; 
+  font-size:16px;
+  padding:6px 6px;
 }
 
   .locatie-half{
     width:100%;
-    float:none;  
-    
+    float:none;
+
   }
 
-  .front-city-menu .city-name{ width:80%; }  
+  .front-city-menu .city-name{ width:80%; }
 
   ul.locaties-lijst{
     float:left;
@@ -1908,13 +1964,13 @@ clear: both;
     width:100%;
   }
   .muziekladder_logo{
-    display:none; 
+    display:none;
   }
 .logged-in .user-container a{
   background:black
 }
 .logged-in .user-container{
-  position:absolute; 
+  position:absolute;
   top:0px;
   padding:4px;
   padding-left:8px;
@@ -1922,7 +1978,7 @@ clear: both;
   background:black;
   z-index:10;
   font-size:12px;
- }     
+ }
   .muziekladder_logo_small {
     display:block;
     float:left;
@@ -1935,21 +1991,21 @@ clear: both;
     margin-top:10px;
   }
   #block-system-main-menu .menu li a{
-    font-size:12px; 
+    font-size:12px;
   }
 
   #block-system-main-menu .menu li{
-    padding-left:0px; 
+    padding-left:0px;
     padding-right:0px;
-    margin:0px; 
+    margin:0px;
     width:20%;
-    overflow:hidden; 
+    overflow:hidden;
   }
- 
+
 
   #navigation{
     position:absolute;
-  } 
+  }
   .muziekladder_logo img{
     width:50px;
     max-width:100%;
@@ -1963,7 +2019,7 @@ clear: both;
  h1.page__title, h1{
    font-size:26px;
    line-height:1.2
- } 
+ }
   .scrolling .muziekladder_logo img{
     width:80px;
   }
@@ -1975,22 +2031,22 @@ clear: both;
     padding-top:18px;
     padding-left:0px;
     padding-right:0px;
-    padding-bottom:0px;     
-  }   
+    padding-bottom:0px;
+  }
   .bg-image-container{
     display:none
   }
   #block-system-main-menu .menu li{
     height:auto;
     padding-bottom:14px;
-  }    
+  }
   #navigation {
-    width:100%;  
+    width:100%;
   }
 
   .bg-image {
     background:none;
-    display:none    
+    display:none
   }
   .container h1{  font-size:1em;}
   .brand a{font-size:1em;}
@@ -1999,5 +2055,3 @@ clear: both;
     width:auto;
   }
 }
-
-
