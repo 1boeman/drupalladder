@@ -1,30 +1,33 @@
 <?php
 function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
-  global $user; 
+  global $user;
+
   //var_dump($presets);
-  // only show form if logged in  
-  if ($user->uid) { 
+  // only show form if logged in
+  if ($user->uid) {
+    $form['#attributes']['enctype'] = 'multipart/form-data';
+
     // if we are in edit mode add the file_name
     if (isset($presets['file_name'])){
       $form['name'] = array('#type' => 'hidden', '#value' => $presets['file_name']);
     }
-     
+
     $locaties_db = Muziek_db::open_locaties_db();
     $cities = Muziek_db::get_cities(1);
-    $city_options = array('0'=>t('* City not in list?  Click here... *'));    
-    $venue_options = array(); 
+    $city_options = array('0'=>t('* City not in list?  Click here... *'));
+    $venue_options = array();
 
     while ($row = $cities->fetchArray()) {
       $city_options[$row['Id']] = $row['Name'];
     }
 
-    $city_options['00'] = '** City not in list? Click here... *';    
-    
-    // check if a city has been selected from the list 
+    $city_options['00'] = '** City not in list? Click here... *';
+
+    // check if a city has been selected from the list
     $selected_value = isset($form_state['input']['city_select']) ? $form_state['input']['city_select'] : false;
-    
-    // check if a city has been selected in presets 
-    // but don't overrule a newly selected city 
+
+    // check if a city has been selected in presets
+    // but don't overrule a newly selected city
     // - and only if a nocity option ('0' or '00') hasn't been explicly selected
     if ( !(int)$selected_value &&
            !isset($form_state['input']['city_select']) ||
@@ -33,17 +36,17 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
                   $form_state['input']['city_select'] !=='0' &&
                     $form_state['input']['city_select'] !=='00') ){
       if (isset($presets['city_select']) && $presets['city_select'] ){
-        $selected_value = $presets['city_select']; 
+        $selected_value = $presets['city_select'];
       }
     }
     // if we have a selected city - go get the venues
     if ( strlen($selected_value) && (int) $selected_value ) {
-      $venues = Muziek_db::get_city_venues($selected_value); 
+      $venues = Muziek_db::get_city_venues($selected_value);
       $venue_options = array('0' =>' ** '.t('Venue not in list? Click here...').' * ');
-      
+
       while ( $row = $venues->fetchArray() ){
         $venue_options[$row['Id']] = html_entity_decode($row['Title']);
-      }                                             
+      }
     }
 
     $visible_c_f_i = array(
@@ -52,9 +55,9 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
           array('value' =>'concert'),
           array('value' =>'festival'),
           array('value' =>'iets_anders'),
-      )        
+      )
     ));
-           
+
     $form['#prefix'] = '<div class="eventfull muziek-tab tab-1 nodisplay">' ;
     $form['#suffix'] = '</div>' ;
 
@@ -80,7 +83,7 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
       '#attributes' => array('class'=>array('item-instructies')),
       '#markup' =>  '<p>'.t('Fields marked with * are mandatory').'...</p>',
       '#states' =>$visible_c_f_i
-    ); 
+    );
 
     /* main fieldsets */
     $form['locatie'] = array(
@@ -88,8 +91,8 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
         '#attributes' => array('class'=>array('locatie')),
         '#title' => t('General information'),
         '#states' =>$visible_c_f_i
-    ); 
-    
+    );
+
     $form['venue'] = array(
         '#type' => 'fieldset',
         '#attributes' => array('class'=>array('venue')),
@@ -97,15 +100,15 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
         '#prefix'=>'<div id="venue_fieldset">',
         '#suffix' => '</div>',
         '#states' =>$visible_c_f_i
-    ); 
-    
+    );
+
     $form['details'] = array(
         '#type' => 'fieldset',
         '#attributes' => array('class'=>array('details')),
         '#title' => t('Details'),
         '#states' =>$visible_c_f_i
-    ); 
- 
+    );
+
     $form['details']['title'] = array(
        '#type' => 'textfield',
        '#title' => t('Title of event / name of artist(s)'),
@@ -114,9 +117,9 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
             ':input[name="soort"]' => array(
                 array('value' =>'concert'),
                 array('value' =>'festival'),
-            )        
-          ) 
-       ), 
+            )
+          )
+       ),
        '#attributes' =>array('placeholder' => t('Name')),
     );
 
@@ -124,11 +127,11 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     if (isset($presets['title'])){
       $form['details']['title']['#default_value'] = $presets['title'];
     }
-      
+
     $form['details']['link'] = array(
        '#type' => 'textfield',
        '#title' => t('Link to event or venue'),
-       '#required' => true, 
+       '#required' => true,
        '#attributes' =>array('placeholder' => 'http:// ...... '),
        '#description' => t('Without a working link we won\'t be able to process this event.'),
     );
@@ -137,14 +140,13 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     if (isset($presets['link'])){
       $form['details']['link']['#default_value'] = $presets['link'];
     }
- 
 
     $form['venue']['city_select'] = array(
        '#type' => 'select',
        '#title' => t('City'),
-       '#options' => $city_options, 
+       '#options' => $city_options,
        '#attributes' =>array(),
-       '#required' => true, 
+       '#required' => true,
        '#ajax' => array(
           'callback' => 'ajax_mailtipform_cityselect_callback',
           'wrapper' => 'venue_fieldset',
@@ -152,12 +154,12 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
           'effect' => 'fade',
         ),
     );
-   
+
     // presets
     if (isset($presets['city_select']) ){
       $form['venue']['city_select']['#default_value'] = $presets['city_select'];
     }
- 
+
     $form['venue']['city'] = array(
        '#type' => 'textfield',
        '#title' => t('Please specify the name of the city, municipality or village hosting the event or performance'),
@@ -169,9 +171,9 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
             ':input[name="city_select"]' => array(array('value' =>'0'),array('value' =>'00'))
           )
        ),
-       '#attributes' =>array('placeholder' => 
-       t('Name or zip of city,village or area')), 
-        '#required' => false,    
+       '#attributes' =>array('placeholder' =>
+       t('Name or zip of city,village or area')),
+        '#required' => false,
     );
 
     // presets
@@ -203,7 +205,7 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
       }
     }
 
-      // if no city selected or venue unknown selected 
+      // if no city selected or venue unknown selected
     if ( $selected_value === '0' || $selected_value === '00' ||
         (isset($presets) && isset($presets['venue_freetext'])) ||
         (isset($selected_venue) && strlen($selected_venue) && $selected_venue === '0')){
@@ -211,46 +213,63 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
           '#type' => 'textarea',
           '#title' => t(
           'Please specify the name and address of the venue, club, area, terrain (or what not) that will host this event.'),
-          '#attributes' => array('placeholder' => 
+          '#attributes' => array('placeholder' =>
           t('Name / address')),
           '#required' => true );
         // presets
         if ( isset( $presets['venue_freetext'] ) ){
         $form['venue']['venue_freetext']['#default_value'] = $presets['venue_freetext'];
       }
-    } 
-      
+    }
+
     //$date = format_date(REQUEST_TIME, 'custom', 'd-m-Y');
     //$format = 'd-m-Y';
     $form['locatie']['date'] = array(
        '#title' => t('Selected Date(s)'),
        '#type' => 'textfield', // types 'date_text' and 'datei_timezone' are also supported. See .inc file.
        '#required' => true,
-       '#maxlength' => 999, 
+       '#maxlength' => 999,
        '#prefix'  => '<label>'.t('Select the event date(s)')
        .' <span style="color:red">*</span></label>'.
         '<div id="datepicker"></div>',
        '#attributes'=> array(
           'readonly'=>'readonly',
           'class'=>array('full-width'))
-    ); 
+    );
 
     // presets
     if ( isset( $presets['date'] ) ){
-      $frontend_dates = array(); 
+      $frontend_dates = array();
       $dates = explode(',',$presets['date']);
       foreach ($dates as $value){
         $frontend_dates[]= implode('-',array_reverse(explode('-',$value)));
       }
       $form['locatie']['date']['#default_value'] = implode(',',$frontend_dates);
     }
-      
-    $form['details']['description'] = array( 
-      '#type' => 'textarea',
-      '#title' => t('Remarks and/or extra information'),
-      '#attributes' => array('placeholder' => t('(Support) acts, time, entrance fee, etc.. ')), 
+
+    $form['details']['event_image'] = array(
+      '#type' => 'managed_file',
+      '#name' => 'event_image',
+      '#title' => t('Image - poster, flyer or logo (optional) - jpg, gif or png'),
+      '#size' => 40,
+      '#description' => t("Image should be less than 600 pixels wide and in .jpg, .gif or .png format."),
+      '#upload_validators' => array(
+        'file_validate_size' => array(5*1024*1024),
+        'file_validate_extensions' => array('gif png jpg jpeg'),
+      ),
+      '#upload_location' => 'public://'
     );
-    // presets 
+    if ( isset( $presets['event_image'] ) ){
+      $form['details']['event_image']['#default_value'] = $presets['event_image'];
+    }
+
+    $form['details']['description'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Remarks and/or extra information (optional)'),
+      '#attributes' => array('placeholder' => t('(Support) acts, time, entrance fee, etc.. ')),
+    );
+
+    // presets
     if ( isset( $presets['description'] ) ){
       $form['details']['description']['#default_value'] = $presets['description'];
     }
@@ -261,7 +280,7 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
      '#attributes' =>array('placeholder' => t('Email address'))
     );
 
-    // presets 
+    // presets
     if ( isset( $presets['email'] ) ){
       $form['details']['email']['#default_value'] = $presets['email'];
     }
@@ -273,21 +292,21 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
         '#states' =>$visible_c_f_i,
     );
 
-  } else { 
+  } else {
       $form['item2'] = array(
         '#type' => 'item',
         '#attributes' => array('class'=>array('item-iets-anders')),
         '#markup' => '<a class="aanraadloginlink" href="'.Muziek_util::lang_url().'user?destination=muziekformulier"><i class="icon icon-white icon-plus-sign"></i> '.t('Please log in or register to recommend your events to Muziekladder').'</a>',
         '#prefix'=>'<div class="btn btn-large btn-inverse">',
         '#suffix' => '</div>',
-        
-      ); 
-  } 
-  
+
+      );
+  }
+
   $form['item'] = array(
         '#type' => 'item',
         '#markup' => ''
-    ); 
+    );
 
   return $form;
 }
@@ -303,8 +322,8 @@ function mod_muziekladder_mailtipform_validate($form, &$form_state) {
 
 function mod_muziekladder_mailtipform_submit($form, &$form_state) {
     // Submission logic.
-    global $user; 
-    $update = false;     
+    global $user;
+    $update = false;
     $msg = array();
     $dom_doc = new DOMDocument('1.0', 'utf-8');
     $dom_doc->formatOutput = true;
@@ -319,22 +338,22 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
     // add the form data
     foreach($form_state['values'] as $key => $value) {
       if ($key == 'date'){
-        $corrected_date_values = array(); 
+        $corrected_date_values = array();
         // format received is [dd-mm-yyyy]
         // but we will store [yyyy-mm-dd]
         $arr_values = explode(',',$value);
         foreach ( $arr_values as $dty ) {
-          $arr_dty = array_reverse(explode('-',$dty)); 
-          $corrected_date_values[]= implode('-',$arr_dty); 
+          $arr_dty = array_reverse(explode('-',$dty));
+          $corrected_date_values[]= implode('-',$arr_dty);
         }
-        sort ($corrected_date_values); 
+        sort ($corrected_date_values);
         $value = implode(',',$corrected_date_values);
       }
       $e = $dom_doc->createElement($key);
       $data_section = $dom_doc->createCDATASection(trim($value));
       $e->appendChild($data_section);
       $root_el->appendChild($e);
-      $msg[]= $key.' : ' .$value; 
+      $msg[]= $key.' : ' .$value;
     }
     $e = $dom_doc->createElement('time',time());
     $root_el->appendChild($e);
@@ -345,7 +364,7 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
       chmod ( MUZIEK_USERDATA_DIR,0755 );
     }
 
-    // check if we are updating or creating   
+    // check if we are updating or creating
     if (isset($form_state['values']['name'])){
       // updating..
       // check if we are the legitimate owner of the gig
@@ -354,35 +373,47 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
         Muziek_util::deny();
       }
 
-      $update=true;  
-      $form_state['redirect'] = 'muziekformulier';  
+      $update=true;
+      $form_state['redirect'] = 'muziekformulier';
       $file_name = $form_state['values']['name'];
-      $nid = isset($gig['node_id']) ? $gig['node_id'] : false; 
+      $nid = isset($gig['node_id']) ? $gig['node_id'] : false;
     } else {
-      $file_name = uniqid(date("Y-m-d_H:i:s_")).'_'.$user->uid; 
-      $nid = false; 
+      $file_name = uniqid(date("Y-m-d_H:i:s_")).'_'.$user->uid;
+      $nid = false;
     }
-    
+
+
+    $uploaded_file = false;
+    // deal with image if it was uploaded
+    if (isset($form_state['values']['event_image'])) {
+      $uploaded_file = file_load($form_state['values']['event_image']);
+      $uploaded_file->status = FILE_STATUS_PERMANENT;
+      file_save($uploaded_file);
+    }
+
+
     $filepath = MUZIEK_USERDATA_DIR.'/'.$file_name;
 
     //save to file ;
     file_put_contents(  $filepath, $dom_doc->saveXML());
     chmod ( $filepath,0765 );
-   
-    // save to node ; 
-    if ($node_id = Muziek_util::saveTipNode($file_name,$nid)){
-      // - add the node id to xml for future reference and resave
+
+    // save to node ;
+    if ($node_id = Muziek_util::saveTipNode($file_name,$nid,$uploaded_file)){
+      // - add the node id to xml and resave file for future reference and resave
       $e = $dom_doc->createElement('node_id');
       $data_section = $dom_doc->createCDATASection($node_id);
       $e->appendChild($data_section);
       $root_el->appendChild($e);
       file_put_contents(  $filepath, $dom_doc->saveXML());
+
+
     }
 
     // send me a notification email
     $body = array();
     $from = 'muziekladder@hardcode.nl';
-    $body[] = implode("\n",$msg); 
+    $body[] = implode("\n",$msg);
     $to = 'info@hardcode.nl';
     $params = array(
         'body' => $body,
@@ -395,7 +426,7 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
         }else{
           drupal_set_message(t('
             Thanks! Your updates have been successfully processed.
-            They will also be updated in the calendar pages as soon as possible.  
+            They will also be updated in the calendar pages as soon as possible.
           '));
         }
     } else {
@@ -419,37 +450,37 @@ function mailtipform_mail($key, &$message, $params) {
 
 
 function mod_muziekladder_freetextform(){
-  $form = array(); 
+  $form = array();
   $form['#prefix'] = '<div class="eventfull muziek-tab tab-2 nodisplay">' ;
   $form['#suffix'] = '</div>' ;
 
   $form['freetext'] = array(
     '#type' => 'textarea',
-    '#title' =>t('Free text'), 
-    '#attributes' => array('placeholder' => 
+    '#title' =>t('Free text'),
+    '#attributes' => array('placeholder' =>
       t('Please put all relevant information in this textfield')),
     '#required' => true,
   );
- 
+
   $form['submit'] = array(
       '#type' => 'submit',
       '#value' => t('Submit'),
       '#attributes' => array('class'=>array('btn btn-large btn-inverse')),
   );
-    
-  return $form;  
+
+  return $form;
 }
 
 function mod_muziekladder_freetextform_submit($form, &$form_state) {
     // send me a notification email
     $body = array();
     $from = 'muziekladder@hardcode.nl';
-    $msg = array(); 
+    $msg = array();
     foreach($form_state['values'] as $key=>$value){
-      $msg[]= $key.' : ' .$value."\n\r"; 
+      $msg[]= $key.' : ' .$value."\n\r";
     }
 
-    $body[] = implode("\n",$msg); 
+    $body[] = implode("\n",$msg);
     $to = 'info@hardcode.nl';
     $params = array(
       'body' => $body,
@@ -464,11 +495,11 @@ function mod_muziekladder_freetextform_submit($form, &$form_state) {
 }
 
 function mod_muziekladder_locationtipform(){
-  $form = array (); 
+  $form = array ();
   $form['venue_title'] = array(
     '#type'=> 'textfield',
     '#title'=>t('Venue name'),
-    '#attributes' => array('placeholder' => 
+    '#attributes' => array('placeholder' =>
       t('Name')),
     '#required' => true,
   );
@@ -480,34 +511,34 @@ function mod_muziekladder_locationtipform(){
     '#attributes' => array('placeholder' =>  'website'),
     '#required' => true,
   );
- 
+
   $form['venue_freetext'] = array(
     '#type' => 'textarea',
     '#title' => t('Address'),
-    '#attributes' => array('placeholder' => 
+    '#attributes' => array('placeholder' =>
       t('Name / address')),
     '#required' => true,
   );
- 
+
   $form['submit'] = array(
       '#type' => 'submit',
       '#value' => t('Submit'),
       '#attributes' => array('class'=>array('btn btn-large btn-inverse')),
   );
-    
-  return $form;  
+
+  return $form;
 }
 
 function mod_muziekladder_locationtipform_submit($form, &$form_state) {
     // send me a notification email
     $body = array();
     $from = 'muziekladder@hardcode.nl';
-    $msg = array(); 
+    $msg = array();
     foreach($form_state['values'] as $key=>$value){
-      $msg[]= $key.' : ' .$value."\n\r"; 
+      $msg[]= $key.' : ' .$value."\n\r";
     }
 
-    $body[] = implode("\n",$msg); 
+    $body[] = implode("\n",$msg);
     $to = 'info@hardcode.nl';
     $params = array(
         'body' => $body,
@@ -520,11 +551,10 @@ function mod_muziekladder_locationtipform_submit($form, &$form_state) {
         }else{
           drupal_set_message(t('
             Thanks! Your updates have been successfully processed.
-            They will also be updated in the calendar pages as soon as possible.  
+            They will also be updated in the calendar pages as soon as possible.
           '));
         }
     } else {
         drupal_set_message('Sorry... the submission failed because of technical problems. Please try again later.');
     }
 }
-

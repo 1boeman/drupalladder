@@ -3,36 +3,36 @@
 class Muziek_util {
 
   static function deny (){
-    drupal_access_denied(); 
+    drupal_access_denied();
     module_invoke_all('exit');
-    exit();   
+    exit();
   }
-  
-  static function saveTipNode($tip_id,$node_id){
+
+  static function saveTipNode($tip_id, $node_id, $uploaded_file){
     global $user;
-    $db = new Muziek_db;  
- 
+    $db = new Muziek_db;
+
     $data = self::getTip($tip_id);
     $event_date = $data['date'];
-    // check for multiple dates      
+    // check for multiple dates
     if (strstr($event_date,',')){
       $date_array = explode(',',$event_date);
     } else {
-      $date_array = array($event_date); 
+      $date_array = array($event_date);
     }
-    
+
     // sort dates
-    $timestamp_array = array(); 
+    $timestamp_array = array();
     foreach($date_array as $date_value){
-      $timestamp_array[strtotime($date_value)] = $date_value; 
+      $timestamp_array[strtotime($date_value)] = $date_value;
     }
-    
-    ksort ($timestamp_array); 
+
+    ksort ($timestamp_array);
     $final_date = end($timestamp_array);
     reset ($timestamp_array);
 
     $data['timestamp_array'] = $timestamp_array;
-    
+
     if (isset($data['uid'])){
       $userobj = user_load($data['uid']);
       $data['user_name'] = $userobj->name;
@@ -41,18 +41,18 @@ class Muziek_util {
       $data['db_venue'] = $db->get_venue($data['venue_select']);
       $data['locatie_link']  = $data['db_venue'] ? self::locatie_link ($data['db_venue']) : false;
     }else{
-      $data['venue_select'] = false; 
+      $data['venue_select'] = false;
     }
     if (isset($data['city_select']) && (int)$data['city_select']){
-      $data['db_city'] = $db->get_city($data['city_select']); 
+      $data['db_city'] = $db->get_city($data['city_select']);
     }else{
-      $data['city_select'] = false; 
+      $data['city_select'] = false;
     }
     $my_body_content = theme('tip_node',array( 'tip' => $data, 'summary' => 0 ));
     $my_body_content_summary = theme('tip_node',array('tip'=>$data ,'summary' => 1));
 
     if ($node_id){
-     $entity = entity_load_single('node',$node_id);  
+     $entity = entity_load_single('node',$node_id);
     } else {
      // entity_create replaces the procedural steps in the first example of
      // creating a new object $node and setting its 'type' and uid property
@@ -102,16 +102,21 @@ class Muziek_util {
          'timezone' => 'UTC',
             'timezone_db' => 'UTC',
              );
-    */   
+    */
     // Now just save the wrapper and the entity
     // There is some suggestion that the 'true' argument is necessary to
     // the entity save method to circumvent a bug in Entity API. If there is
     // such a bug, it almost certainly will get fixed, so make sure to check.
 
-    $ewrapper->save(); 
+    if($uploaded_file){
+      $ewrapper->field_image->file->set($uploaded_file);
+    }
+
+
+    $ewrapper->save();
     $node_id = $ewrapper->getIdentifier();
 
-    return $node_id; 
+    return $node_id;
   }
 
   static function deleteTip ($file_name, $node_id) {
@@ -124,8 +129,8 @@ class Muziek_util {
     if( unlink(MUZIEK_USERDATA_DIR.'/'.$file_name) ){
       return 1;
     }
-    return 2; 
-  } 
+    return 2;
+  }
 
 
 
@@ -135,25 +140,25 @@ class Muziek_util {
     }
 
     $xml = new DOMDocument();
-    $data = array(); 
+    $data = array();
     if( $xml->load(MUZIEK_USERDATA_DIR.'/'.$file_name) ){
       $root = $xml->documentElement;
       foreach($root->childNodes as $node){
         $data[ $node->nodeName ] = $node->nodeValue;
       }
     }
-    return $data; 
-  } 
+    return $data;
+  }
 
   static function showTips(){
     global $user;
     $lang_url = Muziek_util::lang_url();
 
     $tips = scandir(MUZIEK_USERDATA_DIR,SCANDIR_SORT_DESCENDING);
-    $html = array(); 
-    $db = new Muziek_db; 
+    $html = array();
+    $db = new Muziek_db;
     $options = array('absolute' => TRUE);
-  
+
     foreach($tips as $tip){
       if ($tip == '.' || $tip == '..' ) continue;
       $xsl = new DOMDocument;
@@ -167,30 +172,30 @@ class Muziek_util {
       if( $node_ids->length ) {
         $node_id = $node_ids->item(0)->nodeValue;
       } else {
-        $node_id = false; 
+        $node_id = false;
       }
-       
+
       $event_dates = $xml->getElementsByTagName('date');
       $event_date = $event_dates->item(0)->nodeValue;
 
-      // check for multiple dates      
+      // check for multiple dates
       if (strstr($event_date,',')){
         $date_array = explode(',',$event_date);
       } else {
-        $date_array = array($event_date); 
+        $date_array = array($event_date);
       }
-      
+
       // sort dates
-      $timestamp_array = array(); 
+      $timestamp_array = array();
       foreach($date_array as $date_value){
-        $timestamp_array[strtotime($date_value)] = $date_value; 
+        $timestamp_array[strtotime($date_value)] = $date_value;
       }
-      
-      ksort ($timestamp_array); 
+
+      ksort ($timestamp_array);
       $final_date = end($timestamp_array);
       reset ($timestamp_array);
-      
-      //make sure the last event date is in future 
+
+      //make sure the last event date is in future
       $date1 = new DateTime();
       $date2 = new DateTime($final_date);
       $diff = $date2->diff($date1);
@@ -200,24 +205,24 @@ class Muziek_util {
          // if now is a week after the last event date.
          if ((bool)$diff->d && $diff->d > 7){
             rename (MUZIEK_USERDATA_DIR.'/'.$tip,'/tmp/'.$tip);
-         } 
-         continue; 
+         }
+         continue;
       }
-   
+
       $submit_time = $xml->getElementsByTagname('time');
-      $timestamp = $submit_time->item(0)->nodeValue; 
-      
+      $timestamp = $submit_time->item(0)->nodeValue;
+
       $citynos = $xml->getElementsByTagName('city_select');
-      $cityno = $citynos->item(0)->nodeValue; 
+      $cityno = $citynos->item(0)->nodeValue;
       $city_name = '';
-      if ((int)$cityno){  
+      if ((int)$cityno){
         $city_result = $db->get_city($cityno);
         $city_name = $city_result['Name'];
       }
 
-      $venue_desc = ''; 
+      $venue_desc = '';
       $venue_ids = $xml->getElementsByTagName('venue_select');
-      $venue_id =''; 
+      $venue_id ='';
       if ( $venue_ids->item(0) ) {
         $venue_id = $venue_ids->item(0)->nodeValue;
       }
@@ -225,7 +230,7 @@ class Muziek_util {
         $venue_result = $db->get_venue($venue_id);
         $proc->setParameter('','venue_link',$venue_result['Link']);
         $proc->setParameter('','venue_title',$venue_result['Title']);
-      } 
+      }
 
       // turn dates around for display
       $event_date_arr = explode(',',$event_date);
@@ -234,50 +239,50 @@ class Muziek_util {
         $display_date_arr[strtotime($dty)] = implode('-',array_reverse(explode('-',$dty)));
       }
 
-      ksort($display_date_arr); 
+      ksort($display_date_arr);
       $display_dates = implode(',',$display_date_arr);
       $proc->setParameter('','event_dates',$display_dates);
       $proc->setParameter('','submit_datetime',date("d/m/Y - h:i:s A",$timestamp));
       $proc->setParameter('','city_name',$city_name);
 
-      // soort 
+      // soort
       $soort = '';
       $type = $xml->getElementsByTagName('soort');
       if ( $type->item(0) ) {
         $soort = $type->item(0)->nodeValue;
       }
-    
+
       $types = array(
         'concert' => t('Concert or performance'),
         'festival' => t('Festival'),
         'iets_anders' => t('Something else')
-      );  
-      
+      );
+
       if (isset($types[$soort]) ){
-      	 $soort = $types[$soort]; 
+      	 $soort = $types[$soort];
       }
       $proc->setParameter('','soort',$soort);
 
-      //user  
+      //user
       $user_name= '';
       $uid = '';
       $user_link = '';
       $edit_link = '';
-      $delete_link = ''; 
+      $delete_link = '';
       $type = $xml->getElementsByTagName('uid');
       if ( $type->length && $type->item(0) ) {
         $uid = $type->item(0)->nodeValue;
         $userobj = user_load($uid);
         if ($userobj){
           $user_name = $userobj->name;
-          $user_link = $lang_url . 'user/'.$uid; 
+          $user_link = $lang_url . 'user/'.$uid;
         }
-      }    
+      }
 
       // if user is logged in  edit link for their own events
       if ( strlen($uid) && (int)$user->uid && $user->uid == $uid ){
-        $edit_link = $lang_url . 'muziekformulier/edit/'.$tip;  
-        $delete_link = $lang_url. 'muziekformulier/delete/'.$tip; 
+        $edit_link = $lang_url . 'muziekformulier/edit/'.$tip;
+        $delete_link = $lang_url. 'muziekformulier/delete/'.$tip;
       }
 
       $node_url = '';
@@ -290,9 +295,9 @@ class Muziek_util {
       $proc->setParameter('','user_link',$user_link);
       $proc->setParameter('','edit_link',$edit_link);
       $proc->setParameter('','delete_link',$delete_link);
-      $proc->setParameter('','file_name',$tip); 
+      $proc->setParameter('','file_name',$tip);
       $proc->setParameter('','node_url',$node_url);
-       
+
       //labels
       $proc->setParameter('','lbl_postdate',t('Posted on'));
       $proc->setParameter('','lbl_soort',t('Type'));
@@ -303,64 +308,64 @@ class Muziek_util {
       $proc->setParameter('','lbl_edit',t('Edit'));
       $proc->setParameter('','lbl_delete',t('Delete'));
       $proc->setParameter('','lbl_comments',t('Comments'));
-       
-      $doc = $proc->transformToDoc($xml); 
-    
+
+      $doc = $proc->transformToDoc($xml);
+
       $html[]= $doc->saveHTML();
     }
-    return implode(' ',$html); 
+    return implode(' ',$html);
   }
 
   static function locatie_link (Array $db_row){
-     $lang_prefix = self::lang_url(); 
+     $lang_prefix = self::lang_url();
      return $lang_prefix.'locaties/'.rawurlencode($db_row['Id']).'-'.rawurlencode($db_row['City_name']);
-       
+
   }
-  
+
   static function gig_link(Array $db_row){
     if (isset($db_row['Id'])){
       $id = $db_row['Id'];
       $date = $db_row['Date'];
-      $link = rawurlencode($db_row['Link']);  
+      $link = rawurlencode($db_row['Link']);
     }else{
       $id = $db_row['Event_Id'];
       $date = $db_row['Event_Date'];
-      $link = rawurlencode($db_row['Event_Link']); 
+      $link = rawurlencode($db_row['Event_Link']);
     }
 
-    $lang_prefix = self::lang_url(); 
-    return $lang_prefix.'gig/?id='.$id.'&datestring='.$date.'&g='.$link; 
+    $lang_prefix = self::lang_url();
+    return $lang_prefix.'gig/?id='.$id.'&datestring='.$date.'&g='.$link;
   }
-  
+
   static function city_link(Array $db_row,$section = 'muziek'){
     return self::lang_url().$section.'/'.$db_row['Id'].'-'.rawurlencode($db_row['Name']);
-  } 
+  }
 
   static function human_date($event_date){
-     $timestamp = strtotime($event_date); 
+     $timestamp = strtotime($event_date);
      return array(
        'timestamp' => $timestamp,
        'monthname' => t(date("F",$timestamp)),
-       'dayname' => t(date("l",$timestamp)),                                                                  
-       'daynumber' => date('d',$timestamp),                                                                     
-       'monthnumber' =>  date('m',$timestamp),                                                                    
+       'dayname' => t(date("l",$timestamp)),
+       'daynumber' => date('d',$timestamp),
+       'monthnumber' =>  date('m',$timestamp),
        'year' => date('Y',$timestamp),
-     ); 
+     );
   }
 
   static function lang_url(){
-    global $language; 
+    global $language;
     $lang_prefix = strlen ($language->prefix) ? base_path().$language->prefix .'/' : base_path();
-    return $lang_prefix;   
+    return $lang_prefix;
   }
 
   static function shorten ( $string,$number = 25 ){
 		$wordarray =  preg_split('/\s+/',$string);
-        return implode ( " ", array_slice( $wordarray, 0 , $number ) ); 
+        return implode ( " ", array_slice( $wordarray, 0 , $number ) );
 	}
 
-  /**** Deprecated : 
-  ***** All of the below should be avoided / removed 
+  /**** Deprecated :
+  ***** All of the below should be avoided / removed
   *****/
 	static function getWeekDay($day,$month,$year){
 		$weekdagen = Array(
@@ -370,29 +375,29 @@ class Muziek_util {
 	}
 
   static function getCities(){
-		$rv=array(); 
-    $data = simplexml_load_file(MUZIEK_DATA_LOCATIONS, 'SimpleXMLElement', LIBXML_NOCDATA);	
+		$rv=array();
+    $data = simplexml_load_file(MUZIEK_DATA_LOCATIONS, 'SimpleXMLElement', LIBXML_NOCDATA);
     $result = $data->xpath('/cities/city');
     foreach($result as $node){
         $no = (string)$node['cityno'];
-        $rv[$no]= array('name'=>(string)$node['name'],'countryno'=>(string)$node['countryno']); 
+        $rv[$no]= array('name'=>(string)$node['name'],'countryno'=>(string)$node['countryno']);
     }
-    return $rv;     
+    return $rv;
   }
 
  	static function loadGigdata(){
 		return simplexml_load_file(MUZIEK_DATA_GIGS, 'SimpleXMLElement', LIBXML_NOCDATA);
 	}
 
-	static function loadLocationIndex(){	
-		return simplexml_load_file(MUZIEK_DATA_LOCATION_INDEX, 'SimpleXMLElement', LIBXML_NOCDATA);	
+	static function loadLocationIndex(){
+		return simplexml_load_file(MUZIEK_DATA_LOCATION_INDEX, 'SimpleXMLElement', LIBXML_NOCDATA);
 	}
 
 	static function template($valuesArray,$templateString){
 		foreach($valuesArray as $key=> $value){
-			 $templateString = str_replace('##'.$key.'##',$value,$templateString);		
+			 $templateString = str_replace('##'.$key.'##',$value,$templateString);
 		}
-		
+
 		return $templateString;
 	}
 }
