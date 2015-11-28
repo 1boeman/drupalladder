@@ -21,14 +21,15 @@
 
 (function ($, Drupal, window, document, undefined) {
   var settings = Drupal.settings;
-
+  // #these handlers are always loaded and can be called on any page
   var allPageHandlers = {
+
     showUserOptions:function(){
       var $userContainer = $('.user-container');
       $('.userOptions')
         .toggleClass('nodisplay')
         .mouseleave(function(){
-          $(this).addClass('nodisplay')    
+          $(this).addClass('nodisplay')
         })
     },
     presentLogin:function(){
@@ -36,7 +37,7 @@
       if ( $loginblock.length ) {
         var $close = $loginblock.find('.close_button');
         if (!$close.length){
-          $close = $('<div class="close_button">&times;</div>');  
+          $close = $('<div class="close_button">&times;</div>');
           $loginblock.prepend($close)
             .appendTo('body')
             .animate({top:'110px'});
@@ -44,7 +45,7 @@
             $loginblock.removeClass('present')
             $('#page').removeClass('login_open');
           });
-        } 
+        }
         $loginblock.addClass('present')
         $('#page').addClass('login_open');
         $('html,body').animate({scrollTop: 0}, 500);
@@ -53,7 +54,7 @@
       }
     }
   };
-  // this is also in main.js, but main.js is not included on all pages, 
+  // this is also in main.js, but main.js is not included on all pages,
   // so if the handlers need to be on all pages define it above
   $('body').on('click','.handleMe',function(e){
     var $this = $(this);
@@ -63,9 +64,17 @@
     }
   });
 
+  function shareButtonGlobal(container_selector){
+    $(container_selector).after('<div style="margin:20px 0px" class="addthis_native_toolbox"></div>');
+    var scr = document.createElement('script');
+    document.body.appendChild(scr);
+    scr.async = 'async';
+    scr.src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17";
+  }
+
  /** @todo
   * this is a temporary solution - remove when navigation  is improved
-  */ 
+  */
   if ( document.body.className.indexOf('node-type-locatiespagina') > -1 ) {
     var $bodyfield = $('.field-name-body .field-item');
     var t_list = $bodyfield.text().split('---');
@@ -74,71 +83,70 @@
         encodeURIComponent($.trim(t_list[3]))
         +'-'+
         encodeURIComponent($.trim(t_list[1]));
-        $bodyfield.html('<a href="'+lnk+'">'+lnk+'</a>') 
-    }  
+        $bodyfield.html('<a href="'+lnk+'">'+lnk+'</a>')
+    }
   }
 
+  if ( document.body.className.indexOf('node-type-article') > -1 ) {
+    shareButtonGlobal('.field-type-text-with-summary');
+  }
+  // To understand behaviors, see https://drupal.org/node/756722#behaviors
+  Drupal.behaviors.muziekladder_menu = {
+    attach: function(context, settings) {
+      $('#block-system-main-menu .menu li', context).once('muziekladder_menu',function(){
+          $(this)
+          .hover(
+            function(){$(this).addClass('hover')},
+            function(){$(this).removeClass('hover')})
+          .click(function(){
+              location.href = $(this).find('a')[0].href;
+          });
+      });
+      var $window = $(window)
+      var $topmenu = $('#navigation');
+      var scroll_trigger_height = 20;
+      var menu_locked = false;
+      var scrollTimer = 0;
+      var $dagnav = $('.navigation-dagoverzicht-top');
+      var dagoverzicht = $dagnav.length;
+      var dagnav_trigger_height = 134;
+      var dagnav_locked = false;
 
-// To understand behaviors, see https://drupal.org/node/756722#behaviors
-Drupal.behaviors.muziekladder_menu = {
-  attach: function(context, settings) {
-    $('#block-system-main-menu .menu li', context).once('muziekladder_menu',function(){
-        $(this)
-        .hover(
-          function(){$(this).addClass('hover')},
-          function(){$(this).removeClass('hover')}) 
-        .click(function(){
-            location.href = $(this).find('a')[0].href;
-        }); 
-    }); 
-    var $window = $(window) 
-    var $topmenu = $('#navigation');
-    var scroll_trigger_height = 20;
-    var menu_locked = false; 
-    var scrollTimer = 0;
-    var $dagnav = $('.navigation-dagoverzicht-top');
-    var dagoverzicht = $dagnav.length;
-    var dagnav_trigger_height = 134;
-    var dagnav_locked = false; 
-    
-    // attach handler to scroll event  - comment this out to disable fixed menu
-    if (screen.width > 500){
-      $window.scroll (function(){
-        // prevent resource hogging:
-        if (scrollTimer) {
-           clearTimeout(scrollTimer);   // clear any previous pending timer
-        }
-        scrollTimer = setTimeout( respond_to_scroll, 10 );
-      }); 
-      respond_to_scroll(); 
-    }
-    // Fixes top-menu to top of page on when page scroll reaches scroll_trigger_height 
-    function respond_to_scroll(){
-      var scrollHeight = $window.scrollTop();
-      if ( scrollHeight > scroll_trigger_height && !menu_locked  ) {
-        menu_locked = true;
-        $topmenu.addClass('scrolling');
-      } else if ( scrollHeight < scroll_trigger_height && menu_locked ) {
-        menu_locked = false;
-        $topmenu.removeClass('scrolling');
+      // attach handler to scroll event  - comment this out to disable fixed menu
+      if (screen.width > 500){
+        $window.scroll (function(){
+          // prevent resource hogging:
+          if (scrollTimer) {
+             clearTimeout(scrollTimer);   // clear any previous pending timer
+          }
+          scrollTimer = setTimeout( respond_to_scroll, 10 );
+        });
+        respond_to_scroll();
       }
-      
-      if (dagoverzicht){
-        // fixes day and city navigation to top on agenda
-        if (scrollHeight > dagnav_trigger_height) {
-          dagnav_locked = true; 
-          $dagnav.addClass('scrolling');
-        } else if (scrollHeight < dagnav_trigger_height) {
-          dagnav_locked = false; 
-          $dagnav.removeClass('scrolling');
+      // Fixes top-menu to top of page on when page scroll reaches scroll_trigger_height
+      function respond_to_scroll(){
+        var scrollHeight = $window.scrollTop();
+        if ( scrollHeight > scroll_trigger_height && !menu_locked  ) {
+          menu_locked = true;
+          $topmenu.addClass('scrolling');
+        } else if ( scrollHeight < scroll_trigger_height && menu_locked ) {
+          menu_locked = false;
+          $topmenu.removeClass('scrolling');
         }
-      } 
+
+        if (dagoverzicht){
+          // fixes day and city navigation to top on agenda
+          if (scrollHeight > dagnav_trigger_height) {
+            dagnav_locked = true;
+            $dagnav.addClass('scrolling');
+          } else if (scrollHeight < dagnav_trigger_height) {
+            dagnav_locked = false;
+            $dagnav.removeClass('scrolling');
+          }
+        }
+      }
     }
-  }
-};
+  };
 
 
 })(jQuery, Drupal, this, this.document);
-
-
-

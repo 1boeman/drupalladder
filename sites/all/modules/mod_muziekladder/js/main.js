@@ -13,7 +13,6 @@ var hC = Drupal.settings.muziekladder;
     "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
     "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
   };
-
   var pageHandlers = {}, 
       handlers = {};
      
