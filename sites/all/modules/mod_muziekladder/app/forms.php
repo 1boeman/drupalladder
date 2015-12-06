@@ -385,12 +385,12 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
 
     $uploaded_file = false;
     // deal with image if it was uploaded
-    if (isset($form_state['values']['event_image'])) {
+
+    if (isset($form_state['values']['event_image']) && $form_state['values']['event_image']) {
       $uploaded_file = file_load($form_state['values']['event_image']);
       $uploaded_file->status = FILE_STATUS_PERMANENT;
       file_save($uploaded_file);
     }
-
 
     $filepath = MUZIEK_USERDATA_DIR.'/'.$file_name;
 

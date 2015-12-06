@@ -444,7 +444,7 @@ padding-bottom:40px;
   display:none
 }
 .front #content  article > .field{
-  padding:20px;
+  padding:20px 0px;
 
 }
 
@@ -565,15 +565,20 @@ border-radius: 4px;
 
 
 /* Tips archief */
+.view-id-recent_tips article{
+ border-bottom:4px dotted #efefef;
+ padding-bottom:20px;
+ margin-bottom:20px;
+}
+
+.event_in_node li{
+  list-style:none;
+}
 .event_data_in_node li{
-  list-style-position: inside;
   padding-left: 12px;
   padding-right: 12px;
 }
 
-.event_data_in_node li:nth-child(odd){
-  background: #efefef;
-}
 .page-archief  .naar-tips-link{
   float:right;
 }
@@ -581,37 +586,42 @@ border-radius: 4px;
 margin-bottom: 20px;
 
 }
+.page-muziekformulier ul.links,
 .page-archief ul.links {
   float:left;
   clear:both;
 }
+.page-muziekformulier .field-type-text-with-summary,
 .page-archief .field-type-text-with-summary{
   float:left;
 }
+
+.page-muziekformulier .field-type-image,
 .page-archief .field-type-image{
   float:right;
 }
+.page-muziekformulier .field-type-image,
 .page-archief .views-row{
-  border-bottom:4px dotted #efefef;
   padding-bottom: 12px;
   margin-bottom: 60px;
 
 }
-.page-archief .views-summary{
 
-}
-
+.page-muziekformulier .views-summary li,
 .page-archief .views-summary li{
   padding:6px 12px;
+  background: green;
 }
+.page-muziekformulier .views-summary li:hover,
 .page-archief .views-summary li:hover {
   background-color:white;
 
 }
-
+.page-muziekformulier .views-summary li:nth-child(odd),
 .page-archief .views-summary li:nth-child(odd){
-  background:#dfdfdf;
+  background:#efefef;
 }
+
 /* user page */
 .page-user .form-item-hybridauth{
     display:none;
@@ -1936,9 +1946,11 @@ clear: both;
 
 /* Landscape phones and down */
 @media (max-width: 500px) {
+  .page-muziekformulier .field-type-text-with-summary,
   .page-archief .field-type-text-with-summary{
     float:none
   }
+  .page-muziekformulier .field-type-image,
   .page-archief .field-type-image{
     float:none
   }

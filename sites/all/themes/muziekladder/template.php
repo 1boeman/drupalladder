@@ -127,8 +127,8 @@ function muziekladder_preprocess_block(&$variables, $hook) {
   //if ($variables['block_html_id'] == 'block-system-main') {
   //  $variables['theme_hook_suggestions'] = array_diff($variables['theme_hook_suggestions'], array('block__no_wrapper'));
   //}
-  
-    
+
+
 
 }
 // */
@@ -142,7 +142,7 @@ function muziekladder_js_alter(&$javascript) {
   $header_scripts = array(
     'settings',
   );
-  var_dump ($javascript); exit; 
+  var_dump ($javascript); exit;
   // Change the default scope of all other scripts to footer.
   // We assume if the script is scoped to header it was done so by default.
   foreach ($javascript as $key => &$script) {
@@ -170,11 +170,11 @@ function muziekladder_html_head_alter(&$head_elements) {
   unset($head_elements['system_meta_generator']);
   foreach($head_elements as $key => $value){
     if (stristr($key,'shortlink')){
-      unset($head_elements[$key]); 
+      unset($head_elements[$key]);
     }
   }
- 
- // do not index node urls 
+
+ // do not index node urls
   if (preg_match('/\/node/',$_SERVER["REQUEST_URI"])){
     $head_elements['noindex'] = array(
       '#type' => 'html_tag',
@@ -195,9 +195,9 @@ function muziekladder_preprocess_node(&$variables, $hook) {
 }
 
 function muziekladder_preprocess_page(&$variables) {
-  global $user; 
-  $variables['lang_prefix'] =  Muziek_util::lang_url(); 
-   
+  global $user;
+  $variables['lang_prefix'] =  Muziek_util::lang_url();
+
   if (drupal_is_front_page()){
     unset($variables['page']['content']['system_main']['pager']);
   }
@@ -206,10 +206,9 @@ function muziekladder_preprocess_page(&$variables) {
     $variables['theme_hook_suggestions'][] = 'page__node__' . $variables['node']->type;
   }
   if (stristr(current_path(),'muziekformulier') && $user->uid){
-    $themepath = drupal_get_path('theme','muziekladder'); 
-    drupal_add_css($themepath.'/bootstrapdatepicker/css/bootstrap-datepicker.min.css'); 
-    drupal_add_js($themepath.'/bootstrapdatepicker/js/bootstrap-datepicker.min.js'); 
+    $themepath = drupal_get_path('theme','muziekladder');
+    drupal_add_css($themepath.'/bootstrapdatepicker/css/bootstrap-datepicker.min.css');
+    drupal_add_js($themepath.'/bootstrapdatepicker/js/bootstrap-datepicker.min.js');
   }
 
 }
-

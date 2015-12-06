@@ -1,64 +1,64 @@
 <?php
 /**
- * implements hook_menu 
+ * implements hook_menu
 **/
 function mod_muziekladder_menu(){
   $methods = array( 'nieuws','muziek','gig','uitgaan','locaties','getgeo','search', 'muziekformulier', 'muziekdata');
-  $items = array();  
+  $items = array();
   foreach($methods as $method){
     $items[$method] = array (
       'page callback'     => 'mod_muziekladder_index',
       'access callback'   => TRUE,
-    ); 
+    );
   }
   return $items;
 }
 
 function mod_muziekladder_init(){
-  require_once (dirname(__FILE__).'/app/bootstrap.php'); 
+  require_once (dirname(__FILE__).'/app/bootstrap.php');
   require_once('controller.php');
-  drupal_add_library('system', 'jquery.cookie');       
+  drupal_add_library('system', 'jquery.cookie');
 }
 
 function mod_muziekladder_index($arg = false){
   mod_muziekladder_init();
   //set javascript settings:
-  $js_settings = array('muziekladderBasePath' => MUZIEKLADDER_BASE_PATH); 
+  $js_settings = array('muziekladderBasePath' => MUZIEKLADDER_BASE_PATH);
   drupal_add_js(array('muziekladder'=>$js_settings), 'setting');
-  $bp = drupal_get_path('module','mod_muziekladder'); 
+  $bp = drupal_get_path('module','mod_muziekladder');
 
   drupal_add_js($bp . '/js/laad.js',array('type'=>'file','scope'=>'footer'));
-  drupal_add_js($bp . '/js/main.js',array('type'=>'file','scope'=>'footer')); 
+  drupal_add_js($bp . '/js/main.js',array('type'=>'file','scope'=>'footer'));
   //route the path to a controller:
-  
+
   if ($arg !== '<front>') {
-    $aRequest = explode('/',MUZIEKLADDER_REQUEST_PATH); 
+    $aRequest = explode('/',MUZIEKLADDER_REQUEST_PATH);
   } else {
     //home page
-    $aRequest = array('front'); 
+    $aRequest = array('front');
   }
-  
+
   if (in_array($aRequest[0],array('nl','en'))){
     array_shift($aRequest);
   }
-   
+
   require_once ($aRequest[0].'.php');
   if (!isset($aRequest[1])) $aRequest[1] = 'index';
- 
+
   $classname =  ucfirst($aRequest[0]);
   $methodname =  $aRequest[1];
 
   $obj = new $classname;
   if (!in_array($classname, array('Muziek','Uitgaan','Locaties' )) &&
-      !preg_match('/20[0-9]+/',$methodname) 
+      !preg_match('/20[0-9]+/',$methodname)
       && !method_exists($obj, $methodname)){
-    return MENU_NOT_FOUND; 
+    return MENU_NOT_FOUND;
   }
 
   $result = $obj->$methodname($arg);
-  
+
   if (isset($result['render_array'])) {
-    return $result['render_array']; 
+    return $result['render_array'];
   } elseif (isset($result['html'])){
     $render_array = array(
       'agenda_content'=>array(
@@ -66,21 +66,21 @@ function mod_muziekladder_index($arg = false){
         '#markup'=>$result['html'],
       ),
     );
-   return $render_array;  
+   return $render_array;
   } elseif (isset($result['json'])) {
-    drupal_json_output($result['json']); 
+    drupal_json_output($result['json']);
   } elseif (isset($result['html_fragment']) || isset($result['json_string'])) {
     // responding to an ajax request
     if (isset( $result['html_fragment'])){
       echo $result['html_fragment'];
     }else{
-      drupal_add_http_header('Content-Type','application/json; charset=utf-8'); 
-      echo $result['json_string']; 
+      drupal_add_http_header('Content-Type','application/json; charset=utf-8');
+      echo $result['json_string'];
     }
-   
+
     // Perform end-of-request tasks.
     drupal_page_footer();
-    drupal_exit(); 
+    drupal_exit();
   }
 }
 
@@ -88,7 +88,7 @@ function mod_muziekladder_index($arg = false){
 function mod_muziekladder_page_build(&$page){
   if (drupal_is_front_page()){
     mod_muziekladder_index('<front>');
-  } 
+  }
 }
 /**
  * block definitions
@@ -105,15 +105,15 @@ function mod_muziekladder_block_info() {
     'info' => 'muziekladder nieuws blocks 222',
   );
 
-  return $blocks; 
+  return $blocks;
 }
 
 function mod_muziekladder_block_view($delta) {
   //The $delta parameter tells us which block is being requested.
-  mod_muziekladder_init();  
+  mod_muziekladder_init();
   require_once ('muziek_block.php');
   $obj = new Muziek_block;
-  return  $obj->$delta();  
+  return  $obj->$delta();
 }
 
 function mod_muziekladder_language_switch_links_alter(array &$links, $type, $path) {
@@ -136,7 +136,7 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
       'path' => $path.'/theme',
       'variables' => array()
     ),
- 
+
     'crumb_trail' => array(
       'template' => 'crumb_trail',
       'path' => $path.'/theme',
@@ -146,7 +146,7 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
       'template' => 'locatie_reviews_body',
       'path' => $path.'/theme',
       'variables' => array()
-    ), 
+    ),
     'agenda_header' => array(
       'template' => 'agenda_header',
       'path' => $path.'/theme',
@@ -154,32 +154,32 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
           'prevlink'=>NULL,
           'nextlink'=>NULL
       )
-    ), 
+    ),
     'searchresult' => array(
       'template' => 'searchresult',
       'path' => $path.'/theme',
       'variables' => array()
-    ),   
+    ),
     'locaties' => array(
       'template'=>'locaties',
       'path' => $path.'/theme',
       'variables' => array()
-    ),  
+    ),
     'uitgaan' => array(
       'template'=>'uitgaan',
       'path' => $path.'/theme',
       'variables' => array()
-    ),  
+    ),
     'gig' => array(
       'template' => 'gig',
       'path' => $path.'/theme',
       'variables' => array()
-    ),   
+    ),
     'agenda_city_gig' => array(
       'template' => 'agenda_city_gig',
       'path' => $path.'/theme',
       'variables' => array()
-    ), 
+    ),
     'agenda_city_nav' => array(
       'template' => 'agenda_city_nav',
       'path' => $path.'/theme',
@@ -190,14 +190,14 @@ function mod_muziekladder_theme($existing, $type, $theme, $path){
       'path' => $path.'/theme',
       'variables' => array()
     ),
-  ); 
+  );
 }
 
 
 function mod_muziekladder_preprocess_html(&$vars) {
   global $language;
-   
-  require_once (dirname(__FILE__).'/app/bootstrap.php'); 
+
+  require_once (dirname(__FILE__).'/app/bootstrap.php');
   $aliases = explode('/',MUZIEKLADDER_REQUEST_PATH);
   $predefined = array(
     'muziekformulier'=>'muziekformulier',
@@ -206,40 +206,41 @@ function mod_muziekladder_preprocess_html(&$vars) {
     'uitgaan'=>'locaties',
     'locaties'=>'locationPage',
     'search'=>'zoekpagina',
-  ); 
+  );
   if (isset($aliases[0])){
-    if ($aliases[0] == $language->prefix) array_shift($aliases); 
-     
+    if ($aliases[0] == $language->prefix) array_shift($aliases);
+
     if (isset($aliases[0]) && isset($predefined[$aliases[0]])){
-      $vars['classes_array'][] = $predefined[$aliases[0]]; 
+      $vars['classes_array'][] = $predefined[$aliases[0]];
     }
-  }  
+  }
   set_vars_from_singleton($vars,array('head_title','desc_metatag'));
 }
 
-function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {  
-  $singleton = Singleton::get_instance(); 
+function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {
+  $singleton = Singleton::get_instance();
   foreach($singleton_vars_to_look_at as $value){
     if ($setvalue = $singleton->$value){
-      $vars[$value] = $setvalue; 
+      $vars[$value] = $setvalue;
     }
   }
   if ($body_class = $singleton->body_class){
-     $vars['classes_array'][] =  $body_class; 
+     $vars['classes_array'][] =  $body_class;
   }
 }
+
 
 function mod_muziekladder_preprocess_page(&$vars) {
   set_vars_from_singleton($vars,array('crumbs','title','city_menu','after_content','agenda','var1'));
 
   if (isset($vars['node']) && node_type_get_name($vars['node']) == 'Locatiespagina') {
-    $lang_prefix = Muziek_util::lang_url(); 
-    $venue_id = $vars['node']->field_locaties_id['und'][0]['value']; 
-    $db = new Muziek_db(); 
+    $lang_prefix = Muziek_util::lang_url();
+    $venue_id = $vars['node']->field_locaties_id['und'][0]['value'];
+    $db = new Muziek_db();
     $venue = $db->get_venue($venue_id);
-    
+
     $vars['crumbs']  = theme('crumb_trail',array(
-        'items'=> 
+        'items'=>
           array(
             array(
               'text'=>t('Locations'),
@@ -262,9 +263,9 @@ function mod_muziekladder_preprocess_page(&$vars) {
               'text' => 'reviews by visitors'
             )
           )
-        )       
+        )
      );
-  } 
+  }
 }
 
 
@@ -283,7 +284,7 @@ function mod_muziekladder_validate_login($form, &$form_state)
     if (empty($form_state["uid"]))
     {
         $_GET["destination"] = "user/login";
-        drupal_goto("user/login"); 
+        drupal_goto("user/login");
     }
 }
 

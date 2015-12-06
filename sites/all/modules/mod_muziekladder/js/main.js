@@ -1,5 +1,5 @@
 var hC = Drupal.settings.muziekladder;
- 
+
 (function($){
   hC.jsDir = '/js/';
   hC.mapsKey = 'AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo';
@@ -13,9 +13,9 @@ var hC = Drupal.settings.muziekladder;
     "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
     "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
   };
-  var pageHandlers = {}, 
+  var pageHandlers = {},
       handlers = {};
-     
+
   laad.wait(['util'],function(){
     $(function(){
         $('body').on('click','.handleMe',function(e){
@@ -26,8 +26,8 @@ var hC = Drupal.settings.muziekladder;
             }
         });
         var i,bodyClass =  document.body.className.split(/\s+/),
-            lngth = bodyClass.length; 
-        
+            lngth = bodyClass.length;
+
         for (i = 0; i < lngth; i++){
             if ( typeof pageHandlers[bodyClass[i]] === 'function' )
                 $.extend(handlers, pageHandlers[bodyClass[i]]());
@@ -40,13 +40,13 @@ var hC = Drupal.settings.muziekladder;
     return {};
   };
   pageHandlers.muziekformulier = function(){
-    var $form = $('#mod-muziekladder-mailtipform'); 
+    var $form = $('#mod-muziekladder-mailtipform');
     // not logged in / always
     $('.aanraadloginlink').parents('.btn').click(function(){
-      location.href = $(this).find('a')[0].href 
+      location.href = $(this).find('a')[0].href
     });
-    
-    // logged in? 
+
+    // logged in?
     var $datefield = $('#datepicker');
     var $textfield = $('#edit-date');
     if ($datefield.length){
@@ -56,12 +56,12 @@ var hC = Drupal.settings.muziekladder;
         'format':'dd-mm-yyyy'
       })
       .on("changeDate", function(event) {
-        $textfield.val( $datefield.datepicker('getFormattedDate')); 
+        $textfield.val( $datefield.datepicker('getFormattedDate'));
       })
-      // dates already set  
+      // dates already set
       var set_dates =  $.trim($textfield.val());
       if (set_dates.length) {
-        var date_objects = []; 
+        var date_objects = [];
         var ddmmyyyy;
         var set_dates_arr = set_dates.split(',');
         for (var i=0; i < set_dates_arr.length; i++){
@@ -79,17 +79,17 @@ var hC = Drupal.settings.muziekladder;
         var ref = a.href.split('#')[1];
         $('.muziek-tab').addClass('nodisplay');
         $('.'+ref).removeClass('nodisplay')
-        
+
       });
       // open the correct tab
-      var tabindex = $.cookie('muziekformtab') ? $.cookie('muziekformtab') : 0; 
+      var tabindex = $.cookie('muziekformtab') ? $.cookie('muziekformtab') : 0;
       $formtabs.eq(tabindex).trigger('click');
 
     }
-    
+
     $('#edit-submit').click(function(){
       overlay();
-    }); 
+    });
     // workaround for Drupal #states required-functionality only active client-side
     $form.submit( function(e){
         var omg = [];
@@ -98,19 +98,17 @@ var hC = Drupal.settings.muziekladder;
            var $field = $form_item.find('input, textarea, select').eq(0);
            if($.trim($field.val()).length < 1){
               omg.push('Het veld "' + $form_item.find('label').text() +'" moet nog worden ingevuld.')
-           } 
+           }
         })
         if (omg.length){
           alert(omg.join("\n\n"))
-          overlay({close:1});
-          return false  
+            overlay({close:1});
+          return false
         }
     });
-      
-    $('.tip-delete-link').click(function(e){
-      e.preventDefault();
-      var delete_link = this.href; 
-      var $container = $(this).parents('.tip-link-container');
+
+    var tip_delete = function(delete_link,that){
+      var $container = $(that).parents('.view-content');
 
       if (!$container.find('.delete_event_modal').length){
         var txt,txt1,txt2,txt3;
@@ -119,12 +117,12 @@ var hC = Drupal.settings.muziekladder;
           txt = 'Confirm delete';
           txt1 = 'Are you sure you want to delete this event?';
           txt2 = 'Cancel';
-          txt3 = 'Yes Delete it!'; 
+          txt3 = 'Yes Delete it!';
         }else{
           txt = 'Verwijderen bevestigen';
           txt1 = 'Weet je zeker dat je deze tip wilt verwijderen?';
           txt2 = 'Nee niet doen';
-          txt3 = 'Ja verwijder nu!'; 
+          txt3 = 'Ja verwijder nu!';
         }
         $container.append('<div class="delete_event_modal modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
          ' <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>'+
@@ -139,29 +137,45 @@ var hC = Drupal.settings.muziekladder;
          '                    </div>');
         $container.find('.delete_the_damn_thing').click(function(){
           $.post(delete_link,function(){
-            location.reload();       
-          });   
-        }); 
+            location.reload();
+          });
+        });
       }
       $container.find('.delete_event_modal').modal({})
-    });
+    };
 
-    showTipsButton()
-    return {}; 
-  }; 
+    function match_file(nid){
+      return Drupal.settings.rows[nid];
+    }
+
+    showTipsButton();
+    var ds = Drupal.settings;
+
+    return {
+      "EditTip":function(){
+        var tip = match_file($(this).data('nid'));
+        location.href = ds.basePath+ds.pathPrefix + 'muziekformulier/edit/'+tip;
+      },
+      "DeleteTip":function(){
+        var tip = match_file($(this).data('nid'));
+        tip_delete(ds.basePath+ds.pathPrefix + 'muziekformulier/delete/'+tip,this);
+      }
+
+    };
+  };
 
   pageHandlers.zoekpagina = function(){
-    var orderBy = Drupal.settings.muziekladder_search_orderby, 
-        $orderBy = $('#orderBy'); 
+    var orderBy = Drupal.settings.muziekladder_search_orderby,
+        $orderBy = $('#orderBy');
     if (orderBy && orderBy != 'relevance'){
-        $orderBy.val(orderBy); 
+        $orderBy.val(orderBy);
     }
     crumbTrail.set(location.href);
     $orderBy.change(function(){
        $('#advanced_search').submit();
     })
     showTipsButton()
-    return {};     
+    return {};
   };
 
   pageHandlers.articlefull = function(){
@@ -173,10 +187,10 @@ var hC = Drupal.settings.muziekladder;
   pageHandlers.front = function(){
       var handlers = {
      //   openLink:cityMenuLinkHandleri
-      }; 
+      };
       externalLinks();
   //        drawFrontNews();
-  //        frontSlide(); 
+  //        frontSlide();
       showTipsButton()
 
       return handlers;
@@ -206,22 +220,22 @@ var hC = Drupal.settings.muziekladder;
     laad.wait('locations');
     showTipsButton();
     externalLinks();
-     
+
     return {
       show_venuetips:function(){
         $(this).hide();
         $('.venue_tipformContainer').slideDown();
-      }  
+      }
     };
   }
 
   pageHandlers.dagoverzicht = function(){
     if (Drupal.settings.pathPrefix == 'en/') {
       var nexttext = "Next page";
-      var prevtext = "Previous page";   
+      var prevtext = "Previous page";
     } else {
       var nexttext = "Volgende pagina";
-      var prevtext = "Vorige pagina";   
+      var prevtext = "Vorige pagina";
     }
 
     var pathprefix = Drupal.settings.basePath+Drupal.settings.pathPrefix;
@@ -229,41 +243,41 @@ var hC = Drupal.settings.muziekladder;
     var page = parseInt($cga.data('page'));
     var result_count = parseInt($cga.data('count'));
     var result_per_page = parseInt($cga.data('rpp'));
-    var handlers = {}; 
-    //page_links 
-    var pageless_url = location.href.replace(/\?pagina=[0-9]+/,''); 
-    var pagenav = []; 
+    var handlers = {};
+    //page_links
+    var pageless_url = location.href.replace(/\?pagina=[0-9]+/,'');
+    var pagenav = [];
     if (page > 0){
       pagenav.push( '<a class="btn btn-inverse" href="' + pageless_url + '?pagina=' + (page-1) + '"> &laquo; '+prevtext+'</a>' );
     }
 
     if (result_count == result_per_page){
       pagenav.push( '<a class="btn btn-inverse" href="' + pageless_url + '?pagina=' + (page+1) + '">'+nexttext+'  &raquo;</a>' );
-    } 
-    $('.page-nav-container').append(pagenav.join('&nbsp;&nbsp;&nbsp;'));  
-    
+    }
+    $('.page-nav-container').append(pagenav.join('&nbsp;&nbsp;&nbsp;'));
+
     //date selecter
     $('.agenda-date-selecter').change(function(e){
-      var choice = $(this).val(); 
+      var choice = $(this).val();
       var city_spec = location.href.match(/\/[0-9]+-[a-z]+\/*/i);
       city_spec = city_spec ? city_spec[0] : '/';
       if (!city_spec.match(/\/$/)) city_spec += '/';
       location.href = pathprefix+'muziek'+city_spec+'agenda-'+choice+'.html';
-    }); 
-    
+    });
+
     //city selecter
     $('.agenda_city_selecter').change(
       function(e){
         var choice = '/'+$(this).val();
-        var agenda_spec = location.href.match(/agenda\-[0-9]+/); 
-        if (choice == "/0") choice =''; 
+        var agenda_spec = location.href.match(/agenda\-[0-9]+/);
+        if (choice == "/0") choice ='';
         if (agenda_spec){
           agenda_spec = '/' + agenda_spec[0] +'.html';
         }else{
-          agenda_spec = '/';   
+          agenda_spec = '/';
         }
-       
-        location.href = pathprefix+'muziek' + choice + agenda_spec; 
+
+        location.href = pathprefix+'muziek' + choice + agenda_spec;
      });
 
      // day buttons
@@ -272,26 +286,26 @@ var hC = Drupal.settings.muziekladder;
          try {
             window.location = $(this).find('a')[0].href;
          } catch(err) {
-            window.location = $(this).attr('data-href')     
+            window.location = $(this).attr('data-href')
          }
      });
-    
+
      $(window).load(hC.loadAgendaImages);
-     eventLinksListener();  
+     eventLinksListener();
       // day buttons
      $('.prevnextlinks button').on('click',function(e){
          e.preventDefault();
          try {
             window.location = $(this).find('a')[0].href;
          } catch(err) {
-            window.location = $(this).attr('data-href')     
+            window.location = $(this).attr('data-href')
          }
      });
 
      crumbTrail.set(location.href);
      externalLinks();
      showTipsButton()
-     return handlers;   
+     return handlers;
   }
 
   function overlay(options) {
@@ -299,26 +313,26 @@ var hC = Drupal.settings.muziekladder;
     if (options.close ==1) {
        $('.el_overlay').fadeOut('fast',
         function(){
-          $(this).remove(); 
+          $(this).remove();
         }) ;
        return
     }
     var id = 'layer_'+((Math.random()*1000000)+'').replace('.','_');
-    var $layer = $('<div id="'+id+'" class="loading el_overlay" />'); 
-    $layer.css({"height":$(window).height()+'px'}); 
+    var $layer = $('<div id="'+id+'" class="loading el_overlay" />');
+    $layer.css({"height":$(window).height()+'px'});
     $('body').append($layer);
   }
 
 
   function eventLinksListener(){
-    var loading = false; 
+    var loading = false;
     $('.city_gig > a').click(function(e){
-      e.preventDefault(); 
-      if (loading) return; 
-      loading = true; 
+      e.preventDefault();
+      if (loading) return;
+      loading = true;
       var that = this;
       var $pageContainer = $('<div class="page-gig detail loading"></div>');
-      var $gigContainer = $(this).parents('.city_gig'); 
+      var $gigContainer = $(this).parents('.city_gig');
       $gigContainer.append($pageContainer);
       $.get(this.href+'&ajax=1',function(resp){
         $gigContainer.addClass('opened');
@@ -327,40 +341,40 @@ var hC = Drupal.settings.muziekladder;
           .removeClass('loading');
         loading = false;
         $pageContainer.find('.eventfull').slideDown();
-        showDetailImages($pageContainer); 
+        showDetailImages($pageContainer);
       }).fail(function(){
-        location.href = that.href; 
-       loading = false; 
+        location.href = that.href;
+       loading = false;
       });
     });
   }
 
   function loadAgendaImages(){
     // temp disable:
-    var i = 0; 
+    var i = 0;
     $('.city_gig').each(function(){
-      var $gig = $(this); 
-      var src; 
-      var img_code = $.trim($gig.data('imgsrc')); 
-             
-      if (!img_code || !img_code.length) return; 
-      
+      var $gig = $(this);
+      var src;
+      var img_code = $.trim($gig.data('imgsrc'));
+
+      if (!img_code || !img_code.length) return;
+
       if (img_code.match(/^data/)){
-        src = img_code;  
+        src = img_code;
       }else{
         src = '/muziekdata/img/?s=1&p='+img_code;
       }
-       
+
       i++;
       if (i>24) return
       var img = new Image;
       img.onload = function(){
-        $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')               
+        $gig.find('.first-cell').prepend('<div class="image-cell"><img src="'+src+'" /></div>')
       }
-      img.src = src; 
-    });  
-  };  
-  hC.loadAgendaImages = loadAgendaImages; 
+      img.src = src;
+    });
+  };
+  hC.loadAgendaImages = loadAgendaImages;
 
   function showTipsButton(){
      var other,other_selector,a,lnk,txt,lng = Drupal.settings.pathPrefix;
@@ -370,7 +384,7 @@ var hC = Drupal.settings.muziekladder;
        other_selector = '.en';
      } else {
         lnk ='/nl/';
-        txt = 'Nederlands'; 
+        txt = 'Nederlands';
         other_selector = '.nl';
      }
 
@@ -380,29 +394,29 @@ var hC = Drupal.settings.muziekladder;
      a.click(function(e){
         other = $(other_selector);
         if (other.length){
-          e.preventDefault(); 
+          e.preventDefault();
           location = other[0].href;
         }
      });
      $('#page-title, h1').before(a);
-  }    
+  }
 
-  var crumbTrail = (function(){ 
-      var cname = 'werwasib4'; 
+  var crumbTrail = (function(){
+      var cname = 'werwasib4';
       return {
           set:function(url){
               $.cookie(cname,url,{ expires: 7, path: '/' });
           },
           backButton:function($element){
-              var backuri = $.cookie(cname);    
+              var backuri = $.cookie(cname);
               if (backuri){
                   $element.click(function(e){
-                      e.preventDefault(); 
+                      e.preventDefault();
                       location.href = backuri;
                   })
               }
           }
-      }; 
+      };
   }());
   hC.crumbTrail = crumbTrail;
 
@@ -410,26 +424,26 @@ var hC = Drupal.settings.muziekladder;
       var $article = $('#content > article')
       var i = $article.length-1;
         $article.each(function(index){
-          var $this = $(this); 
+          var $this = $(this);
           if (!$this.hasClass('processed')){
-             var $header = $this.find('header').eq(0); 
+             var $header = $this.find('header').eq(0);
              $header.find('h2').append('<button class="btn btn-inverse"><i class="icon-white icon-chevron-right"></i></button>')
              $this.addClass('processed')
           //      .append($this.find('img').eq(0))
                 .click(function(e){
                   e.preventDefault()
-                  location.href = $('#content article.current').find('.links a')[0]['href'] ; 
+                  location.href = $('#content article.current').find('.links a')[0]['href'] ;
                 });
           }
           if($this.hasClass('current')){
              i=index;
-          }  
+          }
       });
       i+=1;
       if (i>=$article.length) i=0;
       $article.removeClass('current')
         .eq(i).addClass('current');
-      setTimeout(frontSlide,6000); 
+      setTimeout(frontSlide,6000);
     }
 /*
     function drawFrontNews(){
@@ -438,13 +452,13 @@ var hC = Drupal.settings.muziekladder;
           newsLinks();
           externalLinks();
 
-       });  
+       });
     }
     function newsLinks(){
         $('.joriso-news-item h3 a').click(function(e){
             e.preventDefault();
             var $that = $(this);
-            var $p = $that.parents('.joriso-news-item').find('p'); 
+            var $p = $that.parents('.joriso-news-item').find('p');
             if ($that.hasClass('visible')){
                 $p.hide();
                 $that.removeClass('visible');
@@ -452,10 +466,10 @@ var hC = Drupal.settings.muziekladder;
                 $p.slideDown('fast',function(){
                     $that.addClass('visible');
                 });
-            }     
-        }); 
-    } 
-/*        
+            }
+        });
+    }
+/*
     /**
      * City Menu functions.
      * The citybuttons on top of the index & dagoverzicht pages
@@ -469,7 +483,7 @@ var hC = Drupal.settings.muziekladder;
         '6':[6,14], //Groningen
         '7':[7,1404591646,15], //Eindhoven
         '100':[5,100] // Leiden
-    }; 
+    };
 
     function selectCity (cityno,callback){
         if (typeof cityPresets[cityno] !== 'undefined'){
@@ -484,41 +498,41 @@ var hC = Drupal.settings.muziekladder;
         e.preventDefault();
         e.stopPropagation();
         var lnk = typeof this.href === 'undefined' ? $(this).find('a')[0] : this;
-        selectCity($(lnk).data('cityno'),function() {    
+        selectCity($(lnk).data('cityno'),function() {
             if (!$('body').hasClass('dagoverzicht')) {
                 location.href = lnk.href;
             } else {
                 location.reload();
             }
-        });     
+        });
     }
 
     function setSessionCity(val,callback){
         var cb = callback || function(){}
         $.post('/muziek/setcity/',{city:val},cb);
     }
-    
+
     function setAlleStedenSelected(){
         $('.citymenu').each(function(){
             $(this).find('.span2').first().addClass('selected');
-        }); 
+        });
     }
 
     function markCitymenu(){ // mark the selected menu item
         if (typeof hC.sessionLocations == 'undefined'){
-            setAlleStedenSelected();    
-            return; 
+            setAlleStedenSelected();
+            return;
         }
         $('.citymenu').find('a').each(function(){
-            var cityno = $(this).data('cityno'); 
+            var cityno = $(this).data('cityno');
             if (cityno && $.inArray(""+cityno,hC.sessionLocations) != -1){
                 if (typeof cityPresets[cityno] != 'undefined'
                     && cityPresets[cityno].length === hC.sessionLocations.length
                     && cityPresets[cityno].sort().join('_') === hC.sessionLocations.sort().join('_')){//match
-                    
-                    $(this).parent().addClass('selected');                      
+
+                    $(this).parent().addClass('selected');
                 } else if(hC.sessionLocations.length === 1){
-                    $(this).parent().addClass('selected'); 
+                    $(this).parent().addClass('selected');
                 }
             }
         });
@@ -527,8 +541,8 @@ var hC = Drupal.settings.muziekladder;
 
     var cache = false;
     var getCurrentDateUrl = function(){
-        return '/muziekdata/'+hC.date.year+'/'+hC.date.day+'-'+hC.date.month+'.json';               
-    }       
+        return '/muziekdata/'+hC.date.year+'/'+hC.date.day+'-'+hC.date.month+'.json';
+    }
    function getData(){
         var url = getCurrentDateUrl();
         // return either the cached value or an
@@ -545,11 +559,11 @@ var hC = Drupal.settings.muziekladder;
    var externalLinks = function(){
         $('a[href]').each(function() {
            if(!a.test(this.href)) $(this).attr('target','_blank');
-        });     
+        });
    }
 
   var showDetailImages = function($container){
-    if (typeof $container == 'undefined') $container = $('body'); 
+    if (typeof $container == 'undefined') $container = $('body');
     var $ev = $container.find('.eventfull');
     if ($ev.length){
       var href = $.trim($ev.eq(0).data('imgsrc'));
@@ -558,28 +572,28 @@ var hC = Drupal.settings.muziekladder;
         var imgcreate = function(){
           var lnk = $container.find('.eventlink').eq(0).attr('href');
           var a = document.createElement('a');
-          a.href = lnk; 
+          a.href = lnk;
           a.className="eventImg";
           a.target="_blank";
-          a.appendChild(img); 
+          a.appendChild(img);
           $ev.prepend(a);
-        } 
+        }
         if (href.match(/^data/)){
-          img.src = href; 
+          img.src = href;
           imgcreate();
         } else {
-          img.onload = imgcreate; 
-          img.src = '/muziekdata/img?p='+href; 
+          img.onload = imgcreate;
+          img.src = '/muziekdata/img?p='+href;
         }
       }
     }
   };
-    
+
   var shareButton = function(){
       $('.location').before('<div style="margin:20px 0px" class="addthis_native_toolbox"></div>')
       laad.js('addthis',function(){});
   };
-  
+
   var backtotopButtons = function(){
       $('.backtotop').on('click',function(e){
           e.stopPropagation();
