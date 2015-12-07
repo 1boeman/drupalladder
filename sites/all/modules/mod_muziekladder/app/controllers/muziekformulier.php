@@ -32,9 +32,6 @@ class Muziekformulier extends Controller {
 
     $view = views_get_view('recent_tips');
     $view->set_display('page');
-    $args = $view->args;
-    $args[0] = $node->nid;
-    $view->set_arguments($args);
     $view->pre_execute();
     $view->execute();
 
