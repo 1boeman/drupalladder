@@ -111,7 +111,6 @@ class Muziek_util {
     if($uploaded_file){
       $ewrapper->field_image->file->set($uploaded_file);
     }else{
-      dpm ($uploaded_file);
       $ewrapper->field_image->set(NULL);
     }
 
