@@ -578,7 +578,8 @@ border-radius: 4px;
 .event_in_node li{
   list-style:none;
 }
-.event_data_in_node li{
+.event_data_in_node li.dates_in_node ul li {
+  font-style:italic;
 }
 
 .page-archief  .naar-tips-link{
@@ -598,11 +599,21 @@ margin-bottom: 20px;
   float:left;
 }
 
+.page-muziekformulier ul.links.inline{
+  display:block;  
+  margin-top:0px;
+}
+.page-muziekformulier ul.links>li{
+  padding-left:0px;
+
+  display:block;
+}
+ 
 .page-muziekformulier .field-type-image,
 .page-archief .field-type-image{
   float:right;
 }
-.page-muziekformulier .field-type-image,
+
 .page-archief .views-row{
   padding-bottom: 12px;
   margin-bottom: 60px;
@@ -1536,8 +1547,6 @@ margin-left:0px;
   float:right;
 }
 .user_in_node{
-  float:right;
-  clear:both
 }
 
 .node-type-article article p{

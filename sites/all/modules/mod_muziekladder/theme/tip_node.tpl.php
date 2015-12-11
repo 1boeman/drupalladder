@@ -1,12 +1,8 @@
 
 <div class="event_in_node">
-  <?php if (!(int)$summary): ?>
-  <div class="user_in_node">
-    <a class="user_link_in_node" data-uid="<?php echo $tip['uid'] ?>"  href="<?php echo Muziek_util::lang_url().'user/'.$tip['uid']  ?>"><?php echo $tip['user_name'] ?></a>
-  </div>
-  <?php endif; ?>
   <ul class="event_data_in_node event-data-in-node">
     <li class="event_link_in_node"><a href="<?php echo $tip['link'] ?>" target="_blank"><?php echo $tip['link'] ?></a></li>
+
     <li class="venue_in_node"><?php
         if ( $tip['venue_select']){
           if ($tip['db_venue']) {
@@ -45,6 +41,12 @@
   <?php if (!$summary) : ?>
     <li class="soort_in_node"><?php echo $tip['soort'] ?></li>
   <?php endif; ?>
+  <?php if (!(int)$summary): ?>
+  <li class="user_in_node">
+    <span><?php echo t('Posted by') ?> </span>
+    <a class="user_link_in_node" data-uid="<?php echo $tip['uid'] ?>"  href="<?php echo Muziek_util::lang_url().'user/'.$tip['uid']  ?>"><?php echo $tip['user_name'] ?></a>
+  </li>
+  <?php endif; ?>
 
   </ul>
   <?php if (!$summary) : ?>
@@ -52,4 +54,21 @@
     <?php echo nl2br(filter_xss($tip['description'])); ?>
   </p>
   <?php endif; ?>
+
+  <?php if ($summary) : 
+  $alter = array(
+    'max_length' => 400, //Integer
+    'ellipsis' => TRUE, //Boolean
+    'word_boundary' => TRUE, //Boolean
+    'html' => TRUE, //Boolean
+  );
+  $value = nl2br(filter_xss($tip['description']));
+  $trimmed_text = views_trim_text($alter, $value);
+  ?>
+  <p class="description_in_node">
+    <?php echo $trimmed_text ?>
+  </p>
+  <?php endif; ?>
+
+
 </div>
