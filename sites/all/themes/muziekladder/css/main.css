@@ -169,6 +169,10 @@ blockquote:before {
 
 }
 
+#block-user-login h2.block__title{
+  display:none
+
+}
 
 
 .node-teaser  ul {
@@ -608,7 +612,6 @@ margin-bottom: 20px;
 .page-muziekformulier .views-summary li,
 .page-archief .views-summary li{
   padding:6px 12px;
-  background: green;
 }
 .page-muziekformulier .views-summary li:hover,
 .page-archief .views-summary li:hover {
