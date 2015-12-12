@@ -24,24 +24,25 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     $city_options['00'] = '** City not in list? Click here... *';
 
     // check if a city has been selected from the list
-    $selected_value = isset($form_state['input']['city_select']) ? $form_state['input']['city_select'] : false;
+    $selected_city = isset($form_state['input']['city_select']) ? $form_state['input']['city_select'] : false;
 
     // check if a city has been selected in presets
     // but don't overrule a newly selected city
     // - and only if a nocity option ('0' or '00') hasn't been explicly selected
-    if ( !(int)$selected_value &&
-           !isset($form_state['input']['city_select']) ||
+    if ( !(int)$selected_city ){
+        if(!isset($form_state['input']['city_select']) ||
               ( isset($form_state['input']) &&
                 isset($form_state['input']['city_select']) &&
                   $form_state['input']['city_select'] !=='0' &&
                     $form_state['input']['city_select'] !=='00') ){
-      if (isset($presets['city_select']) && $presets['city_select'] ){
-        $selected_value = $presets['city_select'];
-      }
+                      if (isset($presets['city_select']) && $presets['city_select'] ){
+                        $selected_city = $presets['city_select'];
+                      }
+                    }
     }
     // if we have a selected city - go get the venues
-    if ( strlen($selected_value) && (int) $selected_value ) {
-      $venues = Muziek_db::get_city_venues($selected_value);
+    if ( strlen($selected_city) && (int) $selected_city ) {
+      $venues = Muziek_db::get_city_venues($selected_city);
       $venue_options = array('0' =>' ** '.t('Venue not in list? Click here...').' * ');
 
       while ( $row = $venues->fetchArray() ){
@@ -206,7 +207,7 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     }
 
       // if no city selected or venue unknown selected
-    if ( $selected_value === '0' || $selected_value === '00' ||
+    if ( $selected_city === '0' || $selected_city === '00' ||
         (isset($presets) && isset($presets['venue_freetext'])) ||
         (isset($selected_venue) && strlen($selected_venue) && $selected_venue === '0')){
         $form['venue']['venue_freetext'] = array(
