@@ -597,6 +597,7 @@ margin-bottom: 20px;
 .page-muziekformulier .field-type-text-with-summary,
 .page-archief .field-type-text-with-summary{
   float:left;
+  width:70%;
 }
 
 .page-muziekformulier ul.links.inline{
@@ -608,10 +609,15 @@ margin-bottom: 20px;
 
   display:block;
 }
- 
+ .page-muziekformulier .field-type-image img,
+.page-archief .field-type-image img{
+  max-width:100%
+}
+
 .page-muziekformulier .field-type-image,
 .page-archief .field-type-image{
   float:right;
+  max-width:30%;
 }
 
 .page-archief .views-row{
@@ -1962,7 +1968,8 @@ clear: both;
   }
   .page-muziekformulier .field-type-image,
   .page-archief .field-type-image{
-    float:none
+    float:none;
+    width:100%;
   }
 
 
