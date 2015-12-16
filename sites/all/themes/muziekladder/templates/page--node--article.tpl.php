@@ -6,6 +6,10 @@
  * Complete documentation for this file is available online.
  * @see https://drupal.org/node/1728148
  */
+
+ $path = $base_path;
+ $path .= get_lang().'/';
+
 ?>
 
 <?php require ('header.inc.php') ?>
@@ -29,7 +33,30 @@
         <?php if ($action_links): ?>
           <ul class="action-links"><?php print render($action_links); ?></ul>
         <?php endif; ?>
+        <?php
+         if (isset($editable)): ?>
+          <div class="editor-buttons">
+          <a class="btn btn-inverse btn-small tip-edit-link" data-handler="EditTip" href="<?php echo $path.'muziekformulier/edit/'.$editable ?>">
+            <span>
+              <i class="icon icon-edit icon-white"></i>
+              &#160;
+              <?php echo t('Edit'); ?>
+            </span>
+          </a>
+
+          <a class="btn btn-inverse btn-small tip-delete-link handleMe" data-handler="nodeDeleteTip" data-xml="<?php echo $path.'muziekformulier/delete/'.$editable ?>" >
+            <span>
+              <i class="icon icon-remove icon-white"></i>
+               &#160;
+               <?php echo t('Delete'); ?>
+            </span>
+          </a>
+        </div>
+
+        <?php endif; ?>
+
         <?php print render($page['content']); ?>
+
         <?php print $feed_icons; ?>
       </div>
     </div>

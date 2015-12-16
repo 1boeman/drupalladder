@@ -1,5 +1,4 @@
 var hC = Drupal.settings.muziekladder;
-
 (function($){
   hC.jsDir = '/js/';
   hC.mapsKey = 'AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo';
@@ -13,32 +12,17 @@ var hC = Drupal.settings.muziekladder;
     "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
     "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
   };
-  var pageHandlers = {},
-      handlers = {};
 
-  laad.wait(['util'],function(){
-    $(function(){
-        $('body').on('click','.handleMe',function(e){
-            e.preventDefault();
-            var $this = $(this);
-            if ( typeof handlers[$this.data('handler')] === 'function' ){
-              handlers[$this.data('handler')].apply(this,[e]);
-            }
-        });
-        var i,bodyClass =  document.body.className.split(/\s+/),
-            lngth = bodyClass.length;
+  pageHandlers = glbl.pageHandlers;
+  handlers = glbl.handlers;
 
-        for (i = 0; i < lngth; i++){
-            if ( typeof pageHandlers[bodyClass[i]] === 'function' )
-                $.extend(handlers, pageHandlers[bodyClass[i]]());
-        }
-    });
-  });
+  laad.wait(['util'],function(){});
 
   pageHandlers['page-muziekformulier-edit'] = function(){
     $('.tab-1').fadeIn();
     return {};
   };
+
   pageHandlers.muziekformulier = function(){
     var $form = $('#mod-muziekladder-mailtipform');
     // not logged in / always
@@ -84,7 +68,6 @@ var hC = Drupal.settings.muziekladder;
       // open the correct tab
       var tabindex = $.cookie('muziekformtab') ? $.cookie('muziekformtab') : 0;
       $formtabs.eq(tabindex).trigger('click');
-
     }
 
     $('#edit-submit').click(function(){
@@ -107,43 +90,6 @@ var hC = Drupal.settings.muziekladder;
         }
     });
 
-    var tip_delete = function(delete_link,that){
-      var $container = $(that).parents('.view-content');
-
-      if (!$container.find('.delete_event_modal').length){
-        var txt,txt1,txt2,txt3;
-        if (Drupal.settings.pathPrefix.match('en')){
-          //english
-          txt = 'Confirm delete';
-          txt1 = 'Are you sure you want to delete this event?';
-          txt2 = 'Cancel';
-          txt3 = 'Yes Delete it!';
-        }else{
-          txt = 'Verwijderen bevestigen';
-          txt1 = 'Weet je zeker dat je deze tip wilt verwijderen?';
-          txt2 = 'Nee niet doen';
-          txt3 = 'Ja verwijder nu!';
-        }
-        $container.append('<div class="delete_event_modal modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
-         ' <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>'+
-         '  <h3 id="myModalLabel">'+txt+'</h3></div>'+
-         '  <div class="modal-body">'+
-         '            <p>'+txt1+'</p>'+
-         '             </div>'+
-         '              <div class="modal-footer">'+
-         '                 <button class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">'+txt2+'</button>'+
-         '                    <button class="btn btn-inverse delete_the_damn_thing">'+txt3+'</button>'+
-         '                     </div>'+
-         '                    </div>');
-        $container.find('.delete_the_damn_thing').click(function(){
-          $.post(delete_link,function(){
-            location.reload();
-          });
-        });
-      }
-      $container.find('.delete_event_modal').modal({})
-    };
-
     function match_file(nid){
       return Drupal.settings.rows[nid];
     }
@@ -158,9 +104,8 @@ var hC = Drupal.settings.muziekladder;
       },
       "DeleteTip":function(){
         var tip = match_file($(this).data('nid'));
-        tip_delete(ds.basePath+ds.pathPrefix + 'muziekformulier/delete/'+tip,this);
+        glbl.tip_delete(ds.basePath+ds.pathPrefix + 'muziekformulier/delete/'+tip,this);
       }
-
     };
   };
 

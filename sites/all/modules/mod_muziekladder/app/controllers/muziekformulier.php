@@ -27,7 +27,7 @@ class Muziekformulier extends Controller {
 
     if (user_is_logged_in()){
       $tips = Muziek_util::showTips();
-      drupal_add_js(array('rows'=>$tips), 'setting');      
+      drupal_add_js(array('rows'=>$tips), 'setting');
     }
 
     $view = views_get_view('recent_tips');

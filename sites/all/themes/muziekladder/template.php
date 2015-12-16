@@ -188,7 +188,7 @@ function muziekladder_preprocess_node(&$variables, $hook) {
   $variables['unpublished'] = (!$variables['status']) ? TRUE : FALSE;
 
   // Add pubdate to submitted variable.
-  $variables['pubdate'] = '<span>Gepubliceerd:</span> <time pubdate datetime="' . format_date($variables['node']->created, 'custom', 'c') . '">' . $variables['date'] . '</time>';
+  $variables['pubdate'] = '<span>'.t('Published on').':</span> <time pubdate datetime="' . format_date($variables['node']->created, 'custom', 'c') . '">' . $variables['date'] . '</time>';
   if ($variables['display_submitted']) {
     $variables['submitted'] = $variables['pubdate'];
   }
@@ -203,12 +203,27 @@ function muziekladder_preprocess_page(&$variables) {
   }
 
   if (!empty($variables['node']) && !empty($variables['node']->type)) {
+    // provide specific page--node--type based templates
     $variables['theme_hook_suggestions'][] = 'page__node__' . $variables['node']->type;
+
+    //
+    if ($variables['node']->type == 'article'){
+      if ($user->uid == $variables['node']->uid){
+        if (isset($variables['node']->field_file_id['und'][0]['value'])){
+          $variables['editable'] = $variables['node']->field_file_id['und'][0]['value'];
+        }
+      }
+    }
   }
+
   if (stristr(current_path(),'muziekformulier') && $user->uid){
     $themepath = drupal_get_path('theme','muziekladder');
     drupal_add_css($themepath.'/bootstrapdatepicker/css/bootstrap-datepicker.min.css');
     drupal_add_js($themepath.'/bootstrapdatepicker/js/bootstrap-datepicker.min.js');
   }
+}
 
+function get_lang() {
+  global $language;
+  return $language->language;
 }

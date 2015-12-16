@@ -83,6 +83,7 @@ class Muziek_util {
     'format' => 'full_html',
     'value' => $my_body_content));
 
+    $ewrapper->field_file_id->set($tip_id);
 
     $ewrapper->body->summary->set($my_body_content_summary);
 
