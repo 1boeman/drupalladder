@@ -24,7 +24,9 @@ var glbl = {
 
   'tip_delete' : function(delete_link,that){
     var $ = jQuery;
+
     var $container = $(that).parents('.tip-link-container');
+    
     if (!$container.find('.delete_event_modal').length){
       var txt,txt1,txt2,txt3;
       if (Drupal.settings.pathPrefix.match('en')){
@@ -149,7 +151,7 @@ var glbl = {
       pageHandlers['node-type-article'] = function(){
         return {
           nodeDeleteTip : function(){
-            glbl.tip_delete($(this).data('xml'),this); 
+            glbl.tip_delete($(this).data('xml'),this);
           }
         }
       };
