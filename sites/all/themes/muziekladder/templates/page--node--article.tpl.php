@@ -16,8 +16,19 @@
 
 <div id="page">
   <div id="main">
-
     <div id="content" class="column" role="main">
+      <ul class="breadcrumb">
+        <li>
+          <a href="<?php echo $path; ?>muziekformulier"><span>Tips</span></a>
+          <span class="divider"><i class="icon-chevron-right"></i></span>
+        </li>
+        <li>
+          <span class="active"><?php if ($title):
+               print $title;
+           endif; ?></span>
+        </li>
+      </ul>
+
       <div class="article-container">
         <?php print render($page['highlighted']); ?>
         <?php print $breadcrumb; ?>

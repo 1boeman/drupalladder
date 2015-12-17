@@ -43,7 +43,6 @@
 }
 .logged-in .user-container .userOptions li{
   display:block;
-
 }
 
 .logged-in .user-container .userOptions li:hover{
@@ -572,7 +571,7 @@ border-radius: 4px;
 .view-id-recent_tips article{
  border-bottom:4px dotted #efefef;
  padding-bottom:20px;
- margin-bottom:20px;
+ margin-bottom:60px;
 }
 
 .event_in_node li{
@@ -580,8 +579,15 @@ border-radius: 4px;
 }
 .event_data_in_node li.dates_in_node ul li {
   font-style:italic;
+  font-weight: bold;
 }
 
+.event_data_in_node li.city_in_node {
+  font-style: italic;
+}
+.event_data_in_node li.venue_in_node {
+  font-weight: bold;
+}
 .page-archief  .naar-tips-link{
   float:right;
 }
@@ -601,7 +607,7 @@ margin-bottom: 20px;
 }
 
 .page-muziekformulier ul.links.inline{
-  display:block;  
+  display:block;
   margin-top:0px;
 }
 .page-muziekformulier ul.links>li{
@@ -1524,12 +1530,15 @@ font-size: 20px;
 }
 
 /*article pages*/
-.node-type-article #main{
-  margin-bottom:180px;
+.node-type-article .editor-buttons{
+  margin-bottom: 10px;
 
 }
+.node-type-article #main{
+  margin-bottom:180px;
+}
 .node-type-article .article-container{
-  margin-top:60px;
+  margin-top:10px;
 }
 .node-type-article .article-container ul.event_data_in_node{
   background:#efefef;

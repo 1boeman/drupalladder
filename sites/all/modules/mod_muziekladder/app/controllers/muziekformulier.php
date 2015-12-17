@@ -36,7 +36,7 @@ class Muziekformulier extends Controller {
     $view->execute();
 
     $response = $view->render();
-
+    $response .= '<a class="naar-agenda-link btn btn-inverse" href="/'.$language->prefix.'/archief"> '.t('More').' &raquo;</a>';
     $rv = array(
       'render_array'=>array(
         'freeform'=> $formfree,
@@ -98,7 +98,7 @@ class Muziekformulier extends Controller {
     }
 
     return array('render_array'=>array(
-        'muziekform'=>$rv,
+      'muziekform'=>$rv,
     ));
   }
 
@@ -120,7 +120,7 @@ class Muziekformulier extends Controller {
       $gig['file_name'] = $file_name;
 
       $this->set_head_title(t('Muziekladder recommendation'));
-      $this->set_title(t('Edit'));
+      $this->set_title($gig['title']);
       $form = drupal_get_form('mod_muziekladder_mailtipform',$gig);
     }
 
