@@ -54,7 +54,7 @@ class Muziekformulier extends Controller {
         <div class="legenda2">'.$legend2.'</div>
          <div class="legenda1">'.$legend.'</div>
       <ul class="nav nav-tabs" id="formtabs">
-          <li><a href="#tab-1">'.t('Event form').'</a></li>
+          <li><a href="#tab-1">'.t('Event').'</a></li>
           <li><a href="#tab-2">'.t('Free text').'</a></li>
         </ul></div>';
     }
