@@ -100,6 +100,17 @@ class Muziek_db {
    
   }
     
+  static function get_cities_with_names_containing_dash(){
+    $db = self::open_locaties_db();
+    $statement = $db->prepare("SELECT * from City WHERE Name like '%-%';");
+    $result = $statement->execute();
+    $rv = self::result_to_array($result);    
+
+    return $rv;      
+  }
+ 
+
+    
   static function get_cities($raw = false){
     $locaties_db = self::open_locaties_db();
     $result = $locaties_db->query('SELECT * from City order by Name');
@@ -119,8 +130,6 @@ class Muziek_db {
     } 
     return $rv; 
   }
-/*
-//@todo : two step gig-get: first try by id then try by date */
 
   function get_gig_by_id($id){
     $statement = $this->dbhandle->prepare('
@@ -130,6 +139,7 @@ class Muziek_db {
     $rv = $this->result_to_array($result);    
     return $rv;       
   }
+
   function get_gig($date,$url){
     $statement = $this->dbhandle->prepare('SELECT * from Event g WHERE g.Link = :url AND Date = :date ' );
     $statement->bindValue(':url',$url);
@@ -160,4 +170,5 @@ class Muziek_db {
     $result = $statement->execute();
     return $result->fetchArray(SQLITE3_ASSOC); 
   }
+
 }

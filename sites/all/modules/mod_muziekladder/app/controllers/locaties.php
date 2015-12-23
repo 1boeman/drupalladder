@@ -15,7 +15,18 @@ class Locaties extends Controller {
       }
 
     } elseif (preg_match('#^([\-a-zA-Z\.0-9_]+)-[A-Z]#',$name,$matches)) {
-      //regular venue_id
+      // regular venue_id
+      
+      // check for city_names containing dashes
+      $cities = Muziek_db::get_cities_with_names_containing_dash();
+      foreach ($cities as $val){
+          if (stristr($name,$val['Name'])){
+            return $this->locatie(str_replace('-'.$val['Name'],'',$name)); 
+            break; 
+          }
+      }
+   
+      // the city name contains no dashes  
       return $this->locatie($matches[1]);
     } else {
       global $base_url; 
