@@ -30,7 +30,7 @@ if (!empty($title)): ?>
            <?php echo t('Delete'); ?>
         </span>
       </a>
-    </div>  
+    </div>
   <?php endif?>
   <div<?php if ($classes_array[$id]) { print ' class="' . $classes_array[$id] .'"';  } ?>>
     <?php print $row; ?>

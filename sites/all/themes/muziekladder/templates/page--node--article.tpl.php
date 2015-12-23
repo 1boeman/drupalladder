@@ -9,7 +9,6 @@
 
  $path = $base_path;
  $path .= get_lang().'/';
-
 ?>
 
 <?php require ('header.inc.php') ?>
@@ -20,6 +19,10 @@
       <ul class="breadcrumb">
         <li>
           <a href="<?php echo $path; ?>muziekformulier"><span>Tips</span></a>
+          <span class="divider"><i class="icon-chevron-right"></i></span>
+        </li>
+        <li>
+          <a href="<?php echo $path; ?>archief"><span><?php echo t('Archive') ?></span></a>
           <span class="divider"><i class="icon-chevron-right"></i></span>
         </li>
         <li>

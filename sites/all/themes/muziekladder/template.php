@@ -153,6 +153,12 @@ function muziekladder_js_alter(&$javascript) {
 }
 */
 
+
+function get_lang() {
+  global $language;
+  return $language->language;
+}
+
 /***
  ** prevent wysiwyg in comment form
  **/
@@ -170,7 +176,7 @@ function muziekladder_html_head_alter(&$head_elements) {
   unset($head_elements['system_meta_generator']);
   foreach($head_elements as $key => $value){
     if (stristr($key,'shortlink')){
-      unset($head_elements[$key]);
+      unset($head_elements[$key])  ;
     }
   }
 
@@ -196,7 +202,8 @@ function muziekladder_preprocess_node(&$variables, $hook) {
 
 function muziekladder_preprocess_page(&$variables) {
   global $user;
-  $variables['lang_prefix'] =  Muziek_util::lang_url();
+  $lang_prefix =  Muziek_util::lang_url();
+  $variables['lang_prefix'] = $lang_prefix;
 
   if (drupal_is_front_page()){
     unset($variables['page']['content']['system_main']['pager']);
@@ -208,6 +215,7 @@ function muziekladder_preprocess_page(&$variables) {
 
     //
     if ($variables['node']->type == 'article'){
+      
       if ($user->uid == $variables['node']->uid){
         if (isset($variables['node']->field_file_id['und'][0]['value'])){
           $variables['editable'] = $variables['node']->field_file_id['und'][0]['value'];
@@ -221,9 +229,37 @@ function muziekladder_preprocess_page(&$variables) {
     drupal_add_css($themepath.'/bootstrapdatepicker/css/bootstrap-datepicker.min.css');
     drupal_add_js($themepath.'/bootstrapdatepicker/js/bootstrap-datepicker.min.js');
   }
+
+  // draw crumb trail for view pages
+  $view = views_get_page_view();
+  if(isset($view) && $view->name == 'evenement_archief') {
+    $crumb_items = array(
+      array('text'=>t('Tips'), 'link'=>$lang_prefix.'muziekformulier'));
+      if (count($view->args)){
+        // date filtered page
+        $crumb_items[]= array(
+          'text'=>t('Archive'),
+          'link'=>$lang_prefix.'archief'
+        );
+        $crumb_items[]= array(
+          'text'=>$view->build_info['substitutions']['%1']
+        );
+      } else {
+        // month overview page
+        $crumb_items[]= array(
+          'text'=>t('Archive')
+        );
+      }
+      $variables['crumbs'] = theme('crumb_trail',array('items'=>$crumb_items));
+  }
 }
 
-function get_lang() {
-  global $language;
-  return $language->language;
+
+function muziekladder_preprocess_views_view(&$vars,$d) {
+  if ($vars['view']->name == 'evenement_archief'){
+    $view = $vars['view'];
+    if (isset($view->build_info['substitutions']['%1']) && strstr($view->build_info['substitutions']['%1'],'20')){
+      $view->build_info['substitutions']['%1'] = t('Tips posted in ').$view->build_info['substitutions']['%1'];
+    }
+  }
 }
