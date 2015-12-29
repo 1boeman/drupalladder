@@ -29,13 +29,13 @@ if(!empty($content)){
       echo '<h2 class="human-date">'.$human_date.'</h2>';
     }else{
      // prevent duplications
-      if ( $old_title == trim($value['Event_Title']) 
+      if ( $old_title == strtolower(trim($value['Event_Title'])) 
       // &&
           //$old_venue == $value['Venue_Title']
            ) {
         continue;
       }
-      $old_title =  trim($value['Event_Title']);
+      $old_title =  strtolower(trim($value['Event_Title']));
       $old_venue = $value['Venue_Title'];
     }
 
