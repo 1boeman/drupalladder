@@ -1,24 +1,24 @@
-<?php 
-  $lang_prefix = Muziek_util::lang_url(); 
+<?php
+  $lang_prefix = Muziek_util::lang_url();
 ?>
 
-<div class="city_gig_agenda" data-page="<?php echo $page ?>" data-count="<?php echo $count ?>" data-rpp="<?php echo $rpp ?>"> 
+<div class="city_gig_agenda" data-page="<?php echo $page ?>" data-count="<?php echo $count ?>" data-rpp="<?php echo $rpp ?>">
 <?php echo $navigation ?>
 <?php if($page > 0): ?>
   <h2 class="pagina"> <?php echo t('Page').' '. ($page+1); ?></h2>
 <?php endif; ?>
 
-<div class="page-nav-container top"></div> 
-<?php 
+<div class="page-nav-container top"></div>
+<?php
 $old_date = '';
-$old_city = ''; 
+$old_city = '';
 $old_title = '';
 $old_venue = '';
 if(!empty($content)){
-  
+
   foreach($content as $value){
-    $link = Muziek_util::gig_link($value);  
-    
+    $link = Muziek_util::gig_link($value);
+
     // block headers
     if ($old_date != $value['Event_Date']){
       $old_date = $value['Event_Date'];
@@ -29,26 +29,28 @@ if(!empty($content)){
       echo '<h2 class="human-date">'.$human_date.'</h2>';
     }else{
      // prevent duplications
-      if ( $old_title == $value['Event_Title'] &&
-          $old_venue == $value['Venue_Title'] ) {
-        continue;  
-      } 
-      $old_title =  $value['Event_Title'];
+      if ( $old_title == trim($value['Event_Title']) 
+      // &&
+          //$old_venue == $value['Venue_Title']
+           ) {
+        continue;
+      }
+      $old_title =  trim($value['Event_Title']);
       $old_venue = $value['Venue_Title'];
     }
 
     if($old_city != $value['City_Name']){
       $old_city = $value['City_Name'];
-      echo '<h3 class="city_header nodisplay"><a href="'.$lang_prefix.'muziek/'.$value['City_Id'].'-'.$value['City_Name'].'">'.$value['City_Name'].'</a></h3>'; 
+      echo '<h3 class="city_header nodisplay"><a href="'.$lang_prefix.'muziek/'.$value['City_Id'].'-'.$value['City_Name'].'">'.$value['City_Name'].'</a></h3>';
     }
     $img_class = '';
     $img = '';
     if (strlen(trim($value['Event_Img']))){
-      $img = preg_match ("/^data/",$value['Event_Img']) ? $value['Event_Img'] : base64_encode($value['Event_Img']); 
-      $img_class = ' icanhazimage'; 
+      $img = preg_match ("/^data/",$value['Event_Img']) ? $value['Event_Img'] : base64_encode($value['Event_Img']);
+      $img_class = ' icanhazimage';
     }
 ?>
-                                          
+
     <div class="city_gig clearfix<?php echo $img_class ?>" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>">
       <a class="clearfix" itemprop="url" href="<?php echo $link ?>">
         <div class="first-cell cell">
@@ -70,10 +72,10 @@ if(!empty($content)){
 }else{ ?>
 
 <p>
-<?php 
+<?php
 if ($lang_prefix =='/en/'): ?>
 <p>
-Sorry, couldn't find any events. 
+Sorry, couldn't find any events.
 </p>
 <p>
 <a href="/en/muziek">
@@ -99,9 +101,9 @@ Niks gevonden helaas.
 
 
 <?php
-  endif;    
+  endif;
 }
-?> 
+?>
 
 </div>
 <div class="page-nav-container bottom"></div>
