@@ -309,24 +309,12 @@ var hC = Drupal.settings.muziekladder;
         img_html = '<img src="'+src+'" />'
       }else{
         src = '/muziekdata/img/?s=1&p='+img_code;
-        img_html = '<img src="'+Drupal.settings.muziekladder.pathToTheme+'/img/blank.gif" class="lazy" data-src="'+src+'" />';
+        img_html = '<img src="'+Drupal.settings.muziekladder.pathToTheme+'/img/blank.png" class="lazy" data-src="'+src+'" />';
       }
 
       var img = new Image;
       $gig.find('.first-cell').prepend('<div class="image-cell">'+img_html+'</div>')
     });
-
-
-
-
-
-
-      /* lazyload.js (c) Lorenzo Giuliani
-     * MIT License (http://www.opensource.org/licenses/mit-license.html)
-     *
-     * expects a list of:
-     * `<img src="blank.gif" data-src="my_image.png" width="600" height="400" class="lazy">`
-     */
 
     !function(){
       var $q = function(q, res){
