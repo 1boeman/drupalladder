@@ -838,10 +838,22 @@ footer{
 .image-cell{
   float:left;
   margin:0px 10px;
+  width:60px;
+  height:60px;
+  background:LightSteelBlue;
+  position: relative;
 }
 .image-cell img{
   max-width:60px;
   max-height:60px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: red;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
 }
 
 .dagoverzicht .agenda-add-event{
