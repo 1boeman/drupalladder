@@ -842,6 +842,7 @@ footer{
   height:60px;
   background:LightSteelBlue;
   position: relative;
+  z-index:0;
 }
 .image-cell img{
   max-width:60px;
@@ -870,6 +871,7 @@ footer{
   opacity:0.9;
   height:36px;
   padding-top:6px;
+  z-index:10;
 }
 .nav-dag-outer{
   min-height:68px;
@@ -1131,6 +1133,11 @@ color:Maroon
   float:right; cursor:pointer;
   margin-left:10px;
 
+}
+.dagoverzicht .detail .eventfull h1{
+  display:block;
+  width:100%;
+  cursor:pointer
 }
 .dagoverzicht .detail .eventfull .date{
   float:none;

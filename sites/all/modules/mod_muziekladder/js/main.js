@@ -273,11 +273,18 @@ var hC = Drupal.settings.muziekladder;
     var loading = false;
     $('.city_gig > a').click(function(e){
       e.preventDefault();
+      var $gigContainer = $(this).parents('.city_gig');
+      var $page_gig = $gigContainer.find('.page-gig');
+      if ($page_gig.length){
+        $page_gig.slideDown();
+        $gigContainer.addClass('opened');
+        return;
+      }
+      
       if (loading) return;
       loading = true;
       var that = this;
       var $pageContainer = $('<div class="page-gig detail loading"></div>');
-      var $gigContainer = $(this).parents('.city_gig');
       $gigContainer.append($pageContainer);
       $.get(this.href+'&ajax=1',function(resp){
         $gigContainer.addClass('opened');
@@ -285,7 +292,13 @@ var hC = Drupal.settings.muziekladder;
           .append(resp)
           .removeClass('loading');
         loading = false;
-        $pageContainer.find('.eventfull').slideDown();
+        $pageContainer.find('.eventfull').slideDown(function(){
+          $(this).find('h1').click(function(){
+            $pageContainer.hide();
+            $gigContainer.removeClass('opened');
+          })
+
+        });
         showDetailImages($pageContainer);
       }).fail(function(){
         location.href = that.href;
@@ -485,91 +498,6 @@ var hC = Drupal.settings.muziekladder;
                 $p.slideDown('fast',function(){
                     $that.addClass('visible');
                 });
-            }
-        });
-    }
-/*
-    /**
-     * City Menu functions.
-     * The citybuttons on top of the index & dagoverzicht pages
-     **/
-/*    var cityPresets = {     //groupings of cities based on proximity
-        '1':[2,1,3], //Amsterdam
-        '8':[8,5,1388962814,1389535452],    //Rotterdam
-        '5':[8,5,100], // Den Haag
-        '4':[12,4,110,1389309298], //Utrecht
-
-        '6':[6,14], //Groningen
-        '7':[7,1404591646,15], //Eindhoven
-        '100':[5,100] // Leiden
-    };
-
-    function selectCity (cityno,callback){
-        if (typeof cityPresets[cityno] !== 'undefined'){
-            setSessionCity(cityPresets[cityno].join(','),callback);
-        } else {
-            setSessionCity(cityno,callback);
-        }
-    }
-
-    //handles click events on the citybuttons:
-    function cityMenuLinkHandler(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var lnk = typeof this.href === 'undefined' ? $(this).find('a')[0] : this;
-        selectCity($(lnk).data('cityno'),function() {
-            if (!$('body').hasClass('dagoverzicht')) {
-                location.href = lnk.href;
-            } else {
-                location.reload();
-            }
-        });
-    }
-
-    function setSessionCity(val,callback){
-        var cb = callback || function(){}
-        $.post('/muziek/setcity/',{city:val},cb);
-    }
-
-    function setAlleStedenSelected(){
-        $('.citymenu').each(function(){
-            $(this).find('.span2').first().addClass('selected');
-        });
-    }
-
-    function markCitymenu(){ // mark the selected menu item
-        if (typeof hC.sessionLocations == 'undefined'){
-            setAlleStedenSelected();
-            return;
-        }
-        $('.citymenu').find('a').each(function(){
-            var cityno = $(this).data('cityno');
-            if (cityno && $.inArray(""+cityno,hC.sessionLocations) != -1){
-                if (typeof cityPresets[cityno] != 'undefined'
-                    && cityPresets[cityno].length === hC.sessionLocations.length
-                    && cityPresets[cityno].sort().join('_') === hC.sessionLocations.sort().join('_')){//match
-
-                    $(this).parent().addClass('selected');
-                } else if(hC.sessionLocations.length === 1){
-                    $(this).parent().addClass('selected');
-                }
-            }
-        });
-    }
-    // EOF Citymenu functions
-
-    var cache = false;
-    var getCurrentDateUrl = function(){
-        return '/muziekdata/'+hC.date.year+'/'+hC.date.day+'-'+hC.date.month+'.json';
-    }
-   function getData(){
-        var url = getCurrentDateUrl();
-        // return either the cached value or an
-        // jqXHR object (which contains a promise)
-        return cache || $.ajax(url, {
-            dataType: 'json',
-            success: function( resp ){
-                cache = resp;
             }
         });
     }
