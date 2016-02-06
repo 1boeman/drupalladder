@@ -837,10 +837,10 @@ footer{
 
 .image-cell{
   float:left;
-  margin:0px 10px;
+  margin:0px 8px 0px 4px;
   width:60px;
   height:60px;
-  background:LightSteelBlue;
+  background:#ededed;
   position: relative;
   z-index:0;
 }
@@ -927,8 +927,8 @@ footer{
   margin-bottom:-2px
 }
 .city_gig {
-  margin-top:2px;
-  padding:4px 0px;
+  margin-top:1px;
+  padding:0px;
 }
 .city_gig .city{
   padding-left:8px;
@@ -939,10 +939,11 @@ footer{
 
 }
 .city_gig .cell{
-    float:left;
-    width:50%;
-   padding:8px 0px ;
+  float:left;
+  width:50%;
+  padding:4px 0px ;
 }
+
 .city_gig .first-cell{
   color:#333
 }
