@@ -30,15 +30,15 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     // but don't overrule a newly selected city
     // - and only if a nocity option ('0' or '00') hasn't been explicly selected
     if ( !(int)$selected_city ){
-        if(!isset($form_state['input']['city_select']) ||
-              ( isset($form_state['input']) &&
-                isset($form_state['input']['city_select']) &&
-                  $form_state['input']['city_select'] !=='0' &&
-                    $form_state['input']['city_select'] !=='00') ){
-                      if (isset($presets['city_select']) && $presets['city_select'] ){
-                        $selected_city = $presets['city_select'];
-                      }
-                    }
+      if(!isset($form_state['input']['city_select']) ||
+          ( isset($form_state['input']) &&
+            isset($form_state['input']['city_select']) &&
+              $form_state['input']['city_select'] !=='0' &&
+                $form_state['input']['city_select'] !=='00') ){
+                  if (isset($presets['city_select']) && $presets['city_select'] ){
+                    $selected_city = $presets['city_select'];
+                  }
+                }
     }
     // if we have a selected city - go get the venues
     if ( strlen($selected_city) && (int) $selected_city ) {
