@@ -1,7 +1,7 @@
 
 <div class="event_in_node">
   <ul class="event_data_in_node event-data-in-node">
-    <li class="event_link_in_node"><a href="<?php echo $tip['link'] ?>" target="_blank"><?php echo $tip['link'] ?></a></li>
+    <li class="event_link_in_node"><a href="<?php echo (stristr($tip['link'], 'http') ? '' : 'http://' ) . $tip['link'] ?>" target="_blank"><?php echo $tip['link'] ?></a></li>
 
     <li class="venue_in_node"><?php
         if ( $tip['venue_select']){
