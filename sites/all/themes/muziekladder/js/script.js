@@ -123,89 +123,120 @@ var glbl = {
   if ( document.body.className.indexOf('node-type-article') > -1 ) {
     shareButtonGlobal('.field-type-text-with-summary');
   }
-  // To understand behaviors, see https://drupal.org/node/756722#behaviors
-  Drupal.behaviors.muziekladder_menu = {
-    attach: function(context, settings) {
-      $('#block-system-main-menu .menu li', context).once('muziekladder_menu',function(){
-          $(this)
+
+  $('#block-system-main-menu .menu li').once('muziekladder_menu',function(){
+      $(this)
           .hover(
             function(){$(this).addClass('hover')},
             function(){$(this).removeClass('hover')})
           .click(function(){
               location.href = $(this).find('a')[0].href;
           });
-      });
-      var $window = $(window)
-      var $topmenu = $('#navigation');
-      var scroll_trigger_height = 20;
-      var menu_locked = false;
-      var scrollTimer = 0;
-      var $dagnav = $('.navigation-dagoverzicht-top');
-      var dagoverzicht = $dagnav.length;
-      var dagnav_trigger_height = 134;
-      var dagnav_locked = false;
-      var pageHandlers = glbl.pageHandlers,
-          handlers = glbl.handlers;
-          $.extend(handlers, allPageHandlers);
+  });
+  // domready
+  $(function(){  
+    var $window = $(window)
+    var $topmenu = $('#navigation');
+    var scroll_trigger_height = 20;
+    var menu_locked = false;
+    var scrollTimer = 0;
+    var $dagnav = $('.navigation-dagoverzicht-top');
+    var dagoverzicht = $dagnav.length;
+    var dagnav_trigger_height = 134;
+    var dagnav_locked = false;
+    var pageHandlers = glbl.pageHandlers,
+        handlers = glbl.handlers;
+        $.extend(handlers, allPageHandlers);
 
-      pageHandlers['node-type-article'] = function(){
-        return {
-          nodeDeleteTip : function(){
-            glbl.tip_delete($(this).data('xml'),this);
-          }
+    pageHandlers['node-type-article'] = function(){
+      return {
+        nodeDeleteTip : function(){
+          glbl.tip_delete($(this).data('xml'),this);
         }
-      };
-
-      $('body').on('click','.handleMe',function(e){
-         e.preventDefault();
-         var $this = $(this);
-         if ( typeof handlers[$this.data('handler')] === 'function' ){
-           handlers[$this.data('handler')].apply(this,[e]);
-         }
-      });
-
-      var i,bodyClass =  document.body.className.split(/\s+/),
-         lngth = bodyClass.length;
-
-      for (i = 0; i < lngth; i++){
-         if ( typeof pageHandlers[bodyClass[i]] === 'function' )
-             $.extend(handlers, pageHandlers[bodyClass[i]]());
       }
-      // attach handler to scroll event  - comment this out to disable fixed menu
-      if (screen.width > 500){
-        $window.scroll (function(){
-          // prevent resource hogging:
-          if (scrollTimer) {
-             clearTimeout(scrollTimer);   // clear any previous pending timer
-          }
-          scrollTimer = setTimeout( respond_to_scroll, 10 );
-        });
-        respond_to_scroll();
-      }
-      // Fixes top-menu to top of page on when page scroll reaches scroll_trigger_height
-      function respond_to_scroll(){
-        var scrollHeight = $window.scrollTop();
-        if ( scrollHeight > scroll_trigger_height && !menu_locked  ) {
-          menu_locked = true;
-          $topmenu.addClass('scrolling');
-        } else if ( scrollHeight < scroll_trigger_height && menu_locked ) {
-          menu_locked = false;
-          $topmenu.removeClass('scrolling');
+    };
+
+    $('body').on('click','.handleMe',function(e){
+       e.preventDefault();
+       var $this = $(this);
+       if ( typeof handlers[$this.data('handler')] === 'function' ){
+         handlers[$this.data('handler')].apply(this,[e]);
+       }
+    });
+
+    var i,bodyClass =  document.body.className.split(/\s+/),
+       lngth = bodyClass.length;
+
+    for (i = 0; i < lngth; i++){
+       if ( typeof pageHandlers[bodyClass[i]] === 'function' )
+           $.extend(handlers, pageHandlers[bodyClass[i]]());
+    }
+    // attach handler to scroll event  - comment this out to disable fixed menu
+    if (screen.width > 500){
+      $window.scroll (function(){
+        // prevent resource hogging:
+        if (scrollTimer) {
+           clearTimeout(scrollTimer);   // clear any previous pending timer
         }
+        scrollTimer = setTimeout( respond_to_scroll, 10 );
+      });
+      respond_to_scroll();
+    }
+    // Fixes top-menu to top of page on when page scroll reaches scroll_trigger_height
+    function respond_to_scroll(){
+      var scrollHeight = $window.scrollTop();
+      if ( scrollHeight > scroll_trigger_height && !menu_locked  ) {
+        menu_locked = true;
+        $topmenu.addClass('scrolling');
+      } else if ( scrollHeight < scroll_trigger_height && menu_locked ) {
+        menu_locked = false;
+        $topmenu.removeClass('scrolling');
+      }
 
-        if (dagoverzicht){
-          // fixes day and city navigation to top on agenda
-          if (scrollHeight > dagnav_trigger_height) {
-            dagnav_locked = true;
-            $dagnav.addClass('scrolling');
-          } else if (scrollHeight < dagnav_trigger_height) {
-            dagnav_locked = false;
-            $dagnav.removeClass('scrolling');
-          }
+      if (dagoverzicht){
+        // fixes day and city navigation to top on agenda
+        if (scrollHeight > dagnav_trigger_height) {
+          dagnav_locked = true;
+          $dagnav.addClass('scrolling');
+        } else if (scrollHeight < dagnav_trigger_height) {
+          dagnav_locked = false;
+          $dagnav.removeClass('scrolling');
         }
       }
     }
+  });
+
+
+
+  // To understand behaviors, see https://drupal.org/node/756722#behaviors
+  Drupal.behaviors.muziekladder_menu = {
+    attach: function(context, settings) {}
+  };
+/*
+  Drupal.behaviors.muziekformulier = {
+    attach: function(context, settings) {
+    if (document.body.className.match(/muziekformulier/)){
+      $('select').on('chosen:showing_dropdown',function(){
+      
+        console.log('eep');
+        console.log('demons')
+
+      });
+    }
+      /*
+      $('select').on('focus',function(){
+        console.log(this)
+        if ($(this).hasClass('chosen-processed')){
+          console.log('her')
+          $(this).on('chosen:no_results',function(){
+    
+
+            console.log($(this).find('.no-results').length)
+          })
+        }
+      }) 
+    }
   };
 
-
+*/
 })(jQuery, Drupal, this, this.document);

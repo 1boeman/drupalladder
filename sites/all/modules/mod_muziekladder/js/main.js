@@ -73,6 +73,7 @@ var hC = Drupal.settings.muziekladder;
     $('#edit-submit').click(function(){
       overlay();
     });
+    
     // workaround for Drupal #states required-functionality only active client-side
     $form.submit( function(e){
         var omg = [];
@@ -93,6 +94,8 @@ var hC = Drupal.settings.muziekladder;
     function match_file(nid){
       return Drupal.settings.rows[nid];
     }
+
+   
 
     showTipsButton();
     var ds = Drupal.settings;
