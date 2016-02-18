@@ -32,7 +32,7 @@
 .logged-in .user-container .userOptions{
   background:#666;
   position:absolute;
-  box-shadow:-1px 1px 9px #111;;
+  box-shadow:-1px 1px 9px #111;
 }
 
 .logged-in .user-container .userOptions li a{
@@ -926,10 +926,25 @@ footer{
   padding-left:12px;
   margin-bottom:-2px
 }
+
 .city_gig {
   margin-top:1px;
   padding:0px;
 }
+
+.icanhazimage .first-cell{
+  display:flex;
+  align-items:center;
+}
+
+.icanhazimage .image-cell{
+ min-width:60px;
+}
+
+.icanhazimage .second-cell{
+  
+}
+
 .city_gig .city{
   padding-left:8px;
 }
@@ -942,6 +957,10 @@ footer{
   float:left;
   width:50%;
   padding:4px 0px ;
+}
+
+.icanhazimage{
+
 }
 
 .city_gig .first-cell{

@@ -373,6 +373,7 @@ var hC = Drupal.settings.muziekladder;
         }
         img.onerror = function(){
           el.parentNode.style.display = 'none';
+          $(el).parents('.icanhazimage').eq(0).removeClass('icanhazimage');
         }
         img.src = src;
       }
