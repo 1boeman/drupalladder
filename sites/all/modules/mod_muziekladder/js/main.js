@@ -95,8 +95,6 @@ var hC = Drupal.settings.muziekladder;
       return Drupal.settings.rows[nid];
     }
 
-   
-
     showTipsButton();
     var ds = Drupal.settings;
 

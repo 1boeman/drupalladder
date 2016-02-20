@@ -14,14 +14,14 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
 
     $locaties_db = Muziek_db::open_locaties_db();
     $cities = Muziek_db::get_cities(1);
-    $city_options = array('0'=>t('* City not in list?  Click here... *'));
+    $city_options = array('0'=>t('* City not in this  list?  Select this option! *'));
     $venue_options = array();
 
     while ($row = $cities->fetchArray()) {
       $city_options[$row['Id']] = $row['Name'];
     }
 
-    $city_options['00'] = '** City not in list? Click here... *';
+    $city_options['00'] = '** City not in this list? Select this option! *';
 
     // check if a city has been selected from the list
     $selected_city = isset($form_state['input']['city_select']) ? $form_state['input']['city_select'] : false;
@@ -43,7 +43,7 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     // if we have a selected city - go get the venues
     if ( strlen($selected_city) && (int) $selected_city ) {
       $venues = Muziek_db::get_city_venues($selected_city);
-      $venue_options = array('0' =>' ** '.t('Venue not in list? Click here...').' * ');
+      $venue_options = array('0' =>' ** '.t('Venue not in this list? Select this option!').' * ');
 
       while ( $row = $venues->fetchArray() ){
         $venue_options[$row['Id']] = html_entity_decode($row['Title']);
