@@ -941,8 +941,9 @@ footer{
  min-width:60px;
 }
 
-.icanhazimage .second-cell{
-  
+div.icanhazimage .second-cell{
+ height:60px;
+ line-height:60px;
 }
 
 .city_gig .city{
@@ -1961,6 +1962,11 @@ clear: both;
     float:none;
   }
 
+div.icanhazimage .second-cell{
+ height:auto;
+ line-height:1;
+}
+
 
   .city_gig .cell{
     float:none;
@@ -2096,7 +2102,6 @@ clear: both;
     width:20%;
     overflow:hidden;
   }
-
 
   #navigation{
     position:absolute;

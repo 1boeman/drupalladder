@@ -125,13 +125,13 @@ var glbl = {
   }
 
   $('#block-system-main-menu .menu li').once('muziekladder_menu',function(){
-      $(this)
-          .hover(
-            function(){$(this).addClass('hover')},
-            function(){$(this).removeClass('hover')})
-          .click(function(){
-              location.href = $(this).find('a')[0].href;
-          });
+    $(this)
+      .hover(
+        function(){$(this).addClass('hover')},
+        function(){$(this).removeClass('hover')})
+      .click(function(){
+          location.href = $(this).find('a')[0].href;
+    });
   });
   // domready
   $(function(){  
@@ -209,21 +209,25 @@ var glbl = {
 
 
   // To understand behaviors, see https://drupal.org/node/756722#behaviors
-  Drupal.behaviors.muziekladder_menu = {
-    attach: function(context, settings) {}
-  };
-/*
   Drupal.behaviors.muziekformulier = {
     attach: function(context, settings) {
-    if (document.body.className.match(/muziekformulier/)){
-      $('select').on('chosen:showing_dropdown',function(){
-      
-        console.log('eep');
-        console.log('demons')
+      if (document.body.className.match(/muziekformulier/)) {
+        $('select')
+          .on('chosen:no_results',function(){
+            var thisSelect = this;
+            var chosenId = '#'+thisSelect.id+'_chosen';
+            chosenId = chosenId.replace(/\-/g,'_');
 
-      });
+            $(chosenId).find('.no-results')
+              .css({'cursor':'pointer'})
+              .on('click',function(){
+                $(thisSelect).val('0').trigger('change')
+              });
+          });
+      }
     }
-      /*
+  };
+    /*
       $('select').on('focus',function(){
         console.log(this)
         if ($(this).hasClass('chosen-processed')){
