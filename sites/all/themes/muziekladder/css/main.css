@@ -936,7 +936,9 @@ footer{
   display:flex;
   align-items:center;
 }
-
+.icanhazimage .first-cell .name{
+  padding-left: 0px;
+}
 .icanhazimage .image-cell{
  min-width:60px;
 }
