@@ -43,7 +43,7 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     // if we have a selected city - go get the venues
     if ( strlen($selected_city) && (int) $selected_city ) {
       $venues = Muziek_db::get_city_venues($selected_city);
-      $venue_options = array('0' =>' ** '.t('Venue not in this list? Select this option!').' * ');
+      $venue_options = array('0' =>' ** '.t('Venue not in this list? Select this option!'));
 
       while ( $row = $venues->fetchArray() ){
         $venue_options[$row['Id']] = html_entity_decode($row['Title']);
