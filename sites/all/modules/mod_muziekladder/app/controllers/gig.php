@@ -142,8 +142,9 @@ class Gig extends Controller{
   function redirect($url){
       //header("HTTP/1.1 303 See Other");
       //header( "Location: ".$url );
-      // exit(); 
-      return '<p>'. t('Sorry but this content is no longer available on Muziekladder. You might try finding it here: ').'<a target="_blank" href="'.$url.'">'.$url.'</a></p>';
+      // exit();
+      header("HTTP/1.0 404 Not Found");
+      return '<p>'. t('Sorry, but this content is no longer available on Muziekladder.').'</p>';
   }
 
 }
