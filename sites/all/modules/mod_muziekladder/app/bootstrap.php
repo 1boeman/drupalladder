@@ -45,7 +45,7 @@ define ('MUZIEK_DATA_JSON','/muziekdata');
 define ('MUZIEK_VIEW_DIR',MUZIEKLADDER_SYSTEM_PATH . '/app/views'); 
 define ('MUZIEK_COMPONENTS',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot .'/components'); 
 
-$includepaths = array('/app','/app/controllers'); 
+$includepaths = array('/app','/app/controllers','/app/forms'); 
  
 foreach($includepaths as $path){         
     set_include_path(get_include_path() . PATH_SEPARATOR . MUZIEKLADDER_SYSTEM_PATH . $path);       

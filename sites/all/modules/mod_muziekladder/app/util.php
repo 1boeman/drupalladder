@@ -7,7 +7,8 @@ class Muziek_util {
     module_invoke_all('exit');
     exit();
   }
-
+  
+ 
   static function saveTipNode($tip_id, $node_id, $uploaded_file){
     global $user;
     $db = new Muziek_db;

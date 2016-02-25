@@ -9,20 +9,23 @@ class Muziekformulier extends Controller {
     global $user;
     global $language;
     if ($language->language == 'nl'){
-      $legend2 =  ' <p>Tips worden op deze pagina geplaatst, en na controle ook aan de Muziekladder agenda toegevoegd.
- </p><p>Voor algemene opmerkingen of vragen kunt u ons ook mailen (info at muziekladder.nl), of contact opnemen via twitter.: <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p> ';
-      $legend = '<p><em>Geen zin om het formulier in te vullen? Kies dan voor "vrije tekst".</em></p>';
+      $legend2 =  '<p><strong>Waarover gaat uw tip?</strong></p>';
+      $legend = '<p> <em>Kies een van de tabs hieronder voor een onderwerp.</em> </p>';
 
+      $this->set_title(t('Aanraden'));
+      $this->set_head_title(t('Tips voor Muziekladder'));
+ 
     } else {
-      $legend2 = '<p>Your recommendations will be placed on this page, and after a human check also in the Muziekladder Calendar.</p>'.
-      '<p>For general remarks you may also mail (info at muziekladder.nl) or use twitter: <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>';
-      $legend = '<p><em>Don\'t have time to fill out the entire form? Select  "free text"</em> </p>';
+      $legend2 ='<p><strong>What\'s your recommendation about?</strong></p>';
+      $legend = '<p> <em>Please choose one of the tabs below to specify a subject.</em> </p>';
 
+      $this->set_title(t('Recommend'));
+      $this->set_head_title(t('Muziekladder recommendations'));
     }
 
-    $this->set_head_title(t('Muziekladder recommendation'));
-    $this->set_title(t('Recommend stuff to the Muziekladder Calendar'));
+    $formartist = drupal_get_form('mod_muziekladder_artistform');
     $formfree = drupal_get_form('mod_muziekladder_mailtipform');
+    $formlink = drupal_get_form('mod_muziekladder_linkform');
     $form = drupal_get_form('mod_muziekladder_freetextform');
 
     if (user_is_logged_in()){
@@ -40,7 +43,9 @@ class Muziekformulier extends Controller {
     $rv = array(
       'render_array'=>array(
         'freeform'=> $formfree,
+        'linkform'=>$formlink,
         'muziekform'=>$form,
+        'artistform'=>$formartist,
         'view_tips'=>array(
           '#type'=>'markup',
           '#markup'=> $response,
@@ -54,8 +59,10 @@ class Muziekformulier extends Controller {
         <div class="legenda2">'.$legend2.'</div>
          <div class="legenda1">'.$legend.'</div>
       <ul class="nav nav-tabs" id="formtabs">
-          <li><a href="#tab-1">'.t('Event').'</a></li>
-          <li><a href="#tab-2">'.t('Free text').'</a></li>
+          <li><a href="#tab-1">'.t('An event').'</a></li>
+          <li><a href="#tab-2">'.t('An artist or group').'</a></li>
+          <li><a href="#tab-3">'.t('A link').'</a></li>
+          <li><a href="#tab-4">'.t('Something else').'</a></li>
         </ul></div>';
     }
 
