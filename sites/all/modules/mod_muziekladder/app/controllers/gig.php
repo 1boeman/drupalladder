@@ -80,6 +80,7 @@ class Gig extends Controller{
     $venue = false; 
     $location_link = false;
     $title_tag = array();  
+    $html = false; 
     if ($id) {
       // first check if id contains venue_id
       $array_id = explode('_',$id);
@@ -92,7 +93,7 @@ class Gig extends Controller{
           $title_tag[]=$venue['Title'];
           $title_tag[]=$venue['City_name']; 
         }else{
-          $this->redirect($url);  
+          $html = $this->redirect($url);  
         }
         // Only show the link if it seems safe  - contains the the venue.
         // We dont want folks displaying any old link here. 
@@ -100,10 +101,10 @@ class Gig extends Controller{
           $url = false; 
         }
       } else {
-        $this->redirect($url);  
+        $html = $this->redirect($url);  
       } 
     } else {
-      $this->redirect($url);  
+      $html = $this->redirect($url);  
     }
     
     if ($date){
@@ -111,23 +112,23 @@ class Gig extends Controller{
       $human_date = $hd['dayname']. ' ' .$hd['daynumber'].' '.$hd['monthname']. ' ' .$hd['year'];
       $title_tag[]=$human_date; 
     }else{
-      $this->redirect($url);  
+      $html = $this->redirect($url);  
     }
-
+    $title_tag[]= 'Muziekladder';
     $title_tag = join(' - ',$title_tag); 
     $this->set_head_title($title_tag);
-
-    $html = theme('gig',array(
-      'gig'=>false,
-      'url_only'=> 1,
-      'url'=>$url,
-      'title_tag' => $title_tag,
-      'venue'=>$venue,
-      'prefix'=> Muziek_util::lang_url(),
-      'human_date' => $human_date,
-      'location_link'=> $location_link
-    ));
-
+    if (!$html) {
+      $html = theme('gig',array(
+        'gig'=>false,
+        'url_only'=> 1,
+        'url'=>$url,
+        'title_tag' => $title_tag,
+        'venue'=>$venue,
+        'prefix'=> Muziek_util::lang_url(),
+        'human_date' => $human_date,
+        'location_link'=> $location_link
+      ));
+    }
     $render_array = array(
       'gig'=>array(
         '#type'=>'markup',
@@ -139,9 +140,10 @@ class Gig extends Controller{
   }
   
   function redirect($url){
-      header("HTTP/1.1 303 See Other");
-      header( "Location: ".$url );
-      exit(); 
+      //header("HTTP/1.1 303 See Other");
+      //header( "Location: ".$url );
+      // exit(); 
+      return '<p>'. t('Sorry but this content is no longer available on Muziekladder. You might try finding it here: ').'<a target="_blank" href="'.$url.'">'.$url.'</a></p>';
   }
 
 }
