@@ -15,7 +15,7 @@ if (!empty($title)): ?>
 <?php foreach ($rows as $id => $row):
   if($view->result[$i]->node_uid == $user->uid): ?>
     <div class="tip-link-container">
-      <a class="btn btn-inverse btn-small tip-edit-link handleMe" data-handler="EditTip" data-nid="<?php echo $view->result[$i]->nid ?>">
+      <a class="btn btn-inverse btn-small tip-edit-link handleMe" data-handler="EditTip" data-node_type="<?php echo $view->result[$i]->node_type ?>" data-nid="<?php echo $view->result[$i]->nid ?>">
         <span>
           <i class="icon icon-edit icon-white"></i>
           &#160;
@@ -23,7 +23,7 @@ if (!empty($title)): ?>
         </span>
       </a>
 
-      <a class="btn btn-inverse btn-small tip-delete-link handleMe" data-handler="DeleteTip" data-nid="<?php echo $view->result[$i]->nid ?>" >
+      <a class="btn btn-inverse btn-small tip-delete-link handleMe" data-handler="DeleteTip" data-node_type="<?php echo $view->result[$i]->node_type ?>" data-nid="<?php echo $view->result[$i]->nid ?>" >
         <span>
           <i class="icon icon-remove icon-white"></i>
            &#160;

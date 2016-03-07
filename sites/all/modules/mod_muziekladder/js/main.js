@@ -19,7 +19,7 @@ var hC = Drupal.settings.muziekladder;
   laad.wait(['util'],function(){});
 
   pageHandlers['page-muziekformulier-edit'] = function(){
-    $('.tab-1').fadeIn();
+    $('.muziek-tab').fadeIn();
     return {};
   };
 
@@ -100,11 +100,23 @@ var hC = Drupal.settings.muziekladder;
 
     return {
       "EditTip":function(){
-        var tip = match_file($(this).data('nid'));
+        var tip,node_type = $(this).data('node_type');
+        
+        if (node_type == 'artist') { 
+          tip = 'n_'+$(this).data('nid');
+        } else {
+          tip = match_file($(this).data('nid'));
+        }
         location.href = ds.basePath+ds.pathPrefix + 'muziekformulier/edit/'+tip;
       },
       "DeleteTip":function(){
-        var tip = match_file($(this).data('nid'));
+        var tip,node_type = $(this).data('node_type');
+            
+        if (node_type == 'artist') { 
+          tip = 'n_'+$(this).data('nid');
+        } else {
+          tip = match_file($(this).data('nid'));
+        }
         glbl.tip_delete(ds.basePath+ds.pathPrefix + 'muziekformulier/delete/'+tip,this);
       }
     };

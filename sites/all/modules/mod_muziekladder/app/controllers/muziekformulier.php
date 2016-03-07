@@ -9,16 +9,15 @@ class Muziekformulier extends Controller {
     global $user;
     global $language;
     if ($language->language == 'nl'){
-      $legend2 =  '<p><strong>Waarover gaat uw tip?</strong></p>';
-      $legend = '<p> <em>Kies een van de tabs hieronder voor een onderwerp.</em> </p>';
+      $legend2 = '<p><strong>Waarover gaat uw tip?</strong></p>';
+      $legend = '<p><em>Kies een van de tabs hieronder voor een onderwerp.</em></p>';
 
       $this->set_title(t('Aanraden'));
       $this->set_head_title(t('Tips voor Muziekladder'));
  
     } else {
       $legend2 ='<p><strong>What\'s your recommendation about?</strong></p>';
-      $legend = '<p> <em>Please choose one of the tabs below to specify a subject.</em> </p>';
-
+      $legend = '<p><em>Please choose one of the tabs below to specify a subject.</em> </p>';
       $this->set_title(t('Recommend'));
       $this->set_head_title(t('Muziekladder recommendations'));
     }
@@ -57,13 +56,14 @@ class Muziekformulier extends Controller {
     if ($user->uid) {
        $rv['render_array']['#prefix'] = '<div class="eventfull tab-container">
         <div class="legenda2">'.$legend2.'</div>
-         <div class="legenda1">'.$legend.'</div>
-      <ul class="nav nav-tabs" id="formtabs">
-          <li><a href="#tab-1">'.t('An event').'</a></li>
-          <li><a href="#tab-2">'.t('An artist or group').'</a></li>
-          <li><a href="#tab-3">'.t('A link').'</a></li>
-          <li><a href="#tab-4">'.t('Something else').'</a></li>
-        </ul></div>';
+        <div class="legenda1">'.$legend.'</div>
+            <ul class="nav nav-tabs" id="formtabs">
+              <li><a href="#tab-1">'.t('An event').'</a></li>
+              <li><a href="#tab-2">'.t('An artist or group').'</a></li>
+              <li><a href="#tab-3">'.t('A link').'</a></li>
+              <li><a href="#tab-4">'.t('Something else').'</a></li>
+            </ul>
+        </div>';
     }
 
     return $rv;
@@ -111,26 +111,34 @@ class Muziekformulier extends Controller {
 
   function edit() {
     global $user;
-    $get_q =  $_GET['q'];
-    $q = explode('/',$get_q);
-    $file_name = array_pop($q);
     $form = array(
       '#type'=>'markup',
       '#markup'=>'<p>'.t('The event you are trying to edit is not available (anymore)').'</p>',
     );
-    $gig = Muziek_util::getTip($file_name);
-    if(count($gig)){
-      //check if its the legitimate owner editing
-      if ( $gig['uid'] !== $user->uid ){
-        Muziek_util::deny();
-      }
-      $gig['file_name'] = $file_name;
 
-      $this->set_head_title(t('Muziekladder recommendation'));
-      $this->set_title($gig['title']);
-      $form = drupal_get_form('mod_muziekladder_mailtipform',$gig);
+    $get_q =  $_GET['q'];
+    $q = explode('/',$get_q);
+
+    $file_name = array_pop($q);
+    if (preg_match('/^n_/',$file_name)){
+      $node_id = str_replace('n_','',$file_name);
+      if ($node = node_load($node_id)) {
+        $form = drupal_get_form('mod_muziekladder_artistform',$node);
+      }
+    } else {  
+     $gig = Muziek_util::getTip($file_name);
+      if(count($gig)){
+        //check if its the legitimate owner editing
+        if ( $gig['uid'] !== $user->uid ){
+          Muziek_util::deny();
+        }
+        $gig['file_name'] = $file_name;
+        $form = drupal_get_form('mod_muziekladder_mailtipform',$gig);
+      }
     }
 
+    $this->set_head_title(t('Muziekladder recommendation'));
+    $this->set_title($gig['title']);
     return array('render_array'=>array(
         'muziekform'=>$form,
     ));
