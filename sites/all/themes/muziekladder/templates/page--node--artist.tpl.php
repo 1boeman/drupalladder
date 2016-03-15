@@ -8,7 +8,6 @@
  */
 
 ?>
-
 <?php require ('header.inc.php') ?>
 
 <div id="page">
@@ -30,7 +29,7 @@
         </li>
       </ul>
 
-      <div class="article-container">
+      <div class="artist-container">
         <?php print render($page['highlighted']); ?>
         <?php print $breadcrumb; ?>
         <a id="main-content"></a>

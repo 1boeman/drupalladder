@@ -9,20 +9,22 @@ class Muziekformulier extends Controller {
     global $user;
     global $language;
     if ($language->language == 'nl'){
-      $legend2 =  ' <p>Tips worden op deze pagina geplaatst, en na controle ook aan de Muziekladder agenda toegevoegd.
- </p><p>Voor algemene opmerkingen of vragen kunt u ons ook mailen (info at muziekladder.nl), of contact opnemen via twitter.: <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p> ';
-      $legend = '<p><em>Geen zin om het formulier in te vullen? Kies dan voor "vrije tekst".</em></p>';
+      $legend2 = '<p><strong>Waarover gaat uw tip?</strong></p>';
+      $legend = '<p><em>Kies een van de tabs hieronder voor een onderwerp.</em></p>';
 
+      $this->set_title(t('Aanraden'));
+      $this->set_head_title(t('Tips voor Muziekladder'));
+ 
     } else {
-      $legend2 = '<p>Your recommendations will be placed on this page, and after a human check also in the Muziekladder Calendar.</p>'.
-      '<p>For general remarks you may also mail (info at muziekladder.nl) or use twitter: <a target="_blank" href="https://twitter.com/muziekladder">@Muziekladder</a></p>';
-      $legend = '<p><em>Don\'t have time to fill out the entire form? Select  "free text"</em> </p>';
-
+      $legend2 ='<p><strong>What\'s your recommendation about?</strong></p>';
+      $legend = '<p><em>Please choose one of the tabs below to specify a subject.</em> </p>';
+      $this->set_title(t('Recommend'));
+      $this->set_head_title(t('Muziekladder recommendations'));
     }
 
-    $this->set_head_title(t('Muziekladder recommendation'));
-    $this->set_title(t('Recommend stuff to the Muziekladder Calendar'));
+    $formartist = drupal_get_form('mod_muziekladder_artistform');
     $formfree = drupal_get_form('mod_muziekladder_mailtipform');
+    $formlink = drupal_get_form('mod_muziekladder_linkform');
     $form = drupal_get_form('mod_muziekladder_freetextform');
 
     if (user_is_logged_in()){
@@ -30,17 +32,14 @@ class Muziekformulier extends Controller {
       drupal_add_js(array('rows'=>$tips), 'setting');
     }
 
-    $view = views_get_view('recent_tips');
-    $view->set_display('page');
-    $view->pre_execute();
-    $view->execute();
-
-    $response = $view->render();
+    $response = $this->recent_tips();
     $response .= '<a class="naar-agenda-link btn btn-inverse" href="/'.$language->prefix.'/archief"> '.t('More').' &raquo;</a>';
     $rv = array(
       'render_array'=>array(
         'freeform'=> $formfree,
+        'linkform'=>$formlink,
         'muziekform'=>$form,
+        'artistform'=>$formartist,
         'view_tips'=>array(
           '#type'=>'markup',
           '#markup'=> $response,
@@ -52,80 +51,106 @@ class Muziekformulier extends Controller {
     if ($user->uid) {
        $rv['render_array']['#prefix'] = '<div class="eventfull tab-container">
         <div class="legenda2">'.$legend2.'</div>
-         <div class="legenda1">'.$legend.'</div>
-      <ul class="nav nav-tabs" id="formtabs">
-          <li><a href="#tab-1">'.t('Event').'</a></li>
-          <li><a href="#tab-2">'.t('Free text').'</a></li>
-        </ul></div>';
+        <div class="legenda1">'.$legend.'</div>
+            <ul class="nav nav-tabs" id="formtabs">
+              <li><a href="#tab-1"><i class="icon-music"></i> '.t('Concert or event').'</a></li>
+              <!-- li><a href="#tab-3">'.t('A link').'</a></li -->
+              <li><a href="#tab-2"><i class="icon-star"></i> '.t('Promote artist or group').'</a></li>
+              <!-- li><a href="#tab-4">'.t('Something else').'</a></li -->
+            </ul>
+        </div>';
     }
 
     return $rv;
   }
-/*
-  function updatenode() {
-    $file_name = array_pop(explode('/',$_GET['q']));
-    Muziek_util::saveTipNode($file_name);
+
+  function recent_tips_ajax(){
+    return array(
+      'html_fragment' => $this->recent_tips() 
+    );
+  } 
+  
+  private function recent_tips () {
+    $view = views_get_view('recent_tips');
+    $view->set_display('page');
+    $view->pre_execute();
+    $view->execute();
+
+    return $view->render();
   }
-*/
+
   function delete() {
     global $user;
     $file_name = array_pop(explode('/',$_GET['q']));
 
-    $rv = array(
-      '#type'=>'markup',
-      '#markup'=>'<p>'.t('The event you are trying to delete is not available (anymore)').'</p>',
-    );
+    $rv = '<p>'.t('The page you are trying to delete is not available (anymore)').'</p>';
 
-    $gig = Muziek_util::getTip($file_name);
-    if(count($gig)){
-      //check if its the legitimate owner editing
-      if ( $gig['uid'] !== $user->uid ){
-        Muziek_util::deny();
+    if (preg_match('/^n_/',$file_name)){
+      $node_id = str_replace('n_','',$file_name);
+      if ($node = node_load($node_id)) {
+        if (Muziek_util::can_i_edit($node)) {
+          node_delete($node_id);
+         $rv = '<p>'.t('The artist page has been deleted').'</p>';
+        }
       }
-      $gig['file_name'] = $file_name;
+    } else {
 
+      $gig = Muziek_util::getTip($file_name);
+      if(count($gig)){
+        //check if its the legitimate owner editing
+        if ( $gig['uid'] !== $user->uid ){
+          Muziek_util::deny();
+        }
+        $gig['file_name'] = $file_name;
+        $nid = isset($gig['node_id']) ? $gig['node_id'] : false;
 
-      $nid = isset($gig['node_id']) ? $gig['node_id'] : false;
-
-      if ( Muziek_util::deleteTip( $file_name,$nid ) === 1 ){
-        $this->set_head_title(t('Muziekladder recommendation'));
-        $this->set_title(t('Delete'));
-        $rv = array(
-          '#type'=>'markup',
-          '#markup'=>'<p>'.t('The event has been deleted').'</p>',
-        );
+        if ( Muziek_util::deleteTip( $file_name,$nid ) === 1 ){
+//          $this->set_head_title(t('Muziekladder recommendation'));
+  //        $this->set_title(t('Delete'));
+          $rv = '<p>'.t('The event has been deleted').'</p>';
+        }
       }
     }
-
-    return array('render_array'=>array(
-      'muziekform'=>$rv,
-    ));
+    
+    return array( 'html_fragment' => $rv );
   }
 
   function edit() {
     global $user;
-    $get_q =  $_GET['q'];
-    $q = explode('/',$get_q);
-    $file_name = array_pop($q);
     $form = array(
       '#type'=>'markup',
-      '#markup'=>'<p>'.t('The event you are trying to edit is not available (anymore)').'</p>',
+      '#markup' =>
+        '<p>'.t('The event you are trying to edit is not available (anymore)').'</p>',
     );
-    $gig = Muziek_util::getTip($file_name);
-    if(count($gig)){
-      //check if its the legitimate owner editing
-      if ( $gig['uid'] !== $user->uid ){
-        Muziek_util::deny();
-      }
-      $gig['file_name'] = $file_name;
 
-      $this->set_head_title(t('Muziekladder recommendation'));
-      $this->set_title($gig['title']);
-      $form = drupal_get_form('mod_muziekladder_mailtipform',$gig);
+    $get_q =  $_GET['q'];
+    $q = explode('/',$get_q);
+
+    $file_name = array_pop($q);
+    if (preg_match('/^n_/',$file_name)){
+      $node_id = str_replace('n_','',$file_name);
+      if ($node = node_load($node_id)) {
+        if (Muziek_util::can_i_edit($node)) {
+          $form = drupal_get_form('mod_muziekladder_artistform',$node);
+        }
+      }
+      $this->set_title($node->title);
+    } else {  
+     $gig = Muziek_util::getTip($file_name);
+      if(count($gig)){
+        //check if its the legitimate owner editing
+        if ( $gig['uid'] !== $user->uid ){
+          Muziek_util::deny();
+        }
+        $gig['file_name'] = $file_name;
+        $form = drupal_get_form('mod_muziekladder_mailtipform',$gig);
+        $this->set_title($gig['title']);
+      }
     }
 
+    $this->set_head_title(t('Muziekladder recommendation'));
     return array('render_array'=>array(
-        'muziekform'=>$form,
+      'muziekform'=>$form,
     ));
   }
 }

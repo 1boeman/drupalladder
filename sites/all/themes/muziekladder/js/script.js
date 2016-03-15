@@ -22,6 +22,26 @@ var glbl = {
   pageHandlers : {},
   handlers : {},
 
+  'bootstrap_alert' : function(html_content,text_header,callback){
+    var $ = jQuery;
+    $('.modal').modal('hide');
+    $('body').append(
+      '<div class="alertModal modal hide fade">'+
+        '<div class="modal-header">'+
+          '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>'+
+          '<h3 id="myModalLabel">'+text_header+'</h3>' +
+        '</div>'+
+        '<div class="modal-body">'+html_content+
+        '</div>'+
+        ' <div class="modal-footer">'+
+          '<button class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">'+Drupal.t('Close')+'</button>'+
+        '</div>'+
+      '</div>')
+    .find('.alertModal').modal({}).find('button').click(function(){
+      if (typeof callback == 'function') callback(); 
+    });
+  },
+
   'tip_delete' : function(delete_link,that){
     var $ = jQuery;
 
@@ -32,12 +52,12 @@ var glbl = {
       if (Drupal.settings.pathPrefix.match('en')){
         //english
         txt = 'Confirm delete';
-        txt1 = 'Are you sure you want to delete this event?';
+        txt1 = 'Are you sure you want to delete this?';
         txt2 = 'Cancel';
         txt3 = 'Yes Delete it!';
       }else{
         txt = 'Verwijderen bevestigen';
-        txt1 = 'Weet je zeker dat je deze tip wilt verwijderen?';
+        txt1 = 'Weet je zeker dat je dit wilt verwijderen?';
         txt2 = 'Nee niet doen';
         txt3 = 'Ja verwijder nu!';
       }
@@ -53,8 +73,15 @@ var glbl = {
          '                     </div>'+
          '                    </div>');
       $container.find('.delete_the_damn_thing').click(function(){
-        $.post(delete_link,function(){
-          location.reload();
+        $.post(delete_link,function(resp){
+          glbl.bootstrap_alert(resp,Drupal.t('Delete complete'),function(){
+            if ($('body').hasClass('muziekformulier')){  
+              location.reload();
+            } else {
+              var s = Drupal.settings;
+              location.href = s.basePath + s.pathPrefix + 'muziekformulier'
+            }
+          });
         });
       });
     }
@@ -148,6 +175,14 @@ var glbl = {
         handlers = glbl.handlers;
         $.extend(handlers, allPageHandlers);
 
+    pageHandlers['node-type-artist'] = function(){
+      return {
+        nodeDeleteTip : function(){
+          glbl.tip_delete($(this).data('xml'),this);
+        }
+      }
+    };
+
     pageHandlers['node-type-article'] = function(){
       return {
         nodeDeleteTip : function(){
@@ -227,20 +262,4 @@ var glbl = {
       }
     }
   };
-    /*
-      $('select').on('focus',function(){
-        console.log(this)
-        if ($(this).hasClass('chosen-processed')){
-          console.log('her')
-          $(this).on('chosen:no_results',function(){
-    
-
-            console.log($(this).find('.no-results').length)
-          })
-        }
-      }) 
-    }
-  };
-
-*/
 })(jQuery, Drupal, this, this.document);

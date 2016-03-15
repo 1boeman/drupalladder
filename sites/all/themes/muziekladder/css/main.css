@@ -606,6 +606,11 @@ margin-bottom: 20px;
   width:70%;
 }
 
+.page-muziekformulier form .alert{
+  margin-top:10px;
+
+}
+
 .page-muziekformulier ul.links.inline{
   display:block;
   margin-top:0px;
@@ -1625,12 +1630,16 @@ margin-left:0px;
 .node-type-article .node .field-items{
   clear:left;
 }
+.node-type-artist .field-items{
+clear:none;
+}
+
+
+.node-type-artist .field-type-image,
 .node-type-article .field-type-image{
   float:right;
 }
-.user_in_node{
-}
-
+.node-type-artist article p,
 .node-type-article article p{
   line-height:1.8;
   margin-bottom:20px;
@@ -1749,12 +1758,8 @@ a.tip-button{
 body.page-muziekformulier select {
     width:80%;
 }
-body.page-muziekformulier .form-item-location,
-body.page-muziekformulier .form-item-link,
-body.page-muziekformulier .form-item-city
-{
 
-}
+#mod-muziekladder-artistform input[type='text'],
 body.page-muziekformulier .form-item-title input,
 body.page-muziekformulier .form-item-location input,
 body.page-muziekformulier .form-item-link input,

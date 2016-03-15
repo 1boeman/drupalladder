@@ -51,7 +51,7 @@ function mod_muziekladder_index($arg = false){
   $obj = new $classname;
   if (!in_array($classname, array('Muziek','Uitgaan','Locaties' )) &&
       !preg_match('/20[0-9]+/',$methodname)
-      && !method_exists($obj, $methodname)){
+          && !method_exists($obj, $methodname)){
     return MENU_NOT_FOUND;
   }
 
@@ -59,6 +59,8 @@ function mod_muziekladder_index($arg = false){
 
   if (isset($result['render_array'])) {
     return $result['render_array'];
+  } elseif (isset($result['#type']) && $result['#type']== 'ajax'){
+    return $result; 
   } elseif (isset($result['html'])){
     $render_array = array(
       'agenda_content'=>array(
@@ -66,7 +68,7 @@ function mod_muziekladder_index($arg = false){
         '#markup'=>$result['html'],
       ),
     );
-   return $render_array;
+    return $render_array;
   } elseif (isset($result['json'])) {
     drupal_json_output($result['json']);
   } elseif (isset($result['html_fragment']) || isset($result['json_string'])) {
@@ -117,13 +119,13 @@ function mod_muziekladder_block_view($delta) {
 }
 
 function mod_muziekladder_language_switch_links_alter(array &$links, $type, $path) {
-    // Get query parameters
-    $query = drupal_get_query_parameters();
+  // Get query parameters
+  $query = drupal_get_query_parameters();
 
-    foreach ($links as &$link) {
-      // Pass through query parameters:
-      $link['query'] = $query;
-    }
+  foreach ($links as &$link) {
+    // Pass through query parameters:
+    $link['query'] = $query;
+  }
 }
 
 /**
