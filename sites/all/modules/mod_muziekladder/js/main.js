@@ -70,7 +70,7 @@ var hC = Drupal.settings.muziekladder;
       $formtabs.eq(tabindex).trigger('click');
     }
 
-    $('#edit-submit').click(function(){
+    $('#edit-submit, #edit-submit--2').click(function(){
       overlay();
     });
 
