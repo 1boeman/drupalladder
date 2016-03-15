@@ -212,13 +212,18 @@ function muziekladder_preprocess_page(&$variables) {
   if (!empty($variables['node']) && !empty($variables['node']->type)) {
     // provide specific page--node--type based templates
     $variables['theme_hook_suggestions'][] = 'page__node__' . $variables['node']->type;
-
-    //
-    if ($variables['node']->type == 'article'){
-      
+   
+    // provide base_path for edit links 
+    $path = base_path();
+    $path .= get_lang().'/';
+    $variables['path'] = $path;
+    // provide edit/delete links to node owner
+    if (in_array($variables['node']->type, array('article', 'artist'))){
       if ($user->uid == $variables['node']->uid){
         if (isset($variables['node']->field_file_id['und'][0]['value'])){
           $variables['editable'] = $variables['node']->field_file_id['und'][0]['value'];
+        } else {
+          $variables['editable'] = 'n_'.$variables['node']->nid;
         }
       }
     }

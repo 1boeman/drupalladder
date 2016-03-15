@@ -5,15 +5,6 @@ abstract class Controller {
   protected $countrynames_EN = array('the Netherlands','Belgium' );
 
   
-	protected function init_view() {
-		$callers = debug_backtrace(); 
-		$filename = MUZIEK_VIEW_DIR . '/' . strtolower(get_class($this)) . '/' . $callers[1]['function'] . '.xml';
-		if (!is_file($filename)){
-			throw new Exception ( $filename .' is not a file');
-		}
-		$this->view = simplexml_load_file($filename, 'SimpleXMLElement', LIBXML_NOCDATA);
-	}
-
   protected function crumbs(Array $items){
     $s = Singleton::get_instance();
     $s->crumbs = theme('crumb_trail',array(

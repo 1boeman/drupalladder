@@ -3,6 +3,7 @@
 function mod_muziekladder_artistform ($form, &$form_state, $node = false) {
   $form = array();
   $form['#prefix'] = '<div class="eventfull muziek-tab tab-2 nodisplay" id="artist_form_wrapper">' ;
+  $form['#prefix'].= '<p>'.t('Promote an artist or group.').'</p>';  
   $form['#suffix'] = '</div>' ;
 
   $form['nid'] = array('#type' => 'hidden', '#value' =>0 );
@@ -60,12 +61,12 @@ function mod_muziekladder_artistform ($form, &$form_state, $node = false) {
     $form['artist_video']['#default_value'] = $node->field_media_url['und'][0]['value']; 
   } 
 
-
   $form['artist_info'] = array(
     '#type' => 'textarea',
     '#title' =>t('Additional information'),
+    '#required' => true,
     '#attributes' => array('placeholder' =>
-      t('Please share any relevant information here')),
+      t('Please share any relevant information. Genre, bio, discography,  etc. ')),
   );
 
   if ($node){
@@ -76,32 +77,54 @@ function mod_muziekladder_artistform ($form, &$form_state, $node = false) {
     '#type' => 'submit',
     '#value' => t('Submit'),
     '#attributes' => array('class'=>array('btn btn-large btn-inverse')),
+  
     '#ajax' => array(
       'callback' => 'mod_muziekladder_artistform_ajax_submit',
       'wrapper' => 'artist_form_wrapper',
       'method' => 'replace',
       'effect' => 'fade',
     )
-
   );
   return $form;
 }
 
 function mod_muziekladder_artistform_ajax_submit($form, &$form_state) {
-  // validate the form
-  drupal_validate_form('mod_muziekladder_artistform', $form, $form_state);
-  // if there are errors, return the form to display the error messages
+  $form_state['rebuild'] = TRUE;
+ 
   if (form_get_errors()) {
-    $form_state['rebuild'] = TRUE;
-    return $form;
+    return $form;   
+  } 
+  //
+  $form_id = $form['#form_id'];
+
+  // Get the unpopulated form.
+  $form = form_get_cache($form_state['input']['form_build_id'], $form_state);
+
+  // Rebuild it, without values
+  $form_state['input'] = array();
+  $form_state['values'] = array();
+  
+  $form = form_builder($form_id, $form, $form_state); 
+  
+  if ((int)$form_state['values']['nid']){
+
+    $node_id = (int)$form_state['values']['nid'];
+    $url = url(drupal_get_path_alias('node/' . $node_id), array('absolute' => TRUE));
+    $message_success = t('Item successfully updated: ').'<a href="'.$url.'">' . $url .'</a>';
+ 
+   } else {
+
+    $message_success = t('Item successfully created.');
+
   }
-  // process the form
-  mod_muziekladder_artistform_submit($form, $form_state);
-  $output = array(
-    '#markup' => 'Form submitted.'
-  );
-  // return the confirmation message
-  return $output;
+ 
+  $output = array( '#markup' =>
+      '<div class="alert alert-success">'.
+      '  <button type="button" class="close" data-dismiss="alert">&times;</button>'.
+      $message_success.' </div>');
+  $form['some_text'] = $output;
+
+ return $form;
 }
 
 function mod_muziekladder_artistform_validate($form, &$form_state) {
@@ -113,18 +136,14 @@ function mod_muziekladder_artistform_validate($form, &$form_state) {
 
 
 function mod_muziekladder_artistform_submit($form, &$form_state) {
-//  var_dump($form);
-//  exit;
-
   save_artist_node($form_state['values']);
 }
 
 
 function save_artist_node($data){
-  global $user; 
+  global $user;   
   
   $node_id = (int)$data['nid'];
-  
 
   /* 
   if (isset($data['uid'])){
@@ -132,9 +151,14 @@ function save_artist_node($data){
     $data['user_name'] = $userobj->name;
   }
   */
-  // var_dump($data); exit;   
+ //  var_dump($data); exit;   
   if ($node_id){
-   $entity = entity_load_single('node',$node_id);
+    $node = node_load($node_id);
+    if ( !Muziek_util::can_i_edit($node) ){
+      throw new Exception('user '.$user->uid.' tried to update '. $node->uid);
+    }
+    $entity = entity_load_single('node',$node_id);
+
   } else {
    // entity_create replaces the procedural steps in the first example of
    // creating a new object $node and setting its 'type' and uid property
@@ -149,9 +173,11 @@ function save_artist_node($data){
   }
 
   $ewrapper = entity_metadata_wrapper('node', $entity);
-
   $ewrapper->title->set($data['artist_name']);
-
+ 
+  $data['link'] = Muziek_util::http_link($data['link']);
+  $data['artist_video'] = Muziek_util::http_link($data['artist_video']);
+   
   $ewrapper->field_url[0]->set($data['link']); 
   $ewrapper->field_media_url[0]->set($data['artist_video']); 
 
@@ -160,7 +186,6 @@ function save_artist_node($data){
   $ewrapper->body->set(array(
     'format' => 'full_html',
     'value' => $body_content));
-
 
   //$ewrapper->body->summary->set($my_body_content_summary);
   if($data['artist_image']){
@@ -175,9 +200,7 @@ function save_artist_node($data){
   
   $ewrapper->save();
   $node_id = $ewrapper->getIdentifier();
-  var_dump($node_id);
-  return $node_id;
-  
+  return $node_id;  
 }
   
 

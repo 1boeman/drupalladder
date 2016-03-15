@@ -24,7 +24,6 @@ class Muziekdata extends Controller {
                 exit;
         }
 
-
         $get_p = $_GET['p'];
          
         $p = base64_decode($get_p); // $url

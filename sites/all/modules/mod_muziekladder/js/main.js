@@ -54,7 +54,7 @@ var hC = Drupal.settings.muziekladder;
         }
         $datefield.datepicker('setDates',date_objects);
       }
-      // tabs free text or event form
+      // tabs 
       var $formtabs = $('#formtabs li');
       $formtabs.click(function(){
         $.cookie('muziekformtab',$(this).index());
@@ -73,27 +73,53 @@ var hC = Drupal.settings.muziekladder;
     $('#edit-submit').click(function(){
       overlay();
     });
+
+
+    var refresh_that_view = function(callback){
+      $('.printed-tips')
+        .css('opacity','0.4')
+        .load(Drupal.settings.basePath+Drupal.settings.pathPrefix+'muziekformulier/recent_tips_ajax',function(){
+          callback();
+          $(this).fadeTo('slow',1)
+        });
+    }
+
     
     // workaround for Drupal #states required-functionality only active client-side
     $form.submit( function(e){
-        var omg = [];
-        $form.find('.form-required').each(function(){
-           var $form_item =  $(this).parents('.form-item');
-           var $field = $form_item.find('input, textarea, select').eq(0);
-           if($.trim($field.val()).length < 1){
-              omg.push('Het veld "' + $form_item.find('label').text() +'" moet nog worden ingevuld.')
-           }
-        })
-        if (omg.length){
-          alert(omg.join("\n\n"))
-            overlay({close:1});
-          return false
-        }
+      var omg = [];
+      $form.find('.form-required').each(function(){
+         var $form_item =  $(this).parents('.form-item');
+         var $field = $form_item.find('input, textarea, select').eq(0);
+         if($.trim($field.val()).length < 1){
+            omg.push('Het veld "' + $form_item.find('label').text() +'" moet nog worden ingevuld.')
+         }
+      })
+      if (omg.length){
+        alert(omg.join("\n\n"))
+          overlay({close:1});
+        return false
+      }
     });
 
     function match_file(nid){
       return Drupal.settings.rows[nid];
     }
+
+
+    $(document).ajaxComplete(function(){
+      var $uccessBlock = $('form .alert-success').not('.alert-processed');
+      if ($uccessBlock.length && !window.location.href.match(/edit/)){
+        $uccessBlock.addClass('alert-processed');
+        refresh_that_view(function(){
+           setTimeout(function(){
+              $uccessBlock.fadeOut('slow',function(){
+                $uccessBlock.remove()
+           })},3000);
+        });
+      };
+    });
+
 
     showTipsButton();
     var ds = Drupal.settings;
@@ -143,25 +169,19 @@ var hC = Drupal.settings.muziekladder;
   };
 
   pageHandlers.front = function(){
-      var handlers = {
-     //   openLink:cityMenuLinkHandleri
-      };
+      var handlers = {};
       externalLinks();
-  //        drawFrontNews();
-  //        frontSlide();
       showTipsButton()
-
       return handlers;
-
   };
 
   pageHandlers.locationPage = function(){
-      laad.js('locations');
-      externalLinks();
-      crumbTrail.set(location.href);
-      showTipsButton()
+    laad.js('locations');
+    externalLinks();
+    crumbTrail.set(location.href);
+    showTipsButton()
 
-      return {};
+    return {};
   }
 
   pageHandlers.detail = function(){
@@ -322,7 +342,6 @@ var hC = Drupal.settings.muziekladder;
 
   function loadAgendaImages(){
 
-
     $('.city_gig').each(function(){
       var $gig = $(this);
       var src;
@@ -466,62 +485,12 @@ var hC = Drupal.settings.muziekladder;
   }());
   hC.crumbTrail = crumbTrail;
 
-    function frontSlide(){
-      var $article = $('#content > article')
-      var i = $article.length-1;
-        $article.each(function(index){
-          var $this = $(this);
-          if (!$this.hasClass('processed')){
-             var $header = $this.find('header').eq(0);
-             $header.find('h2').append('<button class="btn btn-inverse"><i class="icon-white icon-chevron-right"></i></button>')
-             $this.addClass('processed')
-          //      .append($this.find('img').eq(0))
-                .click(function(e){
-                  e.preventDefault()
-                  location.href = $('#content article.current').find('.links a')[0]['href'] ;
-                });
-          }
-          if($this.hasClass('current')){
-             i=index;
-          }
+  var a = new RegExp('/' + window.location.host + '/');
+  var externalLinks = function(){
+      $('a[href]').each(function() {
+         if(!a.test(this.href)) $(this).attr('target','_blank');
       });
-      i+=1;
-      if (i>=$article.length) i=0;
-      $article.removeClass('current')
-        .eq(i).addClass('current');
-      setTimeout(frontSlide,6000);
-    }
-/*
-    function drawFrontNews(){
-       $.get('/nieuws/ajax',function(resp){
-          $('.after_content').html('<h3>Overig nieuws</h3>'+resp).fadeIn('slow')
-          newsLinks();
-          externalLinks();
-
-       });
-    }
-    function newsLinks(){
-        $('.joriso-news-item h3 a').click(function(e){
-            e.preventDefault();
-            var $that = $(this);
-            var $p = $that.parents('.joriso-news-item').find('p');
-            if ($that.hasClass('visible')){
-                $p.hide();
-                $that.removeClass('visible');
-            }else{
-                $p.slideDown('fast',function(){
-                    $that.addClass('visible');
-                });
-            }
-        });
-    }
-*/
-   var a = new RegExp('/' + window.location.host + '/');
-   var externalLinks = function(){
-        $('a[href]').each(function() {
-           if(!a.test(this.href)) $(this).attr('target','_blank');
-        });
-   }
+  }
 
   var showDetailImages = function($container){
     if (typeof $container == 'undefined') $container = $('body');

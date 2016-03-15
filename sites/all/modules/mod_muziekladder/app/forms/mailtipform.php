@@ -1,11 +1,31 @@
 <?php
 function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
   global $user;
-
+  global $language;
   //var_dump($presets);
   // only show form if logged in
   if ($user->uid) {
+    $form['#prefix'] = '<div class="eventfull muziek-tab tab-1 nodisplay">' ;
+
+    if ($language->language == 'nl'){
+      $legend2 =  ' <p>Aangemelde evenementen worden op deze pagina geplaatst, en na controle ook aan de Muziekladder agenda toegevoegd.</p>';
+    } else {
+      $legend2 = '<p>Submitted events will be placed on this page, and after a human check also in the Muziekladder Calendar.</p>';
+    }
+
+    $form['#prefix'].= $legend2; 
+    $form['#suffix'] = '</div>' ;
+
     $form['#attributes']['enctype'] = 'multipart/form-data';
+
+
+    $form['item-instructies'] = array(
+      '#type' => 'item',
+      '#attributes' => array('class'=>array('item-instructies')),
+      '#markup' =>  '<p>'.t('Fields marked with * are mandatory').'...</p>',
+      '#states' =>$visible_c_f_i
+    );
+
 
     // if we are in edit mode add the file_name
     if (isset($presets['file_name'])){
@@ -59,9 +79,6 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
       )
     ));
 
-    $form['#prefix'] = '<div class="eventfull muziek-tab tab-1 nodisplay">' ;
-    $form['#suffix'] = '</div>' ;
-
     $form['soort'] = array(
        '#type' => 'select',
        '#title' => t('Type of event'),
@@ -78,13 +95,6 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     if (isset($presets['soort'])){
       $form['soort']['#default_value'] = $presets['soort'];
     }
-
-    $form['item-instructies'] = array(
-      '#type' => 'item',
-      '#attributes' => array('class'=>array('item-instructies')),
-      '#markup' =>  '<p>'.t('Fields marked with * are mandatory').'...</p>',
-      '#states' =>$visible_c_f_i
-    );
 
     /* main fieldsets */
     $form['locatie'] = array(
