@@ -8,7 +8,7 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     $form['#prefix'] = '<div class="eventfull muziek-tab tab-1 nodisplay">' ;
 
     if ($language->language == 'nl'){
-      $legend2 =  ' <p>Aangemelde evenementen worden op deze pagina geplaatst, en na controle ook aan de Muziekladder agenda toegevoegd.</p>';
+      $legend2 =  '<p>Aangemelde evenementen worden op deze pagina geplaatst, en na controle ook aan de Muziekladder agenda toegevoegd.</p>';
     } else {
       $legend2 = '<p>Submitted events will be placed on this page, and after a human check also in the Muziekladder Calendar.</p>';
     }
@@ -17,7 +17,15 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
     $form['#suffix'] = '</div>' ;
 
     $form['#attributes']['enctype'] = 'multipart/form-data';
-
+    
+    $visible_c_f_i = array(
+     'visible'=> array(
+      ':input[name="soort"]' => array(
+          array('value' =>'concert'),
+          array('value' =>'festival'),
+          array('value' =>'iets_anders'),
+      )
+    ));
 
     $form['item-instructies'] = array(
       '#type' => 'item',
@@ -69,15 +77,6 @@ function mod_muziekladder_mailtipform($form, &$form_state,$presets=array()) {
         $venue_options[$row['Id']] = html_entity_decode($row['Title']);
       }
     }
-
-    $visible_c_f_i = array(
-     'visible'=> array(
-      ':input[name="soort"]' => array(
-          array('value' =>'concert'),
-          array('value' =>'festival'),
-          array('value' =>'iets_anders'),
-      )
-    ));
 
     $form['soort'] = array(
        '#type' => 'select',
