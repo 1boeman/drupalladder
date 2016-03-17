@@ -144,7 +144,8 @@ class Gig extends Controller{
       //header( "Location: ".$url );
       // exit();
       header("HTTP/1.0 404 Not Found");
-      return '<p>'. t('Sorry, but this content is no longer available on Muziekladder.').'</p>';
+
+      drupal_not_found();
   }
 
 }
