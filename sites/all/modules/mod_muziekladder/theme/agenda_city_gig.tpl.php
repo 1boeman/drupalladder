@@ -42,15 +42,18 @@ if(!empty($content)){
     }
     $img_class = '';
     $img = '';
+    $placeholder = ''; 
     if (strlen(trim($value['Event_Img']))){
       $img = preg_match ("/^data/",$value['Event_Img']) ? $value['Event_Img'] : base64_encode($value['Event_Img']);
       $img_class = ' icanhazimage';
+      $placeholder="<div class='image-cell'></div>";
     }
 ?>
 
     <div class="city_gig clearfix<?php echo $img_class ?>" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>">
       <a class="clearfix" itemprop="url" href="<?php echo $link ?>">
         <div class="first-cell cell">
+          <?php echo $placeholder; ?>
           <strong class="name" itemprop="name"><?php echo $value['Event_Title']  ?></strong>
         </div>
         <div class="second-cell cell">

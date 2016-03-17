@@ -358,7 +358,7 @@ var hC = Drupal.settings.muziekladder;
       }
 
       var img = new Image;
-      $gig.find('.first-cell').prepend('<div class="image-cell">'+img_html+'</div>')
+      $gig.find('.first-cell').find('.image-cell').append(img_html);
     });
 
     !function(){
@@ -397,7 +397,8 @@ var hC = Drupal.settings.muziekladder;
             el.parent.replaceChild(img, el)
           else
             el.src = src;
-
+            el.className +=' loaded'; 
+         
           fn? fn() : null;
         }
         img.onerror = function(){
