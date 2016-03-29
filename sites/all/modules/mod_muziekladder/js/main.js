@@ -222,6 +222,7 @@ var hC = Drupal.settings.muziekladder;
     var result_count = parseInt($cga.data('count'));
     var result_per_page = parseInt($cga.data('rpp'));
     var handlers = {};
+
     //page_links
     var pageless_url = location.href.replace(/\?pagina=[0-9]+/,'');
     var pagenav = [];
@@ -256,7 +257,51 @@ var hC = Drupal.settings.muziekladder;
         }
 
         location.href = pathprefix+'muziek' + choice + agenda_spec;
-     });
+    });
+ 
+    // city autocompleter
+    if (screen.width > 500) {
+      var autocomplete = function(){
+        var auto_options = [];
+        var s = Drupal.settings.muziek_cities;
+        for (var i = 0;  i < s.length; i++) {
+          auto_options.push({value:s[i].Name, data:s[i].Id})
+        }
+        var curval = $('.agenda_city_selecter').val();
+        if (curval != 0){
+          $('.city_autocomplete')
+            .val(' -- '+curval.split('-')[1])
+            .focus(function(){this.value=''})
+        }
+       
+        $('.city_autocomplete')
+          .removeClass('nodisplay')
+          .autocomplete ({
+          lookup: auto_options,
+          onSelect: function (suggestion) {
+            var sg = suggestion.data
+            $('.agenda_city_selecter option').each(function(){
+              if (this.value.split(/\-/)[0] == sg){
+                $('.agenda_city_selecter')
+                  .val(this.value)
+                  .trigger('change')
+              }
+            });
+        }});
+          
+       
+        $('.agenda-date-selecter').removeClass('nodisplay') 
+ 
+      };
+      
+      laad.js('autocomplete',autocomplete);
+    } else {
+      $('.agenda_city_selecter').removeClass('nodisplay')
+      $('.agenda-date-selecter').removeClass('nodisplay') 
+    }
+
+    
+
 
      // day buttons
      $('.prevnextlinks button').on('click',function(e){

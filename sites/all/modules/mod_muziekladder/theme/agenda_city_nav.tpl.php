@@ -2,7 +2,8 @@
   <div class="navigation clearfix navigation-dagoverzicht-top">
      <div class="nav-dag-inner">
        <nav class="cities-agendas">
-        <select class="agenda_city_selecter">
+        <input type="text" class="city_autocomplete nodisplay" placeholder="<?php echo t('City')?>" />
+        <select class="agenda_city_selecter nodisplay">
           <option value="0">-- <?php echo t('All cities') ?> --</option>
           <?php foreach($cities as $city): ?>
           <option value="<?php echo $city['Id'].'-'.$city['Name'] ?>" <?php
@@ -16,8 +17,8 @@
       </nav>
       <nav class="prevnextlinks">
        <div class="startdatum-container">
-        <span class="label-el"><?php echo t('Starting from')?>:</span>
-        <select class="agenda-date-selecter">
+        <span class="label-el nodisplay"><?php echo t('Starting from')?>:</span>
+        <select class="agenda-date-selecter nodisplay">
           <option value="0"> -- <?php echo t('Date') ?> -- </option>
           <?php foreach($dates as $key=>$value): ?>
             <option value="<?php echo $key ?>" <?php if ($day == $key) echo ' selected '; ?>><?php echo $value ?></option>

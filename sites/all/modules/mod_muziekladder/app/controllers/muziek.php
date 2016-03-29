@@ -23,6 +23,8 @@ class Muziek extends Controller {
     $daynext = $day + 1 < 90 ? $day +1 : 90;
     $dayprev = $day - 1 > 0 ? $day - 1 : 0;
     $cities = Muziek_db::get_cities();
+    drupal_add_js(array('muziek_cities'=>$cities),'setting');
+ 
     $prefix= Muziek_util::lang_url();
     $date_array=array();
     $dt = new DateTime();
@@ -105,6 +107,7 @@ class Muziek extends Controller {
     }else{
       $page = 0;
     }
+
     $date = new DateTime();
     if ($day) $date->modify('+'.$day.' day');
 
