@@ -148,7 +148,7 @@ var glbl = {
   }
 
   if ( document.body.className.indexOf('node-type-article') > -1 ) {
-    shareButtonGlobal('.field-type-text-with-summary');
+    shareButtonGlobal('h1#page-title');
   }
 
   $('#block-system-main-menu .menu li').once('muziekladder_menu',function(){
