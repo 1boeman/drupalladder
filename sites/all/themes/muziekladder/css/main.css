@@ -664,8 +664,8 @@ margin-bottom: 20px;
 .page-user .views-row {
   margin-bottom:20px;
   padding-bottom:20px;
-  border-bottom:2px dotted #ddd;
-
+  padding-top:20px;
+  border-top:2px dotted #ddd;
 }
 
 .page-user .views-field-field-image{
