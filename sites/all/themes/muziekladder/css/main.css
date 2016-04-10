@@ -659,7 +659,17 @@ margin-bottom: 20px;
 /* user page */
 .page-user .form-item-hybridauth{
     display:none;
+}
 
+.page-user .views-row {
+  margin-bottom:20px;
+  padding-bottom:20px;
+  border-bottom:2px dotted #ddd;
+
+}
+
+.page-user .views-field-field-image{
+  float:right;
 }
 /* top navigation */
 .selectContainer select{margin-top:5px;
