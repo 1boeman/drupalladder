@@ -19,7 +19,7 @@ var hC = Drupal.settings.muziekladder;
   laad.wait(['util'],function(){});
 
   pageHandlers['page-muziekformulier-edit'] = function(){
-    $('.muziek-tab').fadeIn();
+    $('.muziek-tab').removeClass('nodisplay');
     return {};
   };
 
