@@ -140,10 +140,7 @@ class Gig extends Controller{
   }
   
   function redirect($url){
-      $url = '/muziek/';
-      header("HTTP/1.1 303 See Other");
-      header( "Location: ".$url );
-      exit();
+      drupal_add_http_header('Status', '410 Gone');
       //header("HTTP/1.0 404 Not Found");
 
   }
