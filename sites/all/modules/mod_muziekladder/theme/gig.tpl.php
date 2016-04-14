@@ -40,10 +40,9 @@
     
     <p>
        <?php  if ( stristr( $prefix, 'en' ) ): ?>
-        The specific event you are trying to find is no longer present in the Muziekladder.nl database.<br> You may find related events on the calendar this event featured on <em>(below)</em>
-        or on the <a href="/en/muziek">general calendar</a>.
+        The specific event you are trying to find is no longer present in the Muziekladder.nl database.<br> You may find related events on the <a href="/en/muziek">general calendar</a>.
        <?php else: ?>
-        Het specifieke evenement dat u zocht is niet langer aanwezig in de Muziekladder.nl database. <br> U kunt gerelateerde evenementen vinden in de locatie agenda waarin dit evenement stond <em>(zie hieronder)</em>, of in de <a href="/nl/muziek">algemene agenda</a>.
+        Het specifieke evenement dat u zocht is niet langer aanwezig in de Muziekladder.nl database. <br> U kunt gerelateerde evenementen vinden in de <a href="/nl/muziek">algemene agenda</a>.
        <?php endif; ?>
     </p>
   <?php endif; ?>
