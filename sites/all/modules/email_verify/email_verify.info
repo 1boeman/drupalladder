@@ -4,9 +4,9 @@ core = 7.x
 dependencies[] = user
 configure = admin/config/system/email_verify
 
-; Information added by Drupal.org packaging script on 2015-05-22
-version = "7.x-1.0-rc2"
+; Information added by Drupal.org packaging script on 2016-04-14
+version = "7.x-1.0"
 core = "7.x"
 project = "email_verify"
-datestamp = "1432311182"
+datestamp = "1460647152"
 
