@@ -140,7 +140,10 @@ class Gig extends Controller{
   }
   
   function redirect($url){
-      drupal_add_http_header('Status', '410 Gone');
+
+      drupal_add_http_header('Status', '404 Not Found');
+      // drupal_add_http_header('Status', '410 Gone');
+
       //header("HTTP/1.0 404 Not Found");
 
   }
