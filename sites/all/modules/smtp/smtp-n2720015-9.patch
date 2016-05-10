@@ -1,0 +1,82 @@
+diff --git a/smtp.mail.inc b/smtp.mail.inc
+index d4d0ba4..3d01441 100644
+--- a/smtp.mail.inc
++++ b/smtp.mail.inc
+@@ -81,12 +81,17 @@ public function mailWithoutQueue(array $message) {
+     // of the email being sent.
+     $from_name = FALSE;
+     if (function_exists('i18n_variable_get')) {
+-      if (i18n_variable_get('smtp_fromname', $message['language'], '') != '') {
+-        $from_name = i18n_variable_get('smtp_fromname', $message['language'], '');
++      // The 'language' value may be stored as an object.
++      $langcode = $message['language'];
++      if (is_object($langcode)) {
++        $langcode = $langcode->language;
++      }
++      if (i18n_variable_get('smtp_fromname', $langcode, '') != '') {
++        $from_name = i18n_variable_get('smtp_fromname', $langcode, '');
+       }
+       else {
+         // If value is not defined in settings, use site_name.
+-        $from_name = i18n_variable_get('site_name', $message['language'], '');
++        $from_name = i18n_variable_get('site_name', $langcode, '');
+       }
+     }
+ 
+diff --git a/smtp.module b/smtp.module
+index cadcad6..7d366c8 100644
+--- a/smtp.module
++++ b/smtp.module
+@@ -170,22 +170,3 @@ function smtp_failure_queue_runner($message) {
+   $queue = DrupalQueue::get('smtp_send_queue');
+   $queue->createItem($message);
+ }
+-
+-/**
+- * Implements hook_variable_info().
+- *
+- * Allows for the SMTP from name to be translated
+- * if/when the Variable module is enabled.
+- *
+- * @link http://api.drupalhelp.net/api/variable/variable.api.php/function/hook_variable_info/7
+- * @param array $options
+- */
+-function smtp_variable_info($options) {
+-  $variable['smtp_fromname'] = array (
+-    'title' => t('Email from name (SMTP module)'),
+-    'type' => 'string',
+-    'group' => 'smtp',
+-  );
+-
+-  return $variable;
+-}
+diff --git a/smtp.variable.inc b/smtp.variable.inc
+new file mode 100644
+index 0000000..272040a
+--- /dev/null
++++ b/smtp.variable.inc
+@@ -0,0 +1,24 @@
++<?php
++/**
++ * @file
++ * Custom integration with the Variable module.
++ */
++
++/**
++ * Implements hook_variable_info().
++ *
++ * Allows for the SMTP from name to be translated if/when the Variable module is
++ * enabled.
++ *
++ * @link http://api.drupalhelp.net/api/variable/variable.api.php/function/hook_variable_info/7
++ * @param array $options
++ */
++function smtp_variable_info($options) {
++  $variable['smtp_fromname'] = array (
++    'title' => t('Email from name (SMTP module)'),
++    'type' => 'string',
++    'group' => 'smtp',
++  );
++
++  return $variable;
++}

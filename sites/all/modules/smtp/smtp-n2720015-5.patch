@@ -1,0 +1,57 @@
+diff --git a/smtp.module b/smtp.module
+index cadcad6..7d366c8 100644
+--- a/smtp.module
++++ b/smtp.module
+@@ -170,22 +170,3 @@ function smtp_failure_queue_runner($message) {
+   $queue = DrupalQueue::get('smtp_send_queue');
+   $queue->createItem($message);
+ }
+-
+-/**
+- * Implements hook_variable_info().
+- *
+- * Allows for the SMTP from name to be translated
+- * if/when the Variable module is enabled.
+- *
+- * @link http://api.drupalhelp.net/api/variable/variable.api.php/function/hook_variable_info/7
+- * @param array $options
+- */
+-function smtp_variable_info($options) {
+-  $variable['smtp_fromname'] = array (
+-    'title' => t('Email from name (SMTP module)'),
+-    'type' => 'string',
+-    'group' => 'smtp',
+-  );
+-
+-  return $variable;
+-}
+diff --git a/smtp.variable.inc b/smtp.variable.inc
+new file mode 100644
+index 0000000..272040a
+--- /dev/null
++++ b/smtp.variable.inc
+@@ -0,0 +1,24 @@
++<?php
++/**
++ * @file
++ * Custom integration with the Variable module.
++ */
++
++/**
++ * Implements hook_variable_info().
++ *
++ * Allows for the SMTP from name to be translated if/when the Variable module is
++ * enabled.
++ *
++ * @link http://api.drupalhelp.net/api/variable/variable.api.php/function/hook_variable_info/7
++ * @param array $options
++ */
++function smtp_variable_info($options) {
++  $variable['smtp_fromname'] = array (
++    'title' => t('Email from name (SMTP module)'),
++    'type' => 'string',
++    'group' => 'smtp',
++  );
++
++  return $variable;
++}
