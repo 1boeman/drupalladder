@@ -58,6 +58,15 @@
   display:block;
   margin-top:6px;
 }
+
+.logged-in .form-item-to-me {
+  display:none;
+}
+
+.not-logged-in #feedback_simple{
+  display:none;
+}
+
 .scrolling .muziekladder_logo_small img{
   height:40px;
 }
