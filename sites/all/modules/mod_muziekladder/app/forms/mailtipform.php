@@ -428,18 +428,24 @@ function mod_muziekladder_mailtipform_submit($form, &$form_state) {
         'body' => $body,
         'subject' => 'Muziekladder muziekformulier',
     );
-    if (drupal_mail('mailtipform', 'some_mail_key', $to, language_default(), $params, $from, TRUE)) {
-        if (!$update){
-          drupal_set_message(t('
-            Thanks! Your recommendation has been successfully submitted. <br>We will process it as soon as possible.'));
-        }else{
-          drupal_set_message(t('
-            Thanks! Your updates have been successfully processed.
-            They will also be updated in the calendar pages as soon as possible.
-          '));
-        }
-    } else {
-        drupal_set_message('Sorry... the submission failed because of technical problems. Please try again later.');
+    try {
+      if (drupal_mail('mailtipform', 'some_mail_key', $to, language_default(), $params, $from, TRUE)) {
+          if (!$update){
+            drupal_set_message(t('
+              Thanks! Your recommendation has been successfully submitted. <br>We will process it as soon as possible.'));
+          }else{
+            drupal_set_message(t('
+              Thanks! Your updates have been successfully processed.
+              They will also be updated in the calendar pages as soon as possible.
+            '));
+          }
+      } else {
+          drupal_set_message('Sorry... the submission failed because of technical problems. Please try again later.');
+      }
+    } catch(Exception $e){
+
+      drupal_set_message(t('Thanks!'));
+     
     }
 }
 
