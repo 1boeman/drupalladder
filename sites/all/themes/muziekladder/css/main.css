@@ -229,7 +229,9 @@ blockquote:before {
 
 
 /* front */
-
+.front .front-add-event{
+  margin-bottom:30px;
+}
 .muziekladder_logo_small {
     float:left;
 }
@@ -663,7 +665,9 @@ margin-bottom: 20px;
 }
 
 /* user page */
-
+.muziek-tools-user-page{
+  margin-bottom:20px;
+}
 
 .page-user .form-item-hybridauth{
   display:none;

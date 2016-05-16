@@ -26,7 +26,9 @@
     <h2><?php echo t('Latest tips')?>:</h2>
 
     <div id="content" class="column" role="main">
-
+      <div class="front-add-event-container">
+        <a class="btn btn-inverse front-add-event" href="<?php echo url('muziekformulier')?>">+ <?php echo t('Add event') ?></a>
+      </div>
       <?php print render($page['highlighted']); ?>
       <a id="main-content"></a>
 

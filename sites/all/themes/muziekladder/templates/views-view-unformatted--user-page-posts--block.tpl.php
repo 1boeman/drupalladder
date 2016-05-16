@@ -12,6 +12,13 @@ if (!empty($title)): ?>
   <h3><?php print $title; ?></h3>
 <?php endif; ?>
 
+<?php if (user_is_logged_in()) :?>
+  <div class="muziek-tools-user-page">
+    <a class="btn btn-inverse" href="<?php echo url('muziekformulier')?>"><?php echo '+ '.t('Add event') ?></a>
+  </div>
+<?php endif; ?>
+
+
 <?php foreach ($rows as $id => $row):?>
   <div class="event_on_user_profile">
 <?php  if($view->result[$i]->node_uid == $user->uid): ?>
