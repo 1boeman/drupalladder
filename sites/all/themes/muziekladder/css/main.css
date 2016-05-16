@@ -663,15 +663,20 @@ margin-bottom: 20px;
 }
 
 /* user page */
-.page-user .form-item-hybridauth{
-    display:none;
-}
 
-.page-user .views-row {
+
+.page-user .form-item-hybridauth{
+  display:none;
+}
+.page-user .views-field-uid {
+
+  display:none
+}
+.page-user .event_on_user_profile {
   margin-bottom:20px;
-  padding-bottom:20px;
-  padding-top:20px;
-  border-top:2px dotted #ddd;
+  padding-bottom:50px;
+  padding-top:50px;
+ border-top:2px dotted #005580
 }
 
 .page-user .views-field-field-image{

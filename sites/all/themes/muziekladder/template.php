@@ -257,6 +257,14 @@ function muziekladder_preprocess_page(&$variables) {
       }
       $variables['crumbs'] = theme('crumb_trail',array('items'=>$crumb_items));
   }
+
+  //check / adjust for user profile page
+  if (in_array('page__user__%',$variables['theme_hook_suggestions'])){
+    if (user_is_logged_in()){
+      $tips = Muziek_util::showTips();
+      drupal_add_js(array('rows'=>$tips), 'setting');
+    }
+  }
 }
 
 

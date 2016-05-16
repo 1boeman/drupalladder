@@ -102,10 +102,6 @@ var hC = Drupal.settings.muziekladder;
       }
     });
 
-    function match_file(nid){
-      return Drupal.settings.rows[nid];
-    }
-
 
     $(document).ajaxComplete(function(){
       var $uccessBlock = $('form .alert-success').not('.alert-processed');
@@ -124,28 +120,7 @@ var hC = Drupal.settings.muziekladder;
     showTipsButton();
     var ds = Drupal.settings;
 
-    return {
-      "EditTip":function(){
-        var tip,node_type = $(this).data('node_type');
-        
-        if (node_type == 'artist') { 
-          tip = 'n_'+$(this).data('nid');
-        } else {
-          tip = match_file($(this).data('nid'));
-        }
-        location.href = ds.basePath+ds.pathPrefix + 'muziekformulier/edit/'+tip;
-      },
-      "DeleteTip":function(){
-        var tip,node_type = $(this).data('node_type');
-            
-        if (node_type == 'artist') { 
-          tip = 'n_'+$(this).data('nid');
-        } else {
-          tip = match_file($(this).data('nid'));
-        }
-        glbl.tip_delete(ds.basePath+ds.pathPrefix + 'muziekformulier/delete/'+tip,this);
-      }
-    };
+    return glbl.tip_edit_handlers;
   };
 
   pageHandlers.zoekpagina = function(){

@@ -86,8 +86,41 @@ var glbl = {
       });
     }
     $container.find('.delete_event_modal').modal({})
+  },
+
+  "tip_edit_handlers" : {
+    "EditTip":function(){
+      var $=jQuery;
+      var ds = Drupal.settings;
+      var tip,node_type = $(this).data('node_type');
+      
+      if (node_type == 'artist') { 
+        tip = 'n_'+$(this).data('nid');
+      } else {
+        tip = match_file($(this).data('nid'));
+      }
+      location.href = ds.basePath+ds.pathPrefix + 'muziekformulier/edit/'+tip;
+    },
+    "DeleteTip":function(){
+      var $=jQuery;
+      var ds = Drupal.settings;
+
+      var tip,node_type = $(this).data('node_type');
+          
+      if (node_type == 'artist') { 
+        tip = 'n_'+$(this).data('nid');
+      } else {
+        tip = match_file($(this).data('nid'));
+      }
+      glbl.tip_delete(ds.basePath+ds.pathPrefix + 'muziekformulier/delete/'+tip,this);
+    }
   }
 };
+
+function match_file(nid){
+  return Drupal.settings.rows[nid];
+}
+
 
 (function ($, Drupal, window, document, undefined) {
   var settings = Drupal.settings;
@@ -174,6 +207,10 @@ var glbl = {
     var pageHandlers = glbl.pageHandlers,
         handlers = glbl.handlers;
         $.extend(handlers, allPageHandlers);
+
+    pageHandlers['page-user-'] = function(){
+      return glbl.tip_edit_handlers;
+    };
 
     pageHandlers['node-type-artist'] = function(){
       return {
