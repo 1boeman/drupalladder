@@ -32,6 +32,8 @@ class Gig extends Controller{
      
       $venue = $db->get_venue($gig['Venue']);
 
+      $human_date='';
+
       if (!$venue){
         $render_array = $this->dont_redirect($id,$date,$url); 
       } else {
@@ -41,7 +43,6 @@ class Gig extends Controller{
 
         $hd = Muziek_util::human_date($gig['Date']);
         $human_date = $hd['dayname']. ' ' .$hd['daynumber'].' '.$hd['monthname']. ' ' .$hd['year'];
-
      
         $html = theme('gig',array(
           'gig'=>$gig,
