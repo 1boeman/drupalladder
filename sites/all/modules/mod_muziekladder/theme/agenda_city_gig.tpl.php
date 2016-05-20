@@ -35,7 +35,7 @@ if(!empty($content)){
     }
     $old_title = strtolower(trim($value['Event_Title']));
     $old_venue = $value['Venue_Title'];
-
+    
     if($old_city != $value['City_Name']){
       $old_city = $value['City_Name'];
       echo '<h3 class="city_header nodisplay"><a href="'.$lang_prefix.'muziek/'.$value['City_Id'].'-'.$value['City_Name'].'">'.$value['City_Name'].'</a></h3>';
@@ -47,6 +47,11 @@ if(!empty($content)){
       $img = preg_match ("/^data/",$value['Event_Img']) ? $value['Event_Img'] : base64_encode($value['Event_Img']);
       $img_class = ' icanhazimage';
       $placeholder="<div class='image-cell'></div>";
+    }
+    
+    // prevent events w/o location from printing here
+    if (!strlen(trim($value['Venue_Title']))){
+      continue;
     }
 ?>
 
