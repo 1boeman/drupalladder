@@ -278,8 +278,6 @@ function match_file(nid){
     }
   });
 
-
-
   // To understand behaviors, see https://drupal.org/node/756722#behaviors
   Drupal.behaviors.muziekformulier = {
     attach: function(context, settings) {
@@ -294,8 +292,8 @@ function match_file(nid){
               .css({'cursor':'pointer'})
               .on('click',function(){
                 $(thisSelect).val('0').trigger('change')
-              });
-          });
+            });
+        });
       }
     }
   };

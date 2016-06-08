@@ -133,6 +133,11 @@ function mod_muziekladder_language_switch_links_alter(array &$links, $type, $pat
 **/
 function mod_muziekladder_theme($existing, $type, $theme, $path){
   return array(
+    'regio_menu' => array(
+      'template' => 'regio_menu',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ),
     'tip_node' => array(
       'template' => 'tip_node',
       'path' => $path.'/theme',
@@ -233,7 +238,7 @@ function set_vars_from_singleton(&$vars,$singleton_vars_to_look_at) {
 
 
 function mod_muziekladder_preprocess_page(&$vars) {
-  set_vars_from_singleton($vars,array('crumbs','title','city_menu','after_content','agenda','var1'));
+  set_vars_from_singleton($vars,array('crumbs','title','city_menu','after_content','agenda','var1','regio_menu'));
 
   if (isset($vars['node']) && node_type_get_name($vars['node']) == 'Locatiespagina') {
     $lang_prefix = Muziek_util::lang_url();

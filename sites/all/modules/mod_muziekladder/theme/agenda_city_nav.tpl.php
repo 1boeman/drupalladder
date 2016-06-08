@@ -6,7 +6,7 @@
         <select class="agenda_city_selecter nodisplay">
           <option value="0">-- <?php echo t('All cities') ?> --</option>
           <?php foreach($cities as $city): ?>
-          <option value="<?php echo $city['Id'].'-'.$city['Name'] ?>" <?php
+          <option value="<?php echo $city['Id'].'-'.str_replace(' ','_',$city['Name']) ?>" <?php
 
             if ($cityno == $city['Id']) {
               echo ' selected ';

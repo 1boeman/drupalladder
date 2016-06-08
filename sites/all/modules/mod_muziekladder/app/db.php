@@ -40,6 +40,61 @@ class Muziek_db {
     }
   }
 
+  static function get_regio($regio_id){
+    $db = self::open_locaties_db();
+    $statement = $db->prepare('SELECT * FROM Groups WHERE Id = :id');
+    $statement->bindValue( ':id', $regio_id);
+    $result = $statement->execute();
+    return $result->fetchArray();
+  }
+  
+  static function get_regios(){
+    $db = self::open_locaties_db();
+    $statement = $db->prepare(' SELECT * from Groups');
+    $result = $statement->execute();
+    
+    return self::result_to_array( $result );
+  }
+
+  static function get_regio_gigs($regio_id,$startdate,$page=0,$number_per_page=100){
+    $offset = $number_per_page * abs((int)$page); 
+    $db = self::open_locaties_db();
+    $result_fields = '
+        E.Id as Event_Id,
+        E.Date as Event_Date,
+        E.Time as Event_Time,
+        E.Img as Event_Img,
+        E.Link as Event_Link,
+        E.Title as Event_Title,
+        E.Desc as Event_Desc,
+        E.Venue as Event_Venue,
+        V.Id as Venue_Id,
+        V.Link as Venue_Link,
+        V.Title as Venue_Title, 
+        C.Name as City_Name,
+        C.Id as City_Id,
+        C.Countryno as City_Countryno ';
+
+    $statement = $db->prepare('
+     SELECT '.$result_fields.'
+     from Event E 
+      LEFT JOIN Venue V on V.id = E.Venue 
+      LEFT JOIN City C on V.Cityno = C.Id  
+        where E.Date >= :date
+        and Venue in
+        (select id from Venue where Cityno in
+          (select cityno from CityGroups where GroupId = :id ))
+      order by E.Date,C.Name,V.Title
+      limit '.$offset.','.$number_per_page.';'); 
+      $statement->bindValue(':id', $regio_id);
+
+
+     $statement->bindValue(':date',  $startdate);
+     $result = $statement->execute();
+  
+     return $result; 
+  }
+ 
   static function get_city_gigs($cityno,$startdate,$page=0,$number_per_page=100){
     $offset = $number_per_page * abs((int)$page); 
     $db = self::open_locaties_db();
@@ -97,7 +152,6 @@ class Muziek_db {
       $rv[]=$res;
     } 
     return $rv;      
-   
   }
     
   static function get_cities_with_names_containing_dash(){

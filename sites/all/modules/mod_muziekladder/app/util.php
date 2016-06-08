@@ -2,8 +2,6 @@
 
 class Muziek_util {
 
-
-
   static function can_i_edit($node){
     global $user; 
     if ($node->uid == $user->uid || user_has_role(3)){
@@ -224,7 +222,7 @@ class Muziek_util {
   }
 
   static function city_link(Array $db_row,$section = 'muziek'){
-    return self::lang_url().$section.'/'.$db_row['Id'].'-'.rawurlencode($db_row['Name']);
+    return self::lang_url().$section.'/'.$db_row['Id'].'-'.rawurlencode(str_replace(' ','_',$db_row['Name']));
   }
 
   static function human_date($event_date){
