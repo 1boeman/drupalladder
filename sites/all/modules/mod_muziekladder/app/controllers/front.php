@@ -18,13 +18,20 @@ class Front extends Controller {
       }
 
       $s = Singleton::get_instance();
+
+      $regios = Muziek_db::get_regios();
+ 
+      $regio_menu = theme('regio_menu',array('regios' => $regios, 'day'=>0, 'simple_list'=>1,
+      'current_regio'=>0 ));
+
+
       $m = new Muziek();
       $s->agenda = ' <a class="naar-agenda-link btn btn-inverse" href="/'.$language->prefix.'/archief">'.$ga_naar.' &raquo;</a>';
 
       $cities = Muziek_db::get_cities_by_ids(array(1,8,5,1412801590,1413406572,4,7,15,6,17,100,1439757759));
       shuffle($cities);
       $s->city_menu = theme('city_menu',array('cities' => $cities));
-
+      $s->regio_menu = $regio_menu;
 
    	}
 }

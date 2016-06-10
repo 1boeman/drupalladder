@@ -22,8 +22,12 @@
         <button type="submit" class="btn btn-large">&raquo;</button>
       </form>
     </div>
+       <div class="regio_menu-container">
+        <h2>Muziekagendas</h2>
+        <?php echo $regio_menu ?>
+      </div>
     
-    <h2><?php echo t('Latest tips')?>:</h2>
+    <h3><?php echo t('Latest tips by visitors')?></h3>
 
     <div id="content" class="column" role="main">
       <div class="front-add-event-container">
@@ -48,7 +52,10 @@
      <?php print $feed_icons; ?>
       
     </div>
+
+ 
     <div class="city_menu-container">
+  
       <?php echo $city_menu ?>
     </div>
  

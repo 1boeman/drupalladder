@@ -6,8 +6,10 @@
 <nav class="regio-menu">
   <ul class="nav nav-pills agenda-city-menu">
     <?php foreach($regios as $regio): ?>
-    <li class="<?php echo $regio['Id'] ?>">
-      <a href="<?php echo $lang_url.'muziek/regio-'.$regio['Id'].$agenda_day  ?>"><?php echo t($regio['Name']) ?></a>
+    <li class="<?php 
+      echo $regio['Id'];
+      if ($current_regio && $current_regio==$regio['Id']){ print ' active'; }?>">
+      <a href="<?php echo $lang_url.'muziek/regio-'.$regio['Id'].$agenda_day ?>"><?php echo t($regio['Name']) ?></a>
     </li>
     <?php endforeach; ?>
   </ul>

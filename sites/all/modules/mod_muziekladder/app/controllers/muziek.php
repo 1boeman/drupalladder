@@ -29,7 +29,8 @@ class Muziek extends Controller {
   }
 
   function navigation_links($cityno,$cityname,$day){
-    $ct = $cityno? $cityno.'-'.$cityname.'/' :'';
+    if ($cityno) $cityno = str_replace('regio-','',$cityno);
+    $ct = $cityno ? $cityno .'-'.$cityname.'/' :'';
     $daynext = $day + 1 < 90 ? $day +1 : 90;
     $dayprev = $day - 1 > 0 ? $day - 1 : 0;
     $cities = Muziek_db::get_cities();
@@ -48,13 +49,13 @@ class Muziek extends Controller {
       $dt->modify('+ 1 day' );
     }
 
-    $city_menu = theme('regio_menu',array('regios' => $regios, 'day'=>$day, 'simple_list'=>1 ));
+    $regio_menu = theme('regio_menu',array('regios' => $regios, 'day'=>$day, 'simple_list'=>1, 'current_regio' => $cityno ));
 
     return theme('agenda_city_nav',array(
       'dates' => $date_array,
       'cityno' => $cityno,
       'cities' => $cities,
-      'city_menu'=>$city_menu,
+      'city_menu'=>$regio_menu,
       'day' => $day,
       'daynext' => $daynext,
       'dayprev' => $dayprev,

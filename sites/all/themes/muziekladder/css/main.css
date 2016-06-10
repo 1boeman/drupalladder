@@ -235,9 +235,15 @@ blockquote:before {
 .muziekladder_logo_small {
     float:left;
 }
+.regio-menu li{
+  float:none;
+  display: inline-block;
+  margin-bottom:12px;
+}
+
 .front .city_menu-container{
   float:right;
-  width: 66%;
+  width: 60%;
 }
 
 ul.front-city-menu, .front-city-menu ul{
@@ -346,7 +352,7 @@ ul.front-city-menu  li{
 }
 .front #content {
   float:left;
-  width:33%;
+  width:40%;
   position:relative;
   padding-left:0px;
   padding-right:0px;
