@@ -1134,6 +1134,12 @@ color:Maroon
   margin-bottom:1em;
 
 }
+.city_autocomplete.active,
+.agenda_city_selecter.active,
+.startdatum-container select.active{
+  background:#08c;
+  color:white;
+} 
 .prevnextlinks a{
   text-decoration:none;
 }

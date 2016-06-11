@@ -3,7 +3,7 @@
      <div class="nav-dag-inner">
        <nav class="cities-agendas">
         <input type="text" class="city_autocomplete nodisplay" placeholder="<?php echo t('City')?>" />
-        <select class="agenda_city_selecter nodisplay">
+        <select class="agenda_city_selecter nodisplay <?php if ((int)$cityno > 0) {echo ' active'; } ?>">
           <option value="0">-- <?php echo t('All cities') ?> --</option>
           <?php foreach($cities as $city): ?>
           <option value="<?php echo $city['Id'].'-'.str_replace(' ','_',$city['Name']) ?>" <?php
@@ -17,11 +17,11 @@
       </nav>
       <nav class="prevnextlinks">
        <div class="startdatum-container">
-        <span class="label-el nodisplay"><?php echo t('Starting from')?>:</span>
-        <select class="agenda-date-selecter nodisplay">
+        <span class="label-el agenda-date-selecter-label nodisplay"><?php echo t('Starting from')?>:</span>
+        <select class="agenda-date-selecter nodisplay<?php if ($day > 0 ) {echo ' active';} ?>">
           <option value="0"> -- <?php echo t('Date') ?> -- </option>
           <?php foreach($dates as $key=>$value): ?>
-            <option value="<?php echo $key ?>" <?php if ($day == $key) echo ' selected '; ?>><?php echo $value ?></option>
+            <option value="<?php echo $key ?>" <?php if ($day == $key) echo ' selected '; ?>> <?php echo $value ?></option>
           <?php endforeach; ?>
         </select>
       </div>

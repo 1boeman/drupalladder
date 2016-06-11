@@ -252,6 +252,7 @@ var hC = Drupal.settings.muziekladder;
           $('.city_autocomplete')
             .val(' -- '+curval.split('-')[1])
             .focus(function(){this.value=''})
+            .addClass('active');
         }
        
         $('.city_autocomplete')
@@ -269,13 +270,15 @@ var hC = Drupal.settings.muziekladder;
             });
         }});
        
-        $('.agenda-date-selecter').removeClass('nodisplay') 
+        $('.agenda-date-selecter').removeClass('nodisplay');
+        $('.agenda-date-selecter-label').removeClass('nodisplay') 
+        
       };
       
       laad.js('autocomplete',autocomplete);
     } else {
       $('.agenda_city_selecter').removeClass('nodisplay')
-      $('.agenda-date-selecter').removeClass('nodisplay') 
+      $('.agenda-date-selecter-label').removeClass('nodisplay') 
     }
 /*
      // day buttons
