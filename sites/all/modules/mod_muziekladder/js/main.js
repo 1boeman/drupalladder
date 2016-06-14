@@ -217,7 +217,7 @@ var hC = Drupal.settings.muziekladder;
         var city_spec = location.href.match(/\/regio-[^\/\?]+/);
          
       } else {
-        var city_spec = location.href.match(/\/[0-9]+-[a-z_\/]+\/*/i);
+        var city_spec = location.href.match(/\/[0-9]+-[^\/]+/i);
     }
     city_spec = city_spec ? city_spec[0] : '/';
     if (!city_spec.match(/\/$/)) city_spec += '/';
