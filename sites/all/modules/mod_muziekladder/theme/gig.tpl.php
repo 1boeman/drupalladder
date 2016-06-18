@@ -24,7 +24,7 @@
             &bull; <span class="country country<?php echo $venue['Countryno'] ?>" data-countryno="<?php echo $venue['Countryno'] ?>"><?php echo t($venue['Country_name']) ?></span> 
  
         </h3>
-		<p class="description"><?php echo str_replace('||','<br />',$gig['Desc']) ?></p>
+		<p class="description"><?php echo str_replace('||','<br />',nl2br(trim($gig['Desc']))) ?></p>
 		<p><strong>Link</strong>: <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo $gig['Link'] ?></a>  </p>
 		<p><i class="icon-info-sign"></i> <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
   </div>
