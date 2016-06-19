@@ -15,10 +15,10 @@ $old_city = '';
 $old_title = '';
 $old_venue = '';
 if(!empty($content)){
-
+  $ontdubbeling = array();
   foreach($content as $value){
     $link = Muziek_util::gig_link($value);
-
+    
     // block headers
     if ($old_date != $value['Event_Date']){
       $old_date = $value['Event_Date'];
@@ -27,13 +27,15 @@ if(!empty($content)){
       $human_date = $hd['dayname']. ' ' .$hd['daynumber'].' '.$hd['monthname']. ' ' .$hd['year'];
       $subhuman_date = substr($hd['dayname'],0,2) . ' ' . $hd['daynumber'] . '/' . $hd['monthnumber'];
       echo '<h2 class="human-date">'.$human_date.'</h2>';
-    }else{
+    } else {
      // prevent duplications
-      if ( $old_title == strtolower(trim($value['Event_Title']))) {
-        continue;
+
+      $ontdubbel_key = $value['Event_Date'].'_'.strtolower(trim($value['Event_Title']));
+      if (isset($ontdubbeling[$ontdubbel_key])){
+        continue; 
       }
+      $ontdubbeling[$ontdubbel_key] = 1;
     }
-    $old_title = strtolower(trim($value['Event_Title']));
     $old_venue = $value['Venue_Title'];
     
     if($old_city != $value['City_Name']){
