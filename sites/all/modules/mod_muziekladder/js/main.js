@@ -177,6 +177,7 @@ var hC = Drupal.settings.muziekladder;
     return {
       show_venuetips:function(){
         $(this).hide();
+        $('#agenda-link').hide();
         $('.venue_tipformContainer').slideDown();
       }
     };
