@@ -279,6 +279,8 @@ var hC = Drupal.settings.muziekladder;
       laad.js('autocomplete',autocomplete);
     } else {
       $('.agenda_city_selecter').removeClass('nodisplay')
+      $('.agenda-date-selecter').removeClass('nodisplay');
+  
       $('.agenda-date-selecter-label').removeClass('nodisplay') 
     }
 /*
