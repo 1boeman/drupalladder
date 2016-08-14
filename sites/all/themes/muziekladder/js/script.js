@@ -22,6 +22,8 @@ var glbl = {
   pageHandlers : {},
   handlers : {},
 
+  apikey : 'AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo',
+
   'bootstrap_alert' : function(html_content,text_header,callback){
     var $ = jQuery;
     $('.modal').modal('hide');
@@ -193,6 +195,7 @@ function match_file(nid){
           location.href = $(this).find('a')[0].href;
     });
   });
+
   // domready
   $(function(){  
     var $window = $(window)
@@ -213,6 +216,50 @@ function match_file(nid){
     };
 
     pageHandlers['node-type-artist'] = function(){
+      var makeLink= function(str){
+        return ('<a href="'+str+'" target="_blank">'+str+'</a>');
+      };  
+      var youtube_parser = function(url){
+        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        return (match&&match[7].length==11)? match[7] : false;
+      };
+
+      var $media = $('.field-name-field-media-url').find('.field-item');
+      // embed youtube urls if allowed
+      if ($media.length){
+        $media_url = $media.text();
+        if ($media_url.match(/youtu/)){
+          var youtube_id = youtube_parser($media_url);       
+          $.get('https://www.googleapis.com/youtube/v3/videos?id='
+            +youtube_id+'&key='
+            +glbl.apikey+'&part=snippet,contentDetails,status',
+            function(resp){
+              try{
+                var item = resp.items[0]
+                if (item.status.embeddable){
+                  var width = item.snippet.thumbnails.standard.width;
+                  var height = item.snippet.thumbnails.standard.height;
+                  var ifrm = '<iframe width="'+width+'" height="'
+                    +height+'" src="https://www.youtube.com/embed/'
+                    +youtube_id+'" frameborder="0" allowfullscreen></iframe>';
+                  $media.html(ifrm);
+                } else{
+                  $media.html(makeLink($media_url));
+                }
+              } catch(e) {
+                $media.html(makeLink($media_url));
+              }
+              
+          },'json');
+        } else {
+          $media.html(makeLink($media_url));
+        }
+      }
+      var $lnk = $('.field-name-field-url').find('.field-item');
+      $lnk.html(makeLink($lnk.text()));
+ 
+
       return {
         nodeDeleteTip : function(){
           glbl.tip_delete($(this).data('xml'),this);

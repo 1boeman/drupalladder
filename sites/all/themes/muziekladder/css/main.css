@@ -1655,6 +1655,8 @@ font-size: 20px;
     color:#005580;
 }
 
+
+
 /*article pages*/
 .node-type-article article .field-type-image img{
   border:4px solid white;
@@ -1689,14 +1691,20 @@ margin-left:0px;
 .node-type-article .node .field-items{
   clear:left;
 }
+
+/*artist pages*/
 .node-type-artist .field-items{
-clear:none;
+  clear:none;
 }
 
-
+.node-type-artist .field-name-field-url {
+  padding-top:1rem;
+  padding-bottom:2rem;
+} 
 .node-type-artist .field-type-image,
 .node-type-article .field-type-image{
   float:right;
+  margin-left:4px;
 }
 .node-type-artist article p,
 .node-type-article article p{

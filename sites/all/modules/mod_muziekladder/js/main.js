@@ -1,7 +1,7 @@
 var hC = Drupal.settings.muziekladder;
 (function($){
   hC.jsDir = '/js/';
-  hC.mapsKey = 'AIzaSyDEVR7pVblikD8NSlawdwv8nFnOxzx8PBo';
+  hC.mapsKey = glbl.apikey;
   hC.pathToTheme = Drupal.settings.basePath + "sites/all/themes/" + Drupal.settings.ajaxPageState.theme;
   laad.pathConfig = {
     "bootstrap"     :hC.muziekladderBasePath + hC.jsDir+"bootstrap.min.js",
