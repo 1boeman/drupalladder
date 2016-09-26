@@ -143,6 +143,8 @@ function mod_muziekladder_artistform_submit($form, &$form_state) {
 function save_artist_node($data){
   global $user;   
   
+  if (!user_is_logged_in()) exit;
+  
   $node_id = (int)$data['nid'];
 
   /* 

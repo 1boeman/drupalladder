@@ -331,7 +331,10 @@ function mod_muziekladder_mailtipform_validate($form, &$form_state) {
 
 function mod_muziekladder_mailtipform_submit($form, &$form_state) {
     // Submission logic.
+    if(!user_is_logged_in()) exit;
+
     global $user;
+ 
     $update = false;
     $msg = array();
     $dom_doc = new DOMDocument('1.0', 'utf-8');
