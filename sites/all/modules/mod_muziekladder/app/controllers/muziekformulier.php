@@ -11,14 +11,17 @@ class Muziekformulier extends Controller {
     if ($language->language == 'nl'){
       $legend2 = '<p><strong>Waarover gaat uw tip?</strong></p>';
       $legend = '<p><em>Kies een van de tabs hieronder voor een onderwerp.</em></p>';
+      $legend3 = '<p>Uw tips verschijnen op deze pagina en na controle ook in de <a href="/muziek/">Muziekladder agenda</a>.';
 
-      $this->set_title(t('Aanraden'));
+      $this->set_title(t('Evenementen en artiesten aanraden'));
       $this->set_head_title(t('Tips voor Muziekladder'));
  
     } else {
       $legend2 ='<p><strong>What\'s your recommendation about?</strong></p>';
       $legend = '<p><em>Please choose one of the tabs below to specify a subject.</em> </p>';
-      $this->set_title(t('Recommend'));
+      $legend3 = '<p>Your recommendations will appear on this page and after validation also on the <a href="/muziek/">Muziekladder calendar</a>.';
+
+      $this->set_title(t('Recommend an event or artist'));
       $this->set_head_title(t('Muziekladder recommendations'));
     }
 
@@ -43,7 +46,7 @@ class Muziekformulier extends Controller {
         'view_tips'=>array(
           '#type'=>'markup',
           '#markup'=> $response,
-          '#prefix' => '<div class="printed-tips eventfull clearfix">
+          '#prefix' => $legend3 . ' <div class="printed-tips eventfull clearfix">
                           <h3>'.t('Recent recommendations').':</h3>',
           '#suffix' => '</div>',
         ),

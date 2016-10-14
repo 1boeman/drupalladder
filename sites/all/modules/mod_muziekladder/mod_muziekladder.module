@@ -243,35 +243,40 @@ function mod_muziekladder_preprocess_page(&$vars) {
   if (isset($vars['node']) && node_type_get_name($vars['node']) == 'Locatiespagina') {
     $lang_prefix = Muziek_util::lang_url();
     $venue_id = $vars['node']->field_locaties_id['und'][0]['value'];
+    
     $db = new Muziek_db();
     $venue = $db->get_venue($venue_id);
-
-    $vars['crumbs']  = theme('crumb_trail',array(
-        'items'=>
-          array(
+    if($venue) {
+      $vars['crumbs']  = theme('crumb_trail',array(
+          'items'=>
             array(
-              'text'=>t('Locations'),
-              'link'=>$lang_prefix . 'uitgaan'
-            ),
-            array(
-              'text' => $venue['City_name'],
-              'link' => Muziek_util::city_link(
-                array(
-                  'Id' => $venue['Cityno'],
-                  'Name'=> $venue['City_name']
-                ),'uitgaan'
+              array(
+                'text'=>t('Locations'),
+                'link'=>$lang_prefix . 'uitgaan'
+              ),
+              array(
+                'text' => $venue['City_name'],
+                'link' => Muziek_util::city_link(
+                  array(
+                    'Id' => $venue['Cityno'],
+                    'Name'=> $venue['City_name']
+                  ),'uitgaan'
+                )
+              ),
+              array(
+                'text'=> $venue['Title'],
+                'link' =>Muziek_util::locatie_link($venue)
+              ),
+              array(
+                'text' => 'reviews by visitors'
               )
-            ),
-            array(
-              'text'=> $venue['Title'],
-              'link' =>Muziek_util::locatie_link($venue)
-            ),
-            array(
-              'text' => 'reviews by visitors'
             )
           )
-        )
-     );
+       );
+    }else{
+      drupal_goto('uitgaan');
+      exit;
+    }
   }
 }
 
