@@ -26,7 +26,7 @@ if(isset($nosearchterm)): ?>
   <div class="form-search-container2">
 		<form class="form-search" action="<?php echo $lang_prefix ?>search" id="advanced_search">
 			<div class="input-append">
-				<input name="query" type="text" class="input-xxlarge search-query" placeholder="<?php echo t('search')?>" value="<?php echo htmlspecialchars($searchTerms) ?>">
+				<input name="query" type="text" class="input-xxlarge autocomplete-search advanced-search" placeholder="<?php echo t('search')?>" value="<?php echo htmlspecialchars($searchTerms) ?>">
 				<button type="submit" class="btn"><i class="icon icon-search"></i></button>
             </div>
             <?php if (!isset($hideadvanced)): ?>

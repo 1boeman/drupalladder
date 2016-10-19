@@ -23,7 +23,7 @@
       <div class="form-search-container">
           <form class="form-search" action="<?php echo $lang_prefix ?>search">
             <div class="input-append">
-                <input name="query" type="text" class="input-medium search-query" placeholder="zoeken">
+                <input name="query" type="text" class="input-medium search-query autocomplete-search" placeholder="zoeken">
                 <input type="hidden" name="orderBy" value="relevance" />
                 <button type="submit" class="btn"><i class="icon icon-search"></i></button>
             </div>

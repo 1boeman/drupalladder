@@ -27,7 +27,7 @@ if (!stristr( $_SERVER['SERVER_NAME'], 'muziekladder.nl' )){
     // Production
     $old_siteroot = '/../../../../../public';
     define ('MUZIEK_NEWSPORTAL', '/home/joriso/web/muziekladder.nl/PERLNEWS/newscrawl_output/pages/3.html'); 
-    define ('MUZIEK_SOLRHOST', 'http://localhost:8983/solr/core0/');
+    define ('MUZIEK_SOLRHOST', 'http://jorisosterhaus.nl:8983/solr/muziekladder/');
 }
 
 define ('MUZIEK_GEODATA_JSON',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot.  '/data/geodata.json');

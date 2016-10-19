@@ -18,6 +18,18 @@ var hC = Drupal.settings.muziekladder;
 
   laad.wait(['util'],function(){});
 
+  laad.js('autocomplete',function(){
+    $('.autocomplete-search').autocomplete({
+      'serviceUrl' : Drupal.settings.basePath+'search/suggest/',
+      'onSelect' : function (suggestion){
+        if(!$(this).hasClass('advanced-search')){
+          location.href=Drupal.settings.basePath+Drupal.settings.pathPrefix+'search?query='+encodeURIComponent(suggestion.value);
+        }
+      }
+    });
+  });
+
+
   pageHandlers['page-muziekformulier-edit'] = function(){
     $('.muziek-tab').removeClass('nodisplay');
     return {};
@@ -144,10 +156,10 @@ var hC = Drupal.settings.muziekladder;
   };
 
   pageHandlers.front = function(){
-      var handlers = {};
-      externalLinks();
-      showTipsButton()
-      return handlers;
+    var handlers = {};
+    externalLinks();
+    showTipsButton()
+    return handlers;
   };
 
   pageHandlers.locationPage = function(){

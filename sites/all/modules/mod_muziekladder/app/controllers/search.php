@@ -1,6 +1,43 @@
 <?php
 
 class Search extends Controller {
+  public function suggest(){
+    $rv = array(
+      'suggestions' => array()
+    );
+    $url = MUZIEK_SOLRHOST.'suggest?suggest=true&wt=json&suggest.dictionary=mySuggester&suggest.q=';
+
+    if (isset($_REQUEST['query']) && strlen(trim($_REQUEST['query']))){
+      $q = rawurlencode($_REQUEST['query']);  
+      $rv['query'] = $q; 
+    }
+    $query = $url.$q; 
+
+    $resp = $this->curl_get($query);
+    $resp = json_decode($resp);
+    $result = (array)$resp->suggest->mySuggester;
+     
+    $suggestions = array_pop($result);
+    $terms =(array)$suggestions->suggestions;
+    foreach($terms as $term) {
+      $rv['suggestions'][]=$term->term;
+    }
+    drupal_json_output($rv);
+    exit;
+  }
+  
+  private function curl_get( $query ){
+    $curl = curl_init();
+    curl_setopt_array($curl, array (
+      CURLOPT_RETURNTRANSFER => 1,
+      CURLOPT_URL => $query,
+    ));
+  
+    $resp = curl_exec($curl);
+    curl_close($curl);
+    return $resp; 
+  }
+
   public function index() {
     $lang_prefix = Muziek_util::lang_url(); 
 
@@ -47,14 +84,7 @@ class Search extends Controller {
       $url2 = $url.'&rows='.$rowsperpage;
       $query = $url2.$start;
 
-      $curl = curl_init();
-      curl_setopt_array($curl, array (
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => $query,
-      ));
-    
-      $resp = curl_exec($curl);
-      curl_close($curl);
+      $resp = $this->curl_get($query);
 
       global $user;
       if (is_array($user->roles) && in_array('administrator', $user->roles)) {

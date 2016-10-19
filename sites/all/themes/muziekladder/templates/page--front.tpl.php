@@ -18,7 +18,7 @@
       <h1 class="page__title title" id="page-title"><?php print $title; ?></h1>
 
       <form  action="/search">
-        <input placeholder="<?php echo t('Search') ?>" id="front-search-input" name="query" type="text" /> 
+        <input placeholder="<?php echo t('Search') ?>" id="front-search-input" name="query" type="text" class="autocomplete-search" /> 
         <button type="submit" class="btn btn-large">&raquo;</button>
       </form>
     </div>
