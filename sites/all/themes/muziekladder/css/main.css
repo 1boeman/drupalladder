@@ -107,6 +107,7 @@ a:visited {
 }
 label{font-size:16px}
 
+
 .front-search h1.page__title, h1{
   color:#dfdfdf;
   text-align:left;
@@ -229,6 +230,10 @@ blockquote:before {
 
 
 /* front */
+.front .event_link_in_node{
+  display:none;
+
+}
 .front .front-add-event{
   margin-bottom:30px;
 }

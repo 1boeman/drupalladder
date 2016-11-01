@@ -22,9 +22,7 @@ var hC = Drupal.settings.muziekladder;
     $('.autocomplete-search').autocomplete({
       'serviceUrl' : Drupal.settings.basePath+'search/suggest/',
       'onSelect' : function (suggestion){
-        if(!$(this).hasClass('advanced-search')){
-          location.href=Drupal.settings.basePath+Drupal.settings.pathPrefix+'search?query='+encodeURIComponent(suggestion.value);
-        }
+
       }
     });
   });
@@ -428,6 +426,7 @@ var hC = Drupal.settings.muziekladder;
         ;
 
       function loadImage (el, fn) {
+        if (el.className.match(/loaded|error/)) return;
         var img = new Image()
           , src = el.getAttribute('data-src');
         img.onload = function() {
@@ -440,6 +439,7 @@ var hC = Drupal.settings.muziekladder;
           fn? fn() : null;
         }
         img.onerror = function(){
+          el.className +=' error'; 
           el.parentNode.style.display = 'none';
           $(el).parents('.icanhazimage').eq(0).removeClass('icanhazimage');
         }
