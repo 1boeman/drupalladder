@@ -1,0 +1,61 @@
+<?php
+
+function iswaar_links_menu(){
+  $items = array(); 
+  $items['iswaar-links'] = array (
+    'page callback' => 'iswaar_links',
+    'access callback'  => TRUE,
+    'page arguments' => array(1)
+  );
+  return $items; 
+}
+
+function iswaar_links_theme($existing, $type, $theme, $path){
+  return array(
+    'links_page' => array(
+      'template' => 'links_page',
+      'path' => $path.'/theme',
+      'variables' => array()
+    ),
+  );
+}
+
+function iswaar_links($page) {
+  $path = drupal_get_path('module', 'iswaar_links'); 
+  drupal_add_css($path. '/css/iswaar_links.css', array('group' => CSS_DEFAULT));
+  drupal_add_js($path . '/js/iswaar_links.js');
+  $rv = array(); 
+  $data_url = 'http://amsterdam.iswaar.nl/iswaar/tagged_links/';
+  $page_path = dirname(__FILE__).'/pages/'.$page;  
+  $page_data = file_get_contents($page_path);
+  $page_line_up = json_decode($page_data,true);
+  $tags_to_retrieve = array();
+  foreach($page_line_up['columns'] as $c){
+    foreach($c as $tag_id) {
+      $tags_to_retrieve[$tag_id]=1;
+    }
+  }  
+  $tags_to_retrieve = array_keys($tags_to_retrieve);
+  $data_url = $data_url . implode(',',$tags_to_retrieve) .'/json';
+  $result = iswaar_curl_get($data_url); 
+  $result = (json_decode($result,true));
+  $rv['page'] = array('#markup' => theme('links_page',array(
+    'data'=>$result, 
+    'layout'=>$page_line_up,
+  )));
+  return $rv; 
+}
+
+ 
+function iswaar_curl_get( $query ){
+  $curl = curl_init();
+  curl_setopt_array($curl, array (
+    CURLOPT_RETURNTRANSFER => 1,
+    CURLOPT_URL => $query,
+  ));
+
+  $resp = curl_exec($curl);
+  curl_close($curl);
+  return $resp; 
+}
+

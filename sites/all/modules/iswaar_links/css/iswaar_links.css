@@ -1,0 +1,21 @@
+.iswaar-link-description{
+  display:none
+}
+
+.expanded .iswaar-link-description{
+  display:block;
+  line-height:1.5;
+  padding:6px 0px 6px 6px;
+  margin-bottom:14px;
+  border-left:1px solid black;
+  background:#efefef
+}
+
+.desc-opener{
+  cursor:pointer
+}
+
+.iswaar-link-container{
+  list-style:none;
+  margin-left:0px;
+}
