@@ -59,15 +59,10 @@
   <?php print $page_top; ?>
   <?php print $page; ?>
 
-    <footer id="footer">
-   </footer>
-      <script>
-        var bio = "info";
-        bio +='@';
-        bio +='muziekladder.nl';
-        document.getElementById('footer').innerHTML = '<div style="color:white">'+bio+'</div>';   
-      </script>
- 
+  <footer id="footer">
+    <div class="footer-inner"> <a href="<?php echo $lang_prefix.'contact' ?>">Contact Muziekladder</a> || <a target="_blank" href="https://twitter.com/muziekladder">@muziekladder</a > || <a href="<?php echo $lang_prefix.'iswaar-links/muziek-portal' ?>">Muziekladder Portal</a> </div>
+  </footer>
+     
   <?php print $scripts; ?>  
   <?php print $page_bottom; ?>
 </body>

@@ -200,6 +200,13 @@ function muziekladder_preprocess_node(&$variables, $hook) {
   }
 }
 
+function muziekladder_preprocess_html(&$variables) {
+  global $user;
+  $lang_prefix =  Muziek_util::lang_url();
+  $variables['lang_prefix'] = $lang_prefix;
+
+}
+
 function muziekladder_preprocess_page(&$variables) {
   global $user;
   $lang_prefix =  Muziek_util::lang_url();

@@ -1,5 +1,13 @@
 .iswaar-link-description{
-  display:none
+  display:none;
+  font-style:italic;
+}
+.iswaar-link-description a{
+  font-style:normal
+}
+
+.iswaar-links-container{
+  padding-bottom:80px;
 }
 
 .expanded .iswaar-link-description{

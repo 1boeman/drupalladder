@@ -28,6 +28,11 @@ function iswaar_links($page) {
   $data_url = 'http://amsterdam.iswaar.nl/iswaar/tagged_links/';
   $page_path = dirname(__FILE__).'/pages/'.$page;  
   $page_data = file_get_contents($page_path);
+  if (!$page_data) {
+    drupal_not_found();
+    drupal_exit();
+  }
+
   $page_line_up = json_decode($page_data,true);
   $tags_to_retrieve = array();
   foreach($page_line_up['columns'] as $c){

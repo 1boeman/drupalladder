@@ -869,8 +869,17 @@ footer{
  padding-bottom:80px;
  min-height:100px;
 }
+.footer-inner {
+  color:white;
+  padding-top:40px;
 
+}
+.footer-inner a {
+  color:white;
+  padding-right:12px;
+  padding-left:12px;
 
+}
 /* day display */
 
 .agenda-city-menu>li>a {

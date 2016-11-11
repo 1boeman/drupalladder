@@ -4,7 +4,7 @@
   </div>
 </div>
 
-<div class="row iswaar-links">
+<div class="row iswaar-links iswaar-links-container">
 <?php 
 
 $d = count($layout['columns']);
