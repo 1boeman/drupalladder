@@ -1,34 +1,43 @@
 <?php  if (!isset($not_found)):  ?>
- 
   <div class="page-uitgaan<?php if ( $diverse_locaties ){ echo ' diverse-locaties'; }?> ">
     <div class="club-container" itemscope itemtype="http://schema.org/Place"  id="<?php echo $venue['Id'] ?>">
    
-    <?php if (stristr($lang_prefix,'/en/') && strlen($venue['Desc_en'])): ?>   
-      
-    <p class="description"><?php echo $venue['Desc_en']?></p>		
-    
-    <?php else: ?>   
-     <p class="description"><?php echo $venue['Desc']?></p>		
-    
-    <?php endif; ?>
-    <div class="map-placeholder"></div>
- 
-      <strong itemprop="name" class="locatie-titel"><?php echo $venue['Title'] ?></strong>
-      <strong> - <?php echo $venue['City_name'] ?></strong>
-
-      <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-          <div itemprop="streetAddress">
-            <span class="straatnaam"><?php echo $venue['Street'] ?> </span>  
-            <span class="straatnummer"><?php echo $venue['Street_number']?> </span> 
-            <span class="straatnummer-toevoeging" ><?php echo $venue['Addition']?></span> 
-          </div>
-          <span itemprop="postalCode"><?php echo $venue['Zip'] ?> </span> 
-          <span itemprop="addressLocality" class="city city-<?php echo $venue['Cityno'] ?>" data-cityno="<?php echo $venue['Cityno'] ?>"><?php echo $venue['City_name']?> </span> 
-          
-         <div class="country-name"><?php echo t($venue['Country_name'])?></div>
-      </div>			
-      <p><strong>Website: </strong> <a href="<?php echo $venue['Link'] ?>"><?php echo $venue['Link'] ?></a><br></p>
+      <?php if (stristr($lang_prefix,'/en/') && strlen($venue['Desc_en'])): ?>   
         
+      <p class="description"><?php echo $venue['Desc_en']?></p>		
+      
+      <?php else: ?>   
+       <p class="description"><?php echo $venue['Desc']?></p>		
+      
+      <?php endif; ?>
+      <div class="map-placeholder"></div>
+      <div class="row">
+        <div class="span6">   
+          <strong itemprop="name" class="locatie-titel"><?php echo $venue['Title'] ?></strong>
+          <strong> - <?php echo $venue['City_name'] ?></strong>
+
+          <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+              <div itemprop="streetAddress">
+                <span class="straatnaam"><?php echo $venue['Street'] ?> </span>  
+                <span class="straatnummer"><?php echo $venue['Street_number']?> </span> 
+                <span class="straatnummer-toevoeging" ><?php echo $venue['Addition']?></span> 
+              </div>
+              <span itemprop="postalCode"><?php echo $venue['Zip'] ?> </span> 
+              <span itemprop="addressLocality" class="city city-<?php echo $venue['Cityno'] ?>" data-cityno="<?php echo $venue['Cityno'] ?>"><?php echo $venue['City_name']?> </span> 
+              
+             <div class="country-name"><?php echo t($venue['Country_name'])?></div>
+          </div>			
+          <p><strong>Website: </strong> <a href="<?php echo $venue['Link'] ?>"><?php echo $venue['Link'] ?></a><br></p>
+         </div>
+         <div class="span6">
+            <a id="agenda-link" href="<?php echo Muziek_util::city_link(array(
+              'Id'=>$venue['Cityno'], 
+              'Name' => $venue['City_name']
+            ))?>" class="btn btn-inverse">
+  <span class="icon icon-arrow-right icon-white"></span> <?php echo $venue['City_name'] .' '.t(' event calendar') ?></a>
+ 
+         </div>
+      </div>  
     </div>
     <?php $blockclass = ( count($events) >= 1 ) ? ' locatie-half' : ''; ?>
     <div class="aux-block clearfix">

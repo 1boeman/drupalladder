@@ -10,13 +10,11 @@ class Muziek_util {
     return false; 
   } 
 
-
   static function deny (){
     drupal_access_denied();
     module_invoke_all('exit');
     exit();
   }
-  
   
   static function http_link($link){
   // make sure it's a http(s) link 
@@ -28,7 +26,6 @@ class Muziek_util {
  
   static function saveTipNode($tip_id, $node_id, $uploaded_file){
     global $user;
-    $db = new Muziek_db;
 
     $data = self::getTip($tip_id);
     $event_date = $data['date'];

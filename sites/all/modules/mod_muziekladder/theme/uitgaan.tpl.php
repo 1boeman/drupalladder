@@ -60,14 +60,19 @@ endforeach; ?>
 <div class="locatie-lijst-container clearfix">
   <h2><?php echo t('Venues in ') ?> <?php echo $city['Name'] ?> </h2>
   <div class="formContainer">
- 
-     <a href="#add" class="btn btn-inverse handleMe" data-handler="show_venuetips" >
-<span class="icon icon-plus icon-white"></span> 
-<?php echo t('Add venue in').' '.$city['Name'] ?>?</a>
+    <div class="row">
+      <div class="span3">
+       <a href="#add" class="btn btn-inverse handleMe" data-handler="show_venuetips" >
+  <span class="icon icon-plus icon-white"></span> 
+  <?php echo t('Add venue in').' '.$city['Name'] ?>?</a>
+      </div>
+      <div class="span3">
+      <a id="agenda-link" href="<?php echo Muziek_util::city_link($city)?>" class="btn btn-inverse">
+  <span class="icon icon-arrow-right icon-white"></span> <?php echo $city['Name'] .' '.t(' event calendar') ?></a>
+      </div>
 
-   <a id="agenda-link" href="<?php echo Muziek_util::city_link($city)?>" class="btn">
-<span class="icon icon-forward"></span> <?php echo $city['Name'] .' '.t('calendar') ?></a>
 
+    </div>
    
     <div class="venue_tipformContainer">  
         <?php echo drupal_render($venue_form); ?>
