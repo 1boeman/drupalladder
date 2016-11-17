@@ -26,6 +26,7 @@ class Muziek_util {
  
   static function saveTipNode($tip_id, $node_id, $uploaded_file){
     global $user;
+    $db = new Muziek_db;
 
     $data = self::getTip($tip_id);
     $event_date = $data['date'];
