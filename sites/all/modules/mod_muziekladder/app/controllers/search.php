@@ -40,7 +40,7 @@ class Search extends Controller {
 
   public function index() {
     $lang_prefix = Muziek_util::lang_url(); 
-
+    
     $page = isset($_REQUEST['p']) ? $_REQUEST['p'] : 1; 
     $rowsperpage = 10;
     $maxPages = 10;
@@ -50,6 +50,7 @@ class Search extends Controller {
     $content = '';
     $titletag = t('Search the Muziekladder Calendar');
     $sort = false;
+    $facet_labels = array('city'=>t('City'),'venue_facet'=>t('Location'));
 
     if (isset($_REQUEST['query']) && strlen(trim($_REQUEST['query']))){
       $q = rawurlencode($_REQUEST['query']);  
@@ -73,12 +74,23 @@ class Search extends Controller {
       ));
     }else{
       $url = MUZIEK_SOLRHOST.'select?q='. $q .'&wt=phps&indent=true&defType=edismax'; 
-      $url .= '&qf=title+content+city+date+venue+zip+sourcelink&stopwords=true&lowercaseOperators=true'; 
-
+      $url .= '&qf=title+content+city+date+venue+venue_facet+zip+sourcelink&stopwords=true&lowercaseOperators=true'; 
+      $url .= '&facet=true&facet.sort=count&facet.limit=-1&facet.field=city&facet.field=venue_facet&facet.mincount=1';
+      
       if ($sort && $sort !='relevance') {
         if ($sort == 'date') $url .= '&sort=date+asc';
         if ($sort == 'city') $url .= '&sort=city+asc';
         if ($sort == 'venue') $url .= '&sort=venue+asc';
+      }
+
+      $active_filters = array();
+      $filter_string = '';
+      foreach($_GET as $key => $value){
+        if (stristr($key,'fq_')){
+          $url .= '&fq='.urlencode($value);
+          $active_filters[]=$value;
+          $filter_string .= '&'.$key.'='.$value;          
+        }
       }
 
       $url2 = $url.'&rows='.$rowsperpage;
@@ -90,6 +102,7 @@ class Search extends Controller {
       if (is_array($user->roles) && in_array('administrator', $user->roles)) {
         drupal_set_message($query);
       }
+ 
       $resp = unserialize($resp); 
       $numFound = (int)$resp['response']['numFound']; 
       $pagination = array();
@@ -108,12 +121,12 @@ class Search extends Controller {
           for ($i=0; $i<$pages; $i++){
             $p = $i+1;
             if ( $p != $page ){
-              $link = $lang_prefix.'search/?query='.$q.'&p='.$p. $sortstring;
-              $pagination []='<li><a href="'.$link.'">'.$p.'</a></li>';
+              $link = $lang_prefix.'search/?query='.$q.'&p='.$p. $sortstring .$filter_string;
+              $pagination []="<li><a href='".$link."'>".$p."</a></li>";
             } else {
-              $nextLink = '<li><a href="'.$lang_prefix.'search/?query='.$q .'&p='. ($p+1) . $sortstring.'">&raquo;</a></li>';
-              $pagination []='<li><span>'.$p.'</span></li>';
-              $prevLink ='<li><a href="'.$lang_prefix.'search/?query='.$q .'&p='. ($p-1) . $sortstring .'">&laquo;</a></li>';
+              $nextLink = "<li><a href='".$lang_prefix."search/?query=".$q ."&p=". ($p+1) . $sortstring . $filter_string."'>&raquo;</a></li>";
+              $pagination []='<li class="selected_search_page"><span>'.$p.'</span></li>';
+              $prevLink ="<li><a href='".$lang_prefix."search/?query=".$q ."&p=". ($p-1) . $sortstring . $filter_string."'>&laquo;</a></li>";
             }
           }   
         } 
@@ -141,25 +154,48 @@ class Search extends Controller {
  
         $content .= theme('searchresult',Array(
           'resultheader'=>1,
+          'query_string' => urldecode($_SERVER['QUERY_STRING']),
+          'lang_prefix' => $lang_prefix,
+          'facet_labels' => $facet_labels,
+          'response_header' => $resp['responseHeader'],
           'numFound'=>$resp['response']['numFound'] .$resultaat,
           'pagination'=>$pagination));
-       
-          foreach ($resp['response']['docs'] as $doc ) {
-            $dsc = isset($doc['content']) ? $doc['content'] : '';
-            $ts = strtotime($doc['date']);
-            $content .= theme('searchresult',array(
-                'searchresult'=>1,
-                'lang_prefix'=>$lang_prefix,
-                'title'=>$doc['title'],
-                'sourcelink'=>$doc['sourcelink'],
-                'desc'=>Muziek_util::shorten($dsc,50),
-                'date'=>t(date('l',$ts)).' '.date('j',$ts). ' ' .t(date('F',$ts)).' '.date('Y',$ts), 
-                'id'=>$doc['id'],
-                'location'=>$doc['venue'],
-                'city'=>$doc['city'],
-                'internallink'=> 'id='.$doc['id'].'&datestring='.substr($doc['date'],0, strpos($doc['date'],'T')) .'&g='.rawurlencode($doc['sourcelink']),
-            ));
-         } 
+      
+        $facets = false; 
+        if (isset ($resp['facet_counts'])){
+          $facets = true;
+          $content .= '<div class="row">'; 
+          $content .= theme('searchresult',array(
+            'facets_block' => 1,
+            'active_filters' => $active_filters,
+            'facet_labels' => $facet_labels,
+            'query_string' => $_SERVER['QUERY_STRING'],
+            'facet_counts' => $resp['facet_counts'],
+            'lang_prefix' => $lang_prefix
+          ));
+        }
+
+        if ($facets) $content .='<div class="span9"><div class="row">';
+        foreach ($resp['response']['docs'] as $doc ) {
+          $dsc = isset($doc['content']) ? $doc['content'] : '';
+          $ts = strtotime($doc['date']);
+          $content .= theme('searchresult',array(
+              'searchresult'=>1,
+              'facets' => $facets,
+              'lang_prefix'=>$lang_prefix,
+              'title'=>$doc['title'],
+              'sourcelink'=>$doc['sourcelink'],
+              'desc'=>Muziek_util::shorten($dsc,50),
+              'date'=>t(date('l',$ts)).' '.date('j',$ts). ' ' .t(date('F',$ts)).' '.date('Y',$ts), 
+              'id'=>$doc['id'],
+              'location'=>$doc['venue'],
+              'city'=>$doc['city'],
+              'internallink'=> 'id='.$doc['id'].'&datestring='.substr($doc['date'],0, strpos($doc['date'],'T')) .'&g='.rawurlencode($doc['sourcelink']),
+          ));
+        } 
+        
+        if ($facets) $content.='</div></div></div>';        
+
 
         $content .= theme('searchresult',Array(
           'resultfooter'=>1,

@@ -104,7 +104,7 @@ var hC = Drupal.settings.muziekladder;
          if($.trim($field.val()).length < 1){
             omg.push('Het veld "' + $form_item.find('label').text() +'" moet nog worden ingevuld.')
          }
-      })
+      });
       if (omg.length){
         alert(omg.join("\n\n"))
           overlay({close:1});
@@ -134,16 +134,30 @@ var hC = Drupal.settings.muziekladder;
   };
 
   pageHandlers.zoekpagina = function(){
-    var orderBy = Drupal.settings.muziekladder_search_orderby,
-        $orderBy = $('#orderBy');
+    var orderBy = Drupal.settings.muziekladder_search_orderby, $orderBy = $('#orderBy');
     if (orderBy && orderBy != 'relevance'){
         $orderBy.val(orderBy);
     }
+  
     crumbTrail.set(location.href);
     $orderBy.change(function(){
        $('#advanced_search').submit();
     })
     showTipsButton()
+    
+    $('.filter-removal').click(function(e){
+      e.preventDefault();
+      var this_filter = $(this).data('filter');
+      var loc_arr = location.href.split('&');
+      var new_loc_arr = [];
+      $.each(loc_arr,function(index,value){
+        if (decodeURIComponent(value).indexOf(this_filter) == -1){
+          new_loc_arr.push(decodeURIComponent(value));
+        }
+      });
+      location = new_loc_arr.join('&');
+    }); 
+ 
     return {};
   };
 

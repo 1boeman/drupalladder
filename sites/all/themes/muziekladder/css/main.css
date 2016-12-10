@@ -1734,6 +1734,11 @@ margin-left:0px;
 }
 
 /* search results */
+.pagination>ul>li.selected_search_page span{
+  background:black;
+  color:white;
+  border-color:black
+}
 .search{}
 .search-result-row2{
   margin-bottom:24px;
@@ -1758,6 +1763,11 @@ margin-left:0px;
 .zoekpagina .advanced-search-options{
   margin-top:12px;
 }
+.zoekpagina .filter a{
+  color:white
+}
+
+
 
 /* muziekformulier  */
 body.page-muziekformulier-edit div.muziek-tab{

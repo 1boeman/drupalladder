@@ -4,7 +4,6 @@ if (isset($resultheader)): ?>
 	<div class="row-fluid">
 		<div class="span12">
 			<div><?php echo $numFound ?></div>
-
 			<div class="pagination">
 				<ul>
 					<?php echo $pagination ?>
@@ -12,7 +11,25 @@ if (isset($resultheader)): ?>
 			</div>
 		</div>	
 	</div>	
-
+<?php 
+// var_dump($response_header['params']); exit;
+  if ( isset($response_header['params']['fq'])):
+    if (is_string ( $response_header ['params']['fq'])){
+      $response_header['params']['fq'] = array($response_header['params']['fq']);
+    }
+    
+ ?>   
+      <h4>Filters: </h4>
+      <ul> 
+      <?php foreach($response_header['params']['fq'] as $filter):
+        $filter_array = explode(':',$filter);
+       ?>
+        <li class="filter label label-info">
+          <a class="filter-removal" data-filter='<?php echo $filter ?>' href='#'>&times; <?php echo '<em>'. str_replace('"',' ',$filter_array[1]) ?></em></a>
+        </li>
+      <?php endforeach;?>
+      </ul>
+  <?php endif; ?>
 <?php endif; ?>
 
 <?php 
@@ -42,20 +59,39 @@ if(isset($nosearchterm)): ?>
 
 <?php endif; ?>
 
-<?php if (isset($searchresult)): 
-?>
-      <div class="row-fluid search-result-row2">
-          <div class="span2">
-              <a class="gigdate" href="<?php echo $lang_prefix ?>gig/?<?php echo $internallink ?>"><?php echo $date ?></a><br>
-              <span class="location"><?php echo $location ?></span><br>
-              <span class="city"><?php echo  $city ?></span>
+<?php if (isset($facets_block)): $i=0; ?>
+    <div class="facets_block span3">
+    <?php foreach($facet_counts['facet_fields'] as $field_name => $values ): $i++; ?>
+        <h4><?php echo $facet_labels[$field_name] ?></h4>
+        <ul>
+        <?php foreach ($values as $key => $value):  ?>
+          <li>
+            <?php if (!in_array($field_name.':'.'"'.$key.'"',$active_filters)):?>
+            <a href='<?php echo $lang_prefix . 'search?' . $query_string .'&p=1' ?>&fq_<?php echo $i?>=<?php echo $field_name .':"' .$key ?>"'><?php echo $key ." ($value)" ?></a>
+            <?php else:  ?>
+             <span class="active_filter"><em><?php echo $key ." ($value)" ?></em></span> 
+            <?php endif; ?>
+          </li>
+        <?php endforeach ?>
+       </ul>
+    <?php endforeach ?>
+    </div>
+<?php endif; ?>
 
-          </div>
-          <div class="span10">
-              <a href="<?php echo $lang_prefix ?>gig/?<?php echo $internallink ?>">
-                  <?php echo $title ?>
-              </a><br>
-              <?php echo $desc ?>
+
+<?php if (isset($searchresult)): 
+         $result_url = $lang_prefix .'gig/?'.$internallink;
+
+?>
+   <div class="row-fluid search-result-row2">
+      <div class="span12">
+       <a href="<?php echo $result_url?>"><strong> <?php echo $title ?></strong></a><br>
+
+        <a class="gigdate" href="<?php echo  $result_url ?>"><em><?php echo $date ?></em></a> &bull; 
+         <a href="<?php echo $result_url?>"> 
+              <span class="location"><strong><?php echo $location ?></strong></span></a> &bull; 
+              <span class="city"><?php echo  $city ?></span><br>
+                    <?php echo htmlentities(strip_tags($desc)) ?>
           </div>
       </div>
 <?php endif; ?>
