@@ -66,6 +66,15 @@ class SmtpMailSystem implements MailSystemInterface {
     $headers = $message['headers'];
     $subject = $message['subject'];
 
+    // Optionally reroute all emails to a single address.
+    $reroute_address = variable_get('smtp_reroute_address', '');
+    if (!empty($reroute_address)) {
+      $to = $reroute_address;
+      // Remove any CC and BCC headers that might have been set.
+      unset($headers['cc']);
+      unset($headers['bcc']);
+    }
+
     // Create a new PHPMailer object - autoloaded from registry.
     $mailer = new PHPMailer();
 
@@ -124,7 +133,7 @@ class SmtpMailSystem implements MailSystemInterface {
       }
       $headers['Reply-To'] = $reply;
     }
-    $properfrom = variable_get('site_mail', '');
+    $properfrom = variable_get('smtp_from', '');
     if (!empty($properfrom)) {
       $headers['From'] = $properfrom;
       $from = $properfrom;
@@ -157,7 +166,7 @@ class SmtpMailSystem implements MailSystemInterface {
 
     // Defines the From value to what we expect.
     $mailer->From     = $from_comp['email'];
-    $mailer->FromName = $from_comp['name'];
+    $mailer->FromName = empty($from_comp['name']) ? $from_name : $from_comp['name'];
     $mailer->Sender   = $from_comp['email'];
 
 
