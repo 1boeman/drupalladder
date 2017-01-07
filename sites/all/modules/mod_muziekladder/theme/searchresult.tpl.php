@@ -12,12 +12,10 @@ if (isset($resultheader)): ?>
 		</div>	
 	</div>	
 <?php 
-// var_dump($response_header['params']); exit;
   if ( isset($response_header['params']['fq'])):
     if (is_string ( $response_header ['params']['fq'])){
       $response_header['params']['fq'] = array($response_header['params']['fq']);
     }
-    
  ?>   
       <h4>Filters: </h4>
       <ul> 
@@ -67,7 +65,7 @@ if(isset($nosearchterm)): ?>
         <?php foreach ($values as $key => $value):  ?>
           <li>
             <?php if (!in_array($field_name.':'.'"'.$key.'"',$active_filters)):?>
-            <a href='<?php echo $lang_prefix . 'search?' . $query_string .'&p=1' ?>&fq_<?php echo $i?>=<?php echo $field_name .':"' .$key ?>"'><?php echo $key ." ($value)" ?></a>
+            <a href='<?php echo $lang_prefix . 'search?' . $query_string .'&p=1' ?>&fq_<?php echo $i?>=<?php echo $field_name .':"' . str_replace('\'', '&rsquo;',$key) ?>"'><?php echo $key ." ($value)" ?></a>
             <?php else:  ?>
              <span class="active_filter"><em><?php echo $key ." ($value)" ?></em></span> 
             <?php endif; ?>

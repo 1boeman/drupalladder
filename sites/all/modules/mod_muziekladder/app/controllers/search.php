@@ -87,6 +87,7 @@ class Search extends Controller {
       $filter_string = '';
       foreach($_GET as $key => $value){
         if (stristr($key,'fq_')){
+          $value = str_replace('’','\'', $value); 
           $url .= '&fq='.urlencode($value);
           $active_filters[]=$value;
           $filter_string .= '&'.$key.'='.$value;          
