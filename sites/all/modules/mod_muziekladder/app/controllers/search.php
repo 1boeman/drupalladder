@@ -73,7 +73,7 @@ class Search extends Controller {
         'searchTerms'=>''
       ));
     }else{
-      $url = MUZIEK_SOLRHOST.'select?q='. $q .'&wt=phps&indent=true&defType=edismax'; 
+      $url = MUZIEK_SOLRHOST.'select?q='. $q .'&wt=phps&indent=true&q.op=AND&defType=edismax'; 
       $url .= '&qf=title+content+city+date+venue+venue_facet+zip+sourcelink&stopwords=true&lowercaseOperators=true'; 
       $url .= '&facet=true&facet.sort=count&facet.limit=-1&facet.field=city&facet.field=venue_facet&facet.mincount=1';
       
