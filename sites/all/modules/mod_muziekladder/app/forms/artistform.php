@@ -2,6 +2,7 @@
 
 function mod_muziekladder_artistform ($form, &$form_state, $node = false) {
   $form = array();
+
   $form['#prefix'] = '<div class="eventfull muziek-tab tab-2 nodisplay" id="artist_form_wrapper">' ;
   $form['#prefix'].= '<p>'.t('Promote an artist or group.').'</p>';  
   $form['#suffix'] = '</div>' ;
@@ -92,6 +93,8 @@ function mod_muziekladder_artistform_ajax_submit($form, &$form_state) {
   $form_state['rebuild'] = TRUE;
  
   if (form_get_errors()) {
+    $form['#prefix'] = '<div class="eventfull muziek-tab tab-2" id="artist_form_wrapper">' ; //removed no display or form won't show up
+ 
     return $form;   
   } 
   //
