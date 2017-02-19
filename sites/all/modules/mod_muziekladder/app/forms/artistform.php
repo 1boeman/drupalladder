@@ -91,10 +91,10 @@ function mod_muziekladder_artistform ($form, &$form_state, $node = false) {
 
 function mod_muziekladder_artistform_ajax_submit($form, &$form_state) {
   $form_state['rebuild'] = TRUE;
+  $form['#prefix'] = '<div class="eventfull muziek-tab tab-2" id="artist_form_wrapper">' ; //removed no display or form won't show up
  
   if (form_get_errors()) {
-    $form['#prefix'] = '<div class="eventfull muziek-tab tab-2" id="artist_form_wrapper">' ; //removed no display or form won't show up
- 
+
     return $form;   
   } 
   //
@@ -126,7 +126,8 @@ function mod_muziekladder_artistform_ajax_submit($form, &$form_state) {
       '  <button type="button" class="close" data-dismiss="alert">&times;</button>'.
       $message_success.' </div>');
   $form['some_text'] = $output;
-
+  $form['#prefix'] = '<div class="eventfull muziek-tab tab-2" id="artist_form_wrapper">' ; //removed no display or form won't show up
+ 
  return $form;
 }
 
