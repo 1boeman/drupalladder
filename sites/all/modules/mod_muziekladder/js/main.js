@@ -243,26 +243,26 @@ var hC = Drupal.settings.muziekladder;
          
       } else {
         var city_spec = location.href.match(/\/[0-9]+-[^\/]+/i);
-    }
-    city_spec = city_spec ? city_spec[0] : '/';
-    if (!city_spec.match(/\/$/)) city_spec += '/';
-    location.href = pathprefix+'muziek'+city_spec+'agenda-'+choice+'.html';
-  });
-
-  //city selecter
-  $('.agenda_city_selecter').change(
-    function(e){
-      var choice = '/'+$(this).val();
-      var agenda_spec = location.href.match(/agenda\-[0-9]+/);
-      if (choice == "/0") choice ='';
-      if (agenda_spec){
-        agenda_spec = '/' + agenda_spec[0] +'.html';
-      }else{
-        agenda_spec = '/';
       }
+      city_spec = city_spec ? city_spec[0] : '/';
+      if (!city_spec.match(/\/$/)) city_spec += '/';
+      location.href = pathprefix+'muziek'+city_spec+'agenda-'+choice+'.html';
+    });
 
-      location.href = pathprefix+'muziek' + choice + agenda_spec;
-  });
+    //city selecter
+    $('.agenda_city_selecter').change(
+      function(e){
+        var choice = '/'+$(this).val();
+        var agenda_spec = location.href.match(/agenda\-[0-9]+/);
+        if (choice == "/0") choice ='';
+        if (agenda_spec){
+          agenda_spec = '/' + agenda_spec[0] +'.html';
+        }else{
+          agenda_spec = '/';
+        }
+
+        location.href = pathprefix+'muziek' + choice + agenda_spec;
+    });
 
     // city autocompleter
     if (screen.width > 500) {
@@ -353,7 +353,6 @@ var hC = Drupal.settings.muziekladder;
 
 
   function eventLinksListener(){
-    var loading = false;
     $('.city_gig > a').click(function(e){
       e.preventDefault();
       var $gigContainer = $(this).parents('.city_gig');
@@ -364,8 +363,6 @@ var hC = Drupal.settings.muziekladder;
         return;
       }
       
-      if (loading) return;
-      loading = true;
       var that = this;
       var $pageContainer = $('<div class="page-gig detail loading"></div>');
       $gigContainer.append($pageContainer);
@@ -374,18 +371,15 @@ var hC = Drupal.settings.muziekladder;
         $pageContainer
           .append(resp)
           .removeClass('loading');
-        loading = false;
         $pageContainer.find('.eventfull').slideDown(function(){
           $(this).find('h1').click(function(){
             $pageContainer.hide();
             $gigContainer.removeClass('opened');
           })
-
         });
         showDetailImages($pageContainer);
       }).fail(function(){
         location.href = that.href;
-       loading = false;
       });
     });
   }
