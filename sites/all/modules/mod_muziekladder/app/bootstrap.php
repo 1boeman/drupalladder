@@ -1,6 +1,5 @@
 <?php
-
-define ('MUZIEKLADDER_BASE_PATH','/'.drupal_get_path('module','mod_muziekladder')); 
+define ('MUZIEKLADDER_BASE_PATH',$GLOBALS['base_url'].'/'.drupal_get_path('module','mod_muziekladder')); 
 define ('MUZIEKLADDER_SYSTEM_PATH', str_replace('/app','', dirname(__FILE__)));
 define ('MUZIEKLADDER_REQUEST_PATH',request_path()); 
 

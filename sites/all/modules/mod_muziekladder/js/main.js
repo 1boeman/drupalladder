@@ -9,6 +9,7 @@ var hC = Drupal.settings.muziekladder;
     "locationpage"  :hC.muziekladderBasePath + hC.jsDir+"locationpage.js",
     "autocomplete"  :hC.muziekladderBasePath + hC.jsDir+"jquery.autocomplete.min.js",
     "locations"     :hC.muziekladderBasePath + hC.jsDir+"locations.js",
+    "scrollUp"      :hC.muziekladderBasePath + hC.jsDir+"jquery.scrollUp.min.js",
     "maps"          :'//maps.googleapis.com/maps/api/js?key='+hC.mapsKey+'&sensor=false&callback=hC.mapInitialize',
     "addthis"       :'//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17'
   };
@@ -22,7 +23,6 @@ var hC = Drupal.settings.muziekladder;
     $('.autocomplete-search').autocomplete({
       'serviceUrl' : Drupal.settings.basePath+'search/suggest/',
       'onSelect' : function (suggestion){
-
       }
     });
   });
@@ -307,7 +307,8 @@ var hC = Drupal.settings.muziekladder;
   
       $('.agenda-date-selecter-label').removeClass('nodisplay') 
     }
-/*
+
+        
      // day buttons
      $('.prevnextlinks button').on('click',function(e){
          e.preventDefault();
@@ -317,19 +318,20 @@ var hC = Drupal.settings.muziekladder;
             window.location = $(this).attr('data-href')
          }
      });
-*/
-     $(window).load(hC.loadAgendaImages);
-     eventLinksListener();
-      // day buttons
-     $('.prevnextlinks button').on('click',function(e){
-         e.preventDefault();
-         try {
-            window.location = $(this).find('a')[0].href;
-         } catch(err) {
-            window.location = $(this).attr('data-href')
-         }
+
+     
+     $(window).load(function(){
+        hC.loadAgendaImages();
+        laad.js('scrollUp',function(){
+          $.scrollUp({
+            animation: 'fade',
+            scrollImg: { active: true, type: 'background' }
+          });
+        });
+
      });
 
+     eventLinksListener();
      crumbTrail.set(location.href);
      externalLinks();
      showTipsButton()

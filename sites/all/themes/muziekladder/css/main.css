@@ -926,8 +926,18 @@ footer{
 .image-cell img.loaded {
   opacity:1;
 }
- 
 
+#scrollUp{ 
+    background-image: url("../img/top.png");
+    bottom: 20px;
+    right: 20px;
+    width: 38px;    /* Width of image */
+    height: 38px;   /* Height of image */
+}
+
+.dagoverzicht #feedback_simple{
+  display:none;
+}
 
 .dagoverzicht .agenda-add-event{
   float:right;
