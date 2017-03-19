@@ -328,7 +328,6 @@ var hC = Drupal.settings.muziekladder;
             scrollImg: { active: true, type: 'background' }
           });
         });
-
      });
 
      eventLinksListener();

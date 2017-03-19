@@ -18,6 +18,10 @@ if(!empty($content)){
   $ontdubbeling = array();
   foreach($content as $value){
     $link = Muziek_util::gig_link($value);
+    // prevent events w/o location from printing here
+    if (!strlen(trim($value['Venue_Title']))){
+      continue;
+    }
     
     // block headers
     if ($old_date != $value['Event_Date']){
@@ -50,14 +54,9 @@ if(!empty($content)){
       $img_class = ' icanhazimage';
       $placeholder="<div class='image-cell'></div>";
     }
-    
-    // prevent events w/o location from printing here
-    if (!strlen(trim($value['Venue_Title']))){
-      continue;
-    }
 ?>
 
-    <div class="city_gig clearfix<?php echo $img_class ?>" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>">
+    <div class="city_gig <?php echo $value['Event_Type']?> clearfix<?php echo $img_class ?>" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>" data-event_type="<?php echo $value['Event_Type'] ?>">
       <a class="clearfix" itemprop="url" href="<?php echo $link ?>">
         <div class="first-cell cell">
           <?php echo $placeholder; ?>

@@ -6,7 +6,15 @@
     </ul>
   </nav>
 <?php
-    $img = preg_match ("/^data/",$gig['Img']) ? $gig['Img'] : base64_encode($gig['Img']); ?>
+    $img = preg_match ("/^data/",$gig['Img']) ? $gig['Img'] : base64_encode($gig['Img']); 
+    
+    //user tip
+    if (strstr($gig['Type'],'node_')){
+      $node_id = str_replace('node_','',$gig['Type']);
+      $gig['Link'] = url(drupal_get_path_alias('node/'.$node_id),array('absolute'=> true));
+    }
+
+?>
 	
   <div class="eventfull clearfix" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>">
 	  <div class="event-container">
@@ -49,7 +57,7 @@
 <?php endif; ?>
 
 
-<?php if ($venue): ?>
+<?php if ($venue && !stristr($venue['Title'],'diverse locaties')): ?>
 		<div class="location" itemprop="location" itemscope itemtype="http://schema.org/Place">
 			<h3><a href="<?php echo $location_link ?>"><span itemprop="name"><?php echo $venue['Title'] ?></span></a></h3>
 			<p class="description"><?php echo $venue['Desc'] ?></p>
