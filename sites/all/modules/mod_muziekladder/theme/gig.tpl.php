@@ -71,6 +71,6 @@
 			</p>
 			<p><a itemprop="url" href="<?php echo $location_link ?>"><i class="icon-info-sign"></i> <?php echo t('More about') ?> <?php echo $venue['Title'] ?></a></p>
 		</div>
-	</div>
 <?php endif; ?>
- 
+ 	</div>
+
