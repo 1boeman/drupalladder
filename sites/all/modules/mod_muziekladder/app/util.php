@@ -2,6 +2,15 @@
 
 class Muziek_util {
 
+  static public function escapeSolrValue($string){
+    $match = array('\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '~', '*', '?', ':', '"', ';', ' ');
+    $replace = array('\\\\', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(', '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*', '\\?', '\\:', '\\"', '\\;', '\\ ');
+    $string = str_replace($match, $replace, $string);
+
+    return $string;
+  }
+
+
   static function can_i_edit($node){
     global $user; 
     if ($node->uid == $user->uid || user_has_role(3)){

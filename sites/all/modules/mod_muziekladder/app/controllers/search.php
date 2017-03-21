@@ -8,7 +8,7 @@ class Search extends Controller {
     $url = MUZIEK_SOLRHOST.'suggest?suggest=true&wt=json&suggest.dictionary=mySuggester&suggest.q=';
 
     if (isset($_REQUEST['query']) && strlen(trim($_REQUEST['query']))){
-      $q = rawurlencode($_REQUEST['query']);  
+      $q = rawurlencode(Muziek_util::escapeSolrValue($_REQUEST['query']));  
       $rv['query'] = $q; 
     }
     $query = $url.$q; 
@@ -38,6 +38,7 @@ class Search extends Controller {
     return $resp; 
   }
 
+
   public function index() {
     $lang_prefix = Muziek_util::lang_url(); 
     
@@ -53,7 +54,9 @@ class Search extends Controller {
     $facet_labels = array('city'=>t('City'),'venue_facet'=>t('Location'));
 
     if (isset($_REQUEST['query']) && strlen(trim($_REQUEST['query']))){
-      $q = rawurlencode($_REQUEST['query']);  
+      $frontend_query = htmlspecialchars($_REQUEST['query']);
+      $clean_query = Muziek_util::escapeSolrValue($_REQUEST['query']);
+      $q = rawurlencode($clean_query);  
     }
        
     if (isset($_REQUEST['orderBy']) && strlen(trim($_REQUEST['orderBy']))){
@@ -151,7 +154,7 @@ class Search extends Controller {
         $content .= theme('searchresult',Array(
           'searchform'=>1,
           'lang_prefix'=> $lang_prefix,
-          'searchTerms'=>rawurldecode($q))); 
+          'searchTerms'=>$frontend_query)); 
  
         $content .= theme('searchresult',Array(
           'resultheader'=>1,
@@ -205,9 +208,9 @@ class Search extends Controller {
         $content .= theme('searchresult',Array(
           'noresults'=>1,
           'lang_prefix'=> $lang_prefix,
-          'searchTerms'=>rawurldecode($q))); 
+          'searchTerms'=> $frontend_query)); 
       } 
-      $titletag=$q.' - zoekresultaten';
+      $titletag= $frontend_query .' - zoekresultaten';
       $this->set_head_title($titletag);
     }
     return Array('html'=>$content); 
