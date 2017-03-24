@@ -2023,6 +2023,18 @@ clear: both;
 
 /* Landscape phone to portrait tablet */
 @media (max-width:769px) {
+
+.front #content{
+  float:none;
+  width:100%;
+  
+}
+.front .city_menu-container{
+  float:none;
+  width:100%;
+
+}
+
 .front article h2{
   font-size:16px;
   line-height:1.6
@@ -2056,9 +2068,10 @@ clear: both;
     left:50%;
   }
 
-
+  .front-city-all-cities .nav-pills{
+    padding-left:16px;
+  } 
   .front-city-menu li.city{
-    width:100%;
     margin-left:0;
     margin-right:0;
     overflow:hidden;
