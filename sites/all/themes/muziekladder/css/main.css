@@ -281,8 +281,19 @@ ul.front-city-menu  li{
   background-image:url('../city_images/bigpicture.jpg');
   background-repeat:no-repeat;
   background-position:top center;
+  clear:both
+}
 
-  clear:both}
+.front-city-all-cities .nav-pills {
+  text-align:justify;
+  padding:0px 26px 10px 30px; 
+}
+.front-city-all-cities .nav-pills>li{
+  float:none;
+  display:inline-block;
+  margin-right:0px;
+
+}
 
 .front-city-menu .city-4 .city-name{
   background-position:0px -10px;

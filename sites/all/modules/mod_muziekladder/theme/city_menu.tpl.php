@@ -31,5 +31,13 @@ else:
 <?php endforeach; ?>
 </ul>
 </nav>
+<nav class="front-city-all-cities">
+  <ul class="nav nav-pills agenda-city-menu">
+    <?php foreach ($all_cities as $city): ?>
+    <li><a href="<?php echo Muziek_util::city_link($city); ?>"><?php echo $city['Name'] ?></a></li>
+    <?php endforeach; ?>
+  </ul>
+</nav> 
+
 
 <?php endif; ?>
