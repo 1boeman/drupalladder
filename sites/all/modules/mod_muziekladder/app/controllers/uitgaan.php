@@ -89,22 +89,9 @@ class Uitgaan extends Controller {
       
       if ( isset($_GET['c'])) {
         header("HTTP/1.1 303 See Other");
-        header("Location: http://muziekladder.nl/uitgaan/");
-
-          // @todo : redirect
-       /* 
-        $steden = explode(',',$_GET['c']);
-        foreach($steden as $stad){
-            $stadnaam = $stad.'.html';
-            if (in_array($stadnaam,$dircontent))
-            {
-                $content .= file_get_contents(MUZIEK_DATA_UITGAAN.'/'.$stad.'.html');
-                $titletag = $_GET['c'].' - locaties voor live muziek, optredens en feesten';
-            }
-        }
-
-       */
+        header("Location: https://muziekladder.nl/uitgaan/");
       } 
+
       /* index */     
       if ($file = file_get_contents(MUZIEK_GEODATA_JSON)){
           drupal_add_js(array('muziekladder'=>array('location_data'=>json_decode($file))), 'setting');

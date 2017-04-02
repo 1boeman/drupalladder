@@ -70,8 +70,6 @@ endforeach; ?>
       <a id="agenda-link" href="<?php echo Muziek_util::city_link($city)?>" class="btn btn-inverse">
   <span class="icon icon-arrow-right icon-white"></span> <?php echo $city['Name'] .' '.t(' event calendar') ?></a>
       </div>
-
-
     </div>
    
     <div class="venue_tipformContainer">  
@@ -81,10 +79,13 @@ endforeach; ?>
 
   <ul class="locaties-lijst">
   <?php 
+    $j=0;
     if (count ($venues)):
-      $break = ceil(count($venues)/3);
+      $break = floor(count($venues)/3);
       $i = 0;
-      foreach( $venues as $venue ): ?>
+      foreach( $venues as $venue ): 
+        if (stristr($venue['Title'],'diverse locaties' )) continue;
+      ?>
           
     <li data-id="<?php echo $venue['Id'] ?>" class="locatiebeschrijving"> 
       <h4><a class="locatie-link" href="<?php echo $lang_prefix ?>locaties/<?php echo rawurlencode($venue['Id']).'-'.$city['Name'] ?>" 
@@ -109,14 +110,18 @@ endforeach; ?>
     </li>
     
   <?php 
-    $i++; 
+    $i++;
+    $j++; 
     if ($i > $break){
         $i=0; 
         echo '</ul><ul class="locaties-lijst">';
     }
+    
     endforeach; 
   endif; 
-
+  if ($j < 1){
+    echo '<p>--</p><p>'.t('No locations found in ').$city['Name'].'</p>';
+  } 
   ?>
   </ul>
 </div>
