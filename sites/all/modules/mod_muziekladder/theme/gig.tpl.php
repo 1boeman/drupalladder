@@ -21,21 +21,21 @@
     	<a itemprop="url" target="_blank" href="<?php echo $gig['Link'] ?>" class="eventlink nodisplay">
 		  	<span itemprop="name"><?php echo $gig['Title'] ?></span>
 		  </a>
-        <h1 data-id="<?php echo $gig['Id'] ?>"><?php echo $gig['Title'] ?></h1>
-        <h2>
+      <h1 data-id="<?php echo $gig['Id'] ?>"><?php echo $gig['Title'] ?></h1>
+      <h2>
            <span itemprop="startDate" class="date"><?php echo $human_date ?></span>
           
-        </h2>
-        <h3><a href="<?php echo $location_link ?>"><?php echo $venue['Title'] ?></a> 
+      </h2>
+      <h3><a href="<?php echo $location_link ?>"><?php echo $venue['Title'] ?></a> 
 
             &bull; <a href="<?php echo $prefix .'uitgaan/'.$venue['Cityno'].'-'.rawurlencode($venue['City_name']) ?>" class="city city<?php echo $venue['Cityno'] ?>" data-cityno="<?php echo $venue['Cityno'] ?>"><?php echo $venue['City_name'] ?></a>
             &bull; <span class="country country<?php echo $venue['Countryno'] ?>" data-countryno="<?php echo $venue['Countryno'] ?>"><?php echo t($venue['Country_name']) ?></span> 
  
-        </h3>
-		<p class="description"><?php echo str_replace('||','<br />',nl2br(trim($gig['Desc']))) ?></p>
-		<p><strong>Link</strong>: <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo $gig['Link'] ?></a>  </p>
-		<p><i class="icon-info-sign"></i> <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
-  </div>
+      </h3>
+		  <p class="description"><?php echo str_replace('||','<br />',nl2br(trim($gig['Desc']))) ?></p>
+		  <p><strong>Link</strong>: <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo $gig['Link'] ?></a>  </p>
+		  <p><i class="icon-info-sign"></i> <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
+    </div>
 
 <?php endif; ?>
 
@@ -66,8 +66,7 @@
 				<div> <?php echo $venue['Street'] .' '. $venue['Street_number'] .' '. $venue['Addition'] ?></div> 
 				<div itemprop="postalCode"><?php echo $venue['Zip'] ?></div>  
 				<div class="city city<?php echo $venue['Cityno'] ?>" data-cityno="<?php echo $venue['Cityno'] ?>"><?php echo $venue['City_name'] ?></div>
-                <div class="country country<?php echo $venue['Countryno'] ?>" data-countryno="<?php echo $venue['Countryno'] ?>"><?php echo $venue['Country_name'] ?></div> 
-                
+        <div class="country country<?php echo $venue['Countryno'] ?>" data-countryno="<?php echo $venue['Countryno'] ?>"><?php echo $venue['Country_name'] ?></div> 
 			</p>
 			<p><a itemprop="url" href="<?php echo $location_link ?>"><i class="icon-info-sign"></i> <?php echo t('More about') ?> <?php echo $venue['Title'] ?></a></p>
 		</div>
