@@ -343,10 +343,18 @@ ul.front-city-menu  li{
   list-style:none;
   float:left;
   display:block;
-  height:190px;
+  height:160px;
+padding-top:30px;
   position:relative;
   text-align:center;
   width:50%;
+  opacity:0.85;
+  transition: all 0.5s ease-in-out;
+}
+
+.front-city-menu li.city:hover{
+  opacity: 1;
+  box-shadow:0px 0px 20px #999;
 }
 
 .front .city_gig_agenda h1{
@@ -412,12 +420,23 @@ padding-bottom:40px;
 
 .front #content > article {
   padding-bottom:20px;
-
-  border-bottom:4px dotted steelblue;
-  margin-bottom:40px;
-
+  margin-bottom:20px;
+  padding-top:20px;
+  opacity:0.9;
+  transition: all 0.5s ease-in-out;
 }
 
+.front #content > article:hover{
+  opacity: 1;
+  box-shadow:0px 0px 20px #999;
+  cursor:pointer;
+  background:color:#efefef;
+}
+
+
+.front article:hover h2 {
+  background:aliceBlue  
+} 
 
 .front article h2 {
   text-transform: uppercase;
@@ -425,7 +444,6 @@ padding-bottom:40px;
   color: #2c2c2c;
   background-color: white;
   letter-spacing: .05em;
-  text-shadow: 2px 2px 0px #d5d5d5, 4px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -505,6 +523,7 @@ padding-bottom:40px;
 }
 .front .naar-agenda-link{
   float:right;
+  margin-top:10px; 
 }
 
 .front #agenda{
