@@ -129,6 +129,10 @@ var hC = Drupal.settings.muziekladder;
 
     showTipsButton();
     var ds = Drupal.settings;
+    
+    $('.node-article').click(function(){
+      location = $(this).find('a')[0]['href'];
+    })
 
     return glbl.tip_edit_handlers;
   };
