@@ -418,11 +418,21 @@ abstract class BaseFacebook
     }
 
     $response_params = array();
-    parse_str($access_token_response, $response_params);
 
-    if (!isset($response_params['access_token'])) {
-      return false;
+    $response_params = json_decode($access_token_response, true);
+    
+    // Not a valid JSON format
+    if(!isset($response_params['access_token']))
+    {
+      // Try to parse
+      $response_params = array();
+      parse_str($access_token_response, $response_params);
+
+      if (!isset($response_params['access_token'])) {
+        return false;
+      }
     }
+
 
     $this->destroySession();
 
@@ -837,11 +847,22 @@ abstract class BaseFacebook
       return false;
     }
 
-    $response_params = array();
-    parse_str($access_token_response, $response_params);
-    if (!isset($response_params['access_token'])) {
-      return false;
+    $response_params = json_decode($access_token_response, true);
+
+    // Not a valid JSON format
+    if(!isset($response_params['access_token']))
+    {
+      // Try to parse
+      $response_params = array();
+      parse_str($access_token_response, $response_params);
+
+      if (!isset($response_params['access_token'])) {
+        return false;
+      }
     }
+
+
+
 
     return $response_params['access_token'];
   }
