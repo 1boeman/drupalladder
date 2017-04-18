@@ -278,8 +278,10 @@ var hC = Drupal.settings.muziekladder;
         }
         var curval = $('.agenda_city_selecter').val();
         if (curval != 0){
+          var city_name_array  = curval.split('-');
+          city_name_array.shift(); 
           $('.city_autocomplete')
-            .val(' -- '+curval.split('-')[1])
+            .val(' -- '+city_name_array.join('-'))
             .focus(function(){this.value=''})
             .addClass('active');
         }

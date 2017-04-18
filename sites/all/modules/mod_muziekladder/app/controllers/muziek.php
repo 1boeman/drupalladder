@@ -15,9 +15,9 @@ class Muziek extends Controller {
 
       return $this->city_events($name,0);
 
-    } elseif (preg_match('/([0-9]+)-[a-zA-Z]*/',$name,$matches)){
+    } elseif (preg_match('/([0-9]+)-[a-zA-Z-]*/',$name,$matches)){
       // get day offset
-      if (preg_match('/[0-9]+-[a-zA-Z]*\/agenda-([0-9]+)/',$_SERVER['REQUEST_URI'],$matches2)){
+      if (preg_match('/[0-9]+-[a-zA-Z-]*\/agenda-([0-9]+)/',$_SERVER['REQUEST_URI'],$matches2)){
         return $this->city_events($matches[1],$matches2[1]);
       }
       return $this->city_events($matches[1],0);
@@ -137,7 +137,6 @@ class Muziek extends Controller {
     while($res = $gigs->fetchArray(SQLITE3_ASSOC)){
       $contentarr []= $res;
     }
-
     if ($raw) return $contentarr;
     $titletag = '';
     if ($cityno && isset($contentarr[0])) {
@@ -146,11 +145,13 @@ class Muziek extends Controller {
       } else {
          $cityname = $contentarr[0]['City_Name'];
       }
+    } elseif( $cityno ){ // sadly this city has 0 gigs
+      $city = Muziek_db::get_cities_by_ids(array($cityno));
+      $cityname = ($city[0]['Name']) ;
     } else {
       $cityname = '';
     }
-   
-   $titletag .= ' '.t($cityname);
+    $titletag .= ' '.t($cityname);
 
     $titletag .= ' Muziekagenda ';
 
@@ -158,7 +159,6 @@ class Muziek extends Controller {
     $titletag .= ' v.a. '.$title_date;
     $titletag .= ' (dag:'.($day+1) .'- pagina:'.($page+1) .')';
     $this->set_head_title($titletag);
-
     $h1 = (strlen ($cityname) ? ucfirst ($cityname) .' '.t('calendar'): t('Music Calendar '));
     $h1 .= ' - '.t(' music, concerts, events ') . ' - '. t('Starting from').' '.$title_date;
     $this->set_title($h1);
