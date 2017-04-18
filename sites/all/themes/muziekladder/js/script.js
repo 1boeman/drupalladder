@@ -158,16 +158,16 @@ function match_file(nid){
       }
     }
   };
-
+  
   function shareButtonGlobal(container_selector){
-    $(container_selector).after('<div style="margin:20px 0px" class="addthis_native_toolbox"></div>');
+    $(container_selector).after('<div style="margin:20px 0px; min-height:2em" class="sharethis-inline-share-buttons"></div>');
     var scr = document.createElement('script');
     document.body.appendChild(scr);
     scr.async = 'async';
-    scr.src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542e60be78f12e17";
+    scr.src = "//platform-api.sharethis.com/js/sharethis.js#property=58f6125476d0e100120d8a58&product=inline-share-buttons";
   }
-
- /** @todo
+  glbl.shareButtonGlobal = shareButtonGlobal;
+  /** @todo
   * this is a temporary solution - remove when navigation  is improved
   **/
   if ( document.body.className.indexOf('node-type-locatiespagina') > -1 ) {

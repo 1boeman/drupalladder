@@ -574,8 +574,7 @@ var hC = Drupal.settings.muziekladder;
   };
 
   var shareButton = function(){
-      $('.location').before('<div style="margin:20px 0px" class="addthis_native_toolbox"></div>')
-      laad.js('addthis',function(){});
+    glbl.shareButtonGlobal('h1') 
   };
 
   var backtotopButtons = function(){
