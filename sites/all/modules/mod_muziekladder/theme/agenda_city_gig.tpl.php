@@ -31,15 +31,16 @@ if(!empty($content)){
       $human_date = $hd['dayname']. ' ' .$hd['daynumber'].' '.$hd['monthname']. ' ' .$hd['year'];
       $subhuman_date = substr($hd['dayname'],0,2) . ' ' . $hd['daynumber'] . '/' . $hd['monthnumber'];
       echo '<h2 class="human-date">'.$human_date.'</h2>';
-    } else {
+      $ontdubbel_key = $value['Event_Date'].'_'.strtolower(trim($value['Event_Title']));
+    }
      // prevent duplications
 
-      $ontdubbel_key = $value['Event_Date'].'_'.strtolower(trim($value['Event_Title']));
-      if (isset($ontdubbeling[$ontdubbel_key])){
-        continue; 
-      }
-      $ontdubbeling[$ontdubbel_key] = 1;
+    $ontdubbel_key = $value['Event_Date'].'_'.strtolower(trim($value['Event_Title']));
+    if (isset($ontdubbeling[$ontdubbel_key])){
+      continue; 
     }
+    $ontdubbeling[$ontdubbel_key] = 1;
+
     $old_venue = $value['Venue_Title'];
     
     if($old_city != $value['City_Name']){
