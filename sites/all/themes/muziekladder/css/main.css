@@ -492,7 +492,6 @@ padding-bottom:40px;
   white-space:nowrap
 }
 .front #content article p{
-  display:none
 }
 .front #content  article > .field{
   padding:20px 0px;
@@ -582,6 +581,12 @@ padding-bottom:40px;
 
   margin-bottom:0px;
 }
+.node-type-artist.page-node .field-item img,
+.node-type-article.page-node .field-item img{
+  margin-bottom:12px;
+  margin-left:12px;
+}
+
 .node .field-items{
 clear:both;
 }
@@ -2053,7 +2058,15 @@ clear: both;
 
 
 /* Landscape phone to portrait tablet */
-@media (max-width:769px) {
+@media (max-width:780px) {
+
+.node-type-artist.page-node .field-item img,
+.node-type-article.page-node .field-item img{
+  margin-left:0px;
+  clear:both;
+}
+
+
 
 .front #content{
   float:none;
