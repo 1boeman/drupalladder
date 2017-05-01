@@ -348,12 +348,12 @@ padding-top:30px;
   position:relative;
   text-align:center;
   width:50%;
-  opacity:0.85;
+  opacity: 1;
   transition: all 0.5s ease-in-out;
 }
 
 .front-city-menu li.city:hover{
-  opacity: 1;
+  opacity:0.85;
   box-shadow:0px 0px 20px #999;
 }
 
@@ -422,12 +422,12 @@ padding-bottom:40px;
   padding-bottom:20px;
   margin-bottom:20px;
   padding-top:20px;
-  opacity:0.9;
+  opacity: 1;
   transition: all 0.5s ease-in-out;
 }
 
 .front #content > article:hover{
-  opacity: 1;
+  opacity:0.9;
   box-shadow:0px 0px 20px #999;
   cursor:pointer;
   background:color:#efefef;
