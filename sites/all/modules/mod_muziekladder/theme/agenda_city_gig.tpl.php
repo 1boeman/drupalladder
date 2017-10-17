@@ -14,6 +14,7 @@ $old_date = '';
 $old_city = '';
 $old_title = '';
 $old_venue = '';
+$zebra_class = 'zebra1';
 if(!empty($content)){
   $ontdubbeling = array();
   foreach($content as $value){
@@ -25,6 +26,7 @@ if(!empty($content)){
     
     // block headers
     if ($old_date != $value['Event_Date']){
+      $zebra_class = $zebra_class == 'zebra1' ? 'zebra2' : 'zebra1';
       $old_date = $value['Event_Date'];
       $hd = Muziek_util::human_date($value['Event_Date']);
 
@@ -45,6 +47,7 @@ if(!empty($content)){
     
     if($old_city != $value['City_Name']){
       $old_city = $value['City_Name'];
+      $zebra_class = $zebra_class == 'zebra1' ? 'zebra2' : 'zebra1';
       echo '<h3 class="city_header nodisplay"><a href="'.$lang_prefix.'muziek/'.$value['City_Id'].'-'.$value['City_Name'].'">'.$value['City_Name'].'</a></h3>';
     }
     $img_class = '';
@@ -57,7 +60,7 @@ if(!empty($content)){
     }
 ?>
 
-    <div class="city_gig <?php echo $value['Event_Type']?> clearfix<?php echo $img_class ?>" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>" data-event_type="<?php echo $value['Event_Type'] ?>">
+    <div class="city_gig <?php echo $value['Event_Type']?> clearfix<?php echo $img_class ?> <?php echo $zebra_class ?>" itemscope itemtype="http://schema.org/Event" data-imgsrc="<?php echo $img ?>" data-event_type="<?php echo $value['Event_Type'] ?>">
       <a class="clearfix" itemprop="url" href="<?php echo $link ?>">
         <div class="first-cell cell">
           <?php echo $placeholder; ?>

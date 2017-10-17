@@ -1109,6 +1109,10 @@ div.icanhazimage .second-cell{
   padding-left:8px;
   display:block
 }
+
+.city_gig.zebra2{
+  background:WhiteSmoke;
+}
 .city_gig{
   border-left:12px solid LightSteelBlue;
   border-top:2px solid lightsteelblue;
