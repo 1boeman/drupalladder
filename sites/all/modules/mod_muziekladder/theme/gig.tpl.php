@@ -22,6 +22,10 @@
 		  	<span itemprop="name"><?php echo $gig['Title'] ?></span>
 		  </a>
       <h1 data-id="<?php echo $gig['Id'] ?>"><?php echo $gig['Title'] ?></h1>
+
+
+
+
       <h2>
            <span itemprop="startDate" class="date"><?php echo $human_date ?></span>
           
@@ -32,10 +36,15 @@
             &bull; <span class="country country<?php echo $venue['Countryno'] ?>" data-countryno="<?php echo $venue['Countryno'] ?>"><?php echo t($venue['Country_name']) ?></span> 
  
       </h3>
+ 
 		  <p><strong>Link</strong>: <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><b><?php echo $gig['Link'] ?></b></a></p>
 
-		  <p class="description"><?php echo str_replace('||','<br />',nl2br(trim($gig['Desc']))) ?></p>
-		  <p><i class="icon-info-sign"></i> <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
+  		 		  <p class="description"><?php echo str_replace('||','<br />',nl2br(trim($gig['Desc']))) ?></p>
+
+ 		  <p><i class="icon-info-sign"></i> <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
+
+    <p><a class="btn msharebutton small btn-info btn-inverse" target="_blank" itemprop="url" href="<?php echo Muziek_util::gig_link($gig) ?>"> <b>share</b> <i class="icon icon-arrow-right icon-white"></i></a></p>
+ 
     </div>
 
 <?php endif; ?>

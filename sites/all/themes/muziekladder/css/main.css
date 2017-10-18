@@ -430,9 +430,7 @@ padding-bottom:40px;
   opacity:0.9;
   box-shadow:0px 0px 20px #999;
   cursor:pointer;
-  background:color:#efefef;
 }
-
 
 .front article:hover h2 {
   background:aliceBlue  
@@ -982,6 +980,15 @@ footer{
     height: 38px;   /* Height of image */
 }
 
+a.msharebutton{
+  display:none
+}
+
+.dagoverzicht a.msharebutton{
+  display:inline-block
+}
+
+
 .dagoverzicht #feedback_simple{
   display:none;
 }
@@ -1146,7 +1153,7 @@ div.icanhazimage .second-cell{
   background-position:40px 18px;
   background-repeat:no-repeat;
   display:block;
-  clear:all;
+  clear:both;
   min-height:36px;
   box-shadow:0px 0px 400px white;
 }
@@ -1300,14 +1307,12 @@ color:Maroon
   padding:12px;
   border-bottom:1px solid #dfdfdf;
 }
-.event p{}
-
-
 .event .addthisicon{
   float:right; cursor:pointer;
   margin-left:10px;
-
 }
+
+
 .dagoverzicht .detail .eventfull h1:hover{
   background:Aliceblue;
 }
