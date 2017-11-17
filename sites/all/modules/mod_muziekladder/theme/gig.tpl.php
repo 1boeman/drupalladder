@@ -23,9 +23,6 @@
 		  </a>
       <h1 data-id="<?php echo $gig['Id'] ?>"><?php echo $gig['Title'] ?></h1>
 
-
-
-
       <h2>
            <span itemprop="startDate" class="date"><?php echo $human_date ?></span>
           
@@ -43,7 +40,7 @@
 
  		  <p><i class="icon-info-sign"></i> <a target="_blank" itemprop="url" href="<?php echo $gig['Link'] ?>"><?php echo t('More info') ?> &raquo;</a></p>
 
-    <p><a class="btn msharebutton small btn-info btn-inverse" target="_blank" itemprop="url" href="<?php echo Muziek_util::gig_link($gig) ?>"> <b>share</b> <i class="icon icon-arrow-right icon-white"></i></a></p>
+    <p><a class="btn msharebutton small btn-info btn-inverse" target="_blank" itemprop="url" href="<?php echo Muziek_util::gig_link($gig) ?>"> <b>Share page</b> <i class="icon icon-arrow-right icon-white"></i></a></p>
  
     </div>
 

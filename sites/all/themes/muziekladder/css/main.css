@@ -22,6 +22,10 @@
   float:left;
   cursor:pointer;
 }
+.chosen-container .chosen-results li.no-results{
+  font-weight:bold; color:black;
+}
+
 .logged-in .user-container{
   float:left;
   font-size:14px;
