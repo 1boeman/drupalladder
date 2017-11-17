@@ -15,9 +15,9 @@ class Muziek extends Controller {
 
       return $this->city_events($name,0);
 
-    } elseif (preg_match('/([0-9]+)-[a-zA-Z-]*/',$name,$matches)){
+    } elseif (preg_match('/([0-9]+)-[a-zA-Z-_]*/',$name,$matches)){
       // get day offset
-      if (preg_match('/[0-9]+-[a-zA-Z-]*\/agenda-([0-9]+)/',$_SERVER['REQUEST_URI'],$matches2)){
+      if (preg_match('/[0-9]+-[a-zA-Z-_]*\/agenda-([0-9]+)/',$_SERVER['REQUEST_URI'],$matches2)){
         return $this->city_events($matches[1],$matches2[1]);
       }
       return $this->city_events($matches[1],0);
