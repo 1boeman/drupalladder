@@ -29,7 +29,7 @@
       </h2>
       <h3><a href="<?php echo $location_link ?>"><?php echo $venue['Title'] ?></a> 
 
-            &bull; <a href="<?php echo $prefix .'uitgaan/'.$venue['Cityno'].'-'.rawurlencode($venue['City_name']) ?>" class="city city<?php echo $venue['Cityno'] ?>" data-cityno="<?php echo $venue['Cityno'] ?>"><?php echo $venue['City_name'] ?></a>
+            &bull; <a href="<?php echo $prefix .'muziek/'.$venue['Cityno'].'-'.rawurlencode($venue['City_name']) ?>" class="city city<?php echo $venue['Cityno'] ?>" data-cityno="<?php echo $venue['Cityno'] ?>"><?php echo $venue['City_name'] ?></a>
             &bull; <span class="country country<?php echo $venue['Countryno'] ?>" data-countryno="<?php echo $venue['Countryno'] ?>"><?php echo t($venue['Country_name']) ?></span> 
  
       </h3>

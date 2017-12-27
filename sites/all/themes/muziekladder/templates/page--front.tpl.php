@@ -14,19 +14,21 @@
     <div class="column frontheader">
      <?php print $messages; ?>
     </div>
+       <div class="regio_menu-container">
+        <h2>Muziekagendas</h2>
+        <?php echo $regio_menu ?>
+      </div>
+ 
     <div class="front-search">
       <h1 class="page__title title" id="page-title"><?php print $title; ?></h1>
+
 
       <form  action="/search">
         <input placeholder="<?php echo t('Search') ?>" id="front-search-input" name="query" type="text" class="autocomplete-search" /> 
         <button type="submit" class="btn btn-large">&raquo;</button>
       </form>
     </div>
-       <div class="regio_menu-container">
-        <h2>Muziekagendas</h2>
-        <?php echo $regio_menu ?>
-      </div>
-    
+   
     <h3><?php echo t('Latest tips by visitors')?></h3>
 
     <div id="content" class="column" role="main">
@@ -52,7 +54,6 @@
      <?php print $feed_icons; ?>
       
     </div>
-
  
     <div class="city_menu-container">
   
