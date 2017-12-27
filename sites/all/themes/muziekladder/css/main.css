@@ -111,6 +111,9 @@ a:visited {
 }
 label{font-size:16px}
 
+.front-search .tip-button{
+  display:none;
+}
 
 .front-search h1.page__title, h1{
   color:#dfdfdf;
@@ -537,13 +540,15 @@ padding-bottom:40px;
 .front .pager{display:none}
 .front .node-teaser{}
 .front-search{
-  text-align:center;
   background:black;
-  padding:10px 0px;
+  padding:10px 10px;
   margin: 40px auto 60px auto;
   box-shadow:0px 0px 40px #666;
   border-radius:6px;
-  width:80%
+}
+
+.front-search h2{
+  color:white;
 }
 .front-search form {
   margin-bottom:0px;

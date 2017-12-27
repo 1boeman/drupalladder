@@ -20,8 +20,7 @@
       </div>
  
     <div class="front-search">
-      <h1 class="page__title title" id="page-title"><?php print $title; ?></h1>
-
+      <h2 class="page__title title" id="page-title"><?php print $title; ?></h2>
 
       <form  action="/search">
         <input placeholder="<?php echo t('Search') ?>" id="front-search-input" name="query" type="text" class="autocomplete-search" /> 
