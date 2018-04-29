@@ -86,7 +86,6 @@ function hybridauth_provider_facebook_configuration_form_callback(&$form, $provi
       'user_status'                  => '<strong>user_status</strong> -- ' . t("Provides access to a person's statuses. These are posts on Facebook which don't include links, videos or photos."),
       'user_tagged_places'           => '<strong>user_tagged_places</strong> -- ' . t("Provides access to the Places a person has been tagged at in photos, videos, statuses and links."),
       'user_videos'                  => '<strong>user_videos</strong> -- ' . t("Provides access to the videos a person has uploaded or been tagged in."),
-      'user_website'                 => '<strong>user_website</strong> -- ' . t("Provides access to the person's personal website URL via the website field on the User object."),
       'user_work_history'            => '<strong>user_work_history</strong> -- ' . t("Provides access to a person's work history and list of employers via the work field on the User object."),
     ),
   );
@@ -106,6 +105,5 @@ function hybridauth_provider_facebook_scope_default() {
     'user_about_me',
     'user_birthday',
     'user_hometown',
-    'user_website',
   );
 }
