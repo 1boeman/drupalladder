@@ -5,9 +5,9 @@ define ('MUZIEKLADDER_REQUEST_PATH',request_path());
 
 if (!stristr( $_SERVER['SERVER_NAME'], 'muziekladder.nl' )){
     // Test
-    $old_siteroot = '/../../../../../output';
+    $old_siteroot = '/../../../../../public';
     define ('MUZIEK_NEWSPORTAL', '/home/joriso/devlop/newscrawl/newscrawl_output/pages/3.html');
-    define ('MUZIEK_SOLRHOST', 'http://localhost:8983/solr/core0/');
+    define ('MUZIEK_SOLRHOST', 'http://206.189.0.56:8983/solr/muziekladder/');
     
    function errHandle($errNo, $errStr, $errFile, $errLine) {
         $msg = "$errNo $errStr in $errFile on line $errLine";
@@ -26,14 +26,14 @@ if (!stristr( $_SERVER['SERVER_NAME'], 'muziekladder.nl' )){
     // Production
     $old_siteroot = '/../../../../../public';
     define ('MUZIEK_NEWSPORTAL', '/home/joriso/web/muziekladder.nl/PERLNEWS/newscrawl_output/pages/3.html'); 
-    define ('MUZIEK_SOLRHOST', 'http://178.79.190.229:8983/solr/muziekladder/');
+    define ('MUZIEK_SOLRHOST', 'http://206.189.0.56:8983/solr/muziekladder/');
+  
 }
 
 define ('MUZIEK_GEODATA_JSON',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot.  '/data/geodata.json');
 define ('MUZIEK_USERDATA_DIR',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot.  '/data/user');
 define ('MUZIEK_GEODATA_DIR',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot.  '/data');
 define ('MUZIEK_SQL_DIR',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot. '/db');
-
 define ('MUZIEK_DATA',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot . '/muziek'); 
 define ('MUZIEK_DATA_GIGS',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot . '/gig/gigdata.xml'); 
 define ('MUZIEK_DATA_LOCATION_INDEX',MUZIEKLADDER_SYSTEM_PATH . $old_siteroot . '/gig/locationFileIndex.xml'); 

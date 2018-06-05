@@ -133,7 +133,9 @@ class Uitgaan extends Controller {
             } elseif ($data = $this->getCityData($city['Name'],$city['Country_name'])){
                 $storefound = json_decode($data);
                 //normalize to prevent duplication
-                $filedata->$city['Id']=$storefound;
+
+                $filedata->{$city['Id']}=$storefound;
+
                 file_put_contents(MUZIEK_GEODATA_JSON,json_encode($filedata));
                 return (array('json'=>$storefound));
             } else {
@@ -152,7 +154,7 @@ class Uitgaan extends Controller {
     }
     
     private function getCityData($cityName,$country){
-        $url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($cityName.', '.$country).'&sensor=false';
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($cityName.', '.$country).'&sensor=false';
         error_log($url); 
         $curl = curl_init();
         curl_setopt_array($curl, array(
