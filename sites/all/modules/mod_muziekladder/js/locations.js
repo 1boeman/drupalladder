@@ -360,20 +360,26 @@
       '+' + 
       s.locatiepagina.city.Country_name,function(resp){
         clearQ();
-
-        citymap = hC.city_mapInitialize(resp);  
-        // draw venuemarkers   
-        $('.locatiebeschrijving')
-          .click(function(){
-            location = $(this).find('a')[0].href;
-          })
-          .each(function(){
-            var l = getVenueInfo(this);
-            if (!!l.stad && l.stad.length && !!l.straatnaam && l.straatnaam.length && !!l.nummer && l.nummer.length){
-              var api_call ='https://maps.googleapis.com/maps/api/geocode/json?address='+l.straatnaam+'+'+l.nummer+'+'+l.stad
-              ajaxQueue(api_call,citymap,'venue',this);
-            }
-        });   
+        var $lb = $('.locatiebeschrijving');
+        $lb.click(function(){
+          location = $(this).find('a')[0].href;
+        });
+        try {
+          citymap = hC.city_mapInitialize(resp);  
+          // draw venuemarkers   
+          $lb.each(function(){
+              var l = getVenueInfo(this);
+              if (!!l.stad && l.stad.length && !!l.straatnaam && l.straatnaam.length && !!l.nummer && l.nummer.length){
+                var api_call ='https://maps.googleapis.com/maps/api/geocode/json?address='+l.straatnaam+'+'+l.nummer+'+'+l.stad
+                ajaxQueue(api_call,citymap,'venue',this);
+              }
+          });   
+        } catch(err){
+          if (console && console.log){
+            console.log(err);
+            console.log(resp)
+          } 
+        }
     });
   };
 

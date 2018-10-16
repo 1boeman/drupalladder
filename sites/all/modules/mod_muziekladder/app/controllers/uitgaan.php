@@ -80,7 +80,7 @@ class Uitgaan extends Controller {
       $cities = Muziek_db::get_cities(); 
       drupal_add_js(array('muziek_cities'=>$cities),'setting');
       
-      $dircontent = scandir(MUZIEK_DATA_UITGAAN);
+      //$dircontent = scandir(MUZIEK_DATA_UITGAAN);
       $content = theme('uitgaan',array(
         'cities'=>$cities,
         'lang_prefix'=>$lang_prefix,
