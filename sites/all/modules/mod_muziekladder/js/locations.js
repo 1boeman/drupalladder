@@ -355,7 +355,7 @@
     var cityno = location.href.match(/uitgaan\/([0-9])+/)[1];
     drawCanvas($('.map-placeholder').height());
     // retrieve te main map 
-    $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' +
+    $.get('https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAZcMMx2uvrHMszHg_A1G9yKaPM3BjtnD4'+'&address=' +
       s.locatiepagina.city.Name + 
       '+' + 
       s.locatiepagina.city.Country_name,function(resp){
@@ -370,7 +370,7 @@
           $lb.each(function(){
               var l = getVenueInfo(this);
               if (!!l.stad && l.stad.length && !!l.straatnaam && l.straatnaam.length && !!l.nummer && l.nummer.length){
-                var api_call ='https://maps.googleapis.com/maps/api/geocode/json?address='+l.straatnaam+'+'+l.nummer+'+'+l.stad
+                var api_call ='https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAZcMMx2uvrHMszHg_A1G9yKaPM3BjtnD4&address='+l.straatnaam+'+'+l.nummer+'+'+l.stad
                 ajaxQueue(api_call,citymap,'venue',this);
               }
           });   

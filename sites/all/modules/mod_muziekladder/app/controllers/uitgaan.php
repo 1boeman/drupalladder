@@ -154,7 +154,7 @@ class Uitgaan extends Controller {
     }
     
     private function getCityData($cityName,$country){
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($cityName.', '.$country).'&sensor=false';
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?key='.MAPS_API_KEY.'&address='.urlencode($cityName.', '.$country).'&sensor=false';
         error_log($url); 
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -166,7 +166,7 @@ class Uitgaan extends Controller {
         curl_close($curl);
         if (stristr($resp,'address_components')){
            return $resp;
-        }
+	}
         return false;  
     }
 }
