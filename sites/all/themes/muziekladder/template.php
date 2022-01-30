@@ -226,7 +226,7 @@ function muziekladder_preprocess_page(&$variables) {
     $variables['path'] = $path;
     // provide edit/delete links to node owner
     if (in_array($variables['node']->type, array('article', 'artist'))){
-      if ($user->uid == $variables['node']->uid){
+      if ($user->uid && $user->uid == $variables['node']->uid){
         if (isset($variables['node']->field_file_id['und'][0]['value'])){
           $variables['editable'] = $variables['node']->field_file_id['und'][0]['value'];
         } else {

@@ -1,4 +1,6 @@
+<div class="special_warning"></div>
 <?php if ($gig): ?>
+
   <nav>
     <ul class="breadcrumb">
       <li><a href="<?php echo $prefix ?>muziek/"><?php echo t('Calendar') ?></a> <span class="divider"><i class="icon-chevron-right"></i></span></li>

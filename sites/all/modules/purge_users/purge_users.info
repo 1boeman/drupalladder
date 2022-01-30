@@ -1,0 +1,10 @@
+name = Purge Users
+description = Purge inactive users after a set interval.
+core = 7.x
+configure = admin/people/purge-rule
+
+; Information added by Drupal.org packaging script on 2021-08-06
+version = "7.x-2.1"
+core = "7.x"
+project = "purge_users"
+datestamp = "1628266013"

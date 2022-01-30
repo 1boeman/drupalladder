@@ -211,6 +211,11 @@ function match_file(nid){
         handlers = glbl.handlers;
         $.extend(handlers, allPageHandlers);
 
+    var wrn = $('.special_warning');
+    if (wrn.length){
+      wrn.append('<div class="alert alert-danger"> - Let op! Veel evenementen zijn momenteel aangepast vanwege de Corona maatregels. Check altijd de website van de organisatoren. <br /> -  Warning! due to Corona  measures many events have been adjusted. Always check the venue\'s website.</div>');
+    }
+
     pageHandlers['page-user-'] = function(){
       return glbl.tip_edit_handlers;
     };
@@ -273,6 +278,12 @@ function match_file(nid){
           glbl.tip_delete($(this).data('xml'),this);
         }
       }
+    };
+
+    pageHandlers['page-user-register'] = function(){
+      $('#edit-submit').click(function(){
+          $(this).css('display','none');
+      })
     };
 
     $('body').on('click','.handleMe',function(e){

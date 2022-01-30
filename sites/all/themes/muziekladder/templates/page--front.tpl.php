@@ -19,7 +19,7 @@
         <?php echo $regio_menu ?>
       </div>
  
-    <div class="front-search">
+    <div class="front-search" style="display:none">
       <h2 class="page__title title" id="page-title"><?php print $title; ?></h2>
 
       <form  action="/search">

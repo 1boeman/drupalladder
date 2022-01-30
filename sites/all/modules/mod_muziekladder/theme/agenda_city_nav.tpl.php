@@ -1,3 +1,4 @@
+<div class="special_warning"></div>
 <div class="nav-dag-outer">
   <div class="navigation clearfix navigation-dagoverzicht-top">
      <div class="nav-dag-inner">

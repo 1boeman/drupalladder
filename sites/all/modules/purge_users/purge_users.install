@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Removing configuration changes.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function purge_users_uninstall() {
+  variable_del("purge_users_user_lastlogin_value");
+  variable_del("purge_users_user_lastlogin_period");
+  variable_del("purge_users_enabled_loggedin_users");
+  variable_del("purge_users_user_inactive_value");
+  variable_del("purge_users_user_inactive_period");
+  variable_del("purge_users_enabled_inactive_users");
+  variable_del("purge_users_user_blocked_value");
+  variable_del("purge_users_user_blocked_period");
+  variable_del("purge_users_enabled_blocked_users");
+  variable_del("purge_users_roles");
+  variable_del("purge_users_purge_on_cron");
+  variable_del("purge_users_inactive_user_notify_text");
+  variable_del("purge_users_send_email_notification");
+}
